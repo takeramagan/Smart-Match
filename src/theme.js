@@ -3,6 +3,12 @@ import { red } from '@material-ui/core/colors'
 
 // Create a theme instance.
 const theme = createMuiTheme({
+  typography: {
+    fontFamily: [
+      'Poppins',
+      'sans-serif'
+    ].join(',')
+  },
   palette: {
     primary: {
       main: '#556cd6'
@@ -14,7 +20,7 @@ const theme = createMuiTheme({
       main: red.A400
     },
     background: {
-      default: '#eee'
+      default: '#F8F8F8'
     }
   }
 })

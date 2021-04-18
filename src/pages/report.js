@@ -1,112 +1,87 @@
-import { Box, Container, Grid, Paper } from '@material-ui/core'
-import ReactECharts from 'echarts-for-react'
-
-const RadarChart = () => {
-  const option = {
-    title: {
-      text: 'Market Competitiveness'
-    },
-    tooltip: {},
-    legend: {
-      // data: ['预算分配（Allocated Budget）', '实际开销（Actual Spending）'],
-      bottom: 10
-    },
-    radar: {
-      radius: '50%',
-      splitNumber: 1,
-      // shape: 'circle',
-      axisLine: {
-        show: false
-      },
-      name: {
-        textStyle: {
-          color: '#fff',
-          backgroundColor: '#999',
-          borderRadius: 3,
-          padding: [3, 5]
-        }
-      },
-      indicator: [
-        { name: 'Experience', max: 10 },
-        { name: 'Hard Skill', max: 10 },
-        { name: 'Soft Skill', max: 10 },
-        { name: 'Education', max: 10 }
-      ]
-    },
-    series: [{
-      name: '预算 vs 开销（Budget vs spending）',
-      type: 'radar',
-      // areaStyle: {normal: {}},
-      data: [
-        {
-          value: [8, 9, 8, 9],
-          name: 'Job Requirement'
-        },
-        {
-          value: [6, 6, 7, 3],
-          name: 'Personal Skillset'
-        }
-      ]
-    }]
-  }
-  return (
-    <Box p={4} height={600}>
-      <ReactECharts
-        option={option} style={{ height: '400px', width: '100%' }}
-      />
-    </Box>
-  )
-}
+import { Box, Container, Grid } from '@material-ui/core'
+import { MarketCompetitiveness } from '../components/MarketCompetitiveness'
+import { Section } from '../components/Section'
+import { Header } from '../components/Header'
+import { MarketValueSection } from '../components/MarketValueSection'
 
 export default function Home () {
   return (
-    <Container style={{ marginTop: 32 }}>
-      <Grid container spacing={4}>
-        <Grid item xs={6}>
-          <Paper elevation={0} style={{ borderRadius: 20 }}>
-            <Box p={4}>
-              One cannot separate lines from taming bacons. Unfortunately, that is wrong; on the contrary, a rise is a system's taurus. A kenneth is a continent's reading. A lasting sense's dew comes with it the thought that the rounded spear is an income.
-            </Box>
-            <Box p={4}>
-              One cannot separate lines from taming bacons. Unfortunately, that is wrong; on the contrary, a rise is a system's taurus. A kenneth is a continent's reading. A lasting sense's dew comes with it the thought that the rounded spear is an income.
-            </Box>
-          </Paper>
-        </Grid>
+    <>
+      <Header />
 
-        <Grid item xs={6}>
-          <Paper elevation={0} style={{ borderRadius: 20 }}>
-            <Box p={4}>
-              One cannot separate lines from taming bacons. Unfortunately, that is wrong; on the contrary, a rise is a system's taurus. A kenneth is a continent's reading. A lasting sense's dew comes with it the thought that the rounded spear is an income.
-            </Box>
-            <Box p={4}>
-              One cannot separate lines from taming bacons. Unfortunately, that is wrong; on the contrary, a rise is a system's taurus. A kenneth is a continent's reading. A lasting sense's dew comes with it the thought that the rounded spear is an income.
-            </Box>
-          </Paper>
-        </Grid>
+      <Container style={{ marginTop: 18, paddingLeft: 300, position: 'relative' }}>
 
-        <Grid item xs={6}>
-          <Paper elevation={0} style={{ borderRadius: 20 }}>
+        <Box
+          position='absolute' width='250px' left={0}
+          top={0}
+        >
+          <Section>
             <Box p={4}>
               One cannot separate lines from taming bacons. Unfortunately, that is wrong; on the contrary, a rise is a system's taurus. A kenneth is a continent's reading. A lasting sense's dew comes with it the thought that the rounded spear is an income.
             </Box>
-            <Box p={4}>
-              One cannot separate lines from taming bacons. Unfortunately, that is wrong; on the contrary, a rise is a system's taurus. A kenneth is a continent's reading. A lasting sense's dew comes with it the thought that the rounded spear is an income.
-            </Box>
-          </Paper>
-        </Grid>
+          </Section>
+        </Box>
 
-        <Grid item xs={6}>
-          <Paper elevation={0} style={{ borderRadius: 20 }}>
-            <Box p={4}>
-              <RadarChart />
-            </Box>
-            <Box p={4}>
-              One cannot separate lines from taming bacons. Unfortunately, that is wrong; on the contrary, a rise is a system's taurus. A kenneth is a continent's reading. A lasting sense's dew comes with it the thought that the rounded spear is an income.
-            </Box>
-          </Paper>
-        </Grid>
+        <Box my={3}>
+          <Box fontSize='26px' fontWeight='500' lineHeight='42px'>
+            Report Page
+          </Box>
+          <Box fontSize='14px' lineHeight='21px' color='#90A0B7'>
+            Your current job market position based on your resume
+          </Box>
+        </Box>
 
-      </Grid>
-    </Container>
+        <Grid container spacing={4}>
+          <Grid item xs={6}>
+            <MarketValueSection />
+
+            <Section highlighted>
+
+              <Box p={4}>
+                <Box fontSize='20px' mb={2} fontWeight='500'>
+                  Matching Jobs
+                </Box>
+
+                <Box>
+                  Here are some potential matching jobs that you can apply right away. The percentage shows how much you meet the job requirements. Apply from top.
+                </Box>
+
+                <Box display='flex'>
+
+                  <Box width='88px' height='88px' style={{ backgroundColor: 'black' }} my={2}>
+                    logo
+                  </Box>
+                  <Box flexGrow='1' height='88px' style={{ backgroundColor: 'black' }} m={2}>
+                    logo
+                  </Box>
+                  <Box width='88px' height='88px' style={{ backgroundColor: 'black' }} my={2}>
+                    logo
+                  </Box>
+                </Box>
+
+              </Box>
+
+            </Section>
+          </Grid>
+          <Grid item xs={6}>
+            <MarketCompetitiveness />
+          </Grid>
+
+          <Grid item xs={6} />
+
+          <Grid item xs={12}>
+            <Section>
+              <Box p={4}>
+                One cannot separate lines from taming bacons. Unfortunately, that is wrong; on the contrary, a rise is a system's taurus. A kenneth is a continent's reading. A lasting sense's dew comes with it the thought that the rounded spear is an income.
+              </Box>
+              <Box p={4}>
+                One cannot separate lines from taming bacons. Unfortunately, that is wrong; on the contrary, a rise is a system's taurus. A kenneth is a continent's reading. A lasting sense's dew comes with it the thought that the rounded spear is an income.
+              </Box>
+            </Section>
+          </Grid>
+
+        </Grid>
+      </Container>
+    </>
   )
 }
