@@ -3,13 +3,14 @@ import { MarketCompetitiveness } from '../components/MarketCompetitiveness'
 import { Section } from '../components/Section'
 import { Header } from '../components/Header'
 import { MarketValueSection } from '../components/MarketValueSection'
+import { MatchJob } from '../components/MatchJob'
 
 export default function Home () {
   return (
     <>
       <Header />
 
-      <Container style={{ marginTop: 18, paddingLeft: 300, position: 'relative' }}>
+      <Container style={{ marginTop: 18, paddingLeft: 270, position: 'relative' }}>
 
         <Box
           position='absolute' width='250px' left={0}
@@ -46,18 +47,9 @@ export default function Home () {
                   Here are some potential matching jobs that you can apply right away. The percentage shows how much you meet the job requirements. Apply from top.
                 </Box>
 
-                <Box display='flex'>
-
-                  <Box width='88px' height='88px' style={{ backgroundColor: 'black' }} my={2}>
-                    logo
-                  </Box>
-                  <Box flexGrow='1' height='88px' style={{ backgroundColor: 'black' }} m={2}>
-                    logo
-                  </Box>
-                  <Box width='88px' height='88px' style={{ backgroundColor: 'black' }} my={2}>
-                    logo
-                  </Box>
-                </Box>
+                <MatchJob />
+                <MatchJob />
+                <MatchJob />
 
               </Box>
 
