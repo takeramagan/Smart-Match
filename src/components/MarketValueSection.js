@@ -35,7 +35,7 @@ const Chart = () => {
 export function MarketValueSection () {
   return (
     <Section>
-      <Box p={4} my={4}>
+      <Box p={4} mb={4}>
 
         <Box fontSize='20px' mb={4} fontWeight='500'>
           Market Value
