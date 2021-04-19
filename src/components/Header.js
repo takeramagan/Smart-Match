@@ -1,13 +1,17 @@
-import { Box } from '@material-ui/core'
+import { Box, Container } from '@material-ui/core'
 
 export function Header () {
   return (
     <Box
-      height={65} style={{
+      height={66} style={{
         backgroundColor: 'white'
       }}
     >
-      Header
+      <Container>
+        <Box fontSize='24px' py={2}>
+          Smart Match
+        </Box>
+      </Container>
     </Box>
   )
 }

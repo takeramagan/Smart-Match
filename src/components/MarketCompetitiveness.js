@@ -7,6 +7,7 @@ export const RadarChart = () => {
   const option = {
     title: {
     },
+    color: ['#C4D3E7'],
     tooltip: {},
     legend: {
       // data: ['预算分配（Allocated Budget）', '实际开销（Actual Spending）'],
@@ -19,12 +20,17 @@ export const RadarChart = () => {
       axisLine: {
         show: false
       },
+      splitArea: {
+        areaStyle: {
+          color: ['#F8F8F8']
+          // shadowColor: 'rgba(0, 0, 0, 0.03)',
+          // shadowBlur: 10
+        }
+      },
       name: {
         textStyle: {
-          color: '#fff',
-          backgroundColor: '#999',
-          borderRadius: 3,
-          padding: [3, 5]
+          color: '#6A707E',
+          fontSize: 14
         }
       },
       indicator: [
@@ -36,13 +42,17 @@ export const RadarChart = () => {
     },
     series: [{
       name: '预算 vs 开销（Budget vs spending）',
+      symbol: 'none',
       type: 'radar',
+      areaStyle: {},
       // areaStyle: {normal: {}},
       data: [
-        {
-          value: [8, 9, 8, 9],
-          name: 'Job Requirement'
-        },
+        // {
+        //   value: [10, 10, 10, 10],
+        //   name: 'Job Requirement',
+        //   slient: true
+
+        // },
         {
           value: [6, 6, 7, 3],
           name: 'Personal Skillset'

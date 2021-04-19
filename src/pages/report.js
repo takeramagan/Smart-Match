@@ -4,6 +4,8 @@ import { Section } from '../components/Section'
 import { Header } from '../components/Header'
 import { MarketValueSection } from '../components/MarketValueSection'
 import { MatchingJobsSection } from '../components/MatchingJobsSection'
+import { Sidebar } from '../components/Sidebar'
+import { CareerPathwaySection } from '../components/CareerPathwaySection'
 
 export default function Home () {
   return (
@@ -12,15 +14,8 @@ export default function Home () {
 
       <Container style={{ marginTop: 18, paddingLeft: 270, position: 'relative' }}>
 
-        <Box
-          position='absolute' width='250px' left={0}
-          top={0}
-        >
-          <Section>
-            <Box p={4}>
-              One cannot separate lines from taming bacons. Unfortunately, that is wrong; on the contrary, a rise is a system's taurus. A kenneth is a continent's reading. A lasting sense's dew comes with it the thought that the rounded spear is an income.
-            </Box>
-          </Section>
+        <Box position='absolute' width='250px' height='700px' left={0} top={0}>
+          <Sidebar />
         </Box>
 
         <Box my={3}>
@@ -43,17 +38,7 @@ export default function Home () {
           </Grid>
 
           <Grid item xs={12}>
-            <Section>
-              <Box p={4}>
-                <Box fontSize='20px' mb={2} fontWeight='500'>
-                  Future Career Pathway
-                </Box>
-                <Box p={2} width='100%' height='300px' style={{ backgroundColor: '#ccc' }}>
-                  Future Career Pathway Demostration
-                </Box>
-              </Box>
-
-            </Section>
+            <CareerPathwaySection />
           </Grid>
 
           <Grid item xs={12}>
@@ -80,7 +65,9 @@ export default function Home () {
                         <Chip label='Skill Set 1' style={{ width: 140, marginRight: 18, backgroundColor: '#F8F8F8' }} />
                       </Box>
                       <Box my={2} color='#6A707E' fontsize='16px' display='flex' alignItems='center'>
-                        <Box width='67px' height='67px' mr={2} style={{ backgroundColor: '#ccc' }} />
+                        <Box width='67px' height='67px' mr={2} style={{ backgroundColor: '#ccc' }}>
+                          <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
+                        </Box>
 
                         BrainStation <br /> Front-end Development
                       </Box>
@@ -91,8 +78,9 @@ export default function Home () {
                         <Chip label='Skill Set 1' style={{ width: 140, marginRight: 18, backgroundColor: '#F8F8F8' }} />
                       </Box>
                       <Box my={2} color='#6A707E' fontsize='16px' display='flex' alignItems='center'>
-                        <Box width='67px' height='67px' mr={2} style={{ backgroundColor: '#ccc' }} />
-
+                        <Box width='67px' height='67px' mr={2} style={{ backgroundColor: '#ccc' }}>
+                          <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
+                        </Box>
                         BrainStation <br /> Front-end Development
                       </Box>
                     </Box>
@@ -102,8 +90,9 @@ export default function Home () {
                         <Chip label='Skill Set 1' style={{ width: 140, marginRight: 18, backgroundColor: '#F8F8F8' }} />
                       </Box>
                       <Box my={2} color='#6A707E' fontsize='16px' display='flex' alignItems='center'>
-                        <Box width='67px' height='67px' mr={2} style={{ backgroundColor: '#ccc' }} />
-
+                        <Box width='67px' height='67px' mr={2} style={{ backgroundColor: '#ccc' }}>
+                          <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
+                        </Box>
                         BrainStation <br /> Front-end Development
                       </Box>
                     </Box>
