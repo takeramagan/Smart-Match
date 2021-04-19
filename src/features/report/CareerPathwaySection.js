@@ -124,19 +124,6 @@ export function CareerPathwaySection () {
             careerPath={['Technical', { title: 'Lead front-end', salary: 'Avg 110K CAD' }, { title: 'Director Engineer', salary: 'Avg 130K CAD' }]}
             onClick={() => setSelectedPathIndex(2)}
           />
-
-          {/* career path 2 */}
-          {/* <CareerBlock name='Project Manager' salary='Avg 90k CAD' top={tops[1]} left={lefts[1]} />
-          <CareerBlock name='CTO' salary='Avg 90k CAD' top={tops[1]} left={[lefts[2]]} />
-          <CareerBlock name='Managerial' top={tops[1]} left={lefts[3]} noBackgroundColor />
-          <Box width='550px' height='150px' borderBottom='35px solid #EBEFF2' position='absolute' top='30px' left='120px' zIndex='0' borderRadius='50px' /> */}
-
-          {/* career path 3 */}
-          {/* <CareerBlock name='Lead front-end' salary='Avg 130k CAD' top={tops[2]} left={lefts[1]} selected />
-          <CareerBlock name='Director Engineer' salary='Avg 130k CAD' top={tops[2]} left={[lefts[2]]} selected />
-          <CareerBlock name='Technical' top={tops[2]} left={lefts[3]} noBackgroundColor />
-          <Box width='550px' height='150px' borderBottom='35px solid #C4D3E7' borderLeft='35px solid #C4D3E7' position='absolute' top='140px' left='120px' zIndex='0' borderRadius='50px' /> */}
-
         </Box>
       </Box>
 

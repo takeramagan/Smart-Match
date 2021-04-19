@@ -11,7 +11,6 @@ const Chart = () => {
     yAxis: {
       type: 'value'
     },
-    // tooltip: {},
     color: ['#49648A', '#E5E5E5'],
     series: [{
       data: [0, 30, 93, 130, 88, 20, 0],

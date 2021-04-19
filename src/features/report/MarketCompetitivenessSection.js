@@ -10,21 +10,17 @@ export const RadarChart = () => {
     color: ['#C4D3E7'],
     tooltip: {},
     legend: {
-      // data: ['预算分配（Allocated Budget）', '实际开销（Actual Spending）'],
       bottom: 10
     },
     radar: {
       radius: '60%',
       splitNumber: 1,
-      // shape: 'circle',
       axisLine: {
         show: false
       },
       splitArea: {
         areaStyle: {
           color: ['#F8F8F8']
-          // shadowColor: 'rgba(0, 0, 0, 0.03)',
-          // shadowBlur: 10
         }
       },
       name: {
@@ -45,14 +41,7 @@ export const RadarChart = () => {
       symbol: 'none',
       type: 'radar',
       areaStyle: {},
-      // areaStyle: {normal: {}},
       data: [
-        // {
-        //   value: [10, 10, 10, 10],
-        //   name: 'Job Requirement',
-        //   slient: true
-
-        // },
         {
           value: [6, 6, 7, 3],
           name: 'Personal Skillset'
