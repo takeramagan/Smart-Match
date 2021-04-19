@@ -1,5 +1,5 @@
 import { Box } from '@material-ui/core'
-import { Section } from './Section'
+import { Section } from '../../components/Section'
 import ReactECharts from 'echarts-for-react'
 
 const Chart = () => {

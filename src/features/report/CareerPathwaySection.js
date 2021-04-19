@@ -1,6 +1,6 @@
 import { Box } from '@material-ui/core'
 import { useState } from 'react'
-import { Section } from './Section'
+import { Section } from '../../components/Section'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({

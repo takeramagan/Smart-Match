@@ -1,6 +1,6 @@
 import { Box } from '@material-ui/core'
-import { Section } from './Section'
-import { MatchJob } from './MatchJob'
+import { Section } from '../../components/Section'
+import { MatchJob } from '../../components/MatchJob'
 
 export function MatchingJobsSection () {
   return (

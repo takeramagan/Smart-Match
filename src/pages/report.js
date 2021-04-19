@@ -1,12 +1,14 @@
-import { Box, Container, Grid, LinearProgress } from '@material-ui/core'
-import { MarketCompetitiveness } from '../components/MarketCompetitiveness'
-import { Header } from '../components/Header'
-import { MarketValueSection } from '../components/MarketValueSection'
-import { MatchingJobsSection } from '../components/MatchingJobsSection'
-import { Sidebar } from '../components/Sidebar'
-import { CareerPathwaySection } from '../components/CareerPathwaySection'
-import { CourseSection } from '../components/CourseSection'
 import { useEffect, useState } from 'react'
+import { Box, Container, Grid, LinearProgress } from '@material-ui/core'
+
+import { Header } from '../components/Header'
+import { Sidebar } from '../components/Sidebar'
+
+import { MarketCompetitiveness } from '../features/report/MarketCompetitivenessSection'
+import { MarketValueSection } from '../features/report/MarketValueSection'
+import { MatchingJobsSection } from '../features/report/MatchingJobsSection'
+import { CareerPathwaySection } from '../features/report/CareerPathwaySection'
+import { CourseSection } from '../features/report/CourseSection'
 
 export default function Home () {
   const [loading, setLoading] = useState(true)

@@ -1,6 +1,6 @@
 import { Box } from '@material-ui/core'
-import { PercentageLabel } from './PercentageLabel'
-import { Section } from './Section'
+import { PercentageLabel } from '../../components/PercentageLabel'
+import { Section } from '../../components/Section'
 import ReactECharts from 'echarts-for-react'
 
 export const RadarChart = () => {

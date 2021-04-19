@@ -1,5 +1,5 @@
 import { Box, Chip } from '@material-ui/core'
-import { Section } from './Section'
+import { Section } from '../../components/Section'
 
 export function CourseSection () {
   return (
