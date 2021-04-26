@@ -16,7 +16,7 @@ export function LinearProgressWithLabel (props) {
   )
 }
 
-export function MatchJob () {
+export function MatchJob ({ job }) {
   return (
     <Box display='flex'>
 
@@ -33,22 +33,30 @@ export function MatchJob () {
           backgroundColor: '#black'
         }} m={2}
       >
-        <Box fontSize='12px'>
-          Mozilla Waterloo Remote
+        {/* <Box fontSize='12px'>
+          {Mozilla Waterloo Remote}
+        </Box> */}
+        <Box
+          fontSize='16px' my='2px' width='230px' style={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}
+        >
+          {job.job_title}
         </Box>
-        <Box fontSize='16px' my='2px'>
-          Front-end React Developer
-        </Box>
-        <Box fontSize='16px' my='2px'>
-          70k - 86k
+        <Box
+          fontSize='16px' my='2px'
+        >
+          {job.full_time.salary_range}
         </Box>
         <Box>
-          <LinearProgressWithLabel value={80} />
+          <LinearProgressWithLabel value={job.matched_percentage} />
         </Box>
       </Box>
       <Box width='68px' height='88px' my={2} fontsize='16px' display='flex' justifyContent='center' alignItems='center'>
         <Link
-          href='#' style={{
+          href={job.job_link} style={{
             color: 'white'
           }}
         >

@@ -5,7 +5,7 @@ export function CourseSection () {
   return (
     <Section>
       <Box p={4} mb={4}>
-        <Box fontSize='20px' mb={2} fontWeight='500'>
+        <Box fontSize='20px' mb={2} fontWeight='500' color='#024CC3'>
           How to Improve
         </Box>
         <Box>
