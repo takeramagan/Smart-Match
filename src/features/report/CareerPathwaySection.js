@@ -64,7 +64,7 @@ const CareerBlock = ({ name, salary, top, left, selected, noBackgroundColor, onC
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'CAD',
-  maximumFractionDigits: 0
+  // maximumFractionDigits: 0
 
   // These options are needed to round to whole numbers if that's what you want.
   // minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
@@ -136,7 +136,7 @@ const Aaaab = ({ selected }) => {
 const CareerSinglePath = ({ tops, lefts, careerPath, position, selected, onClick }) => {
   const [type, nextLevel, furtherLevel] = careerPath
 
-  console.log('selected: ', position, selected)
+  console.log('selected: ', type, nextLevel, furtherLevel)
   return (
     <>
       {/* career path 1 */}

@@ -1,111 +1,139 @@
-import { Box, Chip } from '@material-ui/core'
+import { Box, Chip, Link } from '@material-ui/core'
 import { Section } from '../../components/Section'
 
-export function CourseSection () {
+const EducationSection = ({ report }) => {
+  if (!report.education_levels_needed_to_improve.length) {
+    return null
+  }
+
+  return (
+    <Box>
+      <Box fontSize='20px' my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
+        Education
+      </Box>
+      <Box py={2}>
+        {report.education_levels_needed_to_improve.map((item) => {
+          return (
+            <Chip
+              key={item}
+              label={item} style={{
+                width: 140,
+                marginRight: 18,
+                backgroundColor: '#ffffff'
+              }}
+            />
+          )
+        })}
+      </Box>
+    </Box>
+  )
+}
+
+const SoftSkillSection = ({ report }) => {
+  if (!report.soft_skills_needed_to_improve.length) {
+    return null
+  }
+
+  return (
+    <Box>
+      <Box fontSize='20px' my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
+        Soft Skill
+      </Box>
+      <Box py={2}>
+        {report.soft_skills_needed_to_improve.map((item) => {
+          return (
+            <Chip
+              key={item}
+              label={item} style={{
+                marginRight: 18,
+                backgroundColor: '#ffffff',
+                filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.28))',
+                margin: '16px 8px'
+              }}
+            />
+          )
+        })}
+      </Box>
+      <Box pt={2}>
+        <Box fontSize='20px' my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
+          Suggested Course
+        </Box>
+        <Box ml={2} display='flex' justifyContent='space-between'>
+          <Box color='#6A707E' fontsize='16px' display='flex' alignItems='center'>
+            <Box
+              width='67px' height='67px' mr={2} style={{
+                backgroundColor: '#ccc'
+              }}
+            >
+              <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
+            </Box>
+
+            <Link href='#'>BrainStation <br /> Front-end Development</Link>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  )
+}
+
+const HardSkillSection = ({ report }) => {
+  if (!report.hard_skills_needed_to_improve.length) {
+    return null
+  }
+
+  return (
+    <Box>
+      <Box fontSize='20px' my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
+        Hard Skill
+      </Box>
+      <Box py={2}>
+        {report.hard_skills_needed_to_improve.map((item) => {
+          return (
+            <Chip
+              key={item}
+              label={item} style={{
+                marginRight: 18,
+                backgroundColor: '#ffffff',
+                filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.28))',
+                margin: '16px 8px'
+              }}
+            />
+          )
+        })}
+      </Box>
+      <Box pt={2}>
+        <Box fontSize='20px' my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
+          Suggested Course
+        </Box>
+        <Box ml={2} display='flex' justifyContent='space-between'>
+          <Box color='#6A707E' fontsize='16px' display='flex' alignItems='center'>
+            <Box
+              width='67px' height='67px' mr={2} style={{
+                backgroundColor: '#ccc'
+              }}
+            >
+              <img width='67px' height='67px' src='https://ik.imagekit.io/himalayas/general_assembly_logo_AxBQAGHdD.jpeg' />
+            </Box>
+
+            <Link href='#'>General Assembly <br />Front-end Development</Link>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  )
+}
+
+export function CourseSection ({ report }) {
   return (
     <Section>
       <Box p={4} mb={4}>
         <Box fontSize='20px' mb={2} fontWeight='500' color='#024CC3'>
           How to Improve
         </Box>
-        <Box>
-          Here are some suggestion for improvement for Experience. Here are some suggestion for improvement Education. Here are some suggestion for improvement Soft Skill. Here are some suggestion for improvement Hard Skill.
-        </Box>
-        <Box py={2}>
-          <Chip
-            label='Skill Set 1' style={{
-              width: 140,
-              marginRight: 18,
-              backgroundColor: '#F8F8F8'
-            }}
-          />
-          <Chip
-            label='Skill Set 2' style={{
-              width: 140,
-              marginRight: 18,
-              backgroundColor: '#F8F8F8'
-            }}
-          />
-          <Chip
-            label='Skill Set 3' style={{
-              width: 140,
-              marginRight: 18,
-              backgroundColor: '#F8F8F8'
-            }}
-          />
-        </Box>
-        <Box pt={2}>
-          <Box fontSize='20px' my={2} fontWeight='500'>
-            Suggested Course
-          </Box>
-          <Box pt={2} display='flex' justifyContent='space-between'>
-            <Box>
-              <Box>
-                <Chip
-                  label='Skill Set 1' style={{
-                    width: 140,
-                    marginRight: 18,
-                    backgroundColor: '#F8F8F8'
-                  }}
-                />
-              </Box>
-              <Box my={2} color='#6A707E' fontsize='16px' display='flex' alignItems='center'>
-                <Box
-                  width='67px' height='67px' mr={2} style={{
-                    backgroundColor: '#ccc'
-                  }}
-                >
-                  <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
-                </Box>
-
-                BrainStation <br /> Front-end Development
-              </Box>
-            </Box>
-
-            <Box>
-              <Box>
-                <Chip
-                  label='Skill Set 1' style={{
-                    width: 140,
-                    marginRight: 18,
-                    backgroundColor: '#F8F8F8'
-                  }}
-                />
-              </Box>
-              <Box my={2} color='#6A707E' fontsize='16px' display='flex' alignItems='center'>
-                <Box
-                  width='67px' height='67px' mr={2} style={{
-                    backgroundColor: '#ccc'
-                  }}
-                >
-                  <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
-                </Box>
-                BrainStation <br /> Front-end Development
-              </Box>
-            </Box>
-
-            <Box>
-              <Box>
-                <Chip
-                  label='Skill Set 1' style={{
-                    width: 140,
-                    marginRight: 18,
-                    backgroundColor: '#F8F8F8'
-                  }}
-                />
-              </Box>
-              <Box my={2} color='#6A707E' fontsize='16px' display='flex' alignItems='center'>
-                <Box
-                  width='67px' height='67px' mr={2} style={{
-                    backgroundColor: '#ccc'
-                  }}
-                >
-                  <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
-                </Box>
-                BrainStation <br /> Front-end Development
-              </Box>
-            </Box>
-          </Box>
+        <EducationSection report={report} />
+        <Box display='flex'>
+          <SoftSkillSection report={report} />
+          <HardSkillSection report={report} />
         </Box>
       </Box>
 
