@@ -1,10 +1,22 @@
 import { Box, Link, LinearProgress, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles({
+  root: {
+    borderRadius: '16px', backgroundColor: 'white', height: '12px'
+  },
+  bar: {
+    background: 'linear-gradient(90deg, #46EBD5 23.47%, #60EFFF 43.32%, #0061FF 66.27%)',
+    borderRadius: '16px'
+  }
+})
 
 export function LinearProgressWithLabel (props) {
+  const classes = useStyles()
   return (
     <Box display='flex' alignItems='center'>
       <Box width='100%' mr={1}>
-        <LinearProgress variant='determinate' color='secondary' {...props} style={{ backgroundColor: 'white' }} />
+        <LinearProgress classes={{ root: classes.root, bar: classes.bar }} variant='determinate' color='secondary' {...props} />
       </Box>
       <Box minWidth={35}>
         <Typography variant='body2' color='white'>{`${Math.round(
@@ -57,7 +69,8 @@ export function MatchJob ({ job }) {
       <Box width='68px' height='88px' my={2} fontsize='16px' display='flex' justifyContent='center' alignItems='center'>
         <Link
           href={job.job_link} style={{
-            color: 'white'
+            color: 'white', fontWeight: '500'
+
           }}
         >
           Apply
