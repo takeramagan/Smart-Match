@@ -17,14 +17,14 @@ const useStyles = makeStyles({
     height: '80px',
     position: 'absolute',
     color: 'white',
-    transition: 'all 0.6s ease',
-    background: ({ noBackgroundColor, selected, background }) => noBackgroundColor ? 'inherit' : (selected ? background : '#E0E0E0'),
+    // transition: 'all 0.6s ease',
+    // background: ({ noBackgroundColor, selected, background }) => noBackgroundColor ? 'inherit' : (selected ? background : '#E0E0E0'),
     '&:hover': {
       backgroundColor: ({ noBackgroundColor }) => noBackgroundColor ? 'inherit' : '#49648A',
-      color: 'white',
-      '& .salary': {
-        color: '#ccc'
-      }
+      color: 'white'
+      // '& .salary': {
+      //   color: '#ccc'
+      // }
       // border: '2px solid #49648A'
     }
 
@@ -33,30 +33,7 @@ const useStyles = makeStyles({
 })
 
 const CareerBlock = ({ name, salary, top, left, selected, noBackgroundColor, onClick, style, background }) => {
-  const classes = useStyles({ noBackgroundColor, selected, background })
-  return (
-    <Box
-      className={classes.root}
-      p={2}
-      top={top}
-      left={left}
-      onClick={onClick}
-      style={style}
-    >
-      <Box>
-        <Box className='title' fontSize='16px' color={noBackgroundColor ? (selected ? '#192A3E' : '#6A707E') : 'inherit'}>
-          {name}
-        </Box>
-        <Box className='salary' fontSize='12px' color='white'>
-          {salary}
-        </Box>
-      </Box>
-
-    </Box>
-  )
-}
-
-const CareerOriginBlock = ({ name, salary, top, left, selected, noBackgroundColor, onClick, style, background }) => {
+  console.log(name, salary, background, style, noBackgroundColor ? 'inherit' : (selected ? background : '#E0E0E0'))
   const classes = useStyles({ noBackgroundColor, selected, background })
   return (
     <Box
@@ -66,15 +43,17 @@ const CareerOriginBlock = ({ name, salary, top, left, selected, noBackgroundColo
       left={left}
       onClick={onClick}
       style={{
-        filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.44))'
+        background: noBackgroundColor ? 'inherit' : (selected ? background : '#E0E0E0')
+        // ...style
       }}
+
     >
       <Box>
-        <Box className='title' fontSize='16px' color='black'>
+        <Box className='title' fontSize='16px' color={noBackgroundColor ? (selected ? '#024CC3' : '#6A707E') : 'inherit'}>
           {name}
         </Box>
-        <Box className='salary' fontSize='12px' color='black'>
-          {salary}
+        <Box className='salary' fontSize='12px' color='white'>
+          Avg {formatter.format(salary)}
         </Box>
       </Box>
 
@@ -82,10 +61,48 @@ const CareerOriginBlock = ({ name, salary, top, left, selected, noBackgroundColo
   )
 }
 
-const Aaaaa = ({ seleted }) => {
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'CAD',
+  maximumFractionDigits: 0
+
+  // These options are needed to round to whole numbers if that's what you want.
+  // minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+  // maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+})
+
+const CareerOriginBlock = ({ name, salary, top, left, selected, noBackgroundColor, onClick }) => {
+  const classes = useStyles({ noBackgroundColor, selected })
+  return (
+    <Box
+      className={classes.root}
+      p={2}
+      top={top}
+      left={left}
+      onClick={onClick}
+      style={{
+        backgroundColor: 'white',
+        filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.44))'
+      }}
+    >
+      <Box>
+        <Box className='title' fontSize='16px' color='black'>
+          {name}
+        </Box>
+        <Box className='salary' fontSize='12px' color='#6A707E'>
+          Avg {formatter.format(salary)}
+        </Box>
+      </Box>
+
+    </Box>
+  )
+}
+
+const Aaaaa = ({ selected }) => {
+  console.log('selected: ', selected)
   return (
     <svg width='500' height='241' viewBox='0 0 614 241' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M8.55886 219.392L60.003 200.469C97.7589 186.581 126.729 155.665 138.138 117.088V117.088C154.025 63.3643 203.164 26.34 259.186 25.8839L613.377 23' stroke={seleted ? 'url(#paint0_linear)' : '#F2F2F2'} stroke-width='45' />
+      <path d='M8.55886 219.392L60.003 200.469C97.7589 186.581 126.729 155.665 138.138 117.088V117.088C154.025 63.3643 203.164 26.34 259.186 25.8839L613.377 23' stroke={selected ? 'url(#paint0_linear)' : '#F2F2F2'} stroke-width='45' />
       <defs>
         <linearGradient id='paint0_linear' x1='7.77943' y1='123.665' x2='500' y2='118.727' gradientUnits='userSpaceOnUse'>
           <stop offset='0.114583' stop-color='#F2F1F1' />
@@ -99,10 +116,10 @@ const Aaaaa = ({ seleted }) => {
   )
 }
 
-const Aaaab = ({ seleted }) => {
+const Aaaab = ({ selected }) => {
   return (
     <svg width='500' height='53' viewBox='0 0 726 53' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M19.9999 50.9863C8.95427 50.9644 0.0178244 41.9922 0.0398119 30.9466L0.0616022 20C0.0835897 8.95429 9.0557 0.0178369 20.1014 0.0398244L362.868 0.722135L705.635 1.40445C716.681 1.42643 725.617 10.3985 725.595 21.4442L725.573 32.3908C725.551 43.4365 716.579 52.373 705.534 52.351L19.9999 50.9863Z' fill={seleted ? 'url(#paint0_linear)' : '#F2F2F2'} />
+      <path d='M19.9999 50.9863C8.95427 50.9644 0.0178244 41.9922 0.0398119 30.9466L0.0616022 20C0.0835897 8.95429 9.0557 0.0178369 20.1014 0.0398244L362.868 0.722135L705.635 1.40445C716.681 1.42643 725.617 10.3985 725.595 21.4442L725.573 32.3908C725.551 43.4365 716.579 52.373 705.534 52.351L19.9999 50.9863Z' fill={selected ? 'url(#paint0_linear)' : '#F2F2F2'} />
       <defs>
         <linearGradient id='paint0_linear' x1='0.77943' y1='123.665' x2='500' y2='118.727' gradientUnits='userSpaceOnUse'>
           <stop offset='0.114583' stop-color='#F2F1F1' />
@@ -130,7 +147,7 @@ const CareerSinglePath = ({ tops, lefts, careerPath, position, selected, onClick
         left={lefts[1]}
         selected={selected}
         onClick={onClick}
-        background='linear-gradient(90deg, #46EBD5 10.16%, #60EFFF 92.75%);'
+        background='linear-gradient(90deg, #46EBD5 10.16%, #60EFFF 92.75%)'
       />
       <CareerBlock
         name={furtherLevel.title}
@@ -154,10 +171,24 @@ const CareerSinglePath = ({ tops, lefts, careerPath, position, selected, onClick
   )
 }
 
-export function CareerPathwaySection () {
+const selectCareerPath = (career) => {
+  return [career.projected_career_path[0].type, {
+    title: career.matched_job_title,
+    salary: career.fulltime.market_avg
+  }, {
+    title: career.projected_career_path[0].title,
+    salary: career.projected_career_path[0].market_avg_salary.fulltime
+  }]
+}
+
+export function CareerPathwaySection ({ report }) {
   const tops = [10, 150, 290]
   const lefts = [30, 330, 580, 780]
-  const [selectedPathIndex, setSelectedPathIndex] = useState(2)
+  const [selectedPathIndex, setSelectedPathIndex] = useState(0)
+  const { market_value_result } = report
+  console.log('selectedPathIndex: ', selectedPathIndex)
+  const startCareer = selectCareerPath(market_value_result[0])
+  console.log('startCareer: ', startCareer)
   return (
     <Section>
       <Box p={4}>
@@ -165,9 +196,9 @@ export function CareerPathwaySection () {
           Future Career Pathway
         </Box>
         <Box
-          p={2} width='100%' height='600px' position='relative'
+          p={2} width='100%' height='400px' position='relative'
         >
-          <CareerOriginBlock name='Front end dev' salary='Avg 90k CAD' top={150} left={0} selected background='white' />
+          <CareerOriginBlock name={startCareer[1].title} salary={startCareer[1].salary} top={150} left={0} selected background='white' />
 
           {/* career path 1 */}
           <CareerSinglePath
@@ -175,7 +206,7 @@ export function CareerPathwaySection () {
             lefts={lefts}
             position={0}
             selected={selectedPathIndex === 0}
-            careerPath={['Technical', { title: 'Full stack', salary: 'Avg 110K CAD' }, { title: 'SR Full stack', salary: 'Avg 130K CAD' }]}
+            careerPath={selectCareerPath(market_value_result[0])}
             onClick={() => setSelectedPathIndex(0)}
           />
           <CareerSinglePath
@@ -183,7 +214,7 @@ export function CareerPathwaySection () {
             lefts={lefts}
             position={1}
             selected={selectedPathIndex === 1}
-            careerPath={['Managerial', { title: 'Project Manager', salary: 'Avg 110K CAD' }, { title: 'CTO', salary: 'Avg 130K CAD' }]}
+            careerPath={selectCareerPath(market_value_result[1])}
             onClick={() => setSelectedPathIndex(1)}
           />
           <CareerSinglePath
@@ -191,7 +222,7 @@ export function CareerPathwaySection () {
             lefts={lefts}
             position={2}
             selected={selectedPathIndex === 2}
-            careerPath={['Technical', { title: 'Lead front-end', salary: 'Avg 110K CAD' }, { title: 'Director Engineer', salary: 'Avg 130K CAD' }]}
+            careerPath={selectCareerPath(market_value_result[2])}
             onClick={() => setSelectedPathIndex(2)}
           />
           <Box top='10px' left='100px' position='absolute' zIndex={2}>
