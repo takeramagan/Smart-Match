@@ -4,7 +4,7 @@ export const fetchMarketValue = (file) => {
   const formdata = new FormData()
   formdata.append('resume_file', file, 'BinYu_DS_202008.docx')
 
-  const url = 'https://api.metisign.com/koios/v1/market_value'
+  const url = 'https://api.metisign.com/koios/v1/market_value/'
 
   return fetch(url, {
     method: 'post',
