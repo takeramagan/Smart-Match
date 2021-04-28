@@ -2,6 +2,7 @@ import { Box } from '@material-ui/core'
 import { useState } from 'react'
 import { Section } from '../../components/Section'
 import { makeStyles } from '@material-ui/core/styles'
+import { formatter } from '../../untils/currency'
 
 const useStyles = makeStyles({
   root: {
@@ -60,16 +61,6 @@ const CareerBlock = ({ name, salary, top, left, selected, noBackgroundColor, onC
     </Box>
   )
 }
-
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'CAD',
-  maximumFractionDigits: 0,
-  minimumFractionDigits: 0
-  // These options are needed to round to whole numbers if that's what you want.
-  // minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-  // maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-})
 
 const CareerOriginBlock = ({ name, salary, top, left, selected, noBackgroundColor, onClick }) => {
   const classes = useStyles({ noBackgroundColor, selected })

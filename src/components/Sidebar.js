@@ -17,7 +17,7 @@ export function Sidebar () {
         fontsize='16px'
         fontWeight='500'
         lineHeight='24px'
-        color='#334D6E'
+        color='rgba(51, 77, 110, 1)'
         borderRadius='inherit'
         style={{
           backgroundColor: 'white'
@@ -30,7 +30,7 @@ export function Sidebar () {
             </ListItemIcon>
             <ListItemText primary='Homepage' />
           </ListItem>
-          <ListItem button>
+          <ListItem button style={{ color: 'rgba(0, 97, 255, 1)' }}>
             <ListItemIcon>
               <ViewAgendaOutlinedIcon />
             </ListItemIcon>
