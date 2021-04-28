@@ -18,7 +18,7 @@ export default function Home () {
         <Box mt={8}>
           <Link href='/report'>
             <Button variant='contained' color='primary' disableElevation>
-              See demo report
+              Enter
             </Button>
           </Link>
         </Box>
