@@ -13,7 +13,7 @@ import { CourseSection } from '../features/report/CourseSection'
 import { useDropzone } from 'react-dropzone'
 import { Section } from '../components/Section'
 import { fetchMarketValue } from '../services/market-value'
-
+import DescriptionIcon from '@material-ui/icons/Description'
 function FileDropzone (props) {
   const { onSuccess, onError } = props
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -28,22 +28,41 @@ function FileDropzone (props) {
 
   return (
     <Box
-      p={4} mb={4} borderRadius='24px' style={{
+      p={4} mb={4} borderRadius='24px' width={800} margin='40px auto 16px' style={{
       }}
     >
-      <Section style={{
-        borderWidth: '2px',
-        borderColor: isDragActive ? 'blue' : '#eeeeee',
-        borderStyle: 'dashed'
-      }}
-      >
-        <Box style={{ backgroundColor: isDragActive ? 'blue' : 'white', borderRadius: '24px' }} p={8} {...getRootProps({ className: 'dropzone' })}>
+      <Section>
+        <Box style={{ borderRadius: '24px' }} p={8} {...getRootProps({ className: 'dropzone' })}>
+          <Box style={{ color: 'rgba(0, 97, 255, 1)', fontSize: '48px', fontWeight: '500' }}>
+            Upload Resume
+          </Box>
+          <Box my={2} style={{ color: 'rgba(55, 58, 112, 1)' }}>
+            Upload your latest resume to reveal your potential matching jobs and market value
+          </Box>
           <input {...getInputProps()} />
-          {
-        isDragActive
-          ? <p>Drop the files here ...</p>
-          : <p>Drag 'n' drop some files here, or click to select files</p>
+          <Box
+            height={300}
+            width={500}
+            borderRadius='24px'
+            py={6} style={{
+              backgroundColor: isDragActive ? '#F5F6FB' : 'white',
+              borderWidth: '2px',
+              borderColor: isDragActive ? 'rgba(0, 97, 255, 1)' : '#eeeeee',
+              borderStyle: 'dashed',
+              margin: '60px auto 16px'
+
+            }}
+          >
+            {
+          isDragActive
+            ? <p>Drop the files here ...</p>
+            : <p>Drag 'n' drop some files here, or click to select files</p>
       }
+            <p style={{ color: 'rgba(201, 201, 201, 1)' }}>File should be pdf, max 10MB</p>
+            <Box mt={4}>
+              <DescriptionIcon style={{ color: 'rgba(70, 235, 213, 1)', fontSize: 90 }} />
+            </Box>
+          </Box>
         </Box>
       </Section>
     </Box>
@@ -71,7 +90,7 @@ export default function Home () {
     return (
       <Box textAlign='center'>
         <FileDropzone onSuccess={setReport} />
-        <Box mt={8}>
+        <Box mb={8}>
           <Button variant='contained' color='primary' disableElevation onClick={() => setReport(mock)}>
             See demo report
           </Button>
