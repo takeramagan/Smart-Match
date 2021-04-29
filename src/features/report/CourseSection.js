@@ -36,7 +36,7 @@ const SoftSkillSection = ({ report }) => {
   }
 
   return (
-    <Box>
+    <Box width='45%'>
       <Box fontSize='20px' my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
         Soft Skill
       </Box>
@@ -49,7 +49,7 @@ const SoftSkillSection = ({ report }) => {
                 marginRight: 18,
                 backgroundColor: '#ffffff',
                 filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.28))',
-                margin: '16px 8px'
+                margin: '8px 4px'
               }}
             />
           )
@@ -83,7 +83,7 @@ const HardSkillSection = ({ report }) => {
   }
 
   return (
-    <Box>
+    <Box width='45%'>
       <Box fontSize='20px' my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
         Hard Skill
       </Box>
@@ -96,7 +96,7 @@ const HardSkillSection = ({ report }) => {
                 marginRight: 18,
                 backgroundColor: '#ffffff',
                 filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.28))',
-                margin: '16px 8px'
+                margin: '8px 4px'
               }}
             />
           )
@@ -132,7 +132,7 @@ export function CourseSection ({ report }) {
           How to Improve
         </Box>
         <EducationSection report={report} />
-        <Box display='flex'>
+        <Box display='flex' justifyContent='space-between'>
           <SoftSkillSection report={report} />
           <HardSkillSection report={report} />
         </Box>
