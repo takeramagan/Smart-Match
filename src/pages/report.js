@@ -19,6 +19,7 @@ import HourglassFullIcon from '@material-ui/icons/HourglassFull'
 function FileDropzone (props) {
   const { onSuccess, onError } = props
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } = useDropzone({
     maxFiles: 1
   })
@@ -26,9 +27,35 @@ function FileDropzone (props) {
   useEffect(() => {
     if (acceptedFiles.length) {
       setLoading(true)
-      fetchReport(acceptedFiles).then(onSuccess).then(() => setLoading(false)).catch(onError)
+      fetchReport(acceptedFiles).then(onSuccess).then(() => setLoading(false)).catch(setError)
     }
   }, [acceptedFiles])
+
+  if (error) {
+    return (
+      <Box
+        p={4} mb={4} borderRadius='24px' width={800} margin='40px auto 16px' style={{
+        }}
+      >
+        <Section>
+          <Box style={{ borderRadius: '24px' }} p={8} {...getRootProps({ className: 'dropzone' })}>
+            <Box pt={4} style={{ color: 'rgba(0, 97, 255, 1)', fontSize: '48px', fontWeight: '500' }}>
+              Sorry
+            </Box>
+            <Box my={2} style={{ color: 'rgba(55, 58, 112, 1)' }}>
+              Smart Match is not able to analysis your resume
+            </Box>
+            <pre style={{ color: 'rgba(55, 58, 112, 1)', margin: '64px 0' }}>
+              Error: {error && JSON.stringify(error.message, null, 2)}
+            </pre>
+            <Box mt={24}>
+              <Button variant='contained' color='secondary' disableElevation onClick={() => window.location.reload()}>Please try again</Button>
+            </Box>
+          </Box>
+        </Section>
+      </Box>
+    )
+  }
 
   return (
     <Box
@@ -95,8 +122,6 @@ function FileDropzone (props) {
 }
 
 const fetchReport = (files) => {
-  console.log('files: ', files)
-
   return fetchMarketValue(files[0])
 }
 
