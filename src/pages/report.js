@@ -14,15 +14,19 @@ import { useDropzone } from 'react-dropzone'
 import { Section } from '../components/Section'
 import { fetchMarketValue } from '../services/market-value'
 import DescriptionIcon from '@material-ui/icons/Description'
+import HourglassFullIcon from '@material-ui/icons/HourglassFull'
+
 function FileDropzone (props) {
   const { onSuccess, onError } = props
+  const [loading, setLoading] = useState(false)
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } = useDropzone({
     maxFiles: 1
   })
 
   useEffect(() => {
     if (acceptedFiles.length) {
-      fetchReport(acceptedFiles).then(onSuccess)
+      setLoading(true)
+      fetchReport(acceptedFiles).then(onSuccess).then(() => setLoading(false)).catch(onError)
     }
   }, [acceptedFiles])
 
@@ -34,35 +38,56 @@ function FileDropzone (props) {
       <Section>
         <Box style={{ borderRadius: '24px' }} p={8} {...getRootProps({ className: 'dropzone' })}>
           <Box style={{ color: 'rgba(0, 97, 255, 1)', fontSize: '48px', fontWeight: '500' }}>
-            Upload Resume
+            {loading ? 'Analyzing...' : 'Upload Resume'}
           </Box>
           <Box my={2} style={{ color: 'rgba(55, 58, 112, 1)' }}>
-            Upload your latest resume to reveal your potential matching jobs and market value
+            {loading ? 'Smart Match is analysing your resume...' : 'Upload your latest resume to reveal your potential matching jobs and market value'}
           </Box>
           <input {...getInputProps()} />
-          <Box
-            height={300}
-            width={500}
-            borderRadius='24px'
-            py={6} style={{
-              backgroundColor: isDragActive ? '#F5F6FB' : 'white',
-              borderWidth: '2px',
-              borderColor: isDragActive ? 'rgba(0, 97, 255, 1)' : '#eeeeee',
-              borderStyle: 'dashed',
-              margin: '60px auto 16px'
+          {loading && (
+            <Box
+              height={300}
+              width={500}
+              borderRadius='24px'
+              py={6} style={{
+                backgroundColor: isDragActive ? '#F5F6FB' : 'white',
+                borderWidth: '2px',
+                borderColor: isDragActive ? 'rgba(0, 97, 255, 1)' : '#eeeeee',
+                borderStyle: 'dashed',
+                margin: '60px auto 16px'
 
-            }}
-          >
-            {
+              }}
+            >
+              <Box mt={10}>
+                <HourglassFullIcon style={{ color: 'rgba(70, 235, 213, 1)', fontSize: 90 }} />
+              </Box>
+            </Box>
+          )}
+          {!loading && (
+            <Box
+              height={300}
+              width={500}
+              borderRadius='24px'
+              py={6} style={{
+                backgroundColor: isDragActive ? '#F5F6FB' : 'white',
+                borderWidth: '2px',
+                borderColor: isDragActive ? 'rgba(0, 97, 255, 1)' : '#eeeeee',
+                borderStyle: 'dashed',
+                margin: '60px auto 16px'
+
+              }}
+            >
+              {
           isDragActive
             ? <p>Drop the files here ...</p>
             : <p>Drag 'n' drop some files here, or click to select files</p>
       }
-            <p style={{ color: 'rgba(201, 201, 201, 1)' }}>File should be pdf, max 10MB</p>
-            <Box mt={4}>
-              <DescriptionIcon style={{ color: 'rgba(70, 235, 213, 1)', fontSize: 90 }} />
+              <p style={{ color: 'rgba(201, 201, 201, 1)' }}>File should be pdf, max 10MB</p>
+              <Box mt={4}>
+                <DescriptionIcon style={{ color: 'rgba(70, 235, 213, 1)', fontSize: 90 }} />
+              </Box>
             </Box>
-          </Box>
+          )}
         </Box>
       </Section>
     </Box>
