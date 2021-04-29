@@ -69,7 +69,7 @@ const SoftSkillSection = ({ report }) => {
               <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
             </Box>
 
-            <Link href='#'>BrainStation <br /> Front-end Development</Link>
+            <Link href='https://brainstation.io/course/online/data-science'>BrainStation <br /> Front-end Development</Link>
           </Box>
         </Box>
       </Box>
