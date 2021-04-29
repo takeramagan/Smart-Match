@@ -1,9 +1,6 @@
 import { Paper } from '@material-ui/core'
-import { useTheme } from '@material-ui/core/styles'
 
 export const Section = ({ children, highlighted, style }) => {
-  const theme = useTheme()
-  console.log('theme: ', theme)
   return (
     <Paper
       elevation={0} style={{

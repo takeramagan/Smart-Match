@@ -1,4 +1,5 @@
 /* global fetch, FormData */
+const formidable = require('formidable')
 
 export const fetchMarketValue = (file) => {
   const formdata = new FormData()
@@ -30,6 +31,18 @@ export default function handler (req, res) {
       body: req.body
     })
     const url = 'https://api.metisign.com/koios/v1/market_value/'
+
+    const form = formidable({ multiples: true })
+
+    form.parse(req, (err, fields, files) => {
+      if (err) {
+        res.writeHead(err.httpCode || 400, { 'Content-Type': 'text/plain' })
+        res.end(String(err))
+        return
+      }
+      res.writeHead(200, { 'Content-Type': 'application/json' })
+      res.end(JSON.stringify({ fields, files }, null, 2))
+    })
 
     return fetch(url, {
       method: 'post',

@@ -17,9 +17,10 @@ const EducationSection = ({ report }) => {
             <Chip
               key={item}
               label={item} style={{
-                width: 140,
                 marginRight: 18,
-                backgroundColor: '#ffffff'
+                backgroundColor: '#ffffff',
+                filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.28))',
+                margin: '16px 8px'
               }}
             />
           )

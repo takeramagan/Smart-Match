@@ -89,7 +89,7 @@ export default function Home () {
   if (!report) {
     return (
       <Box textAlign='center'>
-        <FileDropzone onSuccess={setReport} />
+        <FileDropzone onSuccess={data => console.log(data) || setReport(data)} />
         <Box mb={8}>
           <Button variant='contained' color='primary' disableElevation onClick={() => setReport(mock)}>
             See demo report
