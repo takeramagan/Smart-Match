@@ -69,7 +69,7 @@ const SoftSkillSection = ({ report }) => {
               <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
             </Box>
 
-            <Link href='https://brainstation.io/course/online/data-science'>BrainStation <br /> Front-end Development</Link>
+            <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>BrainStation <br /> Front-end Development</Link>
           </Box>
         </Box>
       </Box>
@@ -116,7 +116,7 @@ const HardSkillSection = ({ report }) => {
               <img width='67px' height='67px' src='https://ik.imagekit.io/himalayas/general_assembly_logo_AxBQAGHdD.jpeg' />
             </Box>
 
-            <Link href='#'>General Assembly <br />Front-end Development</Link>
+            <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>General Assembly <br />Front-end Development</Link>
           </Box>
         </Box>
       </Box>
