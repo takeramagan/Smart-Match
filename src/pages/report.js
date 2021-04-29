@@ -165,7 +165,7 @@ export default function Home () {
   return (
     <>
       <Header />
-      <Container style={{ marginTop: 18, paddingLeft: 270, position: 'relative' }}>
+      <Container style={{ marginTop: 18, paddingLeft: 284, position: 'relative' }}>
         <Box position='absolute' width='250px' height='700px' left={0} top={0}>
           <Sidebar />
         </Box>
