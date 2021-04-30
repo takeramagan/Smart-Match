@@ -27,7 +27,15 @@ function FileDropzone (props) {
   useEffect(() => {
     if (acceptedFiles.length) {
       setLoading(true)
-      fetchReport(acceptedFiles).then(onSuccess).then(() => setLoading(false)).catch(setError)
+      fetchReport(acceptedFiles).then((res) => {
+        console.log('res: ', res)
+        if (res.error) {
+          setError(res.error)
+        } else {
+          onSuccess(res)
+          setLoading(false)
+        }
+      }).catch(setError)
     }
   }, [acceptedFiles])
 
@@ -45,8 +53,8 @@ function FileDropzone (props) {
             <Box my={2} style={{ color: 'rgba(55, 58, 112, 1)' }}>
               Smart Match is not able to analysis your resume
             </Box>
-            <pre style={{ color: 'rgba(55, 58, 112, 1)', margin: '64px 0' }}>
-              Error: {error && JSON.stringify(error.message, null, 2)}
+            <pre style={{ color: '#FE654F', margin: '64px 0' }}>
+              Error <br />{error || error.message}
             </pre>
             <Box mt={24}>
               <Button variant='contained' color='secondary' disableElevation onClick={() => window.location.reload()}>Please try again</Button>
@@ -153,7 +161,7 @@ export default function Home () {
     return (
       <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' height='80vh'>
         <Box fontSize='64px' fontWeight='600' color='#49648A'>
-          Loading the demo report
+          Loading the report
         </Box>
         <Box width='600px' m={8}>
           <LinearProgress />
