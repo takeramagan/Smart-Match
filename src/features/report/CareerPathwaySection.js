@@ -200,7 +200,7 @@ export function CareerPathwaySection ({ report }) {
         <Box
           p={2} width='100%' height='400px' position='relative'
         >
-          <CareerOriginBlock name={market_value_result[0].matched_job_title} salary={market_value_result[0].fulltime.market_avg_salary} top={150} left={0} />
+          <CareerOriginBlock name={market_value_result[0].matched_job_title} salary={market_value_result[0].fulltime.market_avg} top={150} left={0} />
 
           {/* career path 1 */}
           <CareerSinglePath

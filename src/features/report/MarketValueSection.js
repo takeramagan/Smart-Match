@@ -25,7 +25,6 @@ const Chart = ({ income }) => {
   }
   const numbers = getNumbers()
 
-  console.log('income: ', numbers)
   const option = {
     grid: {
       left: 60
