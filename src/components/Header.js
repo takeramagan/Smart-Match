@@ -27,7 +27,7 @@ export function Header () {
           <Box fontSize='24px' py={2} fontWeight='600' color='rgba(0, 97, 255, 1)'>
             Smart Match
           </Box>
-          <Box fontSize='24px' alignItems='center' display='flex'>
+          {/* <Box fontSize='24px' alignItems='center' display='flex'>
             <Avatar>B</Avatar>
             <Box fontSize='14px' lineHeight='18px' ml={2}>
               <Box color='rgba(55, 58, 112, 1)' fontSize='14px'>
@@ -37,7 +37,7 @@ export function Header () {
                 ben@benscript.com
               </Box>
             </Box>
-          </Box>
+          </Box> */}
         </Box>
       </Container>
     </Box>

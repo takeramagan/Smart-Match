@@ -11,7 +11,7 @@ const EducationSection = ({ report }) => {
       <Box fontSize='20px' my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
         Education
       </Box>
-      <Box py={2}>
+      <Box pb={2}>
         {report.education_levels_needed_to_improve.map((item) => {
           return (
             <Chip
@@ -20,7 +20,7 @@ const EducationSection = ({ report }) => {
                 marginRight: 18,
                 backgroundColor: '#ffffff',
                 filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.28))',
-                margin: '16px 8px'
+                margin: '8px 4px'
               }}
             />
           )
@@ -55,24 +55,6 @@ const SoftSkillSection = ({ report }) => {
           )
         })}
       </Box>
-      <Box pt={2}>
-        <Box fontSize='20px' my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
-          Suggested Course
-        </Box>
-        <Box ml={2} display='flex' justifyContent='space-between'>
-          <Box color='#6A707E' fontsize='16px' display='flex' alignItems='center'>
-            <Box
-              width='67px' height='67px' mr={2} style={{
-                backgroundColor: '#ccc'
-              }}
-            >
-              <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
-            </Box>
-
-            <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>BrainStation <br /> Front-end Development</Link>
-          </Box>
-        </Box>
-      </Box>
     </Box>
   )
 }
@@ -102,7 +84,33 @@ const HardSkillSection = ({ report }) => {
           )
         })}
       </Box>
-      <Box pt={2}>
+
+    </Box>
+  )
+}
+
+const SuggestedCourse = () => {
+  return (
+    <Box pt={2} display='flex' justifyContent='space-between'>
+      <Box width='45%'>
+        <Box fontSize='20px' my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
+          Suggested Course
+        </Box>
+        <Box ml={2} display='flex' justifyContent='space-between'>
+          <Box color='#6A707E' fontsize='16px' display='flex' alignItems='center'>
+            <Box
+              width='67px' height='67px' mr={2} style={{
+                backgroundColor: '#ccc'
+              }}
+            >
+              <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
+            </Box>
+
+            <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>BrainStation <br /> Data Science Course</Link>
+          </Box>
+        </Box>
+      </Box>
+      <Box width='45%'>
         <Box fontSize='20px' my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
           Suggested Course
         </Box>
@@ -136,6 +144,7 @@ export function CourseSection ({ report }) {
           <SoftSkillSection report={report} />
           <HardSkillSection report={report} />
         </Box>
+        <SuggestedCourse />
       </Box>
 
     </Section>

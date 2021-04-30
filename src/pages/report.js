@@ -109,7 +109,7 @@ function FileDropzone (props) {
             ? <p>Drop the files here ...</p>
             : <p>Drag 'n' drop some files here, or click to select files</p>
       }
-              <p style={{ color: 'rgba(201, 201, 201, 1)' }}>File should be docx, max 10MB</p>
+              <p style={{ color: 'rgba(201, 201, 201, 1)' }}>File should be docx, doc, odt or pdf. Max 10MB</p>
               <Box mt={4}>
                 <DescriptionIcon style={{ color: 'rgba(70, 235, 213, 1)', fontSize: 90 }} />
               </Box>
