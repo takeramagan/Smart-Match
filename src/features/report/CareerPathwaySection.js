@@ -50,7 +50,7 @@ const CareerBlock = ({ name, salary, top, left, selected, noBackgroundColor, onC
 
     >
       <Box>
-        <Box className='title' fontSize='16px' color={noBackgroundColor ? (selected ? '#024CC3' : '#6A707E') : 'inherit'}>
+        <Box className='title' fontSize='14px' color={noBackgroundColor ? (selected ? '#024CC3' : '#6A707E') : 'inherit'}>
           {name}
         </Box>
         <Box className='salary' fontSize='12px' color='white'>
@@ -128,7 +128,6 @@ const Aaaab = ({ selected }) => {
 const CareerSinglePath = ({ tops, lefts, careerPath, position, selected, onClick }) => {
   const [type, nextLevel, furtherLevel] = careerPath
 
-  console.log('selected: ', type, nextLevel, furtherLevel)
   return (
     <>
       {/* career path 1 */}
