@@ -83,7 +83,7 @@ const CareerOriginBlock = ({ name, salary, top, left, selected, noBackgroundColo
           {name}
         </Box>
         <Box className='salary' fontSize='12px' color='#6A707E'>
-          Avg {formatter.format(salary)}
+          {formatter.format(salary)}
         </Box>
       </Box>
 
