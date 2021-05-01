@@ -8,8 +8,10 @@ import ViewAgendaOutlinedIcon from '@material-ui/icons/ViewAgendaOutlined'
 import MoreHorizOutlinedIcon from '@material-ui/icons/MoreHorizOutlined'
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined'
 import { Section } from './Section'
+import { useRouter } from 'next/router'
 
-export function Sidebar () {
+export function Sidebar ({ onReset }) {
+  const router = useRouter()
   return (
     <Section>
       <Box
@@ -28,7 +30,8 @@ export function Sidebar () {
             <ListItemIcon>
               <DashboardOutlinedIcon />
             </ListItemIcon>
-            <ListItemText primary='Homepage' />
+            <ListItemText primary='Homepage' onClick={() => router.push('/')} />
+
           </ListItem>
           <ListItem button style={{ color: 'rgba(0, 97, 255, 1)' }}>
             <ListItemIcon>
@@ -36,7 +39,7 @@ export function Sidebar () {
             </ListItemIcon>
             <ListItemText primary='Report Page' />
           </ListItem>
-          <ListItem button>
+          {/* <ListItem button>
             <ListItemIcon>
               <MailOutlineIcon />
             </ListItemIcon>
@@ -59,10 +62,16 @@ export function Sidebar () {
               <ViewColumnOutlinedIcon />
             </ListItemIcon>
             <ListItemText primary='Deals' />
-          </ListItem>
+          </ListItem> */}
 
           <Box mt={24}>
-            <ListItem button>
+            <ListItem button onClick={() => onReset()}>
+              <ListItemIcon>
+                <ExitToAppOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary='back' />
+            </ListItem>
+            {/* <ListItem button>
               <ListItemIcon>
                 <MoreHorizOutlinedIcon />
               </ListItemIcon>
@@ -73,7 +82,7 @@ export function Sidebar () {
                 <ExitToAppOutlinedIcon />
               </ListItemIcon>
               <ListItemText primary='Logout' />
-            </ListItem>
+            </ListItem> */}
           </Box>
         </List>
       </Box>

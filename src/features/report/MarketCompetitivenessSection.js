@@ -75,7 +75,7 @@ export const MarketCompetitiveness = ({ report }) => {
         </Box>
 
         <Box fontSize='16px' fontWeight='500' lineHeight='24px'>
-          Your ranked {report.overall_job_level.toLowerCase()} level {report.overall_competitiveness}/10 compared to your competitors. Below are your detailed category competitiveness mapping.
+          You are ranked {report.overall_job_level.toLowerCase()} level {report.overall_competitiveness}/10 compared to your competitors. Below are your detailed category competitiveness mapping.
         </Box>
 
         <Box>
