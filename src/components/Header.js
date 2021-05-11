@@ -1,4 +1,4 @@
-import { Avatar, Box, Container, Image } from '@material-ui/core'
+import { Box, Container } from '@material-ui/core'
 
 const Logo = () => {
   return (
