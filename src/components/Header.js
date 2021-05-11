@@ -1,4 +1,4 @@
-import { Avatar, Box, Container } from '@material-ui/core'
+import { Avatar, Box, Container, Image } from '@material-ui/core'
 
 const Logo = () => {
   return (
@@ -24,9 +24,10 @@ export function Header () {
     >
       <Container>
         <Box display='flex' justifyContent='space-between'>
-          <Box fontSize='24px' py={2} fontWeight='600' color='rgba(0, 97, 255, 1)'>
+          <img src='logo.svg' width={209} height={57} style={{marginTop:5}}/>
+          {/* <Box fontSize='24px' py={2} fontWeight='600' color='rgba(0, 97, 255, 1)'>
             Smart Match
-          </Box>
+          </Box> */}
           {/* <Box fontSize='24px' alignItems='center' display='flex'>
             <Avatar>B</Avatar>
             <Box fontSize='14px' lineHeight='18px' ml={2}>
