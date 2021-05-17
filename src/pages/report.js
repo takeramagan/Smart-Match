@@ -9,6 +9,7 @@ import { MarketValueSection } from '../features/report/MarketValueSection'
 import { MatchingJobsSection } from '../features/report/MatchingJobsSection'
 import { CareerPathwaySection } from '../features/report/CareerPathwaySection'
 import { CourseSection } from '../features/report/CourseSection'
+import { CareerAdviceSection} from '../features/report/CareerAdviceSection'
 
 import { useDropzone } from 'react-dropzone'
 import { Section } from '../components/Section'
@@ -188,6 +189,9 @@ export default function Home () {
         </Box>
 
         <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <CareerAdviceSection report={report} />
+          </Grid>
           <Grid item xs={6}>
             <MarketValueSection report={report} />
             <MatchingJobsSection report={report} />
