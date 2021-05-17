@@ -1,4 +1,4 @@
-import { Box, Link, LinearProgress, Typography } from '@material-ui/core'
+import { Box, Link, LinearProgress, Typography, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
@@ -67,14 +67,22 @@ export function MatchJob ({ job }) {
         </Box>
       </Box>
       <Box width='68px' height='88px' my={2} fontsize='16px' display='flex' justifyContent='center' alignItems='center'>
-        <Link
+        <Button
+          href={job.job_link}
+          style={{
+            color: 'white', fontWeight: '500', border:'1px solid white', borderRadius:15, height: 30,
+          }}
+        >
+          Apply
+        </Button>
+        {/* <Link
           href={job.job_link} style={{
             color: 'white', fontWeight: '500'
 
           }}
         >
           Apply
-        </Link>
+        </Link>*/}
       </Box>
     </Box>
   )

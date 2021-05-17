@@ -18,7 +18,7 @@ export function MatchingJobsSection ({ report }) {
         </Box>
 
         <Box>
-          Here are some potential matching jobs that you can apply right away. The percentage shows how much you meet the job requirements. Apply from top.
+          Here are the best matching jobs that you can apply right away. The percentage shows how much you meet the job requirements.
         </Box>
 
         {jobs.map(job => <MatchJob job={job} />)}

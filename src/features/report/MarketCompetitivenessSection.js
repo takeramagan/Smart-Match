@@ -31,10 +31,10 @@ export const RadarChart = ({ report }) => {
         }
       },
       indicator: [
-        { name: 'Experience', max: 100 },
-        { name: 'Soft Skill', max: 100 },
-        { name: 'Education', max: 100 },
-        { name: 'Hard Skill', max: 100 }
+        { name: 'Format', max: 100 },
+        { name: 'Language', max: 100 },
+        { name: 'Match Level', max: 100 },
+        { name: 'Grammar', max: 100 }
       ]
     },
     series: [{
@@ -45,7 +45,7 @@ export const RadarChart = ({ report }) => {
       data: [
         {
           value: [report.experiences_competitiveness, report.soft_skill_competitiveness, report.education_competitiveness, report.hard_skill_competitiveness],
-          name: 'Personal Skillset'
+          name: 'Resume Analysis'
         }
       ]
     }]
@@ -65,27 +65,27 @@ export const MarketCompetitiveness = ({ report }) => {
     <Section>
       <Box p={4}>
         <Box fontSize='20px' mb={2} fontWeight='500' color='#024CC3'>
-          Market Competitiveness
+          Resume Analysis Result
         </Box>
         <Box fontSize='18px' fontWeight='500' color='#6A707E'>
-          Your overall job level for <b>{report.market_value_result[0].matched_job_title}</b> is
+          You seem to be a good fit for <b>{report.market_value_result[0].matched_job_title}</b> at
         </Box>
         <Box fontSize='48px' fontWeight='500' color={theme.palette.primary.main}>
           {report.overall_job_level}
         </Box>
 
         <Box fontSize='16px' fontWeight='500' lineHeight='24px'>
-          You are ranked {report.overall_job_level.toLowerCase()} level {report.overall_competitiveness}/10 compared to your competitors. Below are your detailed category competitiveness mapping.
+          You are ranked {report.overall_job_level.toLowerCase()} level {report.overall_competitiveness}/10 compared to your competitors. Below are your detailed category of your resume analysis.
         </Box>
 
         <Box>
           <RadarChart report={report} />
         </Box>
         <Box display='flex' flexWrap='wrap' justifyContent='space-around' p={4}>
-          <PercentageLabel name='Experience' value={report.experiences_competitiveness} />
-          <PercentageLabel name='Education' value={report.education_competitiveness} />
-          <PercentageLabel name='Soft Skill' value={report.soft_skill_competitiveness} />
-          <PercentageLabel name='Hard Skill' value={report.hard_skill_competitiveness} />
+          <PercentageLabel name='Format' value={report.experiences_competitiveness} />
+          <PercentageLabel name='Language' value={report.education_competitiveness} />
+          <PercentageLabel name='Match Level' value={report.soft_skill_competitiveness} />
+          <PercentageLabel name='Grammar' value={report.hard_skill_competitiveness} />
         </Box>
       </Box>
     </Section>

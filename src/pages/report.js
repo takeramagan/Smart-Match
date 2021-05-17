@@ -180,7 +180,7 @@ export default function Home () {
 
         <Box my={3}>
           <Box fontSize='26px' fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
-            Report Page
+            Evaluation
           </Box>
           <Box fontSize='14px' lineHeight='21px' color='rgba(87, 91, 166, 1)'>
             Your current job market position based on your resume
