@@ -16,6 +16,7 @@ import { Section } from '../components/Section'
 import { fetchMarketValue } from '../services/market-value'
 import DescriptionIcon from '@material-ui/icons/Description'
 import HourglassFullIcon from '@material-ui/icons/HourglassFull'
+import { useTranslation } from 'react-i18next'
 
 function FileDropzone (props) {
   const { onSuccess, onError } = props
@@ -24,7 +25,7 @@ function FileDropzone (props) {
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } = useDropzone({
     maxFiles: 1
   })
-
+  const { t } = useTranslation()
   useEffect(() => {
     if (acceptedFiles.length) {
       setLoading(true)
@@ -52,13 +53,13 @@ function FileDropzone (props) {
               Sorry
             </Box>
             <Box my={2} style={{ color: 'rgba(55, 58, 112, 1)' }}>
-              Smart Match is not able to analysis your resume
+              {t("report.error")}
             </Box>
             <pre style={{ color: '#FE654F', margin: '64px 0' }}>
               Error <br />{error || error.message}
             </pre>
             <Box mt={24}>
-              <Button variant='contained' color='secondary' disableElevation onClick={() => window.location.reload()}>Please try again</Button>
+              <Button variant='contained' color='secondary' disableElevation onClick={() => window.location.reload()}>{t("report.error_retry")}</Button>
             </Box>
           </Box>
         </Section>
@@ -74,10 +75,10 @@ function FileDropzone (props) {
       <Section>
         <Box style={{ borderRadius: '24px' }} p={8} {...getRootProps({ className: 'dropzone' })}>
           <Box style={{ color: 'rgba(0, 97, 255, 1)', fontSize: '48px', fontWeight: '500' }}>
-            {loading ? 'Analyzing...' : 'Upload Resume'}
+            {loading ? t("report.analyzing_title") : t("report.upload_title")}
           </Box>
           <Box my={2} style={{ color: 'rgba(55, 58, 112, 1)' }}>
-            {loading ? 'Smart Match is analysing your resume...' : 'Upload your latest resume to reveal your potential matching jobs and market value'}
+            {loading ? t("report.analyzing_text") : t("report.upload_text")}
           </Box>
           <input {...getInputProps()} />
           {loading && (
@@ -115,10 +116,10 @@ function FileDropzone (props) {
             >
               {
           isDragActive
-            ? <p>Drop the files here ...</p>
-            : <p>Drag & drop some files here, or click to select files</p>
+            ? <p>{t("report.dragable_title")}</p>
+            : <p>{t("report.drag_title")}</p>
       }
-              <p style={{ color: 'rgba(201, 201, 201, 1)' }}>File should be docx, doc, odt or pdf. Max 10MB</p>
+              <p style={{ color: 'rgba(201, 201, 201, 1)' }}>{t("report.drag_text")}</p>
               <Box mt={4}>
                 <DescriptionIcon style={{ color: 'rgba(70, 235, 213, 1)', fontSize: 90 }} />
               </Box>
@@ -138,6 +139,7 @@ const mock = { market_value_result: [{ matched_job_title: 'Data Scientist', hard
 export default function Home () {
   const [loading, setLoading] = useState(true)
   const [report, setReport] = useState(null)
+  const { t } = useTranslation()
 
   useEffect(() => {
     setTimeout(() => {
@@ -151,7 +153,7 @@ export default function Home () {
         <FileDropzone onSuccess={data => setReport(data)} />
         <Box mb={8}>
           <Button variant='contained' color='primary' disableElevation onClick={() => setReport(mock)}>
-            See demo report
+            {t('report.demo')}
           </Button>
         </Box>
       </Box>
@@ -162,7 +164,7 @@ export default function Home () {
     return (
       <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' height='80vh'>
         <Box fontSize='64px' fontWeight='600' color='#49648A'>
-          Loading the report
+        {t('report.loading')}
         </Box>
         <Box width='600px' m={8}>
           <LinearProgress />
@@ -181,10 +183,10 @@ export default function Home () {
 
         <Box my={3}>
           <Box fontSize='26px' fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
-            Evaluation
+            {t("report.report_title")}
           </Box>
           <Box fontSize='14px' lineHeight='21px' color='rgba(87, 91, 166, 1)'>
-            Your current job market position based on your resume
+            {t("report.report_text")}
           </Box>
         </Box>
 

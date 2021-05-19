@@ -3,8 +3,10 @@ import { Section } from '../../components/Section'
 import ReactECharts from 'echarts-for-react'
 import { useTheme } from '@material-ui/core/styles'
 import { formatter } from '../../untils/currency'
+import { useTranslation } from 'react-i18next'
 
 const Chart = ({ income }) => {
+  const { t } = useTranslation()
   const theme = useTheme()
   // const numbers = Object.values(income)
   //   .filter(Number.isInteger)
@@ -31,7 +33,11 @@ const Chart = ({ income }) => {
     },
     xAxis: {
       type: 'category',
-      data: ['low', 'low', 'mid-low', 'mid-low', 'mid-low', 'avg', 'avg', 'avg', 'avg', 'mid-high', 'mid-high', 'high', 'high']
+      data: [t("marketvalue.low"), t("marketvalue.low"), 
+            t("marketvalue.mid-low"), t("marketvalue.mid-low"), t("marketvalue.mid-low"), 
+            t("marketvalue.avg"), t("marketvalue.avg"), t("marketvalue.avg"), t("marketvalue.avg"), 
+            t("marketvalue.mid-high"), t("marketvalue.mid-high"), 
+            t("marketvalue.high"), t("marketvalue.high")]
     },
     yAxis: {
       type: 'value'
@@ -45,19 +51,19 @@ const Chart = ({ income }) => {
     },
     color: [theme.palette.primary.main, '#E5E5E5'],
     series: [{
-      name: 'Offer too low',
+      name: t("marketvalue.Offer too low"),
       color: '#E0E0E0',
       barGap: '-100%',
       type: 'bar',
       data: numbers.map(n => n <= income.market_mid_low ? n : undefined)
     }, {
-      name: 'Acceptable Offer',
+      name: t("marketvalue.Acceptable Offer"),
       color: '#46EBD5',
       barGap: '-100%',
       type: 'bar',
       data: numbers.map(n => n > income.market_mid_low ? n : undefined)
     }, {
-      name: 'Most likely Offer',
+      name: t("marketvalue.Most likely Offer"),
       color: '#0061FF',
       type: 'bar',
       data: numbers.map(n => income.predicted_market_value.high >= n && income.predicted_market_value.low <= n ? n : undefined)
@@ -75,31 +81,33 @@ const Chart = ({ income }) => {
 export function MarketValueSection ({ report }) {
   const bestMatch = report.market_value_result[0]
   const theme = useTheme()
+  const { t } = useTranslation()
   return (
     <Section>
       <Box p={4} mb={4}>
 
         <Box fontSize='20px' mb={2} fontWeight='500' color='#024CC3'>
-          Market Value
+          {t('marketvalue.title')}
         </Box>
         <Box display='flex' justifyContent='space-between'>
 
           <Box color='#373A70' fontWeight='500' width='195px' textAlign='right'>
             <Box fontSize='18px'>
-              Your Predicted salary
+            {t('marketvalue.predicted salary')}
             </Box>
             <Box my={1}>
-              <Box display='inline-block' mr={1} style={{ fontSize: '12px', width: '30px', textAlign: 'right' }}>From</Box>
+              <Box display='inline-block' mr={1} style={{ fontSize: '12px', width: '30px', textAlign: 'right' }}>{t('marketvalue.from')}</Box>
               <Box display='inline-block' fontSize='24px' color={theme.palette.primary.main}>{formatter.format(bestMatch.fulltime.predicted_market_value.low)}</Box>
             </Box>
             <Box my={1}>
-              <Box display='inline-block' mr={1} style={{ fontSize: '12px', width: '30px', textAlign: 'right' }}>To</Box>
+              <Box display='inline-block' mr={1} style={{ fontSize: '12px', width: '30px', textAlign: 'right' }}>{t('marketvalue.to')}</Box>
               <Box display='inline-block' fontSize='24px' color={theme.palette.primary.main}>{formatter.format(bestMatch.fulltime.predicted_market_value.high)}</Box>
             </Box>
           </Box>
 
           <Box pt={3} fontSize='16px' fontWeight='500' lineHeight='24px' color='#373A70' width='45%'>
-            Compared to average pay of {formatter.format(bestMatch.fulltime.market_avg)} the same position in Toronto.
+            {/* Compared to average pay of {formatter.format(bestMatch.fulltime.market_avg)} the same position in Toronto. */}
+            {t('marketvalue.salary average', {average: formatter.format(bestMatch.fulltime.market_avg)})}
           </Box>
         </Box>
 

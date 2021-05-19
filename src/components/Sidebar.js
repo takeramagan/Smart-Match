@@ -9,9 +9,11 @@ import MoreHorizOutlinedIcon from '@material-ui/icons/MoreHorizOutlined'
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined'
 import { Section } from './Section'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
 
 export function Sidebar ({ onReset }) {
   const router = useRouter()
+  const { t } = useTranslation()
   return (
     <Section>
       <Box
@@ -30,14 +32,14 @@ export function Sidebar ({ onReset }) {
             <ListItemIcon>
               <DashboardOutlinedIcon />
             </ListItemIcon>
-            <ListItemText primary='Homepage' onClick={() => router.push('/')} />
+            <ListItemText primary={t('sidebar.homepage')} onClick={() => router.push('/')} />
 
           </ListItem>
           <ListItem button style={{ color: 'rgba(0, 97, 255, 1)' }}>
             <ListItemIcon>
               <ViewAgendaOutlinedIcon />
             </ListItemIcon>
-            <ListItemText primary='Report Page' />
+            <ListItemText primary={t('sidebar.reportpage')} />
           </ListItem>
           {/* <ListItem button>
             <ListItemIcon>
@@ -69,7 +71,7 @@ export function Sidebar ({ onReset }) {
               <ListItemIcon>
                 <ExitToAppOutlinedIcon />
               </ListItemIcon>
-              <ListItemText primary='back' />
+              <ListItemText primary={t('sidebar.back')} />
             </ListItem>
             {/* <ListItem button>
               <ListItemIcon>

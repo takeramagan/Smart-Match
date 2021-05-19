@@ -1,5 +1,6 @@
 import { Box, Link, LinearProgress, Typography, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles({
   root: {
@@ -29,6 +30,7 @@ export function LinearProgressWithLabel (props) {
 }
 
 export function MatchJob ({ job }) {
+  const { t } = useTranslation()
   return (
     <Box display='flex'>
 
@@ -73,7 +75,7 @@ export function MatchJob ({ job }) {
             color: 'white', fontWeight: '500', border:'1px solid white', borderRadius:15, height: 30,
           }}
         >
-          Apply
+          {t('matching jobs.apply')}
         </Button>
         {/* <Link
           href={job.job_link} style={{

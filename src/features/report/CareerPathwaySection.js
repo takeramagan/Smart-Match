@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Section } from '../../components/Section'
 import { makeStyles } from '@material-ui/core/styles'
 import { formatter } from '../../untils/currency'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles({
   root: {
@@ -191,11 +192,12 @@ export function CareerPathwaySection ({ report }) {
   const lefts = [30, 330, 580, 765]
   const [selectedPathIndex, setSelectedPathIndex] = useState(0)
   const { market_value_result } = report
+  const { t } = useTranslation()
   return (
     <Section>
       <Box p={4}>
         <Box fontSize='20px' mb={2} fontWeight='500' color='#024CC3'>
-          Future Career Pathway
+          {t("career_pathway.title")}
         </Box>
         <Box
           p={2} width='100%' height='400px' position='relative'

@@ -3,22 +3,22 @@ import { Section } from '../../components/Section'
 import { MatchJob } from '../../components/MatchJob'
 import { useState } from 'react'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import { useTranslation } from 'react-i18next'
 
 export function MatchingJobsSection ({ report }) {
   const [seeMore, setSeeMore] = useState(false)
   const jobs = seeMore ? report.recommended_jobs : report.recommended_jobs.slice(0, 3)
+  const { t } = useTranslation()
   return (
     <Section highlighted>
 
       <Box p={4}>
         <Box fontSize='20px' mb={2} fontWeight='500' color='white'>
-
-          Matching Jobs
-
+          {t('matching jobs.title')}
         </Box>
 
         <Box>
-          Here are the best matching jobs that you can apply right away. The percentage shows how much you meet the job requirements.
+          {t('matching jobs.text')}
         </Box>
 
         {jobs.map(job => <MatchJob job={job} />)}
@@ -28,7 +28,7 @@ export function MatchingJobsSection ({ report }) {
               <Box lineHeight='14px'>
                 <ExpandMoreIcon />
                 <Box>
-                  View More
+                  {t('matching jobs.View More')}
                 </Box>
               </Box>
             </Button>
