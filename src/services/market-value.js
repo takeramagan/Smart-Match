@@ -1,6 +1,6 @@
 /* global fetch, FormData */
 
-export const fetchMarketValue = (file) => {
+export const fetchMarketValue = (file, id) => {
   const url = 'https://api.metisign.com/koios/v1/market_value/'
 
   const myHeaders = new Headers()
@@ -9,7 +9,8 @@ export const fetchMarketValue = (file) => {
 
   const formdata = new FormData()
   formdata.append('resume_file', file, file.name)
-
+  formdata.append('id', id)
+  
   const requestOptions = {
     method: 'POST',
     headers: myHeaders,
