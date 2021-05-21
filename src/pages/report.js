@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Box, Button, Container, Grid, LinearProgress } from '@material-ui/core'
+import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 
 import { Header } from '../components/Header'
 import { Sidebar } from '../components/Sidebar'
@@ -186,12 +187,23 @@ export default function Home () {
 
   return (
     <>
-      <Header />
-      <Container style={{ marginTop: 18, paddingLeft: 284, position: 'relative' }}>
+      {/* <Header /> */}
+      {/* <Container style={{ marginTop: 18, paddingLeft: 284, position: 'relative' }}>
         <Box position='absolute' width='250px' height='700px' left={0} top={0}>
           <Sidebar onReset={() => setReport(null)} />
+        </Box> */}
+      <Container style={{ marginTop: 18, position:"relative" }}>
+        <Box position='absolute' width={100} right={10} top={20}>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<ArrowBackOutlinedIcon />}
+            onClick={() => setReport(null)}
+            style={{borderRadius:20}}
+          >
+            {t('sidebar.back')}
+          </Button>
         </Box>
-
         <Box my={3}>
           <Box fontSize='26px' fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
             {t("report.report_title")}

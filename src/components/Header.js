@@ -25,20 +25,6 @@ export function Header () {
       <Container>
         <Box display='flex' justifyContent='space-between'>
           <img src='logo.svg' width={209} height={57} style={{marginTop:5}}/>
-          {/* <Box fontSize='24px' py={2} fontWeight='600' color='rgba(0, 97, 255, 1)'>
-            Smart Match
-          </Box> */}
-          {/* <Box fontSize='24px' alignItems='center' display='flex'>
-            <Avatar>B</Avatar>
-            <Box fontSize='14px' lineHeight='18px' ml={2}>
-              <Box color='rgba(55, 58, 112, 1)' fontSize='14px'>
-                Ben Liang
-              </Box>
-              <Box color='rgba(144, 160, 183, 1)' fontSize='14px'>
-                ben@benscript.com
-              </Box>
-            </Box>
-          </Box> */}
         </Box>
       </Container>
     </Box>

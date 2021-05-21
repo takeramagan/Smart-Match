@@ -18,7 +18,7 @@ export function Sidebar ({ onReset }) {
     <Section>
       <Box
         p={2}
-        fontsize='16px'
+        fontSize='16px'
         fontWeight='500'
         lineHeight='24px'
         color='rgba(51, 77, 110, 1)'
