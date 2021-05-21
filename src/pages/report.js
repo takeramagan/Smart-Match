@@ -193,7 +193,7 @@ export default function Home () {
           <Sidebar onReset={() => setReport(null)} />
         </Box> */}
       <Container style={{ marginTop: 18, position:"relative" }}>
-        <Box position='absolute' width={100} right={10} top={20}>
+        <Box position='absolute' width={100} right={15} top={0}>
           <Button
             variant="contained"
             color="primary"
