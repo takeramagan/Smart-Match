@@ -1,7 +1,9 @@
 import { Box, Chip, Link } from '@material-ui/core'
 import { Section } from '../../components/Section'
+import { useTranslation } from 'react-i18next'
 
 const EducationSection = ({ report }) => {
+  const { t } = useTranslation()
   if (!report.education_levels_needed_to_improve.length) {
     return null
   }
@@ -9,7 +11,7 @@ const EducationSection = ({ report }) => {
   return (
     <Box>
       <Box fontSize='20px' my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
-        Education
+        {t('course.education')}
       </Box>
       <Box pb={2}>
         {report.education_levels_needed_to_improve.map((item) => {
@@ -31,6 +33,8 @@ const EducationSection = ({ report }) => {
 }
 
 const SoftSkillSection = ({ report }) => {
+  const { t } = useTranslation()
+
   if (!report.soft_skills_needed_to_improve.length) {
     return null
   }
@@ -38,7 +42,7 @@ const SoftSkillSection = ({ report }) => {
   return (
     <Box width='45%'>
       <Box fontSize='20px' my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
-        Soft Skill
+        {t('course.softskill')}
       </Box>
       <Box py={2}>
         {report.soft_skills_needed_to_improve.map((item) => {
@@ -60,6 +64,8 @@ const SoftSkillSection = ({ report }) => {
 }
 
 const HardSkillSection = ({ report }) => {
+  const { t } = useTranslation()
+
   if (!report.hard_skills_needed_to_improve.length) {
     return null
   }
@@ -67,7 +73,7 @@ const HardSkillSection = ({ report }) => {
   return (
     <Box width='45%'>
       <Box fontSize='20px' my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
-        Hard Skill
+        {t('course.hardskill')}
       </Box>
       <Box py={2}>
         {report.hard_skills_needed_to_improve.map((item) => {
@@ -90,11 +96,13 @@ const HardSkillSection = ({ report }) => {
 }
 
 const SuggestedCourse = () => {
+  const { t } = useTranslation()
+
   return (
     <Box pt={2} display='flex' justifyContent='space-between'>
       <Box width='45%'>
         <Box fontSize='20px' my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
-          Suggested Course
+        {t('suggest.title')}
         </Box>
         <Box ml={2} display='flex' justifyContent='space-between'>
           <Box color='#6A707E' fontsize='16px' display='flex' alignItems='center'>
@@ -106,13 +114,13 @@ const SuggestedCourse = () => {
               <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
             </Box>
 
-            <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>BrainStation <br /> Data Science Course</Link>
+            <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>{t('suggest.brain station')} <br /> {t('suggest.data science')}</Link>
           </Box>
         </Box>
       </Box>
       <Box width='45%'>
         <Box fontSize='20px' my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
-          Suggested Course
+        {t('suggest.title')}
         </Box>
         <Box ml={2} display='flex' justifyContent='space-between'>
           <Box color='#6A707E' fontsize='16px' display='flex' alignItems='center'>
@@ -124,7 +132,7 @@ const SuggestedCourse = () => {
               <img width='67px' height='67px' src='https://ik.imagekit.io/himalayas/general_assembly_logo_AxBQAGHdD.jpeg' />
             </Box>
 
-            <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>General Assembly <br />Front-end Development</Link>
+            <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{t('suggest.general assembly')} <br />{t('suggest.front end')}</Link>
           </Box>
         </Box>
       </Box>
@@ -133,11 +141,13 @@ const SuggestedCourse = () => {
 }
 
 export function CourseSection ({ report }) {
+  const { t } = useTranslation()
+
   return (
     <Section>
       <Box p={4} mb={4}>
         <Box fontSize='20px' mb={2} fontWeight='500' color='#024CC3'>
-          How to Improve
+          {t("course.title")}
         </Box>
         <EducationSection report={report} />
         <Box display='flex' justifyContent='space-between'>

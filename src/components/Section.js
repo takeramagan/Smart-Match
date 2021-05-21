@@ -1,6 +1,6 @@
 import { Paper } from '@material-ui/core'
 
-export const Section = ({ children, highlighted, style }) => {
+export const Section =  ({ children, highlighted, style }) => {
   return (
     <Paper
       elevation={0} style={{

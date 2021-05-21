@@ -1,0 +1,81 @@
+{
+  "index":{
+    "title": "Smart Match Web Application",
+    "welcome": "Welcome to ",
+    "enter": "Enter",
+    "footer": "More features are coming soon.."
+  },
+  "report":{
+    "analyzing_title":"Analyzing...",
+    "upload_title":"Upload Resume",
+    "analyzing_text":"Smart Match is analysing your resume...",
+    "upload_text":"Upload your latest resume to reveal your potential matching jobs and market value",
+    "dragable_title":"Drop the files here ...",
+    "drag_title":"Drag & drop some files here, or click to select files",
+    "drag_text":"File should be docx, doc, odt or pdf. Max 10MB",
+    "demo":"SEE DEMO REPORT",
+    "loading":"Loading the report",
+    "error":"Smart Match is not able to analysis your resume",
+    "error_retry":"Please try again",
+    "report_title":"Evaluation",
+    "report_text": "Your current job market position based on your resume"
+  },
+  "sidebar":{
+    "homepage": "Homepage",
+    "reportpage": "Report Page",
+    "back": "back"
+  },
+  "careeradvice":{
+    "title": "Career Advice",
+    "demo": "Good good study, day day up"
+  },
+  "career_pathway":{
+    "title": "Future Career Pathway"
+  },
+  "course":{
+    "title": "How to Improve",
+    "education": "Education",
+    "softskill": "Soft Skill",
+    "hardskill": "Hard Skill"
+  },
+  
+"suggest":{
+  "title": "Suggested Course",
+  "brain station": "BrainStation",
+  "data science": "Data Science Course",
+  "general assembly":"General Assembly",
+  "front end":"Front-end Development"
+  },
+
+  "radarchart":{
+    "title":"Resume Analysis Result",
+    "fit job": "You are a good fit for <0>{{jobtitle}}</0> at",
+    "Format": "Format",
+    "Language": "Language",
+    "Match Level": "Match Level",
+    "Grammar":"Grammar",
+    "Resume Analysis":"Resume Analysis",
+    "rank":"You are ranked {{joblevel}} level {{competitiveness}}/10 compared to your competitors. Below are your detailed category of your resume analysis."
+  },
+  "matching jobs":{
+    "title":"Matching Jobs",
+    "text": "Here are the best matching jobs that you can apply right away. The percentage shows how much you meet the job requirements.",
+    "View More": "View More",
+    "apply": "Apply"
+  },
+  "marketvalue":{
+    "title":"Market Value",
+     "predicted salary": "Your Predicted salary",
+    "salary average": "Compared to average pay of {{average}} the same position in Toronto.",
+    "from" : "From",
+    "to" : "To",
+    "Offer too low" : "Offer too low",
+    "Acceptable Offer" : "Acceptable Offer",
+    "Most likely Offer" : "Most likely Offer",
+    "low" : "low",
+    "mid-low" : "mid-low",
+    "avg": "avg",
+    "mid-high" : "mid-high",
+    "high" : "high"
+  }
+}
