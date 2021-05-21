@@ -33,7 +33,7 @@ function FileDropzone (props) {
 
   const { t } = useTranslation()
   useEffect(() =>{ 
-    if(lang){
+    if(lang && ['en', 'cn'].includes(lang)){
       i18n.changeLanguage(lang)
     }
   },[lang])
