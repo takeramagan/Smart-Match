@@ -7,7 +7,7 @@ const useStyles = makeStyles({
     borderRadius: '16px', backgroundColor: 'white', height: '12px'
   },
   bar: {
-    // background: 'linear-gradient(90deg, #46EBD5 23.47%, #60EFFF 43.32%, #0061FF 66.27%)',
+    // background: "linear-gradient(90deg, #46EBD5 23.47%, #60EFFF 43.32%, #0061FF 66.27%)",
     background: "linear-gradient(90deg, #0061FF 23.47%, #60EFFF 43.32%, #46EBD5 66.27%)",
     borderRadius: '16px'
   }
