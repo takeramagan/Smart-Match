@@ -7,7 +7,8 @@ const useStyles = makeStyles({
     borderRadius: '16px', backgroundColor: 'white', height: '12px'
   },
   bar: {
-    background: 'linear-gradient(90deg, #46EBD5 23.47%, #60EFFF 43.32%, #0061FF 66.27%)',
+    // background: 'linear-gradient(90deg, #46EBD5 23.47%, #60EFFF 43.32%, #0061FF 66.27%)',
+    background: "linear-gradient(90deg, #0061FF 23.47%, #60EFFF 43.32%, #46EBD5 66.27%)",
     borderRadius: '16px'
   }
 })
@@ -16,8 +17,23 @@ export function LinearProgressWithLabel (props) {
   const classes = useStyles()
   return (
     <Box display='flex' alignItems='center'>
-      <Box width='100%' mr={1}>
+      <Box width='100%' mr={1} style={{ position: "relative" }}>
         <LinearProgress classes={{ root: classes.root, bar: classes.bar }} variant='determinate' color='secondary' {...props} />
+        <span
+          style={{
+            position: "absolute",
+            height: "12px",
+            width: "12px",
+            backgroundColor: "#FFFFFF",
+            borderRadius: "50%",
+            borderStyle: "solid",
+            borderWidth: "3px",
+            borderColor: "#0061FF",
+            display: "inlineBlock",
+            left: `${props.value - 4}%`,
+            top: "0px",
+          }}
+        ></span>
       </Box>
       <Box minWidth={35}>
         <Typography variant='body2' color='white'>{`${Math.round(
