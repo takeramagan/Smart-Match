@@ -71,6 +71,7 @@ export function MatchJob ({ job }) {
       <Box width='68px' height='88px' my={2} fontsize='16px' display='flex' justifyContent='center' alignItems='center'>
         <Button
           href={job.job_link}
+          target="_blank"
           style={{
             color: 'white', fontWeight: '500', border:'1px solid white', borderRadius:15, height: 30,
           }}
