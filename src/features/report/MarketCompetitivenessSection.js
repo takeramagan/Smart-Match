@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core'
+import { Box, Grid } from '@material-ui/core'
 import { PercentageLabel } from '../../components/PercentageLabel'
 import { Section } from '../../components/Section'
 import ReactECharts from 'echarts-for-react'
@@ -87,16 +87,29 @@ export const MarketCompetitiveness = ({ report }) => {
           {/* You are ranked {report.overall_job_level.toLowerCase()} level {report.overall_competitiveness}/10 compared to your competitors. Below are your detailed category of your resume analysis. */}
           {t('radarchart.rank', {joblevel: report.overall_job_level.toLowerCase(), competitiveness: report.overall_competitiveness})}
         </Box>
+        <Grid container>
+          <Grid item xs={8}>
+            <RadarChart report={report} />
+          </Grid>
 
-        <Box>
+          <Grid item xs={4}>
+            <Box display='flex' flexDirection="column" mt={4}>
+              <PercentageLabel name={t('radarchart.Format')} value={report.experiences_competitiveness} />
+              <PercentageLabel name= {t('radarchart.Language')} value={report.education_competitiveness} />
+              <PercentageLabel name= {t('radarchart.Match Level')} value={report.soft_skill_competitiveness} />
+              <PercentageLabel name= {t('radarchart.Grammar')} value={report.hard_skill_competitiveness} />
+            </Box>
+          </Grid>
+        </Grid>
+        {/* <Box>
           <RadarChart report={report} />
         </Box>
-        <Box display='flex' flexWrap='wrap' justifyContent='space-around' p={4}>
+        <Box display='flex' flexDirection="row" justifyContent='space-around' p={4}>
           <PercentageLabel name={t('radarchart.Format')} value={report.experiences_competitiveness} />
           <PercentageLabel name= {t('radarchart.Language')} value={report.education_competitiveness} />
           <PercentageLabel name= {t('radarchart.Match Level')} value={report.soft_skill_competitiveness} />
           <PercentageLabel name= {t('radarchart.Grammar')} value={report.hard_skill_competitiveness} />
-        </Box>
+        </Box> */}
       </Box>
     </Section>
   )
