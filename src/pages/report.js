@@ -88,12 +88,18 @@ function FileDropzone (props) {
     >
       <Section>
         <Box style={{ borderRadius: '24px' }} p={8} {...getRootProps({ className: 'dropzone' })}>
-          <Box style={{ color: 'rgba(0, 97, 255, 1)', fontSize: '48px', fontWeight: '500' }}>
-            {loading ? t("report.analyzing_title") : t("report.upload_title")}
+          <Box style={{ color: 'rgba(0, 97, 255, 1)', fontSize: '24px', fontWeight: '500' }}>
+            {loading ? t("report.analyzing_title") : t("report.upload_text")}
+            {/* {loading ? t("report.analyzing_title") : t("report.upload_title")} */}
           </Box>
-          <Box my={2} style={{ color: 'rgba(55, 58, 112, 1)' }}>
+          {/* <Box my={2} style={{ color: 'rgba(55, 58, 112, 1)' }}>
             {loading ? t("report.analyzing_text") : t("report.upload_text")}
-          </Box>
+          </Box> */}
+          { loading && 
+            <Box my={2} style={{ color: 'rgba(55, 58, 112, 1)' }}>
+              {t("report.analyzing_text")}
+            </Box>
+          }
           <input {...getInputProps()} />
           {loading && (
             <Box
