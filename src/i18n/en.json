@@ -18,7 +18,10 @@
     "error":"Smart Match is not able to analysis your resume",
     "error_retry":"Please try again",
     "report_title":"Evaluation",
-    "report_text": "Your current job market position based on your resume"
+    "report_text": "Your current job market position based on your resume",
+    "history": "View History", 
+    "hideHistory": "Hide History",
+    "history_title": "History"
   },
   "sidebar":{
     "homepage": "Homepage",
