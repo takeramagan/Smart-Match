@@ -202,6 +202,7 @@ export default function Home () {
     )
   }
 
+  const titleSize='22px'
   return (
     <>
       {/* <Header /> */}
@@ -222,7 +223,7 @@ export default function Home () {
           </Button>
         </Box>
         <Box my={3}>
-          <Box fontSize='26px' fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
+          <Box fontSize={titleSize} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
             {t("report.report_title")}
           </Box>
           <Box fontSize='14px' lineHeight='21px' color='rgba(87, 91, 166, 1)'>

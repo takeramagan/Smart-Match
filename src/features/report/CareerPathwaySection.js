@@ -4,6 +4,8 @@ import { Section } from '../../components/Section'
 import { makeStyles } from '@material-ui/core/styles'
 import { formatter } from '../../untils/currency'
 import { useTranslation } from 'react-i18next'
+import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
+
 
 const useStyles = makeStyles({
   root: {
@@ -51,10 +53,10 @@ const CareerBlock = ({ name, salary, top, left, selected, noBackgroundColor, onC
 
     >
       <Box>
-        <Box className='title' fontSize='14px' color={noBackgroundColor ? (selected ? '#024CC3' : '#6A707E') : 'inherit'}>
+        <Box className='title' fontSize={h4} color={noBackgroundColor ? (selected ? '#024CC3' : '#6A707E') : 'inherit'}>
           {name}
         </Box>
-        <Box className='salary' fontSize='12px' color='white'>
+        <Box className='salary' fontSize={h5} color='white'>
           Avg {formatter.format(salary)}
         </Box>
       </Box>
@@ -80,10 +82,10 @@ const CareerOriginBlock = ({ name, salary, top, left, selected, noBackgroundColo
       }}
     >
       <Box>
-        <Box className='title' fontSize='16px' color='black'>
+        <Box className='title' fontSize={h3} color='black'>
           {name}
         </Box>
-        <Box className='salary' fontSize='12px' color='#6A707E'>
+        <Box className='salary' fontSize={h5} color='#6A707E'>
           {formatter.format(salary)}
         </Box>
       </Box>
@@ -196,7 +198,7 @@ export function CareerPathwaySection ({ report }) {
   return (
     <Section>
       <Box p={4}>
-        <Box fontSize='20px' mb={2} fontWeight='500' color='#024CC3'>
+        <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
           {t("career_pathway.title")}
         </Box>
         <Box

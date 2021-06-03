@@ -1,6 +1,7 @@
 import { Box, Link, LinearProgress, Typography, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useTranslation } from 'react-i18next'
+import { h, h1, h2, h3, h4, h5} from '../constant/fontsize'
 
 const useStyles = makeStyles({
   root: {
@@ -51,7 +52,7 @@ export function MatchJob ({ job }) {
           {Mozilla Waterloo Remote}
         </Box> */}
         <Box
-          fontSize='16px' my='2px' width='230px' style={{
+          fontSize={h3} my='2px' width='230px' style={{
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis'
@@ -60,7 +61,7 @@ export function MatchJob ({ job }) {
           {job.job_title}
         </Box>
         <Box
-          fontSize='16px' my='2px'
+          fontSize={h3} my='2px'
         >
           {job.full_time.salary_range}
         </Box>
@@ -68,7 +69,7 @@ export function MatchJob ({ job }) {
           <LinearProgressWithLabel value={job.matched_percentage} />
         </Box>
       </Box>
-      <Box width='68px' height='88px' my={2} fontsize='16px' display='flex' justifyContent='center' alignItems='center'>
+      <Box width='68px' height='88px' my={2} fontsize={h3} display='flex' justifyContent='center' alignItems='center'>
         <Button
           href={job.job_link}
           target="_blank"

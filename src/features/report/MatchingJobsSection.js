@@ -4,6 +4,8 @@ import { MatchJob } from '../../components/MatchJob'
 import { useState } from 'react'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { useTranslation } from 'react-i18next'
+import { h, h1, h2, h3, h4, h5} from '../../constant/fontsize'
+
 
 export function MatchingJobsSection ({ report }) {
   const [seeMore, setSeeMore] = useState(false)
@@ -13,11 +15,11 @@ export function MatchingJobsSection ({ report }) {
     <Section highlighted>
 
       <Box p={4}>
-        <Box fontSize='20px' mb={2} fontWeight='500' color='white'>
+        <Box fontSize={h1} mb={2} fontWeight='500' color='white'>
           {t('matching jobs.title')}
         </Box>
 
-        <Box>
+        <Box fontSize={h3}>
           {t('matching jobs.text')}
         </Box>
 
@@ -27,7 +29,7 @@ export function MatchingJobsSection ({ report }) {
             <Button fullWidth style={{ color: 'white' }} onClick={() => setSeeMore(true)}>
               <Box lineHeight='14px'>
                 <ExpandMoreIcon />
-                <Box>
+                <Box fontSize={h3}>
                   {t('matching jobs.View More')}
                 </Box>
               </Box>

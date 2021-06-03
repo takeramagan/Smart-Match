@@ -1,6 +1,8 @@
 import { Box, Chip, Link } from '@material-ui/core'
 import { Section } from '../../components/Section'
 import { useTranslation } from 'react-i18next'
+import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
+
 
 const EducationSection = ({ report }) => {
   const { t } = useTranslation()
@@ -10,7 +12,7 @@ const EducationSection = ({ report }) => {
 
   return (
     <Box>
-      <Box fontSize='20px' my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
+      <Box fontSize={h1} my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
         {t('course.education')}
       </Box>
       <Box pb={2}>
@@ -41,7 +43,7 @@ const SoftSkillSection = ({ report }) => {
 
   return (
     <Box width='45%'>
-      <Box fontSize='20px' my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
+      <Box fontSize={h1} my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
         {t('course.softskill')}
       </Box>
       <Box py={2}>
@@ -72,7 +74,7 @@ const HardSkillSection = ({ report }) => {
 
   return (
     <Box width='45%'>
-      <Box fontSize='20px' my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
+      <Box fontSize={h1} my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
         {t('course.hardskill')}
       </Box>
       <Box py={2}>
@@ -101,11 +103,11 @@ const SuggestedCourse = () => {
   return (
     <Box pt={2} display='flex' justifyContent='space-between'>
       <Box width='45%'>
-        <Box fontSize='20px' my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
+        <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
         {t('suggest.title')}
         </Box>
         <Box ml={2} display='flex' justifyContent='space-between'>
-          <Box color='#6A707E' fontsize='16px' display='flex' alignItems='center'>
+          <Box color='#6A707E' fontsize={h3} display='flex' alignItems='center'>
             <Box
               width='67px' height='67px' mr={2} style={{
                 backgroundColor: '#ccc'
@@ -119,11 +121,11 @@ const SuggestedCourse = () => {
         </Box>
       </Box>
       <Box width='45%'>
-        <Box fontSize='20px' my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
+        <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
         {t('suggest.title')}
         </Box>
         <Box ml={2} display='flex' justifyContent='space-between'>
-          <Box color='#6A707E' fontsize='16px' display='flex' alignItems='center'>
+          <Box color='#6A707E' fontsize={h3} display='flex' alignItems='center'>
             <Box
               width='67px' height='67px' mr={2} style={{
                 backgroundColor: '#ccc'
@@ -146,7 +148,7 @@ export function CourseSection ({ report }) {
   return (
     <Section>
       <Box p={4} mb={4}>
-        <Box fontSize='20px' mb={2} fontWeight='500' color='#024CC3'>
+        <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
           {t("course.title")}
         </Box>
         <EducationSection report={report} />

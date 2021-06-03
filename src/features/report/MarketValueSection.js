@@ -4,6 +4,8 @@ import ReactECharts from 'echarts-for-react'
 import { useTheme } from '@material-ui/core/styles'
 import { formatter } from '../../untils/currency'
 import { useTranslation } from 'react-i18next'
+import { h, h1, h2, h3, h4, h5} from '../../constant/fontsize'
+
 
 const Chart = ({ income }) => {
   const { t } = useTranslation()
@@ -86,26 +88,26 @@ export function MarketValueSection ({ report }) {
     <Section>
       <Box p={4} mb={4}>
 
-        <Box fontSize='20px' mb={2} fontWeight='500' color='#024CC3'>
+        <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
           {t('marketvalue.title')}
         </Box>
         <Box display='flex' justifyContent='space-between'>
 
           <Box color='#373A70' fontWeight='500' width='195px' textAlign='right'>
-            <Box fontSize='18px'>
+            <Box fontSize={h2}>
             {t('marketvalue.predicted salary')}
             </Box>
             <Box my={1}>
-              <Box display='inline-block' mr={1} style={{ fontSize: '12px', width: '30px', textAlign: 'right' }}>{t('marketvalue.from')}</Box>
-              <Box display='inline-block' fontSize='24px' color={theme.palette.primary.main}>{formatter.format(bestMatch.fulltime.predicted_market_value.low)}</Box>
+              <Box display='inline-block' mr={1} style={{ fontSize: {h5}, width: '30px', textAlign: 'right' }}>{t('marketvalue.from')}</Box>
+              <Box display='inline-block' fontSize={h} color={theme.palette.primary.main}>{formatter.format(bestMatch.fulltime.predicted_market_value.low)}</Box>
             </Box>
             <Box my={1}>
-              <Box display='inline-block' mr={1} style={{ fontSize: '12px', width: '30px', textAlign: 'right' }}>{t('marketvalue.to')}</Box>
-              <Box display='inline-block' fontSize='24px' color={theme.palette.primary.main}>{formatter.format(bestMatch.fulltime.predicted_market_value.high)}</Box>
+              <Box display='inline-block' mr={1} style={{ fontSize: {h5}, width: '30px', textAlign: 'right' }}>{t('marketvalue.to')}</Box>
+              <Box display='inline-block' fontSize={h} color={theme.palette.primary.main}>{formatter.format(bestMatch.fulltime.predicted_market_value.high)}</Box>
             </Box>
           </Box>
 
-          <Box pt={3} fontSize='16px' fontWeight='500' lineHeight='24px' color='#373A70' width='45%'>
+          <Box pt={3} fontSize={h3} fontWeight='500' lineHeight='24px' color='#373A70' width='45%'>
             {/* Compared to average pay of {formatter.format(bestMatch.fulltime.market_avg)} the same position in Toronto. */}
             {t('marketvalue.salary average', {average: formatter.format(bestMatch.fulltime.market_avg)})}
           </Box>

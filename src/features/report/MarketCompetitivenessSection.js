@@ -4,6 +4,7 @@ import { Section } from '../../components/Section'
 import ReactECharts from 'echarts-for-react'
 import { useTheme } from '@material-ui/core/styles'
 import { useTranslation, Trans } from 'react-i18next'
+import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
 
 export const RadarChart = ({ report }) => {
   const { t } = useTranslation()
@@ -29,7 +30,7 @@ export const RadarChart = ({ report }) => {
       name: {
         textStyle: {
           color: '#6A707E',
-          fontSize: 14
+          fontSize: 12
         }
       },
       indicator: [
@@ -67,10 +68,10 @@ export const MarketCompetitiveness = ({ report }) => {
   return (
     <Section>
       <Box p={4}>
-        <Box fontSize='20px' mb={2} fontWeight='500' color='#024CC3'>
+        <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
           {t('radarchart.title')}
         </Box>
-        <Box fontSize='18px' fontWeight='500' color='#6A707E'>
+        <Box fontSize={h2} fontWeight='500' color='#6A707E'>
           {/* You seem to be a good fit for <b>{report.market_value_result[0].matched_job_title}</b> at */}
           <Trans
             i18nKey="radarchart.fit job"
@@ -78,11 +79,11 @@ export const MarketCompetitiveness = ({ report }) => {
             components={[<b>defaults</b>]}
           />
         </Box>
-        <Box fontSize='48px' fontWeight='500' color={theme.palette.primary.main}>
+        <Box fontSize='36px' fontWeight='500' color={theme.palette.primary.main}>
           {report.overall_job_level}
         </Box>
 
-        <Box fontSize='16px' fontWeight='500' lineHeight='24px'>
+        <Box fontSize={h3} fontWeight='500' lineHeight='24px'>
           {/* You are ranked {report.overall_job_level.toLowerCase()} level {report.overall_competitiveness}/10 compared to your competitors. Below are your detailed category of your resume analysis. */}
           {t('radarchart.rank', {joblevel: report.overall_job_level.toLowerCase(), competitiveness: report.overall_competitiveness})}
         </Box>
