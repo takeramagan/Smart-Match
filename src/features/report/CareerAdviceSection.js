@@ -6,7 +6,7 @@ import { h1, h2} from '../../constant/fontsize'
 export const CareerAdviceSection = ({ report }) => {
   const { t } = useTranslation()
   return (
-    <Section>
+    <Section >
       <Box p={4} mb={1}>
         <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
           {t('careeradvice.title')}

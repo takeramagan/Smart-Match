@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Box, Button, Container, Grid, LinearProgress } from '@material-ui/core'
+import { Box, Button, Container, Grid, LinearProgress, Link } from '@material-ui/core'
 import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 
 import { Header } from '../components/Header'
@@ -34,7 +34,7 @@ function FileDropzone (props) {
   const params = useRouter().query
   const userId = params.id
   const lang = params.lang?.toLowerCase() //get language
-
+  
   const { t } = useTranslation()
   useEffect(() =>{ 
     if(lang && ['en', 'cn'].includes(lang)){
@@ -217,10 +217,14 @@ export default function Home () {
             color="primary"
             startIcon={<ArrowBackOutlinedIcon />}
             onClick={() => setReport(null)}
+            career_advice
+            onClick={() => history}
             style={{borderRadius:20}}
           >
             {t('sidebar.back')}
           </Button>
+          {/**跳转测试成功 */}
+          {/* <Button onClick={()=> {document.getElementById('market_competitiveness')?.scrollIntoView()  }}>test</Button> */}
         </Box>
         <Box my={3}>
           <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
@@ -233,23 +237,35 @@ export default function Home () {
 
         <Grid container spacing={4}>
           <Grid item xs={12}>
-            <CareerAdviceSection report={report} />
+            <Link id='career_advice' href='#career_advice'>
+              <CareerAdviceSection report={report} />
+            </Link>
           </Grid>
           <Grid item xs={6}>
-            <MarketValueSection report={report} />
-            <MarketCompetitiveness report={report} />
+            <Link id='market_value' href='#market_value'>
+              <MarketValueSection report={report} />
+            </Link>
+            <Link id='market_competitiveness' href='#market_competitiveness'>
+              <MarketCompetitiveness report={report} />
+            </Link>
           </Grid>
 
           <Grid item xs={6}>
+          <Link id='match_jobs' href='#match_jobs'>
            <MatchingJobsSection report={report} />
+          </Link>
           </Grid>
 
           <Grid item xs={12}>
-            <CareerPathwaySection report={report} />
+            <Link id='career_pathway' href='#career_pathway'>
+              <CareerPathwaySection report={report} />
+            </Link>
           </Grid>
 
           <Grid item xs={12}>
-            <CourseSection report={report} />
+            <Link id='course_section' href='#course_section'>
+              <CourseSection report={report} />
+            </Link>
           </Grid>
         </Grid>
       </Container>
