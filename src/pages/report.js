@@ -22,6 +22,7 @@ import { useTranslation } from 'react-i18next'
 import i18n from '../i18n/config'
 import { useRouter } from 'next/router'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import {h, h3} from '../constant/fontsize'
 
 function FileDropzone (props) {
   const { onSuccess, onError } = props
@@ -202,7 +203,6 @@ export default function Home () {
     )
   }
 
-  const titleSize='22px'
   return (
     <>
       {/* <Header /> */}
@@ -223,10 +223,10 @@ export default function Home () {
           </Button>
         </Box>
         <Box my={3}>
-          <Box fontSize={titleSize} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
+          <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
             {t("report.report_title")}
           </Box>
-          <Box fontSize='14px' lineHeight='21px' color='rgba(87, 91, 166, 1)'>
+          <Box fontSize={h3} lineHeight='21px' color='rgba(87, 91, 166, 1)'>
             {t("report.report_text")}
           </Box>
         </Box>
@@ -237,11 +237,11 @@ export default function Home () {
           </Grid>
           <Grid item xs={6}>
             <MarketValueSection report={report} />
-            <MatchingJobsSection report={report} />
+            <MarketCompetitiveness report={report} />
           </Grid>
 
           <Grid item xs={6}>
-            <MarketCompetitiveness report={report} />
+           <MatchingJobsSection report={report} />
           </Grid>
 
           <Grid item xs={12}>
