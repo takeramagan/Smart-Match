@@ -33,7 +33,8 @@
     "demo": "好好学习,天天向上"
   },
   "career_pathway":{
-    "title": "学习路径"
+    "title": "学习路径",
+    "contact": "以上是根据您的简历分析得到, 如果需要一对一专业服务定制学习路径,请点击此处联系"
   },
   "course":{
     "title": "提升自我",
@@ -47,7 +48,8 @@
   "brain station": "BrainStation",
   "data science": "大数据课程",
   "general assembly":"General Assembly",
-  "front end":"前端开发"
+  "front end":"前端开发",
+  "contact": "如果需要一对一专业服务定制学习课程,请点击此处联系"
   },
 
   "radarchart":{
@@ -58,7 +60,8 @@
     "Match Level": "匹配度",
     "Grammar": "语法",
     "Resume Analysis": "简历评估",
-    "rank": "相对您的竞争者, 您在 {{joblevel}} 级别的竞争力为 {{competitiveness}}/10. 以下是您的简历评估的详细结果."
+    "rank": "相对您的竞争者, 您在 {{joblevel}} 级别的竞争力为 {{competitiveness}}/10. 以下是您的简历评估的详细结果.",
+    "contact": "以上只是您简历的计算分析结果,如果需要一对一专业猎头服务,请点击此处联系"
   },
   "matching jobs":{
     "title":"匹配到的职位",
@@ -80,5 +83,8 @@
     "avg": "平均值",
     "mid-high" : "中高",
     "high" : "高"
+  },
+  "contact":{
+    "click me": "点我"
   }
 }

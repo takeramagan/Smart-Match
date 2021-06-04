@@ -1,7 +1,9 @@
-import { Box, Chip, Link } from '@material-ui/core'
+import { Box, Button, Chip, Link, Grid, Typography } from '@material-ui/core'
 import { Section } from '../../components/Section'
 import { useTranslation } from 'react-i18next'
 import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
+import { DK_LINK } from '../../constant/externalURLs'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 
 const EducationSection = ({ report }) => {
@@ -101,7 +103,7 @@ const SuggestedCourse = () => {
   const { t } = useTranslation()
 
   return (
-    <Box pt={2} display='flex' justifyContent='space-between'>
+    <Box py={2} display='flex' justifyContent='space-between'>
       <Box width='45%'>
         <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
         {t('suggest.title')}
@@ -157,6 +159,44 @@ export function CourseSection ({ report }) {
           <HardSkillSection report={report} />
         </Box>
         <SuggestedCourse />
+        {/* <Grid container alignItems='center'>
+          <Grid item xs={10}>
+          <Box fontSize={h2} fontWeight='500'>
+            {t('suggest.contact')}
+          </Box>
+          </Grid>
+          <Grid item xs={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AccountCircleIcon />}
+            href={DK_LINK}
+            color='primary'
+            style={{borderRadius:20}}
+          >
+            {t('contact.click me')}
+          </Button>
+          </Grid>
+        </Grid> */}
+        <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
+          <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
+            {t('suggest.contact')}
+          </Typography>
+          <Box display='flex' alignItems='center'>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<AccountCircleIcon />}
+              href={DK_LINK}
+              target='_blank'
+              color='primary'
+              size='large'
+              style={{borderRadius:20, width:150 }}
+            >
+              {t('contact.click me')}
+            </Button>
+          </Box>
+        </Box>
       </Box>
 
     </Section>

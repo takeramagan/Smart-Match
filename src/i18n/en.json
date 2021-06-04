@@ -33,7 +33,8 @@
     "demo": "Good good study, day day up"
   },
   "career_pathway":{
-    "title": "Future Career Pathway"
+    "title": "Future Career Pathway",
+    "contact": "Above is based on your resume analysis, if you need one-to-one professional service to obtain customized learning path, please click here to contact"
   },
   "course":{
     "title": "How to Improve",
@@ -47,7 +48,8 @@
   "brain station": "BrainStation",
   "data science": "Data Science Course",
   "general assembly":"General Assembly",
-  "front end":"Front-end Development"
+  "front end":"Front-end Development",
+  "contact": "If you need one-to-one professional service to obtain customized learning courses, please click here to contact"
   },
 
   "radarchart":{
@@ -58,7 +60,8 @@
     "Match Level": "Match Level",
     "Grammar":"Grammar",
     "Resume Analysis":"Resume Analysis",
-    "rank":"You are ranked {{joblevel}} level {{competitiveness}}/10 compared to your competitors. Below are your detailed category of your resume analysis."
+    "rank":"You are ranked {{joblevel}} level {{competitiveness}}/10 compared to your competitors. Below are your detailed category of your resume analysis.",
+    "contact": "Above are only analysis results of your resume. If you need one-to-one professional headhunting services, please click here to contact recruiter."
   },
   "matching jobs":{
     "title":"Matching Jobs",
@@ -80,5 +83,8 @@
     "avg": "avg",
     "mid-high" : "mid-high",
     "high" : "high"
+  },
+  "contact":{
+    "click me": "Click Me"
   }
 }

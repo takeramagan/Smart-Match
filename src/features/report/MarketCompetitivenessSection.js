@@ -1,10 +1,12 @@
-import { Box, Grid } from '@material-ui/core'
+import { Box, Grid, Button, Typography } from '@material-ui/core'
 import { PercentageLabel } from '../../components/PercentageLabel'
 import { Section } from '../../components/Section'
 import ReactECharts from 'echarts-for-react'
 import { useTheme } from '@material-ui/core/styles'
 import { useTranslation, Trans } from 'react-i18next'
 import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
+import { DK_LINK } from '../../constant/externalURLs'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 export const RadarChart = ({ report }) => {
   const { t } = useTranslation()
@@ -110,6 +112,26 @@ export const MarketCompetitiveness = ({ report }) => {
           <PercentageLabel name= {t('radarchart.Match Level')} value={report.soft_skill_competitiveness} />
           <PercentageLabel name= {t('radarchart.Grammar')} value={report.hard_skill_competitiveness} />
         </Box> */}
+ 
+        <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
+          <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
+            {t('radarchart.contact')}
+          </Typography>
+          <Box display='flex' alignItems='center'>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<AccountCircleIcon />}
+              href={DK_LINK}
+              target='_blank'
+              color='primary'
+              size='small'
+              style={{borderRadius:20, width:105 }}
+            >
+              {t('contact.click me')}
+            </Button>
+          </Box>
+        </Box>
       </Box>
     </Section>
   )
