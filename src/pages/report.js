@@ -225,6 +225,7 @@ export default function Home () {
           </Button>
           {/**跳转测试成功 */}
           {/* <Button onClick={()=> {document.getElementById('market_competitiveness')?.scrollIntoView()  }}>test</Button> */}
+          {/* <Link href='#match_jobs'>test</Link> */}
         </Box>
         <Box my={3}>
           <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
@@ -237,35 +238,35 @@ export default function Home () {
 
         <Grid container spacing={4}>
           <Grid item xs={12}>
-            <Link id='career_advice' href='#career_advice'>
+            <div id='career_advice'>
               <CareerAdviceSection report={report} />
-            </Link>
+            </div>
           </Grid>
           <Grid item xs={6}>
-            <Link id='market_value' href='#market_value'>
+            <div id='market_value'>
               <MarketValueSection report={report} />
-            </Link>
-            <Link id='market_competitiveness' href='#market_competitiveness'>
+            </div>
+            <div id='market_competitiveness'>
               <MarketCompetitiveness report={report} />
-            </Link>
+            </div>
           </Grid>
 
           <Grid item xs={6}>
-          <Link id='match_jobs' href='#match_jobs'>
+          <div id='match_jobs'>
            <MatchingJobsSection report={report} />
-          </Link>
+          </div>
           </Grid>
 
           <Grid item xs={12}>
-            <Link id='career_pathway' href='#career_pathway'>
+            <div id='career_pathway'>
               <CareerPathwaySection report={report} />
-            </Link>
+            </div>
           </Grid>
 
           <Grid item xs={12}>
-            <Link id='course_section' href='#course_section'>
+            <div id='course_section'>
               <CourseSection report={report} />
-            </Link>
+            </div>
           </Grid>
         </Grid>
       </Container>
