@@ -217,8 +217,6 @@ export default function Home () {
             color="primary"
             startIcon={<ArrowBackOutlinedIcon />}
             onClick={() => setReport(null)}
-            career_advice
-            onClick={() => history}
             style={{borderRadius:20}}
           >
             {t('sidebar.back')}
