@@ -1,4 +1,4 @@
-import { Box, Button } from '@material-ui/core'
+import { Box, Button, Divider } from '@material-ui/core'
 import { Section } from '../../components/Section'
 import { MatchJob } from '../../components/MatchJob'
 import { useState } from 'react'
@@ -8,8 +8,10 @@ import { h, h1, h2, h3, h4, h5} from '../../constant/fontsize'
 
 
 export function MatchingJobsSection ({ report }) {
-  const [seeMore, setSeeMore] = useState(false)
-  const jobs = seeMore ? report.recommended_jobs : report.recommended_jobs.slice(0, 3)
+  const [seeWebsiteMore, setSeeWebsiteMore] = useState(false)
+  const websiteJobs = seeWebsiteMore ? report.recommended_jobs : report.recommended_jobs.slice(0, 3)
+  const [seeRecruiterMore, setSeeRecruiterMore] = useState(false)
+  const recruiterJobs = seeRecruiterMore ? report.recommended_jobs : report.recommended_jobs.slice(0, 3)
   const { t } = useTranslation()
   return (
     <Section highlighted>
@@ -19,23 +21,43 @@ export function MatchingJobsSection ({ report }) {
           {t('matching jobs.title')}
         </Box>
 
-        <Box fontSize={h3}>
+        <Box fontSize={h3} mb={1}>
           {t('matching jobs.text')}
         </Box>
-
-        {jobs.map(job => <MatchJob job={job} />)}
-        {!seeMore && (
-          <Box textAlign='center'>
-            <Button fullWidth style={{ color: 'white' }} onClick={() => setSeeMore(true)}>
-              <Box lineHeight='14px'>
-                <ExpandMoreIcon />
-                <Box fontSize={h3}>
-                  {t('matching jobs.View More')}
+        <Divider style={{backgroundColor:'white'}}/>
+        <Box fontSize={h3} mt={1}>
+          {t('matching jobs.website')}
+          {websiteJobs.map(job => <MatchJob job={job} />)}
+          {!seeWebsiteMore && (
+            <Box textAlign='center'>
+              <Button fullWidth style={{ color: 'white' }} onClick={() => setSeeWebsiteMore(true)}>
+                <Box lineHeight='14px'>
+                  <ExpandMoreIcon />
+                  <Box fontSize={h3}>
+                    {t('matching jobs.View More')}
+                  </Box>
                 </Box>
-              </Box>
-            </Button>
-          </Box>
-        )}
+              </Button>
+            </Box>
+          )}
+        </Box>
+        <Divider style={{backgroundColor:'white'}}/>
+        <Box fontSize={h3} mt={1}>
+          {t('matching jobs.recruiter')}
+          {recruiterJobs.map((job, index) => <MatchJob id={index} job={job} />)}
+          {!seeRecruiterMore && (
+            <Box textAlign='center'>
+              <Button fullWidth style={{ color: 'white' }} onClick={() => setSeeRecruiterMore(true)}>
+                <Box lineHeight='14px'>
+                  <ExpandMoreIcon />
+                  <Box fontSize={h3}>
+                    {t('matching jobs.View More')}
+                  </Box>
+                </Box>
+              </Button>
+            </Box>
+          )}
+        </Box>
       </Box>
 
     </Section>

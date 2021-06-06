@@ -68,7 +68,9 @@
     "title":"Matching Jobs",
     "text": "Here are the best matching jobs that you can apply right away. The percentage shows how much you meet the job requirements.",
     "View More": "View More",
-    "apply": "Apply"
+    "apply": "Apply",
+    "website": "Jobs from Recruitment website",
+    "recruiter": "Jobs from recruiters"
   },
   "marketvalue":{
     "title":"Market Value",
