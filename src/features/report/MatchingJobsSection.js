@@ -21,11 +21,11 @@ export function MatchingJobsSection ({ report }) {
           {t('matching jobs.title')}
         </Box>
 
-        <Box fontSize={h3} mb={1}>
+        <Box fontSize={h3} mb={2}>
           {t('matching jobs.text')}
         </Box>
         <Divider style={{backgroundColor:'white'}}/>
-        <Box fontSize={h3} mt={1}>
+        <Box fontSize={h3} mt={1} mb={2}>
           {t('matching jobs.website')}
           {websiteJobs.map(job => <MatchJob job={job} />)}
           {!seeWebsiteMore && (
