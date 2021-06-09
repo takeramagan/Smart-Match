@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Box, Button, Container, Grid, LinearProgress, Link } from '@material-ui/core'
+import { Box, Button, Container, Grid, LinearProgress, Select, FormControl, InputLabel, MenuItem} from '@material-ui/core'
 import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 
 import { Header } from '../components/Header'
@@ -34,6 +34,17 @@ function FileDropzone (props) {
   const params = useRouter().query
   const userId = params.id
   const lang = params.lang?.toLowerCase() //get language
+
+  //add selector
+  const [area, setArea] = useState('Canada')
+  const handleAreaChange = (event) => {
+    setArea(event.target.value)
+  }
+
+  const [position, setPosition] = useState('')
+  const handlePositionChange = (event) => {
+    setPosition(event.target.value)
+  }
   
   const { t } = useTranslation()
   useEffect(() =>{ 
@@ -44,7 +55,7 @@ function FileDropzone (props) {
   useEffect(() => {
     if (acceptedFiles.length) {
       setLoading(true)
-      fetchReport(acceptedFiles, userId).then((res) => {
+      fetchReport(acceptedFiles, {id:userId, area, position}).then((res) => {
         console.log('res: ', res)
         if (res.error) {
           setError(res.error)
@@ -88,7 +99,7 @@ function FileDropzone (props) {
       }}
     >
       <Section>
-        <Box style={{ borderRadius: '24px' }} p={8} {...getRootProps({ className: 'dropzone' })}>
+        <Box style={{ borderRadius: '24px' }} pt={8} pl={8} pr={8} pb={2} {...getRootProps({ className: 'dropzone' })}>
           <Box style={{ color: 'rgba(0, 97, 255, 1)', fontSize: '24px', fontWeight: '500' }}>
             {loading ? t("report.analyzing_title") : t("report.upload_text")}
             {/* {loading ? t("report.analyzing_title") : t("report.upload_title")} */}
@@ -147,13 +158,37 @@ function FileDropzone (props) {
             </Box>
           )}
         </Box>
+        <Box pb={6}>
+          <FormControl style={{width:100, backgroundColor:'white', marginRight:20}} >
+          <InputLabel id="area">Area</InputLabel>
+          <Select
+            value={area}
+            onChange={handleAreaChange}
+          >
+            <MenuItem value='China'>China</MenuItem>
+            <MenuItem value='Canada'>Canada</MenuItem>
+            <MenuItem value='USA'>USA</MenuItem>
+          </Select>
+          </FormControl>
+          <FormControl style={{width:200, backgroundColor:'white'}}>
+          <InputLabel id="area">Position</InputLabel>
+          <Select
+            value={position}
+            onChange={handlePositionChange}
+          >
+            <MenuItem value='China'>DevOPs</MenuItem>
+            <MenuItem value='Canada'>Frontend Developer</MenuItem>
+            <MenuItem value='USA'>Backend Developer</MenuItem>
+          </Select>
+          </FormControl>
+        </Box>
       </Section>
     </Box>
   )
 }
 
-const fetchReport = (files, id) => {
-  return fetchMarketValue(files[0], id)
+const fetchReport = (files, params) => {
+  return fetchMarketValue(files[0], params)
 }
 
 
