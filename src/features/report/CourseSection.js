@@ -109,7 +109,7 @@ const SuggestedCourse = () => {
         {t('suggest.title')}
         </Box>
         <Box ml={2} display='flex' justifyContent='space-between'>
-          <Box color='#6A707E' fontsize={h3} display='flex' alignItems='center'>
+          <Box color='#6A707E' fontSize={h3} display='flex' alignItems='center'>
             <Box
               width='67px' height='67px' mr={2} style={{
                 backgroundColor: '#ccc'
@@ -127,7 +127,7 @@ const SuggestedCourse = () => {
         {t('suggest.title')}
         </Box>
         <Box ml={2} display='flex' justifyContent='space-between'>
-          <Box color='#6A707E' fontsize={h3} display='flex' alignItems='center'>
+          <Box color='#6A707E' fontSize={h3} display='flex' alignItems='center'>
             <Box
               width='67px' height='67px' mr={2} style={{
                 backgroundColor: '#ccc'

@@ -22,7 +22,7 @@ export function LinearProgressWithLabel (props) {
         <LinearProgress classes={{ root: classes.root, bar: classes.bar }} variant='determinate' color='secondary' {...props} />
       </Box>
       <Box minWidth={35}>
-        <Typography variant='body2' color='white'>{`${Math.round(
+        <Typography variant='body2'>{`${Math.round(
           props.value
         )}%`}
         </Typography>
@@ -76,7 +76,7 @@ export function MatchJob ({ job }) {
           <LinearProgressWithLabel value={job.matched_percentage} />
         </Box>
       </Box>
-      <Box width='68px' height='70px' my={1} fontsize={h3} display='flex' justifyContent='center' alignItems='center'>
+      <Box width='68px' height='70px' my={1} fontSize={h3} display='flex' justifyContent='center' alignItems='center'>
         <Button
           href={job.job_link}
           target="_blank"

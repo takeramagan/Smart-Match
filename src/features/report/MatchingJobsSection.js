@@ -27,7 +27,7 @@ export function MatchingJobsSection ({ report }) {
         <Divider style={{backgroundColor:'white'}}/>
         <Box fontSize={h3} mt={1} mb={2}>
           {t('matching jobs.website')}
-          {websiteJobs.map(job => <MatchJob job={job} />)}
+          {websiteJobs.map((job, index) => <MatchJob key={index} job={job} />)}
           {!seeWebsiteMore && (
             <Box textAlign='center'>
               <Button fullWidth style={{ color: 'white' }} onClick={() => setSeeWebsiteMore(true)}>
@@ -44,7 +44,7 @@ export function MatchingJobsSection ({ report }) {
         <Divider style={{backgroundColor:'white'}}/>
         <Box fontSize={h3} mt={1}>
           {t('matching jobs.recruiter')}
-          {recruiterJobs.map((job, index) => <MatchJob id={index} job={job} />)}
+          {recruiterJobs.map((job, index) => <MatchJob key={index} job={job} />)}
           {!seeRecruiterMore && (
             <Box textAlign='center'>
               <Button fullWidth style={{ color: 'white' }} onClick={() => setSeeRecruiterMore(true)}>
