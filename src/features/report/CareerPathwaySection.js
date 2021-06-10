@@ -191,10 +191,10 @@ const selectCareerPath = (career) => {
   }
 }
 
-export function CareerPathwaySection ({ report }) {
+export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPathIndex }) {
   const tops = [10, 290, 146]
   const lefts = [30, 330, 580, 765]
-  const [selectedPathIndex, setSelectedPathIndex] = useState(0)
+  // const [selectedPathIndex, setSelectedPathIndex] = useState(0)
   const { market_value_result } = report
   const { t } = useTranslation()
   return (

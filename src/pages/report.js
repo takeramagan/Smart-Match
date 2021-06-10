@@ -198,6 +198,7 @@ export default function Home () {
   const [report, setReport] = useState(null)
   const { t } = useTranslation()
   const [viewHistory, setViewHistory] = useState(false)
+  const [selectedPathIndex, setSelectedPathIndex] = useState(0)
 
   useEffect(() => {
     setTimeout(() => {
@@ -290,15 +291,19 @@ export default function Home () {
           </div>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={8}>
             <div id='career_pathway'>
-              <CareerPathwaySection report={report} />
+              <CareerPathwaySection 
+                report={report} 
+                selectedPathIndex={selectedPathIndex} 
+                setSelectedPathIndex={setSelectedPathIndex}
+              />
             </div>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={4}>
             <div id='course_section'>
-              <CourseSection report={report} />
+              <CourseSection report={report} selectedPathIndex={selectedPathIndex}/>
             </div>
           </Grid>
         </Grid>

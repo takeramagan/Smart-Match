@@ -144,7 +144,7 @@ const SuggestedCourse = () => {
   )
 }
 
-export function CourseSection ({ report }) {
+export function CourseSection ({ report, selectedPathIndex }) {
   const { t } = useTranslation()
 
   return (
