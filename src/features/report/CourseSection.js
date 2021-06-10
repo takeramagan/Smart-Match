@@ -99,16 +99,16 @@ const HardSkillSection = ({ report }) => {
   )
 }
 
-const SuggestedCourse = () => {
+const SuggestedCourse = ({report, selectedPathIndex}) => {
   const { t } = useTranslation()
 
   return (
     <Box py={2} display='flex' justifyContent='space-between'>
-      <Box width='45%'>
+      <Box width='50%'>
         <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
         {t('suggest.title')}
         </Box>
-        <Box ml={2} display='flex' justifyContent='space-between'>
+        <Box ml={0} display='flex' justifyContent='space-between'>
           <Box color='#6A707E' fontSize={h3} display='flex' alignItems='center'>
             <Box
               width='67px' height='67px' mr={2} style={{
@@ -122,7 +122,7 @@ const SuggestedCourse = () => {
           </Box>
         </Box>
       </Box>
-      <Box width='45%'>
+      <Box width='50%'>
         <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
         {t('suggest.title')}
         </Box>
@@ -153,12 +153,12 @@ export function CourseSection ({ report, selectedPathIndex }) {
         <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
           {t("course.title")}
         </Box>
-        <EducationSection report={report} />
-        <Box display='flex' justifyContent='space-between'>
+        {/* <EducationSection report={report} /> */}
+        {/* <Box display='flex' justifyContent='space-between'>
           <SoftSkillSection report={report} />
           <HardSkillSection report={report} />
-        </Box>
-        <SuggestedCourse />
+        </Box> */}
+        <SuggestedCourse report={report} selectedPathIndex={selectedPathIndex}/>
         {/* <Grid container alignItems='center'>
           <Grid item xs={10}>
           <Box fontSize={h2} fontWeight='500'>

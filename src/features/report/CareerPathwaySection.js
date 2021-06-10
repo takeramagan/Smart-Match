@@ -98,7 +98,7 @@ const CareerOriginBlock = ({ name, salary, top, left, selected, noBackgroundColo
 
 const Aaaaa = ({ selected }) => {
   return (
-    <svg width='500' height='241' viewBox='0 0 614 241' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width='350' height='241' viewBox='0 0 614 241' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path d='M8.55886 219.392L60.003 200.469C97.7589 186.581 126.729 155.665 138.138 117.088V117.088C154.025 63.3643 203.164 26.34 259.186 25.8839L613.377 23' stroke={selected ? 'url(#paint0_linear)' : '#F2F2F2'} strokeWidth='45' />
       <defs>
         <linearGradient id='paint0_linear' x1='7.77943' y1='123.665' x2='500' y2='118.727' gradientUnits='userSpaceOnUse'>
@@ -115,7 +115,7 @@ const Aaaaa = ({ selected }) => {
 
 const Aaaab = ({ selected }) => {
   return (
-    <svg width='500' height='53' viewBox='0 0 726 53' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width='350' height='53' viewBox='0 0 726 53' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path d='M19.9999 50.9863C8.95427 50.9644 0.0178244 41.9922 0.0398119 30.9466L0.0616022 20C0.0835897 8.95429 9.0557 0.0178369 20.1014 0.0398244L362.868 0.722135L705.635 1.40445C716.681 1.42643 725.617 10.3985 725.595 21.4442L725.573 32.3908C725.551 43.4365 716.579 52.373 705.534 52.351L19.9999 50.9863Z' fill={selected ? 'url(#paint0_linear)' : '#F2F2F2'} />
       <defs>
         <linearGradient id='paint0_linear' x1='0.77943' y1='123.665' x2='500' y2='118.727' gradientUnits='userSpaceOnUse'>
@@ -152,7 +152,7 @@ const CareerSinglePath = ({ tops, lefts, careerPath, position, selected, onClick
           name={furtherLevel.title}
           salary={furtherLevel.salary}
           top={tops[position]}
-          left={nextLevel.title ? lefts[2] : 470}
+          left={nextLevel.title ? lefts[2] : 300}
           selected={selected}
           onClick={onClick}
           background='linear-gradient(90.07deg, #1883FF 0.07%, #0E15AD 99.99%)'
@@ -161,7 +161,7 @@ const CareerSinglePath = ({ tops, lefts, careerPath, position, selected, onClick
       <CareerBlock
         name={type}
         top={tops[position] + 10}
-        left={lefts[3]}
+        left={lefts[3]-250}
         noBackgroundColor
         onClick={onClick}
         selected={selected}
@@ -235,7 +235,7 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
             careerPath={selectCareerPath(market_value_result[1])}
             onClick={() => setSelectedPathIndex(1)}
           />
-          <Box top='10px' left='100px' position='absolute' zIndex={2}>
+          <Box top='-10px' left='100px' position='absolute' zIndex={2}>
             <Aaaaa selected={selectedPathIndex === 0} />
           </Box>
           {market_value_result[2] && (
@@ -243,12 +243,12 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
               <Aaaab selected={selectedPathIndex === 2} />
             </Box>
           )}
-          <Box top='125px' left='100px' position='absolute' zIndex={2} style={{ transform: 'rotateX(180deg)' }}>
+          <Box top='145px' left='100px' position='absolute' zIndex={2} style={{ transform: 'rotateX(180deg)' }}>
             <Aaaaa selected={selectedPathIndex === 1} />
           </Box>
         </Box>
 
-        <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
+        {/* <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
           <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
             {t('career_pathway.contact')}
           </Typography>
@@ -266,7 +266,7 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
               {t('contact.click me')}
             </Button>
           </Box>
-        </Box>
+        </Box> */}
       </Box>
 
     </Section>
