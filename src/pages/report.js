@@ -99,11 +99,37 @@ function FileDropzone (props) {
       }}
     >
       <Section>
-        <Box style={{ borderRadius: '24px' }} pt={8} pl={8} pr={8} pb={2} {...getRootProps({ className: 'dropzone' })}>
+        <Box style={{ borderRadius: '24px' }} p={8} {...getRootProps({ className: 'dropzone' })}>
           <Box style={{ color: 'rgba(0, 97, 255, 1)', fontSize: '24px', fontWeight: '500' }}>
             {loading ? t("report.analyzing_title") : t("report.upload_text")}
             {/* {loading ? t("report.analyzing_title") : t("report.upload_title")} */}
           </Box>
+          {/**Area and position select start =======> */}
+          <Box pt={2} onClick={e=>e.stopPropagation()}>
+            <FormControl style={{width:100, backgroundColor:'white', marginRight:20}} >
+            <InputLabel id="area">Area</InputLabel>
+            <Select
+              value={area}
+              onChange={handleAreaChange}
+            >
+              <MenuItem value='China'>China</MenuItem>
+              <MenuItem value='Canada'>Canada</MenuItem>
+              <MenuItem value='USA'>USA</MenuItem>
+            </Select>
+            </FormControl>
+            <FormControl style={{width:200, backgroundColor:'white'}}>
+            <InputLabel id="area">Position</InputLabel>
+            <Select
+              value={position}
+              onChange={handlePositionChange}
+            >
+              <MenuItem value='China'>DevOPs</MenuItem>
+              <MenuItem value='Canada'>Frontend Developer</MenuItem>
+              <MenuItem value='USA'>Backend Developer</MenuItem>
+            </Select>
+            </FormControl>
+          </Box>
+        {/**<======Area and position select end */}
           {/* <Box my={2} style={{ color: 'rgba(55, 58, 112, 1)' }}>
             {loading ? t("report.analyzing_text") : t("report.upload_text")}
           </Box> */}
@@ -158,7 +184,7 @@ function FileDropzone (props) {
             </Box>
           )}
         </Box>
-        <Box pb={6}>
+        {/* <Box pb={6}>
           <FormControl style={{width:100, backgroundColor:'white', marginRight:20}} >
           <InputLabel id="area">Area</InputLabel>
           <Select
@@ -181,7 +207,7 @@ function FileDropzone (props) {
             <MenuItem value='USA'>Backend Developer</MenuItem>
           </Select>
           </FormControl>
-        </Box>
+        </Box> */}
       </Section>
     </Box>
   )
