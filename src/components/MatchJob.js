@@ -93,14 +93,14 @@ export function MatchJob ({ job }) {
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: 'left',
+        horizontal: 78,
       }}
       transformOrigin={{
         vertical: 'top',
         horizontal: 'left',
       }}
       onClose={handlePopoverClose}
-      style={{ pointerEvents: 'none'}}
+      style={{ pointerEvents: 'none', width: 350}}
       disableRestoreFocus
     >
       {Object.entries(job).map(([key, value]) => <Typography key={key}>{key} : {value.toString()}</Typography>)}

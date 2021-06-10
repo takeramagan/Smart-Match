@@ -5,14 +5,39 @@ import { useState } from 'react'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { useTranslation } from 'react-i18next'
 import { h, h1, h2, h3, h4, h5} from '../../constant/fontsize'
+import Carousel from 'react-material-ui-carousel'
 
 
 export function MatchingJobsSection ({ report }) {
-  const [seeWebsiteMore, setSeeWebsiteMore] = useState(false)
-  const websiteJobs = seeWebsiteMore ? report.recommended_jobs : report.recommended_jobs.slice(0, 3)
-  const [seeRecruiterMore, setSeeRecruiterMore] = useState(false)
-  const recruiterJobs = seeRecruiterMore ? report.recommended_jobs : report.recommended_jobs.slice(0, 3)
   const { t } = useTranslation()
+  // const [seeWebsiteMore, setSeeWebsiteMore] = useState(true)
+  // const [seeRecruiterMore, setSeeRecruiterMore] = useState(false)
+
+  const recruiterJobs = report.recommended_jobs 
+  const recruiterJobsPerPage = 3
+  const NumOfRecruiterPage = recruiterJobs.length && //avoid length===0
+                            (recruiterJobs.length / recruiterJobsPerPage + (recruiterJobs.length % recruiterJobsPerPage === 0 ?? 1))
+  const recruiterPages = []
+  for(let i=0; i<NumOfRecruiterPage; i++){
+    const jobList = []
+    for(let j=0; j<recruiterJobsPerPage && (i*recruiterJobsPerPage + j) < recruiterJobs.length ; j++ ){
+      jobList.push(recruiterJobs[i*recruiterJobsPerPage +j])
+    }
+    jobList.length && recruiterPages.push(jobList)
+  }
+
+  const websiteJobs = report.recommended_jobs
+  const websiteJobsPerPage = 5
+  const NumOfWebsitePage = websiteJobs.length && (websiteJobs.length / websiteJobsPerPage + (recruiterJobs.length % websiteJobsPerPage === 0 ?? 1))
+  const websitePages = []
+  for(let i=0; i<NumOfWebsitePage; i++){
+    const jobList = []
+    for(let j=0; j<websiteJobsPerPage && (i*websiteJobsPerPage + j) < websiteJobs.length ; j++ ){
+      jobList.push(websiteJobs[i*websiteJobsPerPage +j])
+    }
+    jobList.length && websitePages.push(jobList)
+  }
+
   return (
     <Section highlighted>
 
@@ -26,26 +51,15 @@ export function MatchingJobsSection ({ report }) {
         </Box>
         <Divider style={{backgroundColor:'white'}}/>
         <Box fontSize={h3} mt={1} mb={2}>
-          {t('matching jobs.website')}
-          {websiteJobs.map((job, index) => <MatchJob key={index} job={job} />)}
-          {!seeWebsiteMore && (
-            <Box textAlign='center'>
-              <Button fullWidth style={{ color: 'white' }} onClick={() => setSeeWebsiteMore(true)}>
-                <Box lineHeight='14px'>
-                  <ExpandMoreIcon />
-                  <Box fontSize={h3}>
-                    {t('matching jobs.View More')}
-                  </Box>
-                </Box>
-              </Button>
-            </Box>
-          )}
-        </Box>
-        <Divider style={{backgroundColor:'white'}}/>
-        <Box fontSize={h3} mt={1}>
-          {t('matching jobs.recruiter')}
-          {recruiterJobs.map((job, index) => <MatchJob key={index} job={job} />)}
-          {!seeRecruiterMore && (
+        {t('matching jobs.recruiter')}
+          <Carousel animation='slide'>
+            {recruiterPages.map((jobList, index) => 
+            <div key={index}>{
+              jobList.map((job, i) => <MatchJob key={i} job={job} />)
+              }
+            </div>)}
+          </Carousel>
+          {/* {!seeRecruiterMore && (
             <Box textAlign='center'>
               <Button fullWidth style={{ color: 'white' }} onClick={() => setSeeRecruiterMore(true)}>
                 <Box lineHeight='14px'>
@@ -56,7 +70,30 @@ export function MatchingJobsSection ({ report }) {
                 </Box>
               </Button>
             </Box>
-          )}
+          )} */}
+        </Box>
+        <Divider style={{backgroundColor:'white'}}/>
+        <Box fontSize={h3} mt={1}>
+          {t('matching jobs.website')}  
+          <Carousel animation='slide'>
+            {websitePages.map((jobList, index) => 
+            <div key={index}>{
+              jobList.map((job, i) => <MatchJob key={i} job={job} />)
+              }
+            </div>)}
+          </Carousel>
+          {/* {!seeWebsiteMore && (
+            <Box textAlign='center'>
+              <Button fullWidth style={{ color: 'white' }} onClick={() => setSeeWebsiteMore(true)}>
+                <Box lineHeight='14px'>
+                  <ExpandMoreIcon />
+                  <Box fontSize={h3}>
+                    {t('matching jobs.View More')}
+                  </Box>
+                </Box>
+              </Button>
+            </Box>
+          )} */}
         </Box>
       </Box>
 

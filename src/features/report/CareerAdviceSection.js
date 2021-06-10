@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 
 export const CareerAdviceSection = ({ report }) => {
   const { t } = useTranslation()
-  const isChinese = (i18n.language.toLowerCase() === 'cn') //current language is Chinese
+  // const isChinese = (i18n.language.toLowerCase() === 'cn') //current language is Chinese
   const classes = useStyles()
 
   return (
@@ -37,14 +37,14 @@ export const CareerAdviceSection = ({ report }) => {
          <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
             {t('careeradvice.contact')}
           </Typography>
-          {
+          {/* {
             isChinese && 
             <Box mt={1}>
               <img src='weixin.jpeg' alt="" />
               <img src='weixingongzong.jpeg' alt="" />
             </Box>
-          }
-          {!isChinese &&
+          } */}
+          
           <div>
             <a href='https://www.facebook.com/DK-105342934694333' target='_blank'>
               <FacebookIcon className={classes.icon}/>
@@ -59,7 +59,7 @@ export const CareerAdviceSection = ({ report }) => {
               <LinkedInIcon className={classes.icon}/>  
             </a>
           </div>
-          }
+          
         </Box>
       
       </Box>
