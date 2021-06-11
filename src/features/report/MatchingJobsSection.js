@@ -15,8 +15,7 @@ export function MatchingJobsSection ({ report }) {
 
   const recruiterJobs = report.recommended_jobs 
   const recruiterJobsPerPage = 3
-  const NumOfRecruiterPage = recruiterJobs.length && //avoid length===0
-                            (recruiterJobs.length / recruiterJobsPerPage + (recruiterJobs.length % recruiterJobsPerPage === 0 ?? 1))
+  const NumOfRecruiterPage = Math.ceil(recruiterJobs.length / recruiterJobsPerPage)
   const recruiterPages = []
   for(let i=0; i<NumOfRecruiterPage; i++){
     const jobList = []
@@ -27,8 +26,8 @@ export function MatchingJobsSection ({ report }) {
   }
 
   const websiteJobs = report.recommended_jobs
-  const websiteJobsPerPage = 5
-  const NumOfWebsitePage = websiteJobs.length && (websiteJobs.length / websiteJobsPerPage + (recruiterJobs.length % websiteJobsPerPage === 0 ?? 1))
+  const websiteJobsPerPage = 2
+  const NumOfWebsitePage = Math.ceil(websiteJobs.length / websiteJobsPerPage)
   const websitePages = []
   for(let i=0; i<NumOfWebsitePage; i++){
     const jobList = []
