@@ -88,8 +88,11 @@ export function MarketValueSection ({ report }) {
   const predictSalary = fulltime ? report.market_value_info.predicted_full_time_salary[0] : report.market_value_info.predicted_contract_salary[0]
   const {low, high} = predictSalary
   const { avg } = salaryInfo
+  const market_low = fulltime ? salaryInfo.low : 20
+  const market_high = fulltime ? salaryInfo.high : salaryInfo.high*1.2
   // const buttonText = fulltime ? "Fulltime" : "Contract"
-  const income={market_low: salaryInfo.low, market_high: salaryInfo.high, market_mid_low:salaryInfo.mid_Low, predicted_market_value:{high, low}}
+  // const income={market_low: salaryInfo.low, market_high: salaryInfo.high, market_mid_low:salaryInfo.mid_Low, predicted_market_value:{high, low}}
+  const income={market_low, market_high, market_mid_low:40, predicted_market_value:{high, low}}
   const theme = useTheme()
   const { t } = useTranslation()
   return (
