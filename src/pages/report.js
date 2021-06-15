@@ -369,7 +369,7 @@ export default function Home () {
           </div>
           </Grid>
 
-          {/* <Grid item xs={7} >
+          <Grid item xs={7} >
             <div id='career_pathway'>
               <CareerPathwaySection 
                 report={report} 
@@ -377,13 +377,13 @@ export default function Home () {
                 setSelectedPathIndex={setSelectedPathIndex}
               />
             </div>
-          </Grid> */}
+          </Grid>
 
-          {/* <Grid item xs={5}>
+          <Grid item xs={5}>
             <div id='course_section'>
               <CourseSection report={report} selectedPathIndex={selectedPathIndex}/>
             </div>
-          </Grid> */}
+          </Grid>
         </Grid>
       </Container>
     </>

@@ -98,7 +98,7 @@ const CareerOriginBlock = ({ name, salary, top, left, selected, noBackgroundColo
 
 const Aaaaa = ({ selected }) => {
   return (
-    <svg width='350' height='241' viewBox='0 0 614 241' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width='380' height='241' viewBox='0 0 614 241' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path d='M8.55886 219.392L60.003 200.469C97.7589 186.581 126.729 155.665 138.138 117.088V117.088C154.025 63.3643 203.164 26.34 259.186 25.8839L613.377 23' stroke={selected ? 'url(#paint0_linear)' : '#F2F2F2'} strokeWidth='45' />
       <defs>
         <linearGradient id='paint0_linear' x1='7.77943' y1='123.665' x2='500' y2='118.727' gradientUnits='userSpaceOnUse'>
@@ -115,7 +115,7 @@ const Aaaaa = ({ selected }) => {
 
 const Aaaab = ({ selected }) => {
   return (
-    <svg width='350' height='53' viewBox='0 0 726 53' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width='380' height='53' viewBox='0 0 726 53' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path d='M19.9999 50.9863C8.95427 50.9644 0.0178244 41.9922 0.0398119 30.9466L0.0616022 20C0.0835897 8.95429 9.0557 0.0178369 20.1014 0.0398244L362.868 0.722135L705.635 1.40445C716.681 1.42643 725.617 10.3985 725.595 21.4442L725.573 32.3908C725.551 43.4365 716.579 52.373 705.534 52.351L19.9999 50.9863Z' fill={selected ? 'url(#paint0_linear)' : '#F2F2F2'} />
       <defs>
         <linearGradient id='paint0_linear' x1='0.77943' y1='123.665' x2='500' y2='118.727' gradientUnits='userSpaceOnUse'>
@@ -132,6 +132,10 @@ const Aaaab = ({ selected }) => {
 
 const CareerSinglePath = ({ tops, lefts, careerPath, position, selected, onClick }) => {
   const [type, nextLevel, furtherLevel] = careerPath
+  // const type='type'
+  // const nextLevel={salary:1000, title:'nextLevel'}
+  // const furtherLevel={salary:1000, title:""}
+  const offset = furtherLevel?.title ? 100 : -50 //修改中间的block的位置
 
   return (
     <>
@@ -141,7 +145,7 @@ const CareerSinglePath = ({ tops, lefts, careerPath, position, selected, onClick
           name={nextLevel.title}
           salary={nextLevel.salary}
           top={tops[position]}
-          left={lefts[1]}
+          left={lefts[1]-offset}
           selected={selected}
           onClick={onClick}
           background='linear-gradient(90deg, #46EBD5 10.16%, #60EFFF 92.75%)'
@@ -152,20 +156,20 @@ const CareerSinglePath = ({ tops, lefts, careerPath, position, selected, onClick
           name={furtherLevel.title}
           salary={furtherLevel.salary}
           top={tops[position]}
-          left={nextLevel.title ? lefts[2] : 300}
+          left={nextLevel.title ? lefts[2] - offset: 300}
           selected={selected}
           onClick={onClick}
           background='linear-gradient(90.07deg, #1883FF 0.07%, #0E15AD 99.99%)'
         />
       )}
-      <CareerBlock
+      {/* <CareerBlock
         name={type}
         top={tops[position] + 10}
         left={lefts[3]-250}
         noBackgroundColor
         onClick={onClick}
         selected={selected}
-      />
+      /> */}
 
     </>
   )
@@ -195,7 +199,27 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
   const tops = [10, 290, 146]
   const lefts = [30, 330, 580, 765]
   // const [selectedPathIndex, setSelectedPathIndex] = useState(0)
-  const { market_value_result } = report
+const careerPath = report.career_path_info.career_paths
+  // const curJobTitle = report.market_value_info.matched_job_title
+  const curJobTitle = careerPath.name
+  const curFulltimeSalary = report.market_value_info.full_time_market_info
+const paths = careerPath.path
+console.log('paths', paths)
+const market_value_result = paths.map(path=> {
+  const curLevel = {title:path.name, market_avg_salary:{fulltime:path.salary.market_avg_salary_fulltime}}
+  const level2 = path.next_level //第2个job Block存在
+  const nextLevel = level2 ?  {title:level2.name, market_avg_salary:{fulltime:level2.salary.market_avg_salary_fulltime}}: null
+  const projected_career_path = level2 ? [curLevel, nextLevel] : [curLevel]
+  return {projected_career_path}
+})
+console.log("result", market_value_result)
+// const market_value_result = [
+//   {projected_career_path:[{type:'1', title:'hello', market_avg_salary:{fulltime:100}}]},
+//   // {projected_career_path:[{type:'1', title:'hello', market_avg_salary:{fulltime:100}}]},
+
+//   // {projected_career_path:[{type:'1', title:'hello', market_avg_salary:{fulltime:100}}]},
+
+// ]
   const { t } = useTranslation()
   return (
     <Section>
@@ -206,7 +230,8 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
         <Box
           p={2} width='100%' height='400px' position='relative'
         >
-          <CareerOriginBlock name={market_value_result[0].matched_job_title} salary={market_value_result[0].fulltime.market_avg} top={150} left={0} />
+          {/* <CareerOriginBlock name={market_value_result[0].matched_job_title} salary={market_value_result[0].fulltime.market_avg} top={150} left={0} /> */}
+          <CareerOriginBlock name={curJobTitle} salary={curFulltimeSalary.avg} top={150} left={0} />
 
           {/* career path 1 */}
           <CareerSinglePath

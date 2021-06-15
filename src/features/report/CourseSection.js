@@ -6,9 +6,12 @@ import { DK_LINK } from '../../constant/externalURLs'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 
-const EducationSection = ({ report }) => {
+const EducationSection = ({ report, selectedPathIndex}) => {
   const { t } = useTranslation()
-  if (!report.education_levels_needed_to_improve.length) {
+  const requiredSkills = report.career_path_info.career_paths.path[selectedPathIndex]?.how_to_improve?.required_skills
+
+  // if (!report.education_levels_needed_to_improve.length) {
+  if (!requiredSkills) {
     return null
   }
 
@@ -18,7 +21,8 @@ const EducationSection = ({ report }) => {
         {t('course.education')}
       </Box>
       <Box pb={2}>
-        {report.education_levels_needed_to_improve.map((item) => {
+        {/* {report.education_levels_needed_to_improve.map((item) => { */}
+        {requiredSkills.map((item) => {
           return (
             <Chip
               key={item}
@@ -101,6 +105,8 @@ const HardSkillSection = ({ report }) => {
 
 const SuggestedCourse = ({report, selectedPathIndex}) => {
   const { t } = useTranslation()
+  const suggestedCourses = report.career_path_info.career_paths.path[selectedPathIndex]?.how_to_improve?.suggested_courses ?? ['Resume interview']
+  const suggestedCertificates = report.career_path_info.career_paths.path[selectedPathIndex]?.how_to_improve?.required_certificates ?? ['You are awesome']
 
   return (
     <Box py={2} display='flex' justifyContent='space-between'>
@@ -118,7 +124,8 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
               <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
             </Box>
 
-            <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>{t('suggest.brain station')} <br /> {t('suggest.data science')}</Link>
+            {/* <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>{t('suggest.brain station')} <br /> {t('suggest.data science')}</Link> */}
+            <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>{suggestedCertificates.slice(0,3).map(item=><>{item}<br/></>)}</Link>
           </Box>
         </Box>
       </Box>
@@ -136,7 +143,8 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
               <img width='67px' height='67px' src='https://ik.imagekit.io/himalayas/general_assembly_logo_AxBQAGHdD.jpeg' />
             </Box>
 
-            <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{t('suggest.general assembly')} <br />{t('suggest.front end')}</Link>
+            {/* <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{t('suggest.general assembly')} <br />{t('suggest.front end')}</Link> */}
+            <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{suggestedCourses.slice(0,3).map(course => <>{course}<br/></>)}</Link>
           </Box>
         </Box>
       </Box>
@@ -153,31 +161,12 @@ export function CourseSection ({ report, selectedPathIndex }) {
         <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
           {t("course.title")}
         </Box>
-        {/* <EducationSection report={report} /> */}
+        <EducationSection report={report} selectedPathIndex={selectedPathIndex}/>
         {/* <Box display='flex' justifyContent='space-between'>
           <SoftSkillSection report={report} />
           <HardSkillSection report={report} />
         </Box> */}
         <SuggestedCourse report={report} selectedPathIndex={selectedPathIndex}/>
-        {/* <Grid container alignItems='center'>
-          <Grid item xs={10}>
-          <Box fontSize={h2} fontWeight='500'>
-            {t('suggest.contact')}
-          </Box>
-          </Grid>
-          <Grid item xs={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<AccountCircleIcon />}
-            href={DK_LINK}
-            color='primary'
-            style={{borderRadius:20}}
-          >
-            {t('contact.click me')}
-          </Button>
-          </Grid>
-        </Grid> */}
         <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
           <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
             {t('suggest.contact')}
