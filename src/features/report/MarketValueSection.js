@@ -8,13 +8,9 @@ import { h, h1, h2, h3, h4, h5} from '../../constant/fontsize'
 import { useState } from 'react'
 
 
-const Chart = ({ salaryInfo, predictSalary }) => {
+const Chart = ({ income }) => {
   const { t } = useTranslation()
   const theme = useTheme()
-
-  // const salaryInfo = {low: 100,high: 500, mid_low: 300, mid_high: 800}
-  // const predictSalary = {low: 400,high: 450}
-console.log('salary', salaryInfo, predictSalary)
   // const numbers = Object.values(income)
   //   .filter(Number.isInteger)
   //   .concat(Object.values(income.predicted_market_value))
@@ -24,9 +20,9 @@ console.log('salary', salaryInfo, predictSalary)
 
   const getNumbers = () => {
     const result = []
-    let n = salaryInfo.low //income.market_low
-    const increment = Math.round((salaryInfo.high - salaryInfo.low) / 13)
-    while (n < salaryInfo.high) {
+    let n = income.market_low
+    const increment = Math.round((income.market_high - income.market_low) / 13)
+    while (n < income.market_high) {
       result.push(n)
       n = n + increment
     }
@@ -62,18 +58,18 @@ console.log('salary', salaryInfo, predictSalary)
       color: '#E0E0E0',
       barGap: '-100%',
       type: 'bar',
-      data: numbers.map(n => n <= salaryInfo.mid_low ? n : undefined)
+      data: numbers.map(n => n <= income.market_mid_low ? n : undefined)
     }, {
       name: t("marketvalue.Acceptable Offer"),
       color: '#46EBD5',
       barGap: '-100%',
       type: 'bar',
-      data: numbers.map(n => n > salaryInfo.mid_low ? n : undefined)
+      data: numbers.map(n => n > income.market_mid_low ? n : undefined)
     }, {
       name: t("marketvalue.Most likely Offer"),
       color: '#0061FF',
       type: 'bar',
-      data: numbers.map(n => predictSalary.high >= n && predictSalary.low <= n ? n : undefined)
+      data: numbers.map(n => income.predicted_market_value.high >= n && income.predicted_market_value.low <= n ? n : undefined)
     }]
   }
   return (
@@ -93,6 +89,7 @@ export function MarketValueSection ({ report }) {
   const {low, high} = predictSalary
   const { avg } = salaryInfo
   // const buttonText = fulltime ? "Fulltime" : "Contract"
+  const income={market_low: salaryInfo.low, market_high: salaryInfo.high, market_mid_low:salaryInfo.mid_Low, predicted_market_value:{high, low}}
   const theme = useTheme()
   const { t } = useTranslation()
   return (
@@ -146,7 +143,7 @@ export function MarketValueSection ({ report }) {
           </Box>
         </Box>
 
-        <Box width='100%'><Chart salaryInfo={salaryInfo} predictSalary={predictSalary} /> </Box>
+        <Box width='100%'><Chart income={income} /> </Box>
       </Box>
     </Section>
   )

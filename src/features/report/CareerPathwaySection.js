@@ -252,14 +252,14 @@ console.log("result", market_value_result)
               onClick={() => setSelectedPathIndex(2)}
             />
           )}
-          <CareerSinglePath
+          {market_value_result[1] && <CareerSinglePath
             tops={tops}
             lefts={lefts}
             position={1}
             selected={selectedPathIndex === 1}
             careerPath={selectCareerPath(market_value_result[1])}
             onClick={() => setSelectedPathIndex(1)}
-          />
+          />}
           <Box top='-10px' left='100px' position='absolute' zIndex={2}>
             <Aaaaa selected={selectedPathIndex === 0} />
           </Box>
@@ -268,9 +268,11 @@ console.log("result", market_value_result)
               <Aaaab selected={selectedPathIndex === 2} />
             </Box>
           )}
-          <Box top='145px' left='100px' position='absolute' zIndex={2} style={{ transform: 'rotateX(180deg)' }}>
-            <Aaaaa selected={selectedPathIndex === 1} />
-          </Box>
+          {market_value_result[1] && 
+            <Box top='145px' left='100px' position='absolute' zIndex={2} style={{ transform: 'rotateX(180deg)' }}>
+              <Aaaaa selected={selectedPathIndex === 1} />
+            </Box>
+          }
         </Box>
 
         {/* <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
