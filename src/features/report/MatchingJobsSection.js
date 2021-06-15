@@ -13,7 +13,7 @@ export function MatchingJobsSection ({ report }) {
   // const [seeWebsiteMore, setSeeWebsiteMore] = useState(true)
   // const [seeRecruiterMore, setSeeRecruiterMore] = useState(false)
 
-  const recruiterJobs = report.recommended_jobs 
+  const recruiterJobs = report.job_matching_info.result.slice(0, 6) 
   const recruiterJobsPerPage = 3
   const NumOfRecruiterPage = Math.ceil(recruiterJobs.length / recruiterJobsPerPage)
   const recruiterPages = []
@@ -21,7 +21,7 @@ export function MatchingJobsSection ({ report }) {
     recruiterPages.push(recruiterJobs.slice(i*recruiterJobsPerPage, (i+1)*recruiterJobsPerPage))
   }
 
-  const websiteJobs = report.recommended_jobs
+  const websiteJobs = report.job_matching_info.result
   const websiteJobsPerPage = 5
   const NumOfWebsitePage = Math.ceil(websiteJobs.length / websiteJobsPerPage)
   const websitePages = []
@@ -43,7 +43,11 @@ export function MatchingJobsSection ({ report }) {
         <Divider style={{backgroundColor:'white'}}/>
         <Box fontSize={h3} mt={1} mb={2}>
         {t('matching jobs.recruiter')}
-          <Carousel animation='slide'>
+          <Carousel 
+            animation='slide' 
+            interval={10000}
+            NavButton={()=>null}
+          >
             {recruiterPages.map((jobList, index) => 
             <div key={index}>{
               jobList.map((job, i) => <MatchJob key={i} job={job} />)
@@ -66,7 +70,11 @@ export function MatchingJobsSection ({ report }) {
         <Divider style={{backgroundColor:'white'}}/>
         <Box fontSize={h3} mt={1}>
           {t('matching jobs.website')}  
-          <Carousel animation='slide'>
+          <Carousel 
+            animation='slide' 
+            interval={10000}
+            NavButton={()=>null}
+          >
             {websitePages.map((jobList, index) => 
             <div key={index}>{
               jobList.map((job, i) => <MatchJob key={i} job={job} />)

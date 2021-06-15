@@ -10,6 +10,10 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 export const RadarChart = ({ report }) => {
   const { t } = useTranslation()
+  const format = 70
+  const language = 80
+  const matchLevel = 90
+  const grammer = 100
   const option = {
     title: {
     },
@@ -49,7 +53,7 @@ export const RadarChart = ({ report }) => {
       areaStyle: {},
       data: [
         {
-          value: [report.experiences_competitiveness, report.soft_skill_competitiveness, report.education_competitiveness, report.hard_skill_competitiveness],
+          value: [format, language, matchLevel, grammer],
           name: t('radarchart.Resume Analysis')
         }
       ]
@@ -67,6 +71,14 @@ export const RadarChart = ({ report }) => {
 export const MarketCompetitiveness = ({ report }) => {
   const theme = useTheme()
   const { t } = useTranslation()
+  const jobtitle = report.market_value_info.matched_job_title
+  // const overall_level = 3
+  const jobLevel = 'Senior'
+  const competitiveness = 9
+  const format = 70
+  const language = 80
+  const matchLevel = 90
+  const grammer = 100
   return (
     <Section>
       <Box p={4}>
@@ -77,17 +89,17 @@ export const MarketCompetitiveness = ({ report }) => {
           {/* You seem to be a good fit for <b>{report.market_value_result[0].matched_job_title}</b> at */}
           <Trans
             i18nKey="radarchart.fit job"
-            values={{ jobtitle: report.market_value_result[0].matched_job_title}}
+            values={{ jobtitle: jobtitle}}
             components={[<b>defaults</b>]}
           />
         </Box>
         <Box fontSize='36px' fontWeight='500' color={theme.palette.primary.main}>
-          {report.overall_job_level}
+          {jobLevel}
         </Box>
 
         <Box fontSize={h3} fontWeight='500' lineHeight='24px'>
           {/* You are ranked {report.overall_job_level.toLowerCase()} level {report.overall_competitiveness}/10 compared to your competitors. Below are your detailed category of your resume analysis. */}
-          {t('radarchart.rank', {joblevel: report.overall_job_level.toLowerCase(), competitiveness: report.overall_competitiveness})}
+          {t('radarchart.rank', {joblevel: jobLevel.toLowerCase(), competitiveness: competitiveness})}
         </Box>
         <Grid container>
           <Grid item xs={8}>
@@ -96,10 +108,10 @@ export const MarketCompetitiveness = ({ report }) => {
 
           <Grid item xs={4}>
             <Box display='flex' flexDirection="column" mt={4}>
-              <PercentageLabel name={t('radarchart.Format')} value={report.experiences_competitiveness} />
-              <PercentageLabel name= {t('radarchart.Language')} value={report.education_competitiveness} />
-              <PercentageLabel name= {t('radarchart.Match Level')} value={report.soft_skill_competitiveness} />
-              <PercentageLabel name= {t('radarchart.Grammar')} value={report.hard_skill_competitiveness} />
+              <PercentageLabel name={t('radarchart.Format')} value={format} />
+              <PercentageLabel name= {t('radarchart.Language')} value={language} />
+              <PercentageLabel name= {t('radarchart.Match Level')} value={matchLevel} />
+              <PercentageLabel name= {t('radarchart.Grammar')} value={grammer} />
             </Box>
           </Grid>
         </Grid>
