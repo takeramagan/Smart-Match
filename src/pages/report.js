@@ -312,12 +312,26 @@ export default function Home () {
         <Box position='absolute' width='250px' height='700px' left={0} top={0}>
           <Sidebar onReset={() => setReport(null)} />
         </Box> */}
+
+
+
+
       <Container style={{ marginTop: 18, position:"relative" }}>
-        <Box position='absolute' ml='auto' mr='auto' left={0} right={0} textAlign='center'>
-          <SocialMedia/>
-        </Box>
-        
-        <Box position='absolute' width={100} right={15} top={0}>
+
+      <Box position='fixed' top={0} width='1280px' height={100} zIndex={1000} style={{backgroundColor:'white', borderBottomLeftRadius:20, borderBottomRightRadius:20}} >
+          <Box my={3} ml={4}>
+              <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
+                {t("report.report_title")}
+              </Box>
+              <Box fontSize={h3} lineHeight='21px' color='rgba(87, 91, 166, 1)'>
+                {t("report.report_text")}
+              </Box>
+              
+          </Box>
+          <Box position='absolute' ml='auto' mr='auto' top={0} left={0} right={0} textAlign='center'>
+            <SocialMedia/>
+          </Box>
+          <Box position='absolute' width={100} right={15} top={25}>
           <Button
             variant="contained"
             color="primary"
@@ -330,18 +344,11 @@ export default function Home () {
           {/**跳转测试成功 */}
           {/* <Button onClick={()=> {document.getElementById('market_competitiveness')?.scrollIntoView()  }}>test</Button> */}
           {/* <Link href='#match_jobs'>test</Link> */}
-        </Box>
-          <Box my={3}>
-            <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
-              {t("report.report_title")}
-            </Box>
-            <Box fontSize={h3} lineHeight='21px' color='rgba(87, 91, 166, 1)'>
-              {t("report.report_text")}
-            </Box>
-            
+          </Box>
         </Box>
 
-        <Grid container spacing={4}>
+
+        <Grid container spacing={4} style={{position:'absolute', top:120}}>
           <Grid item xs={12}>
             <div id='career_advice'>
               <CareerAdviceSection report={report} />
