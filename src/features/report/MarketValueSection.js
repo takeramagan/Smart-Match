@@ -1,9 +1,12 @@
-import { Box } from '@material-ui/core'
+import { Box, Button } from '@material-ui/core'
 import { Section } from '../../components/Section'
 import ReactECharts from 'echarts-for-react'
 import { useTheme } from '@material-ui/core/styles'
 import { formatter } from '../../untils/currency'
 import { useTranslation } from 'react-i18next'
+import { h, h1, h2, h3, h4, h5} from '../../constant/fontsize'
+import { useState } from 'react'
+
 
 const Chart = ({ income }) => {
   const { t } = useTranslation()
@@ -79,39 +82,71 @@ const Chart = ({ income }) => {
 }
 
 export function MarketValueSection ({ report }) {
-  const bestMatch = report.market_value_result[0]
+
+  const [fulltime, setFulltime] = useState(true)
+  const salaryInfo = fulltime ? report.market_value_info.full_time_market_info : report.market_value_info.contract_market_info
+  const predictSalary = fulltime ? report.market_value_info.predicted_full_time_salary[0] : report.market_value_info.predicted_contract_salary[0]
+  const {low, high} = predictSalary
+  const { avg } = salaryInfo
+  const market_low = fulltime ? salaryInfo.low : 20
+  const market_high = fulltime ? salaryInfo.high : salaryInfo.high*1.2
+  // const buttonText = fulltime ? "Fulltime" : "Contract"
+  // const income={market_low: salaryInfo.low, market_high: salaryInfo.high, market_mid_low:salaryInfo.mid_Low, predicted_market_value:{high, low}}
+  const income={market_low, market_high, market_mid_low:40, predicted_market_value:{high, low}}
   const theme = useTheme()
   const { t } = useTranslation()
   return (
     <Section>
-      <Box p={4} mb={4}>
+      <Box p={4} mb={4} position='relative'>
 
-        <Box fontSize='20px' mb={2} fontWeight='500' color='#024CC3'>
+        <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
           {t('marketvalue.title')}
+        </Box>
+        <Box position='absolute' right={30} top={30}>
+          <Button        
+            variant="contained"
+            color="primary"
+            disabled={fulltime}
+            size='small'
+            style={{borderRadius:20 }}
+            onClick={() => setFulltime(true)}
+          >
+            Fulltime
+          </Button>
+          <Button        
+            variant="contained"
+            color="primary"
+            disabled={!fulltime}
+            size='small'
+            style={{borderRadius:20, marginLeft:10 }}
+            onClick={() => setFulltime(false)}
+          >
+            Contract
+          </Button>
         </Box>
         <Box display='flex' justifyContent='space-between'>
 
           <Box color='#373A70' fontWeight='500' width='195px' textAlign='right'>
-            <Box fontSize='18px'>
+            <Box fontSize={h2}>
             {t('marketvalue.predicted salary')}
             </Box>
             <Box my={1}>
-              <Box display='inline-block' mr={1} style={{ fontSize: '12px', width: '30px', textAlign: 'right' }}>{t('marketvalue.from')}</Box>
-              <Box display='inline-block' fontSize='24px' color={theme.palette.primary.main}>{formatter.format(bestMatch.fulltime.predicted_market_value.low)}</Box>
+              <Box display='inline-block' mr={1} style={{ fontSize: {h5}, width: '30px', textAlign: 'right' }}>{t('marketvalue.from')}</Box>
+              <Box display='inline-block' fontSize={h} color={theme.palette.primary.main}>{formatter.format(low)}</Box>
             </Box>
             <Box my={1}>
-              <Box display='inline-block' mr={1} style={{ fontSize: '12px', width: '30px', textAlign: 'right' }}>{t('marketvalue.to')}</Box>
-              <Box display='inline-block' fontSize='24px' color={theme.palette.primary.main}>{formatter.format(bestMatch.fulltime.predicted_market_value.high)}</Box>
+              <Box display='inline-block' mr={1} style={{ fontSize: {h5}, width: '30px', textAlign: 'right' }}>{t('marketvalue.to')}</Box>
+              <Box display='inline-block' fontSize={h} color={theme.palette.primary.main}>{formatter.format(high)}</Box>
             </Box>
           </Box>
 
-          <Box pt={3} fontSize='16px' fontWeight='500' lineHeight='24px' color='#373A70' width='45%'>
+          <Box pt={3} fontSize={h3} fontWeight='500' lineHeight='24px' color='#373A70' width='45%'>
             {/* Compared to average pay of {formatter.format(bestMatch.fulltime.market_avg)} the same position in Toronto. */}
-            {t('marketvalue.salary average', {average: formatter.format(bestMatch.fulltime.market_avg)})}
+            {t('marketvalue.salary average', {average: formatter.format(avg)})}
           </Box>
         </Box>
 
-        <Box width='100%'><Chart income={bestMatch.fulltime} /> </Box>
+        <Box width='100%'><Chart income={income} /> </Box>
       </Box>
     </Section>
   )

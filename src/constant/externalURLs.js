@@ -1,0 +1,1 @@
+export const DK_LINK = 'https://www.dk-education.com/book-online'
