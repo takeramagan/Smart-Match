@@ -204,7 +204,7 @@ const careerPath = report.career_path_info.career_paths
   const curJobTitle = careerPath.name
   const curFulltimeSalary = report.market_value_info.full_time_market_info
 const paths = careerPath.path
-console.log('paths', paths)
+// console.log('paths', paths)
 const market_value_result = paths.map(path=> {
   const curLevel = {title:path.name, market_avg_salary:{fulltime:path.salary.market_avg_salary_fulltime}}
   const level2 = path.next_level //第2个job Block存在
@@ -212,7 +212,7 @@ const market_value_result = paths.map(path=> {
   const projected_career_path = level2 ? [curLevel, nextLevel] : [curLevel]
   return {projected_career_path}
 })
-console.log("result", market_value_result)
+// console.log("result", market_value_result)
 // const market_value_result = [
 //   {projected_career_path:[{type:'1', title:'hello', market_avg_salary:{fulltime:100}}]},
 //   // {projected_career_path:[{type:'1', title:'hello', market_avg_salary:{fulltime:100}}]},

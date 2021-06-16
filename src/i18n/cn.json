@@ -55,11 +55,11 @@
 
   "radarchart":{
     "title": "简历评估结果",
-    "fit job": "您非常适合职位 <0>{{jobtitle}}</0> 级别为",
+    "fit job": "您非常适合职位 <0>{{jobtitle}}</0>",
     "Format": "格式",
     "Language": "语言",
     "Match Level": "匹配度",
-    "Grammar": "语法",
+    "Logic": "逻辑",
     "Resume Analysis": "简历评估",
     "rank": "相对您的竞争者, 您在 {{joblevel}} 级别的竞争力为 {{competitiveness}}/10. 以下是您的简历评估的详细结果.",
     "contact": "以上只是您简历的计算分析结果,如果需要一对一专业猎头服务,请点击此处联系"

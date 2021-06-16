@@ -55,11 +55,11 @@
 
   "radarchart":{
     "title":"Resume Analysis Result",
-    "fit job": "You are a good fit for <0>{{jobtitle}}</0> at",
+    "fit job": "You are a good fit for <0>{{jobtitle}}</0>",
     "Format": "Format",
     "Language": "Language",
     "Match Level": "Match Level",
-    "Grammar":"Grammar",
+    "Logic":"Logic",
     "Resume Analysis":"Resume Analysis",
     "rank":"You are ranked {{joblevel}} level {{competitiveness}}/10 compared to your competitors. Below are your detailed category of your resume analysis.",
     "contact": "Above are only analysis results of your resume. If you need one-to-one professional headhunting services, please click here to contact recruiter."

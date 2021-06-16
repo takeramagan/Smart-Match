@@ -70,7 +70,7 @@ function FileDropzone (props) {
     if (acceptedFiles.length) {
       setLoading(true)
       fetchReport(acceptedFiles, {id:userId, area, position}).then((res) => {
-        console.log('res: ', res)
+        // console.log('res: ', res)
         if (res.error) {
           setError(res.error)
         } else {

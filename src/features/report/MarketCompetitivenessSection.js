@@ -10,10 +10,11 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 export const RadarChart = ({ report }) => {
   const { t } = useTranslation()
-  const format = 70
-  const language = 80
-  const matchLevel = 90
-  const grammer = 100
+  // const format = 70
+  // const language = 80
+  // const matchLevel = 90
+  // const grammer = 100
+  const { format, language, matching : matchLevel, logic } = report.resume_marking_info
   const option = {
     title: {
     },
@@ -40,10 +41,10 @@ export const RadarChart = ({ report }) => {
         }
       },
       indicator: [
-        { name: t('radarchart.Format'), max: 100 },
-        { name: t('radarchart.Language'), max: 100 },
-        { name: t('radarchart.Match Level'), max: 100 },
-        { name: t('radarchart.Grammar'), max: 100 }
+        { name: t('radarchart.Format'), max: 5 },
+        { name: t('radarchart.Language'), max: 5 },
+        { name: t('radarchart.Match Level'), max: 5 },
+        { name: t('radarchart.Logic'), max: 5 }
       ]
     },
     series: [{
@@ -53,7 +54,7 @@ export const RadarChart = ({ report }) => {
       areaStyle: {},
       data: [
         {
-          value: [format, language, matchLevel, grammer],
+          value: [format, language, matchLevel, logic],
           name: t('radarchart.Resume Analysis')
         }
       ]
@@ -75,10 +76,11 @@ export const MarketCompetitiveness = ({ report }) => {
   // const overall_level = 3
   const jobLevel = 'Senior'
   const competitiveness = 9
-  const format = 70
-  const language = 80
-  const matchLevel = 90
-  const grammer = 100
+  // const format = 70
+  // const language = 80
+  // const matchLevel = 90
+  // const grammer = 100
+  const { format, language, matching : matchLevel, logic } = report.resume_marking_info
   return (
     <Section>
       <Box p={4}>
@@ -93,13 +95,14 @@ export const MarketCompetitiveness = ({ report }) => {
             components={[<b>defaults</b>]}
           />
         </Box>
-        <Box fontSize='36px' fontWeight='500' color={theme.palette.primary.main}>
+        {/* <Box fontSize='36px' fontWeight='500' color={theme.palette.primary.main}>
           {jobLevel}
-        </Box>
+        </Box> */}
 
         <Box fontSize={h3} fontWeight='500' lineHeight='24px'>
           {/* You are ranked {report.overall_job_level.toLowerCase()} level {report.overall_competitiveness}/10 compared to your competitors. Below are your detailed category of your resume analysis. */}
-          {t('radarchart.rank', {joblevel: jobLevel.toLowerCase(), competitiveness: competitiveness})}
+          {/* {t('radarchart.rank', {joblevel: jobLevel.toLowerCase(), competitiveness: competitiveness})} */}
+          Below is your resume evaluation based on 4 aspects such as Format, Logic, Language and how much your resume matches the job title.
         </Box>
         <Grid container>
           <Grid item xs={8}>
@@ -108,10 +111,10 @@ export const MarketCompetitiveness = ({ report }) => {
 
           <Grid item xs={4}>
             <Box display='flex' flexDirection="column" mt={4}>
-              <PercentageLabel name={t('radarchart.Format')} value={format} />
-              <PercentageLabel name= {t('radarchart.Language')} value={language} />
-              <PercentageLabel name= {t('radarchart.Match Level')} value={matchLevel} />
-              <PercentageLabel name= {t('radarchart.Grammar')} value={grammer} />
+              <PercentageLabel name={t('radarchart.Format')} value={format*20} />
+              <PercentageLabel name= {t('radarchart.Language')} value={language*20} />
+              <PercentageLabel name= {t('radarchart.Match Level')} value={matchLevel*20} />
+              <PercentageLabel name= {t('radarchart.Logic')} value={logic*20} />
             </Box>
           </Grid>
         </Grid>
