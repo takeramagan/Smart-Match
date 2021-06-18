@@ -29,6 +29,25 @@ const Chart = ({ income }) => {
     return result
   }
   const numbers = getNumbers()
+  const mostLikelyOffers = numbers.filter(n => income.predicted_market_value.high >= n && income.predicted_market_value.low <= n)
+  let mostLikelyOffer
+  if(mostLikelyOffers.length){ //找到多个
+    mostLikelyOffer = mostLikelyOffers[0]
+  }else if(income.predicted_market_value.low > numbers[numbers.length - 1]){
+    mostLikelyOffer = numbers[numbers.length - 1]
+  }else if(income.predicted_market_value.high < numbers[0]){
+    mostLikelyOffer = numbers[0]
+  }else{ 
+  //剩下的情况是 所有的number都是处在 [income.predicted_market_value.low, income.predicted_market_value.high] 区间之外了,
+  //选择第一个比 income.predicted_market_value.high大的数字
+    for(var i in numbers){
+      if(numbers[i] > income.predicted_market_value.high){
+        mostLikelyOffer = numbers[i]
+        break
+      }
+    }
+  }
+  console.log("mostlike2", mostLikelyOffer)
 
   const option = {
     grid: {
@@ -69,9 +88,10 @@ const Chart = ({ income }) => {
       name: t("marketvalue.Most likely Offer"),
       color: '#0061FF',
       type: 'bar',
-      data: numbers.map(n => income.predicted_market_value.high >= n && income.predicted_market_value.low <= n ? n : undefined)
+      data: numbers.map(n => n === mostLikelyOffer ? n : undefined)
     }]
   }
+console.log("nums= ", numbers, income.predicted_market_value.low, income.predicted_market_value.high)
   return (
     <Box width='100%'>
       <ReactECharts
@@ -82,7 +102,7 @@ const Chart = ({ income }) => {
 }
 
 export function MarketValueSection ({ report }) {
-
+console.log("report ", report)
   const [fulltime, setFulltime] = useState(true)
   const salaryInfo = fulltime ? report.market_value_info.full_time_market_info : report.market_value_info.contract_market_info
   const predictSalary = fulltime ? report.market_value_info.predicted_full_time_salary[0] : report.market_value_info.predicted_contract_salary[0]
