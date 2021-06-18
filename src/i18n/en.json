@@ -45,7 +45,8 @@
   },
   
 "suggest":{
-  "title": "Suggested Course",
+  "certifacate": "Suggested Certification",
+  "course": "Suggested Course",
   "brain station": "BrainStation",
   "data science": "Data Science Course",
   "general assembly":"General Assembly",
