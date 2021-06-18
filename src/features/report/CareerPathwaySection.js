@@ -199,20 +199,18 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
   const tops = [10, 290, 146]
   const lefts = [30, 330, 580, 765]
   // const [selectedPathIndex, setSelectedPathIndex] = useState(0)
-const careerPath = report.career_path_info.career_paths
+  const careerPath = report.career_path_info.career_paths
   // const curJobTitle = report.market_value_info.matched_job_title
   const curJobTitle = careerPath.name
   const curFulltimeSalary = report.market_value_info.full_time_market_info
-const paths = careerPath.path
-// console.log('paths', paths)
-const market_value_result = paths.map(path=> {
+  const paths = careerPath.path
+  const market_value_result = paths.map(path=> {
   const curLevel = {title:path.name, market_avg_salary:{fulltime:path.salary.market_avg_salary_fulltime}}
   const level2 = path.next_level //第2个job Block存在
   const nextLevel = level2 ?  {title:level2.name, market_avg_salary:{fulltime:level2.salary.market_avg_salary_fulltime}}: null
   const projected_career_path = level2 ? [curLevel, nextLevel] : [curLevel]
   return {projected_career_path}
 })
-// console.log("result", market_value_result)
 // const market_value_result = [
 //   {projected_career_path:[{type:'1', title:'hello', market_avg_salary:{fulltime:100}}]},
 //   // {projected_career_path:[{type:'1', title:'hello', market_avg_salary:{fulltime:100}}]},

@@ -47,7 +47,6 @@ const Chart = ({ income }) => {
       }
     }
   }
-  console.log("mostlike2", mostLikelyOffer)
 
   const option = {
     grid: {
@@ -91,7 +90,6 @@ const Chart = ({ income }) => {
       data: numbers.map(n => n === mostLikelyOffer ? n : undefined)
     }]
   }
-console.log("nums= ", numbers, income.predicted_market_value.low, income.predicted_market_value.high)
   return (
     <Box width='100%'>
       <ReactECharts

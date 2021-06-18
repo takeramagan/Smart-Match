@@ -1,7 +1,9 @@
 /* global fetch, FormData */
 
+import { RESUME_ANASIS } from "../constant/externalURLs"
+
 export const fetchMarketValue = (file, params) => {
-  const url = 'https://api.metisign.com/koios/v1/market_value/'
+  const url = RESUME_ANASIS
 
   const myHeaders = new Headers()
   myHeaders.append('x-api-key', '9G3dp8le_wmc8An6ay5lj1J5Hu9baha8em3tvzppcgasiwmc8An6ay5lKa861')

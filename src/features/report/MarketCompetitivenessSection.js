@@ -7,6 +7,7 @@ import { useTranslation, Trans } from 'react-i18next'
 import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
 import { DK_LINK } from '../../constant/externalURLs'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { linkTrack } from '../../untils/linkTrack'
 
 export const RadarChart = ({ report }) => {
   const { t } = useTranslation()
@@ -142,6 +143,7 @@ export const MarketCompetitiveness = ({ report }) => {
               color='primary'
               size='small'
               style={{borderRadius:20, width:105 }}
+              onClick={() => {linkTrack(report.id, DK_LINK)}}
             >
               {t('contact.click me')}
             </Button>

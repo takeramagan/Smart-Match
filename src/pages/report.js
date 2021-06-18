@@ -28,6 +28,8 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import { makeStyles } from '@material-ui/core/styles';
+import { linkTrack } from '../untils/linkTrack';
+import { FACEBOOK, INSTAGRAM, LINKEDIN, TWITTER } from '../constant/externalURLs';
 
 const useStyles = makeStyles({
   icon:{
@@ -70,11 +72,10 @@ function FileDropzone (props) {
     if (acceptedFiles.length) {
       setLoading(true)
       fetchReport(acceptedFiles, {id:userId, area, position}).then((res) => {
-        // console.log('res: ', res)
         if (res.error) {
           setError(res.error)
         } else {
-          onSuccess(res)
+          onSuccess({...res, id: userId})
           setLoading(false)
         }
       }).catch(setError)
@@ -231,9 +232,12 @@ const fetchReport = (files, params) => {
   return fetchMarketValue(files[0], params)
 }
 
-const SocialMedia = () => {
+const SocialMedia = ({onTrack}) => {
   const { t } = useTranslation()
   const classes = useStyles()
+  const onClick = (url) => {
+    onTrack(url)
+  }
   return (          
     <Box mt={1} style={{flexDirection:"column", display:"flex", alignItems:"center"}}>
       <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
@@ -241,16 +245,16 @@ const SocialMedia = () => {
       </Typography>
       
       <div>
-        <a href='https://www.facebook.com/DK-105342934694333' target='_blank'>
+        <a href={FACEBOOK} target='_blank' onClick={()=>onClick(FACEBOOK)}>
           <FacebookIcon className={classes.icon}/>
         </a>
-        <a href='https://twitter.com/DK48655550' target='_blank'>
+        <a href={TWITTER} target='_blank' onClick={()=>onClick(TWITTER)}>
           <TwitterIcon className={classes.icon}/>
         </a>
-        <a href='https://www.instagram.com/dk_ca_dk/' target='_blank'>
+        <a href={INSTAGRAM} target='_blank' onClick={()=>onClick(INSTAGRAM)}>
           <InstagramIcon className={classes.icon}/>
         </a>
-        <a href='https://www.linkedin.com/company/dkedu/' target='_blank'>
+        <a href={LINKEDIN} target='_blank' onClick={()=>onClick(LINKEDIN)}>
           <LinkedInIcon className={classes.icon}/>  
         </a>
       </div>
@@ -272,14 +276,18 @@ export default function Home () {
     }, 3000)
   }, [])
 
+  const onTrackLink = (url) => {
+    report ? linkTrack(report.id, url) : null
+  }
+  
   if (!report) {
     return (
       <Box textAlign='center'>
         <FileDropzone onSuccess={data => setReport(data)} />
         <Box mb={8} >
-          <Button variant='contained' color='primary' disableElevation onClick={() => setReport(mock)}>
+          {/* <Button variant='contained' color='primary' disableElevation onClick={() => setReport(mock)}>
             {t('report.demo')}
-          </Button>
+          </Button> */}
 
           <Button variant='contained' color='primary' disableElevation onClick={() => setViewHistory(!viewHistory)} style={{marginLeft:20}}>
             {viewHistory ? t('report.hideHistory') : t('report.history')}
@@ -329,7 +337,7 @@ export default function Home () {
               
           </Box>
           <Box position='absolute' ml='auto' mr='auto' top={0} left={0} right={0} textAlign='center'>
-            <SocialMedia/>
+            <SocialMedia onTrack={onTrackLink}/>
           </Box>
           <Box position='absolute' width={100} right={15} top={25}>
           <Button

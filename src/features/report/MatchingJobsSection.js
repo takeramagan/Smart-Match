@@ -6,6 +6,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { useTranslation } from 'react-i18next'
 import { h, h1, h2, h3, h4, h5} from '../../constant/fontsize'
 import Carousel from 'react-material-ui-carousel'
+import { linkTrack } from '../../untils/linkTrack'
 
 
 export function MatchingJobsSection ({ report }) {
@@ -29,6 +30,10 @@ export function MatchingJobsSection ({ report }) {
     websitePages.push(websiteJobs.slice(i*websiteJobsPerPage, (i+1)*websiteJobsPerPage))
   }
 
+  const onApply = (url) =>{
+    linkTrack(report.id, url)
+  }
+
   return (
     <Section highlighted>
 
@@ -50,7 +55,7 @@ export function MatchingJobsSection ({ report }) {
           >
             {recruiterPages.map((jobList, index) => 
             <div key={index}>{
-              jobList.map((job, i) => <MatchJob key={i} job={job} />)
+              jobList.map((job, i) => <MatchJob key={i} job={job} onClick={onApply}/>)
               }
             </div>)}
           </Carousel>
@@ -77,7 +82,7 @@ export function MatchingJobsSection ({ report }) {
           >
             {websitePages.map((jobList, index) => 
             <div key={index}>{
-              jobList.map((job, i) => <MatchJob key={i} job={job} />)
+              jobList.map((job, i) => <MatchJob key={i} job={job} onClick={onApply}/>)
               }
             </div>)}
           </Carousel>

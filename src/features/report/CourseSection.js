@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
 import { DK_LINK } from '../../constant/externalURLs'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { linkTrack } from '../../untils/linkTrack'
 
 
 const EducationSection = ({ report, selectedPathIndex}) => {
@@ -179,8 +180,9 @@ export function CourseSection ({ report, selectedPathIndex }) {
               href={DK_LINK}
               target='_blank'
               color='primary'
-              size='large'
-              style={{borderRadius:20, width:150 }}
+              size='small'
+              style={{borderRadius:20, width:105 }}
+              onClick={() => {linkTrack(report.id, DK_LINK)}}
             >
               {t('contact.click me')}
             </Button>
