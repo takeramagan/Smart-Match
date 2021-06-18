@@ -52,7 +52,7 @@ function FileDropzone (props) {
   const lang = params.lang?.toLowerCase() //get language
 
   //add selector
-  const [area, setArea] = useState('Canada')
+  const [area, setArea] = useState('ca')
   const handleAreaChange = (event) => {
     setArea(event.target.value)
   }
@@ -71,7 +71,7 @@ function FileDropzone (props) {
   useEffect(() => {
     if (acceptedFiles.length) {
       setLoading(true)
-      fetchReport(acceptedFiles, {id:userId, area, position}).then((res) => {
+      fetchReport(acceptedFiles, {id:userId, country_code:area, position}).then((res) => {
         if (res.error) {
           setError(res.error)
         } else {
@@ -127,9 +127,9 @@ function FileDropzone (props) {
               value={area}
               onChange={handleAreaChange}
             >
-              <MenuItem value='China'>China</MenuItem>
-              <MenuItem value='Canada'>Canada</MenuItem>
-              <MenuItem value='USA'>USA</MenuItem>
+              {/* <MenuItem value='cn'>China</MenuItem> */}
+              <MenuItem value='ca'>Canada</MenuItem>
+              <MenuItem value='us'>USA</MenuItem>
             </Select>
             </FormControl>
             <FormControl style={{width:200, backgroundColor:'white'}}>
