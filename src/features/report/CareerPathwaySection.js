@@ -115,7 +115,7 @@ const Aaaaa = ({ selected }) => {
 
 const Aaaab = ({ selected }) => {
   return (
-    <svg width='380' height='53' viewBox='0 0 726 53' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width='390' height='53' viewBox='0 0 726 53' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path d='M19.9999 50.9863C8.95427 50.9644 0.0178244 41.9922 0.0398119 30.9466L0.0616022 20C0.0835897 8.95429 9.0557 0.0178369 20.1014 0.0398244L362.868 0.722135L705.635 1.40445C716.681 1.42643 725.617 10.3985 725.595 21.4442L725.573 32.3908C725.551 43.4365 716.579 52.373 705.534 52.351L19.9999 50.9863Z' fill={selected ? 'url(#paint0_linear)' : '#F2F2F2'} />
       <defs>
         <linearGradient id='paint0_linear' x1='0.77943' y1='123.665' x2='500' y2='118.727' gradientUnits='userSpaceOnUse'>
@@ -196,28 +196,48 @@ const selectCareerPath = (career) => {
 }
 
 export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPathIndex }) {
-  const tops = [10, 290, 146]
+  const tops = [10, 146, 290]
   const lefts = [30, 330, 580, 765]
-  // const [selectedPathIndex, setSelectedPathIndex] = useState(0)
   const careerPath = report.career_path_info.career_paths
   // const curJobTitle = report.market_value_info.matched_job_title
   const curJobTitle = careerPath.name
   const curFulltimeSalary = report.market_value_info.full_time_market_info
   const paths = careerPath.path
-  const market_value_result = paths.map(path=> {
-  const curLevel = {title:path.name, market_avg_salary:{fulltime:path.salary.market_avg_salary_fulltime}}
-  const level2 = path.next_level //第2个job Block存在
-  const nextLevel = level2 ?  {title:level2.name, market_avg_salary:{fulltime:level2.salary.market_avg_salary_fulltime}}: null
-  const projected_career_path = level2 ? [curLevel, nextLevel] : [curLevel]
-  return {projected_career_path}
-})
-// const market_value_result = [
-//   {projected_career_path:[{type:'1', title:'hello', market_avg_salary:{fulltime:100}}]},
-//   // {projected_career_path:[{type:'1', title:'hello', market_avg_salary:{fulltime:100}}]},
+  // const market_value_result = paths.map(path=> {
+  //   const curLevel = {title:path.name, market_avg_salary:{fulltime:path.salary.market_avg_salary_fulltime}}
+  //   const level2 = path.next_level //第2个job Block存在
+  //   const nextLevel = level2 ?  {title:level2.name, market_avg_salary:{fulltime:level2.salary.market_avg_salary_fulltime}}: null
+  //   const projected_career_path = level2 ? [curLevel, nextLevel] : [curLevel]
+  //   return {projected_career_path}
+  // })
+const market_value_result = [
+  {projected_career_path:[{type:'1', title:'hello1', market_avg_salary:{fulltime:100}}, {type:'1', title:'hello4', market_avg_salary:{fulltime:100}}]},
+  // {projected_career_path:[{type:'1', title:'hello2', market_avg_salary:{fulltime:100}}, {type:'1', title:'hello5', market_avg_salary:{fulltime:100}}]},
+  // {projected_career_path:[{type:'1', title:'hello3', market_avg_salary:{fulltime:100}}, {type:'1', title:'hello6', market_avg_salary:{fulltime:100}}]},
+  // {projected_career_path:[{type:'1', title:'hello2', market_avg_salary:{fulltime:100}}]},
 
-//   // {projected_career_path:[{type:'1', title:'hello', market_avg_salary:{fulltime:100}}]},
+  // {projected_career_path:[{type:'1', title:'hello3', market_avg_salary:{fulltime:100}}]},
 
-// ]
+]
+  const numOfPaths =  market_value_result.length
+  const [pathPosition, setPathPosition] = useState( numOfPaths === 1 ? 1 : 0) //0: 高亮第一条path  1: 高亮中间path  2:高亮最下面path
+  let listOfPathIndex //指定从每条path对应的数据的Index, -1 代表该path不显示
+  switch (numOfPaths) {
+    case 0: //没有数据
+      listOfPathIndex = [-1, -1, -1] //只有一条数据, 放中间
+    break;  
+    case 1:
+      listOfPathIndex = [-1, 0, -1] //只有一条数据, 第一条数据放中间
+      break;
+    case 2:
+      listOfPathIndex = [0, -1, 1] //2条数据, 放第一个和最后一个
+      break; 
+    case 3: //3条或者3条以上
+    default:
+      listOfPathIndex = [0, 1, 2]   //3条数据 都放
+      break;
+
+  }
   const { t } = useTranslation()
   return (
     <Section>
@@ -232,43 +252,45 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
           <CareerOriginBlock name={curJobTitle} salary={curFulltimeSalary.avg} top={150} left={0} />
 
           {/* career path 1 */}
+        {listOfPathIndex[0] != -1 && 
           <CareerSinglePath
             tops={tops}
             lefts={lefts}
             position={0}
-            selected={selectedPathIndex === 0}
-            careerPath={selectCareerPath(market_value_result[0])}
-            onClick={() => setSelectedPathIndex(0)}
-          />
-          {market_value_result[2] && (
+            selected={pathPosition === 0}
+            careerPath={selectCareerPath(market_value_result[listOfPathIndex[0]])}
+            onClick={() => {setSelectedPathIndex(listOfPathIndex[0]); setPathPosition(0)}}
+          />}
+          {listOfPathIndex[1] != -1 && (
             <CareerSinglePath
               tops={tops}
               lefts={lefts}
-              position={2}
-              selected={selectedPathIndex === 2}
-              careerPath={selectCareerPath(market_value_result[2])}
-              onClick={() => setSelectedPathIndex(2)}
+              position={1}
+              selected={pathPosition === 1}
+              careerPath={selectCareerPath(market_value_result[listOfPathIndex[1]])}
+              onClick={() => {setSelectedPathIndex(listOfPathIndex[1]); setPathPosition(1)}}
             />
           )}
-          {market_value_result[1] && <CareerSinglePath
+          {listOfPathIndex[2] != -1 && <CareerSinglePath
             tops={tops}
             lefts={lefts}
-            position={1}
-            selected={selectedPathIndex === 1}
-            careerPath={selectCareerPath(market_value_result[1])}
-            onClick={() => setSelectedPathIndex(1)}
+            position={2}
+            selected={pathPosition === 2}
+            careerPath={selectCareerPath(market_value_result[listOfPathIndex[2]])}
+            onClick={() => {setSelectedPathIndex(listOfPathIndex[2]); setPathPosition(2)}}
           />}
+          {listOfPathIndex[0] != -1 &&
           <Box top='-10px' left='100px' position='absolute' zIndex={2}>
-            <Aaaaa selected={selectedPathIndex === 0} />
-          </Box>
-          {market_value_result[2] && (
-            <Box top='160px' left='110px' position='absolute' zIndex={3}>
-              <Aaaab selected={selectedPathIndex === 2} />
+            <Aaaaa selected={pathPosition === 0} />
+          </Box>}
+          {listOfPathIndex[1] != -1 && (
+            <Box top='160px' left='100px' position='absolute' zIndex={3}>
+              <Aaaab selected={pathPosition === 1} />
             </Box>
           )}
-          {market_value_result[1] && 
+          {listOfPathIndex[2] != -1 && 
             <Box top='145px' left='100px' position='absolute' zIndex={2} style={{ transform: 'rotateX(180deg)' }}>
-              <Aaaaa selected={selectedPathIndex === 1} />
+              <Aaaaa selected={pathPosition === 2} />
             </Box>
           }
         </Box>
