@@ -150,17 +150,17 @@ console.log("report ", report)
             </Box>
             <Box my={1}>
               <Box display='inline-block' mr={1} style={{ fontSize: {h5}, width: '30px', textAlign: 'right' }}>{t('marketvalue.from')}</Box>
-              <Box display='inline-block' fontSize={h} color={theme.palette.primary.main}>{formatter.format(low)}</Box>
+              <Box display='inline-block' fontSize={h} color={theme.palette.primary.main}>{formatter(report.countryCode).format(low)}</Box>
             </Box>
             <Box my={1}>
               <Box display='inline-block' mr={1} style={{ fontSize: {h5}, width: '30px', textAlign: 'right' }}>{t('marketvalue.to')}</Box>
-              <Box display='inline-block' fontSize={h} color={theme.palette.primary.main}>{formatter.format(high)}</Box>
+              <Box display='inline-block' fontSize={h} color={theme.palette.primary.main}>{formatter(report.countryCode).format(high)}</Box>
             </Box>
           </Box>
 
           <Box pt={3} fontSize={h3} fontWeight='500' lineHeight='24px' color='#373A70' width='45%'>
             {/* Compared to average pay of {formatter.format(bestMatch.fulltime.market_avg)} the same position in Toronto. */}
-            {t('marketvalue.salary average', {average: formatter.format(avg)})}
+            {t('marketvalue.salary average', {average: formatter(report.countryCode).format(avg)})}
           </Box>
         </Box>
 

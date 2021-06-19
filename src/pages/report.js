@@ -75,7 +75,7 @@ function FileDropzone (props) {
         if (res.error) {
           setError(res.error)
         } else {
-          onSuccess({...res, id: userId})
+          onSuccess({...res, id: userId, countryCode:area.toLowerCase()})
           setLoading(false)
         }
       }).catch(setError)

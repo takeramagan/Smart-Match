@@ -36,7 +36,7 @@ const useStyles = makeStyles({
 
 })
 
-const CareerBlock = ({ name, salary, top, left, selected, noBackgroundColor, onClick, style, background }) => {
+const CareerBlock = ({ countryCode, name, salary, top, left, selected, noBackgroundColor, onClick, style, background }) => {
   const classes = useStyles({ noBackgroundColor, selected, background })
   return (
     <Box
@@ -59,7 +59,7 @@ const CareerBlock = ({ name, salary, top, left, selected, noBackgroundColor, onC
           {name}
         </Box>
         <Box className='salary' fontSize={h5} color='white'>
-          Avg {formatter.format(salary)}
+          Avg {formatter(countryCode).format(salary)}
         </Box>
       </Box>
 
@@ -67,7 +67,7 @@ const CareerBlock = ({ name, salary, top, left, selected, noBackgroundColor, onC
   )
 }
 
-const CareerOriginBlock = ({ name, salary, top, left, selected, noBackgroundColor, onClick }) => {
+const CareerOriginBlock = ({ countryCode, name, salary, top, left, selected, noBackgroundColor, onClick }) => {
   const classes = useStyles({ noBackgroundColor, selected })
   return (
     <Box
@@ -88,7 +88,7 @@ const CareerOriginBlock = ({ name, salary, top, left, selected, noBackgroundColo
           {name}
         </Box>
         <Box className='salary' fontSize={h5} color='#6A707E'>
-          {formatter.format(salary)}
+          {formatter(countryCode).format(salary)}
         </Box>
       </Box>
 
@@ -130,7 +130,7 @@ const Aaaab = ({ selected }) => {
   )
 }
 
-const CareerSinglePath = ({ tops, lefts, careerPath, position, selected, onClick }) => {
+const CareerSinglePath = ({ countryCode, tops, lefts, careerPath, position, selected, onClick }) => {
   const [type, nextLevel, furtherLevel] = careerPath
 
   return (
@@ -138,6 +138,7 @@ const CareerSinglePath = ({ tops, lefts, careerPath, position, selected, onClick
       {/* career path 1 */}
       {nextLevel.title && furtherLevel.title && (
         <CareerBlock
+          countryCode={countryCode}
           name={nextLevel.title}
           salary={nextLevel.salary}
           top={tops[position]}
@@ -149,6 +150,7 @@ const CareerSinglePath = ({ tops, lefts, careerPath, position, selected, onClick
       )}
       {(nextLevel.title || furtherLevel.title) && (
         <CareerBlock
+          countryCode={countryCode}
           name={furtherLevel.title ?? nextLevel.title}
           salary={furtherLevel.title ? furtherLevel.salary : nextLevel.salary}
           top={tops[position]}
@@ -245,11 +247,14 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
           p={2} width='100%' height='400px' position='relative'
         >
           {/* <CareerOriginBlock name={market_value_result[0].matched_job_title} salary={market_value_result[0].fulltime.market_avg} top={150} left={0} /> */}
-          <CareerOriginBlock name={curJobTitle} salary={curFulltimeSalary.avg} top={150} left={0} />
+          <CareerOriginBlock 
+            countryCode={report.countryCode}
+            name={curJobTitle} salary={curFulltimeSalary.avg} top={150} left={0} />
 
           {/* career path 1 */}
         {listOfPathIndex[0] != -1 && 
           <CareerSinglePath
+            countryCode={report.countryCode}
             tops={tops}
             lefts={lefts}
             position={0}
@@ -259,6 +264,7 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
           />}
           {listOfPathIndex[1] != -1 && (
             <CareerSinglePath
+              countryCode={report.countryCode}
               tops={tops}
               lefts={lefts}
               position={1}
@@ -268,6 +274,7 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
             />
           )}
           {listOfPathIndex[2] != -1 && <CareerSinglePath
+            countryCode={report.countryCode}
             tops={tops}
             lefts={lefts}
             position={2}
