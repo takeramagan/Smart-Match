@@ -132,31 +132,27 @@ const Aaaab = ({ selected }) => {
 
 const CareerSinglePath = ({ tops, lefts, careerPath, position, selected, onClick }) => {
   const [type, nextLevel, furtherLevel] = careerPath
-  // const type='type'
-  // const nextLevel={salary:1000, title:'nextLevel'}
-  // const furtherLevel={salary:1000, title:""}
-  const offset = furtherLevel?.title ? 100 : -50 //修改中间的block的位置
 
   return (
     <>
       {/* career path 1 */}
-      {nextLevel.title && (
+      {nextLevel.title && furtherLevel.title && (
         <CareerBlock
           name={nextLevel.title}
           salary={nextLevel.salary}
           top={tops[position]}
-          left={lefts[1]-offset}
+          left={lefts[1]}
           selected={selected}
           onClick={onClick}
           background='linear-gradient(90deg, #46EBD5 10.16%, #60EFFF 92.75%)'
         />
       )}
-      {furtherLevel.title && (
+      {(nextLevel.title || furtherLevel.title) && (
         <CareerBlock
-          name={furtherLevel.title}
-          salary={furtherLevel.salary}
+          name={furtherLevel.title ?? nextLevel.title}
+          salary={furtherLevel.title ? furtherLevel.salary : nextLevel.salary}
           top={tops[position]}
-          left={nextLevel.title ? lefts[2] - offset: 300}
+          left={lefts[2]}
           selected={selected}
           onClick={onClick}
           background='linear-gradient(90.07deg, #1883FF 0.07%, #0E15AD 99.99%)'
@@ -197,28 +193,28 @@ const selectCareerPath = (career) => {
 
 export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPathIndex }) {
   const tops = [10, 146, 290]
-  const lefts = [30, 330, 580, 765]
+  const lefts = [30, 230, 480, 765]
   const careerPath = report.career_path_info.career_paths
   // const curJobTitle = report.market_value_info.matched_job_title
   const curJobTitle = careerPath.name
   const curFulltimeSalary = report.market_value_info.full_time_market_info
   const paths = careerPath.path
-  // const market_value_result = paths.map(path=> {
-  //   const curLevel = {title:path.name, market_avg_salary:{fulltime:path.salary.market_avg_salary_fulltime}}
-  //   const level2 = path.next_level //第2个job Block存在
-  //   const nextLevel = level2 ?  {title:level2.name, market_avg_salary:{fulltime:level2.salary.market_avg_salary_fulltime}}: null
-  //   const projected_career_path = level2 ? [curLevel, nextLevel] : [curLevel]
-  //   return {projected_career_path}
-  // })
-const market_value_result = [
-  {projected_career_path:[{type:'1', title:'hello1', market_avg_salary:{fulltime:100}}, {type:'1', title:'hello4', market_avg_salary:{fulltime:100}}]},
-  // {projected_career_path:[{type:'1', title:'hello2', market_avg_salary:{fulltime:100}}, {type:'1', title:'hello5', market_avg_salary:{fulltime:100}}]},
-  // {projected_career_path:[{type:'1', title:'hello3', market_avg_salary:{fulltime:100}}, {type:'1', title:'hello6', market_avg_salary:{fulltime:100}}]},
-  // {projected_career_path:[{type:'1', title:'hello2', market_avg_salary:{fulltime:100}}]},
+  const market_value_result = paths.map(path=> {
+    const curLevel = {title:path.name, market_avg_salary:{fulltime:path.salary.market_avg_salary_fulltime}}
+    const level2 = path.next_level //第2个job Block存在
+    const nextLevel = level2 ?  {title:level2.name, market_avg_salary:{fulltime:level2.salary.market_avg_salary_fulltime}}: null
+    const projected_career_path = level2 ? [curLevel, nextLevel] : [curLevel]
+    return {projected_career_path}
+  })
+// const market_value_result = [
+//   {projected_career_path:[{type:'1', title:'hello1', market_avg_salary:{fulltime:100}}, {type:'1', title:'hello4', market_avg_salary:{fulltime:100}}]},
+//   {projected_career_path:[{type:'1', title:'hello2', market_avg_salary:{fulltime:100}}, {type:'1', title:'hello5', market_avg_salary:{fulltime:100}}]},
+//   {projected_career_path:[{type:'1', title:'hello3', market_avg_salary:{fulltime:100}}, {type:'1', title:'hello6', market_avg_salary:{fulltime:100}}]},
+//   {projected_career_path:[{type:'1', title:'hello2', market_avg_salary:{fulltime:100}}]},
 
-  // {projected_career_path:[{type:'1', title:'hello3', market_avg_salary:{fulltime:100}}]},
+//   {projected_career_path:[{type:'1', title:'hello3', market_avg_salary:{fulltime:100}}]},
 
-]
+// ]
   const numOfPaths =  market_value_result.length
   const [pathPosition, setPathPosition] = useState( numOfPaths === 1 ? 1 : 0) //0: 高亮第一条path  1: 高亮中间path  2:高亮最下面path
   let listOfPathIndex //指定从每条path对应的数据的Index, -1 代表该path不显示
