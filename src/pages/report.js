@@ -326,7 +326,8 @@ export default function Home () {
 
       <Container style={{ marginTop: 18, position:"relative" }}>
 
-      <Box position='fixed' top={0} width='1280px' height={100} zIndex={1000} style={{backgroundColor:'white', borderBottomLeftRadius:20, borderBottomRightRadius:20}} >
+        {/* <Box position='fixed' top={0} width='1280px' height={100} zIndex={1000} style={{backgroundColor:'white', borderBottomLeftRadius:20, borderBottomRightRadius:20}} > */}
+        <Box top={0} pt={1} pb={1} style={{backgroundColor:'white', borderRadius: 20}} my={5}>
           <Box my={3} ml={4}>
               <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
                 {t("report.report_title")}
@@ -339,7 +340,7 @@ export default function Home () {
           <Box position='absolute' ml='auto' mr='auto' top={0} left={0} right={0} textAlign='center'>
             <SocialMedia onTrack={onTrackLink}/>
           </Box>
-          <Box position='absolute' width={100} right={15} top={25}>
+          <Box position='absolute' width={100} right={50} top={50}>
           <Button
             variant="contained"
             color="primary"
@@ -356,7 +357,8 @@ export default function Home () {
         </Box>
 
 
-        <Grid container spacing={4} style={{position:'absolute', top:120}}>
+        {/* <Grid container spacing={4} style={{position:'absolute', top:120}}> */}
+        <Grid container spacing={4} >
           <Grid item xs={12}>
             <div id='career_advice'>
               <CareerAdviceSection report={report} />

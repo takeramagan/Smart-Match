@@ -23,7 +23,7 @@ const EducationSection = ({ report, selectedPathIndex}) => {
       </Box>
       <Box pb={2}>
         {/* {report.education_levels_needed_to_improve.map((item) => { */}
-        {requiredSkills.map((item) => {
+        {requiredSkills.slice(0, 10).map((item) => {
           return (
             <Chip
               key={item}
