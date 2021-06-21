@@ -21,7 +21,7 @@ const Chart = ({ income }) => {
   const getNumbers = () => {
     const result = []
     let n = income.market_low
-    const increment = Math.round((income.market_high - income.market_low) / 13)
+    const increment = Math.round((income.market_high - income.market_low) / 5)
     while (n < income.market_high) {
       result.push(n)
       n = n + increment
@@ -54,11 +54,12 @@ const Chart = ({ income }) => {
     },
     xAxis: {
       type: 'category',
-      data: [t("marketvalue.low"), t("marketvalue.low"), 
-            t("marketvalue.mid-low"), t("marketvalue.mid-low"), t("marketvalue.mid-low"), 
-            t("marketvalue.avg"), t("marketvalue.avg"), t("marketvalue.avg"), t("marketvalue.avg"), 
-            t("marketvalue.mid-high"), t("marketvalue.mid-high"), 
-            t("marketvalue.high"), t("marketvalue.high")]
+      data: [t("marketvalue.low"), //t("marketvalue.low"), 
+            t("marketvalue.mid-low"), //t("marketvalue.mid-low"), t("marketvalue.mid-low"), 
+            t("marketvalue.avg"), //t("marketvalue.avg"), t("marketvalue.avg"), t("marketvalue.avg"), 
+            t("marketvalue.mid-high"), //t("marketvalue.mid-high"), 
+            t("marketvalue.high"), //t("marketvalue.high")
+          ]
     },
     yAxis: {
       type: 'value'
@@ -75,17 +76,21 @@ const Chart = ({ income }) => {
       name: t("marketvalue.Offer too low"),
       color: '#E0E0E0',
       barGap: '-100%',
+      barWidth: '50%',
       type: 'bar',
       data: numbers.map(n => n <= income.market_mid_low ? n : undefined)
     }, {
       name: t("marketvalue.Acceptable Offer"),
       color: '#46EBD5',
       barGap: '-100%',
+      barWidth: '50%',
       type: 'bar',
       data: numbers.map(n => n > income.market_mid_low ? n : undefined)
     }, {
       name: t("marketvalue.Most likely Offer"),
       color: '#0061FF',
+      barGap: '-100%',
+      barWidth: '50%',
       type: 'bar',
       data: numbers.map(n => n === mostLikelyOffer ? n : undefined)
     }]
