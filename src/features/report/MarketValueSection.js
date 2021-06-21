@@ -129,20 +129,20 @@ console.log("report ", report)
           <Button        
             variant="contained"
             color="primary"
-            disabled={fulltime}
+            disabled={!fulltime}
             size='small'
             style={{borderRadius:20 }}
-            onClick={() => setFulltime(true)}
+            onClick={() => setFulltime(false)}
           >
             Fulltime
           </Button>
           <Button        
             variant="contained"
             color="primary"
-            disabled={!fulltime}
+            disabled={fulltime}
             size='small'
             style={{borderRadius:20, marginLeft:10 }}
-            onClick={() => setFulltime(false)}
+            onClick={() => setFulltime(true)}
           >
             Contract
           </Button>
