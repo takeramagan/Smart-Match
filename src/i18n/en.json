@@ -87,7 +87,8 @@
     "mid-low" : "mid-low",
     "avg": "avg",
     "mid-high" : "mid-high",
-    "high" : "high"
+    "high" : "high",
+    "per hour":" / hour"
   },
   "contact":{
     "click me": "Click Me"

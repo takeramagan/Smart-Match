@@ -156,10 +156,12 @@ console.log("report ", report)
             <Box my={1}>
               <Box display='inline-block' mr={1} style={{ fontSize: {h5}, width: '30px', textAlign: 'right' }}>{t('marketvalue.from')}</Box>
               <Box display='inline-block' fontSize={h} color={theme.palette.primary.main}>{formatter(report.countryCode).format(low)}</Box>
+              {!fulltime && <Box display='inline-block' mr={1} style={{ fontSize: {h5} }}>{t('marketvalue.per hour')}</Box>}
             </Box>
             <Box my={1}>
               <Box display='inline-block' mr={1} style={{ fontSize: {h5}, width: '30px', textAlign: 'right' }}>{t('marketvalue.to')}</Box>
               <Box display='inline-block' fontSize={h} color={theme.palette.primary.main}>{formatter(report.countryCode).format(high)}</Box>
+              {!fulltime && <Box display='inline-block' mr={1} style={{ fontSize: {h5} }}>{t('marketvalue.per hour')}</Box>}
             </Box>
           </Box>
 

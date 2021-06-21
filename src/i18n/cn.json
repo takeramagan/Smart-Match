@@ -87,7 +87,8 @@
     "mid-low" : "中低",
     "avg": "平均值",
     "mid-high" : "中高",
-    "high" : "高"
+    "high" : "高",
+    "per hour":" / 小时"
   },
   "contact":{
     "click me": "点我"
