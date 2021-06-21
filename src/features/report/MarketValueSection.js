@@ -28,6 +28,7 @@ const Chart = ({ income }) => {
     }
     return result
   }
+ 
   const numbers = getNumbers()
   const mostLikelyOffers = numbers.filter(n => income.predicted_market_value.high >= n && income.predicted_market_value.low <= n)
   let mostLikelyOffer
@@ -108,14 +109,15 @@ export function MarketValueSection ({ report }) {
 console.log("report ", report)
   const [fulltime, setFulltime] = useState(true)
   const salaryInfo = fulltime ? report.market_value_info.full_time_market_info : report.market_value_info.contract_market_info
-  const predictSalary = fulltime ? report.market_value_info.predicted_full_time_salary[0] : report.market_value_info.predicted_contract_salary[0]
+  const predictSalary = fulltime ? report.market_value_info.predicted_full_time_salary : report.market_value_info.predicted_contract_salary
   const {low, high} = predictSalary
   const { avg } = salaryInfo
   const market_low = fulltime ? salaryInfo.low : 20
-  const market_high = fulltime ? salaryInfo.high : salaryInfo.high*1.2
+  const market_high = fulltime ? salaryInfo.high : salaryInfo.high
+  const market_mid_low = fulltime ? salaryInfo.mid_Low : salaryInfo.mid_low
   // const buttonText = fulltime ? "Fulltime" : "Contract"
   // const income={market_low: salaryInfo.low, market_high: salaryInfo.high, market_mid_low:salaryInfo.mid_Low, predicted_market_value:{high, low}}
-  const income={market_low, market_high, market_mid_low:40, predicted_market_value:{high, low}}
+  const income={market_low, market_high, market_mid_low, predicted_market_value:{high, low}}
   const theme = useTheme()
   const { t } = useTranslation()
   return (
@@ -171,7 +173,7 @@ console.log("report ", report)
           </Box>
         </Box>
 
-        <Box width='100%'><Chart income={income} /> </Box>
+        <Box width='100%'><Chart income={income} /></Box>
       </Box>
     </Section>
   )
