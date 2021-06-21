@@ -42,10 +42,10 @@ export const RadarChart = ({ report }) => {
         }
       },
       indicator: [
-        { name: t('radarchart.Format'), max: 5 },
-        { name: t('radarchart.Language'), max: 5 },
-        { name: t('radarchart.Match Level'), max: 5 },
-        { name: t('radarchart.Logic'), max: 5 }
+        { name: t('radarchart.Format'), max: 100 },
+        { name: t('radarchart.Language'), max: 100 },
+        { name: t('radarchart.Match Level'), max: 100 },
+        { name: t('radarchart.Logic'), max: 100 }
       ]
     },
     series: [{
@@ -112,10 +112,10 @@ export const MarketCompetitiveness = ({ report }) => {
 
           <Grid item xs={4}>
             <Box display='flex' flexDirection="column" mt={4}>
-              <PercentageLabel name={t('radarchart.Format')} value={format*20} />
-              <PercentageLabel name= {t('radarchart.Language')} value={language*20} />
-              <PercentageLabel name= {t('radarchart.Match Level')} value={matchLevel*20} />
-              <PercentageLabel name= {t('radarchart.Logic')} value={logic*20} />
+              <PercentageLabel name={t('radarchart.Format')} value={format} />
+              <PercentageLabel name= {t('radarchart.Language')} value={language} />
+              <PercentageLabel name= {t('radarchart.Match Level')} value={matchLevel} />
+              <PercentageLabel name= {t('radarchart.Logic')} value={logic} />
             </Box>
           </Grid>
         </Grid>
