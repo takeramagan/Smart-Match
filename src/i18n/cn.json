@@ -45,7 +45,8 @@
   },
   
 "suggest":{
-  "title": "课程推荐",
+  "certifacate": "推荐认证",
+  "course": "推荐课程",
   "brain station": "BrainStation",
   "data science": "大数据课程",
   "general assembly":"General Assembly",

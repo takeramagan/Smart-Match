@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
 import { DK_LINK } from '../../constant/externalURLs'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { linkTrack } from '../../untils/linkTrack'
 
 
 const EducationSection = ({ report, selectedPathIndex}) => {
@@ -109,42 +110,55 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
   const suggestedCertificates = report.career_path_info.career_paths.path[selectedPathIndex]?.how_to_improve?.required_certificates ?? ['You are awesome']
 
   return (
-    <Box py={2} display='flex' justifyContent='space-between'>
-      <Box width='50%'>
-        <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
-        {t('suggest.title')}
+    <Box py={2} display='flex' justifyContent='space-between' flexDirection="column">
+      <Box width='100%' display='flex' justifyContent='space-between'>
+        <Box width='50%'>
+          <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
+          {t('suggest.certifacate')}
+          </Box>
         </Box>
-        <Box ml={0} display='flex' justifyContent='space-between'>
-          <Box color='#6A707E' fontSize={h3} display='flex' alignItems='center'>
-            <Box
-              width='67px' height='67px' mr={2} style={{
-                backgroundColor: '#ccc'
-              }}
-            >
-              <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
-            </Box>
-
-            {/* <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>{t('suggest.brain station')} <br /> {t('suggest.data science')}</Link> */}
-            <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>{suggestedCertificates.slice(0,3).map(item=><>{item}<br/></>)}</Link>
+        <Box width='50%'>
+          <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
+            {t('suggest.course')}
           </Box>
         </Box>
       </Box>
-      <Box width='50%'>
-        <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
-        {t('suggest.title')}
-        </Box>
-        <Box ml={2} display='flex' justifyContent='space-between'>
-          <Box color='#6A707E' fontSize={h3} display='flex' alignItems='center'>
-            <Box
-              width='67px' height='67px' mr={2} style={{
-                backgroundColor: '#ccc'
-              }}
-            >
-              <img width='67px' height='67px' src='https://ik.imagekit.io/himalayas/general_assembly_logo_AxBQAGHdD.jpeg' />
-            </Box>
+      <Box display='flex' flexDirection='row' alignItems='center'>
+        <Box width='50%'>
+          <Box ml={0} display='flex' justifyContent='space-between' >
+            <Box color='#6A707E' fontSize={h3} display='flex' alignItems='center'>
+              <Box
+                width='67px' height='67px' mr={1} style={{
+                  backgroundColor: '#ccc'
+                }}
+              >
+                <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
+              </Box>
 
-            {/* <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{t('suggest.general assembly')} <br />{t('suggest.front end')}</Link> */}
-            <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{suggestedCourses.slice(0,3).map(course => <>{course}<br/></>)}</Link>
+              {/* <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>{t('suggest.brain station')} <br /> {t('suggest.data science')}</Link> */}
+              <Box>{suggestedCertificates.slice(0,3).map(item=>
+                <Link target='_blank' rel='noreferrer' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)}>{item}<br/></Link>
+              )}</Box>
+            </Box>
+          </Box>
+        </Box>
+        <Box width='50%'>
+          <Box ml={0} display='flex' justifyContent='space-between'>
+            <Box color='#6A707E' fontSize={h3} display='flex' alignItems='center'>
+              <Box
+                width='67px' height='67px' mr={1} style={{
+                  backgroundColor: '#ccc'
+                }}
+              >
+                <img width='67px' height='67px' src='https://ik.imagekit.io/himalayas/general_assembly_logo_AxBQAGHdD.jpeg' />
+              </Box>
+
+              {/* <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{t('suggest.general assembly')} <br />{t('suggest.front end')}</Link> */}
+              {/* <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{suggestedCourses.slice(0,3).map(course => <>{course}<br/></>)}</Link> */}
+              <Box>{suggestedCourses.slice(0,3).map(item=>
+                <Link target='_blank' rel='noreferrer' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)}>{item}<br/></Link>
+              )}</Box>
+            </Box>
           </Box>
         </Box>
       </Box>
@@ -179,8 +193,9 @@ export function CourseSection ({ report, selectedPathIndex }) {
               href={DK_LINK}
               target='_blank'
               color='primary'
-              size='large'
-              style={{borderRadius:20, width:150 }}
+              size='small'
+              style={{borderRadius:20, width:105 }}
+              onClick={() => {linkTrack(report.id, DK_LINK)}}
             >
               {t('contact.click me')}
             </Button>

@@ -47,7 +47,7 @@ export function LinearProgressWithLabel (props) {
   )
 }
 
-export function MatchJob ({ job }) {
+export function MatchJob ({ job, onClick }) {
   const { t } = useTranslation()
   const { job_title, job_company, job_link, job_location, job_logo, job_rating, job_summary, job_type, matched_percentage, job_salary} = job
   
@@ -71,7 +71,7 @@ export function MatchJob ({ job }) {
           backgroundColor: 'black'
         }} my={1}
       >
-        <img id='image0' width='70px' height='70px' src= {logo}/>
+        <img id='image0' width='70px' height='70px' src= {logo} style={{borderRadius:10}}/>
 
       </Box>
       <Box
@@ -99,6 +99,7 @@ export function MatchJob ({ job }) {
         <Button
           href={job_link}
           target="_blank"
+          onClick={() => onClick(job_link)}
           style={{
             color: 'white', fontWeight: '500', border:'1px solid white', borderRadius:15, height: 30,
           }}
