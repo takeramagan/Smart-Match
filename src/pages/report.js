@@ -364,7 +364,7 @@ export default function Home () {
               <CareerAdviceSection report={report} />
             </div>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item md={6} xs={12}>
             <div id='market_value'>
               <MarketValueSection report={report} />
             </div>
@@ -373,13 +373,13 @@ export default function Home () {
             </div>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item md={6} xs={12}>
           <div id='match_jobs'>
            <MatchingJobsSection report={report} />
           </div>
           </Grid>
 
-          <Grid item xs={7} >
+          <Grid item lg={7} md={12}>
             <div id='career_pathway'>
               <CareerPathwaySection 
                 report={report} 
@@ -389,7 +389,7 @@ export default function Home () {
             </div>
           </Grid>
 
-          <Grid item xs={5}>
+          <Grid item md={12} lg={5}>
             <div id='course_section'>
               <CourseSection report={report} selectedPathIndex={selectedPathIndex}/>
             </div>
