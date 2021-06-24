@@ -132,7 +132,7 @@ function FileDropzone (props) {
               <MenuItem value='us'>USA</MenuItem>
             </Select>
             </FormControl>
-            <FormControl style={{width:200, backgroundColor:'white'}}>
+            {/* <FormControl style={{width:200, backgroundColor:'white'}}>
             <InputLabel id="area">Position</InputLabel>
             <Select
               value={position}
@@ -142,7 +142,7 @@ function FileDropzone (props) {
               <MenuItem value='Canada'>Frontend Developer</MenuItem>
               <MenuItem value='USA'>Backend Developer</MenuItem>
             </Select>
-            </FormControl>
+            </FormControl> */}
           </Box>
         {/**<======Area and position select end */}
           {/* <Box my={2} style={{ color: 'rgba(55, 58, 112, 1)' }}>
@@ -289,9 +289,9 @@ export default function Home () {
             {t('report.demo')}
           </Button> */}
 
-          <Button variant='contained' color='primary' disableElevation onClick={() => setViewHistory(!viewHistory)} style={{marginLeft:20}}>
+          {/* <Button variant='contained' color='primary' disableElevation onClick={() => setViewHistory(!viewHistory)} style={{marginLeft:20}}>
             {viewHistory ? t('report.hideHistory') : t('report.history')}
-          </Button>
+          </Button> */}
         </Box>
         <SwipeableDrawer anchor="right" open={viewHistory} onClose={() => setViewHistory(false)} onOpen={()=>{}}>
           <HistoryList/>
