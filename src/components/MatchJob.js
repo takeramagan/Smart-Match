@@ -52,20 +52,24 @@ export function MatchJob ({ job, onClick }) {
     <div >
     <Box display='flex' alignItems='center' onMouseLeave={handlePopoverClose} onMouseEnter={handlePopoverOpen}>
       <Box
-        width='70px' height='70px' style={{
+        width= {70} height={70} 
+        minWidth={70}
+        style={{
           backgroundColor: 'white',
           borderRadius:10,
           overflow: 'hidden'
         }} my={1}
       >
-        <img id='image0' width='70px' height='70px' src= {logo} />
+        <img id='image0' style={{width:70, height:70}} src= {logo} />
 
       </Box>
       <Box
         flexGrow='1' height='70px' m={1}
       >
         <Box
-            fontSize={h3} my='2px' width='380px' style={{
+            fontSize={h3} my='2px' 
+            // width='380px' 
+            style={{
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis'
