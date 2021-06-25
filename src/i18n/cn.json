@@ -9,7 +9,7 @@
     "analyzing_title":"评估中...",
     "upload_title":"上传简历",
     "analyzing_text":"Smart Match 正在评估你的简历...",
-    "upload_text":"上传您的最新简历, 发现您的理想工作和市场价值",
+    "upload_text":"上传最新简历，开启您的职业评估之旅",
     "dragable_title":"拖拽文件到此处 ...",
     "drag_title":"拖拽文件到此处, 或者直接点击来选择文件",
     "drag_text":"支持文件格式 docx, doc, odt or pdf. 文件最大为 10MB",
@@ -26,7 +26,7 @@
   "sidebar":{
     "homepage": "首页",
     "reportpage": "评估页面",
-    "back": "返回"
+    "back": "重新上传"
   },
   "careeradvice":{
     "title": "职业建议",

@@ -327,34 +327,38 @@ export default function Home () {
       <Container style={{ marginTop: 18, position:"relative" }}>
 
         {/* <Box position='fixed' top={0} width='1280px' height={100} zIndex={1000} style={{backgroundColor:'white', borderBottomLeftRadius:20, borderBottomRightRadius:20}} > */}
-        <Box top={0} pt={1} pb={1} style={{backgroundColor:'white', borderRadius: 20}} my={5}>
-          <Box my={3} ml={4}>
-              <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
-                {t("report.report_title")}
-              </Box>
-              <Box fontSize={h3} lineHeight='21px' color='rgba(87, 91, 166, 1)'>
-                {t("report.report_text")}
-              </Box>
-              
+        <Section >
+          <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' p={4} mb={5}>
+            <Box my={4}>
+                <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
+                  {t("report.report_title")}
+                </Box>
+                <Box fontSize={h3} lineHeight='21px' color='rgba(87, 91, 166, 1)'>
+                  {t("report.report_text")}
+                </Box>
+                
+            </Box>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<ArrowBackOutlinedIcon />}
+              onClick={() => setReport(null)}
+              style={{borderRadius:20, width:120, height:40}}
+            >
+              {t('sidebar.back')}
+            </Button>
           </Box>
-          <Box position='absolute' ml='auto' mr='auto' top={0} left={0} right={0} textAlign='center'>
+
+          {/* <Box position='absolute' ml='auto' mr='auto' top={0} left={0} right={0} textAlign='center'>
             <SocialMedia onTrack={onTrackLink}/>
-          </Box>
-          <Box position='absolute' width={100} right={50} top={50}>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<ArrowBackOutlinedIcon />}
-            onClick={() => setReport(null)}
-            style={{borderRadius:20}}
-          >
-            {t('sidebar.back')}
-          </Button>
+          </Box> */}
+          <Box>
+
           {/**跳转测试成功 */}
           {/* <Button onClick={()=> {document.getElementById('market_competitiveness')?.scrollIntoView()  }}>test</Button> */}
           {/* <Link href='#match_jobs'>test</Link> */}
           </Box>
-        </Box>
+        </Section>
 
 
         {/* <Grid container spacing={4} style={{position:'absolute', top:120}}> */}
