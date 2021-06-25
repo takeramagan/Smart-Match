@@ -238,9 +238,9 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
   }
   const { t } = useTranslation()
   return (
-    <Section>
-      <Box p={4} minWidth={710} width='100%'>
-        <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
+    <Section >
+      <Box p={4} style={{minWidth:790, width:"100vw",}} mr={-8}>
+        <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3' flexGrow='1'>
           {t("career_pathway.title")}
         </Box>
         <Box
@@ -318,7 +318,6 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
           </Box>
         </Box> */}
       </Box>
-
     </Section>
   )
 }

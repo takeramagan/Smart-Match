@@ -103,7 +103,7 @@ export const MarketCompetitiveness = ({ report }) => {
         <Box fontSize={h3} fontWeight='500' lineHeight='24px'>
           {/* You are ranked {report.overall_job_level.toLowerCase()} level {report.overall_competitiveness}/10 compared to your competitors. Below are your detailed category of your resume analysis. */}
           {/* {t('radarchart.rank', {joblevel: jobLevel.toLowerCase(), competitiveness: competitiveness})} */}
-          Below is your resume evaluation based on 4 aspects such as Format, Logic, Language and how much your resume matches the job title.
+          {t('radarchart.text')}
         </Box>
         <Grid container>
           <Grid item xs={8}>

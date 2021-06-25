@@ -324,12 +324,12 @@ export default function Home () {
 
 
 
-      <Container style={{ marginTop: 18, position:"relative" }}>
+      <Container style={{ marginTop: 18, position:"relative"}}>
 
         {/* <Box position='fixed' top={0} width='1280px' height={100} zIndex={1000} style={{backgroundColor:'white', borderBottomLeftRadius:20, borderBottomRightRadius:20}} > */}
         <Section >
           <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' p={4} mb={5}>
-            <Box my={4}>
+            <Box >
                 <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
                   {t("report.report_title")}
                 </Box>
@@ -343,7 +343,7 @@ export default function Home () {
               color="primary"
               startIcon={<ArrowBackOutlinedIcon />}
               onClick={() => setReport(null)}
-              style={{borderRadius:20, width:120, height:40}}
+              style={{borderRadius:20, minWidth:140, height:40}}
             >
               {t('sidebar.back')}
             </Button>
