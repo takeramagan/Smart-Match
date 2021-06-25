@@ -55,10 +55,11 @@ const CareerBlock = ({ countryCode, name, salary, top, left, selected, noBackgro
 
     >
       <Box>
-        <Box className='title' fontSize={h4} color={noBackgroundColor ? (selected ? '#024CC3' : '#6A707E') : 'inherit'}>
+        {/* <Box className='title' fontSize={h4} color={noBackgroundColor ? (selected ? '#024CC3' : '#6A707E') : 'inherit'}> */}
+        <Box className='title' fontSize={h4} color={selected ? 'white' : 'black'}>
           {name}
         </Box>
-        <Box className='salary' fontSize={h5} color='white'>
+        <Box className='salary' fontSize={h5} color={selected ? 'white' : 'black'}>
           Avg {formatter(countryCode).format(salary)}
         </Box>
       </Box>
