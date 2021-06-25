@@ -65,7 +65,7 @@ const Chart = ({ income }) => {
     yAxis: {
       type: 'value'
     },
-    legend: { bottom: 0 },
+    legend: { bottom: 0, selectedMode: false },
     tooltip: {
       trigger: 'item',
       axisPointer: { // Use axis to trigger tooltip
