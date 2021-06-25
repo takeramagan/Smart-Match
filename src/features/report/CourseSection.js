@@ -18,9 +18,9 @@ const EducationSection = ({ report, selectedPathIndex}) => {
 
   return (
     <Box>
-      <Box fontSize={h1} my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
+      {/* <Box fontSize={h1} my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
         {t('course.education')}
-      </Box>
+      </Box> */}
       <Box pb={2}>
         {/* {report.education_levels_needed_to_improve.map((item) => { */}
         {requiredSkills.slice(0, 10).map((item) => {
@@ -113,12 +113,14 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
     <Box py={2} display='flex' justifyContent='space-between' flexDirection="column">
       <Box width='100%' display='flex' justifyContent='space-between'>
         <Box width='50%'>
-          <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
+         {/* <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'> */}
+          <Box fontSize={h1} my={2} fontWeight='500' color='#024CC3'>
           {t('suggest.certifacate')}
           </Box>
         </Box>
         <Box width='50%'>
-          <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
+          {/* <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'> */}
+          <Box fontSize={h1} my={2} fontWeight='500' color='#024CC3'>
             {t('suggest.course')}
           </Box>
         </Box>
@@ -144,20 +146,21 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
         </Box>
         <Box width='50%'>
           <Box ml={0} display='flex' justifyContent='space-between'>
-            <Box color='#6A707E' fontSize={h3} display='flex' alignItems='center'>
+            <Box color='#6A707E' fontSize={h3} display='flex' alignItems='center' justifyContent='center'>
               <Box
-                width='67px' height='67px' mr={1} style={{
-                  backgroundColor: '#ccc'
-                }}
+                width='67px' height='40px' mr={1} 
               >
-                <img width='67px' height='67px' src='https://ik.imagekit.io/himalayas/general_assembly_logo_AxBQAGHdD.jpeg' />
+                {/* <img width='67px' height='67px' src='https://ik.imagekit.io/himalayas/general_assembly_logo_AxBQAGHdD.jpeg' /> */}
+                <img width='67px' height='40px' src='https://static.wixstatic.com/media/d44c9e_b34eb8491f984802b8961715fdf76082~mv2.png/v1/fill/w_96,h_60,al_c,q_85,usm_0.66_1.00_0.01/DK-Logo.webp' />
               </Box>
 
               {/* <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{t('suggest.general assembly')} <br />{t('suggest.front end')}</Link> */}
               {/* <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{suggestedCourses.slice(0,3).map(course => <>{course}<br/></>)}</Link> */}
               <Box>{suggestedCourses.slice(0,3).map(item=>
-                <Link target='_blank' rel='noreferrer' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)}>{item}<br/></Link>
-              )}</Box>
+                // <Link target='_blank' rel='noreferrer' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)}>{item}<br/></Link>
+                <Link target='_blank' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)} style={{zIndex: 0}}>•{item}<br/></Link>
+              )}
+              </Box>
             </Box>
           </Box>
         </Box>
@@ -170,7 +173,7 @@ export function CourseSection ({ report, selectedPathIndex }) {
   const { t } = useTranslation()
 
   return (
-    <Section>
+    <Section >
       <Box p={4} mb={4}>
         <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
           {t("course.title")}

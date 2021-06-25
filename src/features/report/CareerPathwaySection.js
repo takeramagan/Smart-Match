@@ -240,7 +240,7 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
   const { t } = useTranslation()
   return (
     <Section >
-      <Box p={4} style={{minWidth:790, width:"100vw",}} mr={-8}>
+      <Box p={4} style={{minWidth:790}} mr={-8}>
         <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3' flexGrow='1'>
           {t("career_pathway.title")}
         </Box>
