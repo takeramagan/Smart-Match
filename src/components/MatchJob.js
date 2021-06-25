@@ -50,7 +50,11 @@ export function MatchJob ({ job, onClick }) {
 
   return (
     <div >
-    <Box display='flex' alignItems='center' onMouseLeave={handlePopoverClose} onMouseEnter={handlePopoverOpen} justifyContent="center" >
+    <Box display='flex' alignItems='center' 
+      onMouseLeave={handlePopoverClose} 
+      onMouseEnter={handlePopoverOpen} 
+      justifyContent="center" 
+    >
       <Box
         width= {70} height={70} 
         minWidth={70}
@@ -103,6 +107,7 @@ export function MatchJob ({ job, onClick }) {
       </Box>
     </Box>
     <Popover
+    id="popover"
       open={openPopOver}
       anchorEl={anchorEl}
       anchorOrigin={{
@@ -114,8 +119,12 @@ export function MatchJob ({ job, onClick }) {
         horizontal: 'left',
       }}
       onClose={handlePopoverClose}
-      style={{ pointerEvents: 'none', width: 400}}
-      // disableRestoreFocus
+      style={{ 
+        pointerEvents: 'none', 
+        width: 400,
+      }}
+      disableRestoreFocus
+      disableScrollLock
     >
       {/* {Object.entries(job).map(([key, value]) => <Typography key={key}>{key} : {value.toString()}</Typography>)} */}
       <Box p={1} width={370}>

@@ -51,7 +51,7 @@ export function MatchingJobsSection ({ report }) {
           <Carousel 
             animation='slide' 
             interval={10000}
-            NavButton={()=>null}
+            navButtonsAlwaysInvisible
           >
             {recruiterPages.map((jobList, index) => 
             <div key={index}>{
@@ -78,7 +78,7 @@ export function MatchingJobsSection ({ report }) {
           <Carousel 
             animation='slide' 
             interval={10000}
-            NavButton={()=>null}
+            navButtonsAlwaysInvisible
           >
             {websitePages.map((jobList, index) => 
             <div key={index}>{
