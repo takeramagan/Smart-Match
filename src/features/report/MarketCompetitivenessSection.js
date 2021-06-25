@@ -100,12 +100,12 @@ export const MarketCompetitiveness = ({ report }) => {
           {jobLevel}
         </Box> */}
 
-        <Box fontSize={h3} fontWeight='500' lineHeight='24px'>
+        <Box fontSize={h3} fontWeight='500' lineHeight='24px' mb={-1}>
           {/* You are ranked {report.overall_job_level.toLowerCase()} level {report.overall_competitiveness}/10 compared to your competitors. Below are your detailed category of your resume analysis. */}
           {/* {t('radarchart.rank', {joblevel: jobLevel.toLowerCase(), competitiveness: competitiveness})} */}
           {t('radarchart.text')}
         </Box>
-        <Grid container>
+        <Grid container >
           <Grid item xs={8}>
             <RadarChart report={report} />
           </Grid>

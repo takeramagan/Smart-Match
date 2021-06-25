@@ -46,7 +46,7 @@ export function MatchingJobsSection ({ report }) {
           {t('matching jobs.text')}
         </Box>
         <Divider style={{backgroundColor:'white'}}/>
-        <Box fontSize={h3} mt={1} mb={2}>
+        <Box fontSize={h3} mt={2} mb={2}>
         {t('matching jobs.recruiter')}
           <Carousel 
             animation='slide' 
@@ -73,7 +73,7 @@ export function MatchingJobsSection ({ report }) {
           )} */}
         </Box>
         <Divider style={{backgroundColor:'white'}}/>
-        <Box fontSize={h3} mt={1}>
+        <Box fontSize={h3} mt={2}>
           {t('matching jobs.website')}  
           <Carousel 
             animation='slide' 

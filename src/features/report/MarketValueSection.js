@@ -173,7 +173,7 @@ console.log("report ", report)
           </Box>
         </Box>
 
-        <Box width='100%'><Chart income={income} /></Box>
+        <Box width='100%' mt={-5}><Chart income={income} /></Box>
       </Box>
     </Section>
   )
