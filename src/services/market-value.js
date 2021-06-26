@@ -1,18 +1,8 @@
 /* global fetch, FormData */
 
-import { ENVIRONMENT, RESUME_ANASIS, RESUME_ANASIS_PRODUCTION, X_API_KEY_PRODUCTION, X_API_KEY_STAGING } from "../constant/externalURLs"
-
 export const fetchMarketValue = (file, params) => {
-  var url
-  var x_api_key
-  if (ENVIRONMENT == 'STAGING') {
-    url = RESUME_ANASIS
-    x_api_key = X_API_KEY_STAGING
-  } else {
-    url = RESUME_ANASIS_PRODUCTION
-    x_api_key = X_API_KEY_PRODUCTION
-  }
-  // const url = RESUME_ANASIS
+  const url = process.env.REACT_APP_END_POINT
+  const x_api_key = process.env.REACT_APP_X_API_KEY
 
   const myHeaders = new Headers()
   myHeaders.append('x-api-key', x_api_key)
