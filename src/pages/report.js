@@ -334,7 +334,8 @@ export default function Home () {
                   {t("report.report_title")}
                 </Box>
                 <Box fontSize={h3} lineHeight='21px' color='rgba(87, 91, 166, 1)'>
-                  {t("report.report_text")}
+                  {/* {t("report.report_text")} */}
+                  {report.lang === 'cn' ? report.career_path_info.evaluation.zhs : report.career_path_info.evaluation.eng}
                 </Box>
                 
             </Box>
