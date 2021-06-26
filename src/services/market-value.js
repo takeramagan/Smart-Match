@@ -1,8 +1,10 @@
 /* global fetch, FormData */
-
+import { X_API_KEY, APP_END_POINT} from '../constant/externalURLs'
 export const fetchMarketValue = (file, params) => {
-  const url = process.env.REACT_APP_END_POINT
-  const x_api_key = process.env.REACT_APP_X_API_KEY
+  const url = APP_END_POINT
+  const x_api_key = X_API_KEY
+
+console.log("env = ", process.env.NODE_ENV)
 
   const myHeaders = new Headers()
   myHeaders.append('x-api-key', x_api_key)
