@@ -3,3 +3,5 @@ node_modules
 __generated__
 .DS_Store
 .env
+.idea/inspectionProfiles/Project_Default.xml
+.idea/workspace.xml
