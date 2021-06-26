@@ -7,7 +7,8 @@ import i18n from '../../i18n/config'
 export const CareerAdviceSection = ({ report }) => {
   const { t } = useTranslation()
   // const isChinese = (i18n.language.toLowerCase() === 'cn') //current language is Chinese
-  const {career_advice, evaluation} = report.career_path_info
+  const career_advice = report.lang === 'cn' ? report.career_path_info.zhs : report.career_path_info.eng
+  // const {career_advice, evaluation} = report.career_path_info
 
   return (
     <Section >
@@ -17,7 +18,7 @@ export const CareerAdviceSection = ({ report }) => {
         </Box>
         <Box fontSize={h2} fontWeight='500' color='#6A707E'>
         {/* {t('careeradvice.demo')} */}
-          <Typography color='primary'>{evaluation}</Typography>
+          {/* <Typography color='primary'>{evaluation}</Typography> */}
         {career_advice}
         </Box>
             
