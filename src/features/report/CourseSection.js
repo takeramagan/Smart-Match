@@ -16,6 +16,13 @@ const useStyles = makeStyles({
       cursor: 'pointer',
     }
 
+  },
+  clicktext: {
+    '&:hover':{
+      transition: 'all',
+      transform: 'scale(1.1)',
+      cursor: 'pointer',
+    }
   }
 })
 const EducationSection = ({ report, selectedPathIndex}) => {
@@ -196,28 +203,15 @@ export function CourseSection ({ report, selectedPathIndex }) {
         </Box> */}
         <SuggestedCourse report={report} selectedPathIndex={selectedPathIndex}/>
         <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
-          <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
-            {t('suggest.contact')}
-          </Typography>
-          {/* <Box display='flex' alignItems='center'> */}
-            {/* <Button
-              variant="contained"
-              color="primary"
-              startIcon={<AccountCircleIcon />}
-              href={DK_LINK}
-              target='_blank'
-              color='primary'
-              size='small'
-              style={{borderRadius:20, width:105 }}
-              onClick={() => {linkTrack(report.id, DK_LINK)}}
-            >
-              {t('contact.click me')}
-            </Button> */}
+          <a href={DK_LINK} target="_blank" style={{textDecoration:'none'}} onClick={() => linkTrack(report.id, DK_LINK)}>
+            <Typography color='primary' className={classes.clicktext} style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
+              {t('suggest.contact')}
+            </Typography>
+          </a>
             <Link
               href={DK_LINK}
               target='_blank'
               onClick={() => {linkTrack(report.id, DK_LINK)}}
-
             >
               <img src='ai.svg' width={80} height={100} className={classes.ai}/>
             </Link>

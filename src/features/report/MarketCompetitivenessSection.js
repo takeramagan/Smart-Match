@@ -18,7 +18,13 @@ const useStyles = makeStyles({
       transform: 'rotate(360deg) scale(1.5)',
       cursor: 'pointer',
     }
-
+  },
+  clicktext: {
+    '&:hover':{
+      transition: 'all',
+      transform: 'scale(1.1)',
+      cursor: 'pointer',
+    }
   }
 })
 
@@ -144,9 +150,11 @@ export const MarketCompetitiveness = ({ report }) => {
         </Box> */}
  
         <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' mt={-2} mb={-3}>
-          <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
-            {t('radarchart.contact')}
-          </Typography>
+          <a href={DK_LINK} target="_blank" style={{textDecoration:'none'}} onClick={() => linkTrack(report.id, DK_LINK)}>
+            <Typography color='primary' className={classes.clicktext} style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
+              {t('radarchart.contact')}
+            </Typography>
+          </a>
           {/* <Box display='flex' alignItems='center'>
             <Button
               variant="contained"

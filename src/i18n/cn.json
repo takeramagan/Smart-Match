@@ -51,7 +51,7 @@
   "data science": "大数据课程",
   "general assembly":"General Assembly",
   "front end":"前端开发",
-  "contact": "如果需要一对一专业服务定制学习课程,请点击此处联系"
+  "contact": "如果需要一对一专业服务定制学习课程,请点击此处"
   },
 
   "radarchart":{
@@ -64,7 +64,7 @@
     "Logic": "逻辑",
     "Resume Analysis": "简历评估",
     "rank": "相对您的竞争者, 您在 {{joblevel}} 级别的竞争力为 {{competitiveness}}/10. 以下是您的简历评估的详细结果.",
-    "contact": "如果需要人工分析简历（资深猎头），请点击此处查看"
+    "contact": "如果需要人工分析简历（资深猎头），请点击此处"
   },
   "matching jobs":{
     "title":"职位推荐",
