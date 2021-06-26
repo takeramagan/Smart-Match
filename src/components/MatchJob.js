@@ -66,25 +66,34 @@ export function MatchJob ({ job, onClick }) {
 
   return (
     <div >
-    <Box display='flex' alignItems='center' onMouseLeave={handlePopoverClose} onMouseEnter={handlePopoverOpen}>
+    <Box display='flex' alignItems='center' 
+      onMouseLeave={handlePopoverClose} 
+      onMouseEnter={handlePopoverOpen} 
+      justifyContent="center" 
+    >
       <Box
-        width='70px' height='70px' style={{
+        width= {70} height={70} 
+        minWidth={70}
+        style={{
           backgroundColor: 'white',
           borderRadius:10,
           overflow: 'hidden'
         }} my={1}
       >
-        <img id='image0' width='70px' height='70px' src= {logo} />
+        <img id='image0' style={{width:70, height:70}} src= {logo} />
 
       </Box>
       <Box
-        flexGrow='1' height='70px' m={1}
+        display='flex' flexDirection='column' flexGrow='1' height='85px' m={1}  style={{alignItems:'flex-start', justifyContent:'center'}}
       >
         <Box
-            fontSize={h3} my='2px' width='380px' style={{
-            whiteSpace: 'nowrap',
+            fontSize={h3} my='2px' 
+            // maxWidth='380px' 
+            style={{
+            // whiteSpace: 'nowrap',
+            maxHeight: 38,
             overflow: 'hidden',
-            textOverflow: 'ellipsis'
+            textOverflow: 'ellipsis',
           }}
         >
           {job_title}
@@ -94,17 +103,19 @@ export function MatchJob ({ job, onClick }) {
         >
           {t('matching jobs.salary')}{job_salary}
         </Box>
-        <Box>
+        <Box width='100%'>
           <LinearProgressWithLabel value={matched_percentage} />
         </Box>
       </Box>
-      <Box width='68px' height='70px' my={1} fontSize={h3} display='flex' justifyContent='center' alignItems='center'>
+      <Box flexShrink={0}>
         <Button
+        
           href={job_link}
           target="_blank"
           onClick={() => onClick(job_link)}
           style={{
             color: 'white', fontWeight: '500', border:'1px solid white', borderRadius:15, height: 30,
+            width: 68
           }}
         >
           {t('matching jobs.apply')}
@@ -112,6 +123,7 @@ export function MatchJob ({ job, onClick }) {
       </Box>
     </Box>
     <Popover
+    id="popover"
       open={openPopOver}
       anchorEl={anchorEl}
       anchorOrigin={{
@@ -123,8 +135,12 @@ export function MatchJob ({ job, onClick }) {
         horizontal: 'left',
       }}
       onClose={handlePopoverClose}
-      style={{ pointerEvents: 'none', width: 400}}
-      // disableRestoreFocus
+      style={{ 
+        pointerEvents: 'none', 
+        width: 400,
+      }}
+      disableRestoreFocus
+      disableScrollLock
     >
       {/* {Object.entries(job).map(([key, value]) => <Typography key={key}>{key} : {value.toString()}</Typography>)} */}
       <Box p={1} width={370}>

@@ -26,7 +26,7 @@
   "sidebar":{
     "homepage": "Homepage",
     "reportpage": "Report Page",
-    "back": "back"
+    "back": "Re-upload"
   },
   "careeradvice":{
     "title": "Career Advice",
@@ -57,13 +57,14 @@
   "radarchart":{
     "title":"Resume Analysis Result",
     "fit job": "You are a good fit for <0>{{jobtitle}}</0>",
+    "text": "Below is your resume evaluation based on 4 aspects such as Format, Logic, Language and how much your resume matches the job title.",
     "Format": "Format",
     "Language": "Language",
     "Match Level": "Match Level",
     "Logic":"Logic",
     "Resume Analysis":"Resume Analysis",
     "rank":"You are ranked {{joblevel}} level {{competitiveness}}/10 compared to your competitors. Below are your detailed category of your resume analysis.",
-    "contact": "Above are only analysis results of your resume. If you need one-to-one professional headhunting services, please click here to contact recruiter."
+    "contact": "If you need to analyze your resume through senior recruiters, please click here"
   },
   "matching jobs":{
     "title":"Matching Jobs",

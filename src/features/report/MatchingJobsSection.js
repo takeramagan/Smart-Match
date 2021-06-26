@@ -46,12 +46,12 @@ export function MatchingJobsSection ({ report }) {
           {t('matching jobs.text')}
         </Box>
         <Divider style={{backgroundColor:'white'}}/>
-        <Box fontSize={h3} mt={1} mb={2}>
+        <Box fontSize={h3} mt={2} mb={2}>
         {t('matching jobs.recruiter')}
           <Carousel 
             animation='slide' 
             interval={10000}
-            NavButton={()=>null}
+            navButtonsAlwaysInvisible
           >
             {recruiterPages.map((jobList, index) => 
             <div key={index}>{
@@ -73,12 +73,12 @@ export function MatchingJobsSection ({ report }) {
           )} */}
         </Box>
         <Divider style={{backgroundColor:'white'}}/>
-        <Box fontSize={h3} mt={1}>
+        <Box fontSize={h3} mt={2}>
           {t('matching jobs.website')}  
           <Carousel 
             animation='slide' 
             interval={10000}
-            NavButton={()=>null}
+            navButtonsAlwaysInvisible
           >
             {websitePages.map((jobList, index) => 
             <div key={index}>{

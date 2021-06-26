@@ -1,12 +1,21 @@
 /* global fetch, FormData */
 
-import { RESUME_ANASIS } from "../constant/externalURLs"
+import { ENVIRONMENT, RESUME_ANASIS, RESUME_ANASIS_PRODUCTION, X_API_KEY_PRODUCTION, X_API_KEY_STAGING } from "../constant/externalURLs"
 
 export const fetchMarketValue = (file, params) => {
-  const url = RESUME_ANASIS
+  var url
+  var x_api_key
+  if (ENVIRONMENT == 'STAGING') {
+    url = RESUME_ANASIS
+    x_api_key = X_API_KEY_STAGING
+  } else {
+    url = RESUME_ANASIS_PRODUCTION
+    x_api_key = X_API_KEY_PRODUCTION
+  }
+  // const url = RESUME_ANASIS
 
   const myHeaders = new Headers()
-  myHeaders.append('x-api-key', '9G3dp8le_wmc8An6ay5lj1J5Hu9baha8em3tvzppcgasiwmc8An6ay5lKa861')
+  myHeaders.append('x-api-key', x_api_key)
   myHeaders.append('DNT', '1')
 
   const formdata = new FormData()

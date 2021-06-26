@@ -55,10 +55,11 @@ const CareerBlock = ({ countryCode, name, salary, top, left, selected, noBackgro
 
     >
       <Box>
-        <Box className='title' fontSize={h4} color={noBackgroundColor ? (selected ? '#024CC3' : '#6A707E') : 'inherit'}>
+        {/* <Box className='title' fontSize={h4} color={noBackgroundColor ? (selected ? '#024CC3' : '#6A707E') : 'inherit'}> */}
+        <Box className='title' fontSize={h4} color={selected ? 'white' : 'black'}>
           {name}
         </Box>
-        <Box className='salary' fontSize={h5} color='white'>
+        <Box className='salary' fontSize={h5} color={selected ? 'white' : 'black'}>
           Avg {formatter(countryCode).format(salary)}
         </Box>
       </Box>
@@ -238,9 +239,9 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
   }
   const { t } = useTranslation()
   return (
-    <Section>
-      <Box p={4}>
-        <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
+    <Section >
+      <Box p={4} style={{minWidth:790}} mr={-8}>
+        <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3' flexGrow='1'>
           {t("career_pathway.title")}
         </Box>
         <Box
@@ -318,7 +319,6 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
           </Box>
         </Box> */}
       </Box>
-
     </Section>
   )
 }

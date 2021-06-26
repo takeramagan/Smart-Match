@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Link, Grid, Typography } from '@material-ui/core'
+import { Box, Button, Chip, Link, Grid, Typography, makeStyles } from '@material-ui/core'
 import { Section } from '../../components/Section'
 import { useTranslation } from 'react-i18next'
 import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
@@ -6,7 +6,18 @@ import { DK_LINK } from '../../constant/externalURLs'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { linkTrack } from '../../untils/linkTrack'
 
+const useStyles = makeStyles({
+  ai: {
+    width: '100px',
+    height: '100px',
+    '&:hover': {
+      transition: 'all 0.6s ease',
+      transform: 'rotate(360deg) scale(1.5)',
+      cursor: 'pointer',
+    }
 
+  }
+})
 const EducationSection = ({ report, selectedPathIndex}) => {
   const { t } = useTranslation()
   const requiredSkills = report.career_path_info.career_paths.path[selectedPathIndex]?.how_to_improve?.required_skills
@@ -18,9 +29,9 @@ const EducationSection = ({ report, selectedPathIndex}) => {
 
   return (
     <Box>
-      <Box fontSize={h1} my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
+      {/* <Box fontSize={h1} my={2} fontWeight='500' color='rgba(55, 58, 112, 1)'>
         {t('course.education')}
-      </Box>
+      </Box> */}
       <Box pb={2}>
         {/* {report.education_levels_needed_to_improve.map((item) => { */}
         {requiredSkills.slice(0, 10).map((item) => {
@@ -113,12 +124,14 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
     <Box py={2} display='flex' justifyContent='space-between' flexDirection="column">
       <Box width='100%' display='flex' justifyContent='space-between'>
         <Box width='50%'>
-          <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
+         {/* <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'> */}
+          <Box fontSize={h1} my={2} fontWeight='500' color='#024CC3'>
           {t('suggest.certifacate')}
           </Box>
         </Box>
         <Box width='50%'>
-          <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'>
+          {/* <Box fontSize={h1} my={2} fontWeight='500' color='rgba(174, 174, 174, 1)'> */}
+          <Box fontSize={h1} my={2} fontWeight='500' color='#024CC3'>
             {t('suggest.course')}
           </Box>
         </Box>
@@ -144,20 +157,21 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
         </Box>
         <Box width='50%'>
           <Box ml={0} display='flex' justifyContent='space-between'>
-            <Box color='#6A707E' fontSize={h3} display='flex' alignItems='center'>
+            <Box color='#6A707E' fontSize={h3} display='flex' alignItems='center' justifyContent='center'>
               <Box
-                width='67px' height='67px' mr={1} style={{
-                  backgroundColor: '#ccc'
-                }}
+                width='67px' height='40px' mr={1} 
               >
-                <img width='67px' height='67px' src='https://ik.imagekit.io/himalayas/general_assembly_logo_AxBQAGHdD.jpeg' />
+                {/* <img width='67px' height='67px' src='https://ik.imagekit.io/himalayas/general_assembly_logo_AxBQAGHdD.jpeg' /> */}
+                <img width='67px' height='40px' src='https://static.wixstatic.com/media/d44c9e_b34eb8491f984802b8961715fdf76082~mv2.png/v1/fill/w_96,h_60,al_c,q_85,usm_0.66_1.00_0.01/DK-Logo.webp' />
               </Box>
 
               {/* <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{t('suggest.general assembly')} <br />{t('suggest.front end')}</Link> */}
               {/* <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{suggestedCourses.slice(0,3).map(course => <>{course}<br/></>)}</Link> */}
               <Box>{suggestedCourses.slice(0,3).map(item=>
-                <Link target='_blank' rel='noreferrer' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)}>{item}<br/></Link>
-              )}</Box>
+                // <Link target='_blank' rel='noreferrer' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)}>{item}<br/></Link>
+                <Link target='_blank' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)} style={{zIndex: 0}}>•{item}<br/></Link>
+              )}
+              </Box>
             </Box>
           </Box>
         </Box>
@@ -168,9 +182,9 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
 
 export function CourseSection ({ report, selectedPathIndex }) {
   const { t } = useTranslation()
-
+  const classes = useStyles()
   return (
-    <Section>
+    <Section >
       <Box p={4} mb={4}>
         <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
           {t("course.title")}
@@ -185,8 +199,8 @@ export function CourseSection ({ report, selectedPathIndex }) {
           <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
             {t('suggest.contact')}
           </Typography>
-          <Box display='flex' alignItems='center'>
-            <Button
+          {/* <Box display='flex' alignItems='center'> */}
+            {/* <Button
               variant="contained"
               color="primary"
               startIcon={<AccountCircleIcon />}
@@ -198,8 +212,16 @@ export function CourseSection ({ report, selectedPathIndex }) {
               onClick={() => {linkTrack(report.id, DK_LINK)}}
             >
               {t('contact.click me')}
-            </Button>
-          </Box>
+            </Button> */}
+            <Link
+              href={DK_LINK}
+              target='_blank'
+              onClick={() => {linkTrack(report.id, DK_LINK)}}
+
+            >
+              <img src='ai.svg' width={80} height={100} className={classes.ai}/>
+            </Link>
+          {/* </Box> */}
         </Box>
       </Box>
 
