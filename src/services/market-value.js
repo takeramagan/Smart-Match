@@ -3,8 +3,8 @@
 import { ENVIRONMENT, RESUME_ANASIS, RESUME_ANASIS_PRODUCTION, X_API_KEY_PRODUCTION, X_API_KEY_STAGING } from "../constant/externalURLs"
 
 export const fetchMarketValue = (file, params) => {
-  var url
-  var x_api_key
+  const url
+  const x_api_key
   if (ENVIRONMENT == 'STAGING') {
     url = RESUME_ANASIS
     x_api_key = X_API_KEY_STAGING
