@@ -1,4 +1,4 @@
-import { Box, Grid, Button, Typography } from '@material-ui/core'
+import { Box, Grid, Button, Typography, makeStyles, Link } from '@material-ui/core'
 import { PercentageLabel } from '../../components/PercentageLabel'
 import { Section } from '../../components/Section'
 import ReactECharts from 'echarts-for-react'
@@ -8,6 +8,19 @@ import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
 import { DK_LINK } from '../../constant/externalURLs'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { linkTrack } from '../../untils/linkTrack'
+
+const useStyles = makeStyles({
+  ai: {
+    width: '100px',
+    height: '100px',
+    '&:hover': {
+      transition: 'all 0.6s ease',
+      transform: 'rotate(360deg) scale(1.5)',
+      cursor: 'pointer',
+    }
+
+  }
+})
 
 export const RadarChart = ({ report }) => {
   const { t } = useTranslation()
@@ -82,6 +95,7 @@ export const MarketCompetitiveness = ({ report }) => {
   // const matchLevel = 90
   // const grammer = 100
   const { format, language, matching : matchLevel, logic } = report.resume_marking_info
+  const classes = useStyles()
   return (
     <Section>
       <Box p={4}>
@@ -100,7 +114,7 @@ export const MarketCompetitiveness = ({ report }) => {
           {jobLevel}
         </Box> */}
 
-        <Box fontSize={h3} fontWeight='500' lineHeight='24px' mb={-1}>
+        <Box fontSize={h3} fontWeight='500' lineHeight='24px' mb={-3}>
           {/* You are ranked {report.overall_job_level.toLowerCase()} level {report.overall_competitiveness}/10 compared to your competitors. Below are your detailed category of your resume analysis. */}
           {/* {t('radarchart.rank', {joblevel: jobLevel.toLowerCase(), competitiveness: competitiveness})} */}
           {t('radarchart.text')}
@@ -129,11 +143,11 @@ export const MarketCompetitiveness = ({ report }) => {
           <PercentageLabel name= {t('radarchart.Grammar')} value={report.hard_skill_competitiveness} />
         </Box> */}
  
-        <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
+        <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' mt={-2} mb={-3}>
           <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
             {t('radarchart.contact')}
           </Typography>
-          <Box display='flex' alignItems='center'>
+          {/* <Box display='flex' alignItems='center'>
             <Button
               variant="contained"
               color="primary"
@@ -147,7 +161,14 @@ export const MarketCompetitiveness = ({ report }) => {
             >
               {t('contact.click me')}
             </Button>
-          </Box>
+          </Box> */}
+            <Link
+              href={DK_LINK}
+              target='_blank'
+              onClick={() => {linkTrack(report.id, DK_LINK)}}
+            >
+              <img src='ai.svg' width={80} height={100} className={classes.ai}/>
+            </Link>
         </Box>
       </Box>
     </Section>

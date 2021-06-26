@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Link, Grid, Typography } from '@material-ui/core'
+import { Box, Button, Chip, Link, Grid, Typography, makeStyles } from '@material-ui/core'
 import { Section } from '../../components/Section'
 import { useTranslation } from 'react-i18next'
 import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
@@ -6,7 +6,18 @@ import { DK_LINK } from '../../constant/externalURLs'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { linkTrack } from '../../untils/linkTrack'
 
+const useStyles = makeStyles({
+  ai: {
+    width: '100px',
+    height: '100px',
+    '&:hover': {
+      transition: 'all 0.6s ease',
+      transform: 'rotate(360deg) scale(1.5)',
+      cursor: 'pointer',
+    }
 
+  }
+})
 const EducationSection = ({ report, selectedPathIndex}) => {
   const { t } = useTranslation()
   const requiredSkills = report.career_path_info.career_paths.path[selectedPathIndex]?.how_to_improve?.required_skills
@@ -171,7 +182,7 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
 
 export function CourseSection ({ report, selectedPathIndex }) {
   const { t } = useTranslation()
-
+  const classes = useStyles()
   return (
     <Section >
       <Box p={4} mb={4}>
@@ -188,8 +199,8 @@ export function CourseSection ({ report, selectedPathIndex }) {
           <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
             {t('suggest.contact')}
           </Typography>
-          <Box display='flex' alignItems='center'>
-            <Button
+          {/* <Box display='flex' alignItems='center'> */}
+            {/* <Button
               variant="contained"
               color="primary"
               startIcon={<AccountCircleIcon />}
@@ -201,8 +212,16 @@ export function CourseSection ({ report, selectedPathIndex }) {
               onClick={() => {linkTrack(report.id, DK_LINK)}}
             >
               {t('contact.click me')}
-            </Button>
-          </Box>
+            </Button> */}
+            <Link
+              href={DK_LINK}
+              target='_blank'
+              onClick={() => {linkTrack(report.id, DK_LINK)}}
+
+            >
+              <img src='ai.svg' width={80} height={100} className={classes.ai}/>
+            </Link>
+          {/* </Box> */}
         </Box>
       </Box>
 
