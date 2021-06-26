@@ -7,7 +7,7 @@ import i18n from '../../i18n/config'
 export const CareerAdviceSection = ({ report }) => {
   const { t } = useTranslation()
   // const isChinese = (i18n.language.toLowerCase() === 'cn') //current language is Chinese
-  const career_advice = report.lang === 'cn' ? report.career_advice.zhs : report.career_advice.eng
+  const career_advice = report.lang === 'cn' ? report.career_path_info.career_advice.zhs : report.career_path_info.career_advice.eng
   // const {career_advice, evaluation} = report.career_path_info
 
   return (
