@@ -31,7 +31,10 @@
   "careeradvice":{
     "title": "Career Advice",
     "demo": "Good good study, day day up",
-    "contact": "To obtain more infomation, please follow us on social media"
+    "contact": "To obtain more infomation, please follow us on social media",
+    "evaluation":"Based on the system's analysis of your resume, your current position is <0>{{jobtitle}}</0>.",
+    "change direction":"Your matching profession is a <0>{{matched_job}}</0>, but due to the rapid renewal of the market, being a <0>{{matched_job}}</0> has become obsolete. Therefore, it is recommended that you change your employment direction to <0>{{suggested_job}}</0>. Based on your current situation, it is recommended that you can learn these aspects: <0>{{suggested_job_skills}}</0> to improve yourself, learn relevant knowledge and gain more experience, so as to successfully transfer to be a <0>{{suggested_job}}</0>。",
+    "improve":"Your matching profession is a <0>{{matched_job}}</0>. The position is currently popular in the market, and the future can be expected. It is recommended that you can improve yourself with these aspects: <0>{{skills_needed}}</0>. Learning more knowledge and gaining more experience, so as to be promoted to a higher level of the position."
   },
   "career_pathway":{
     "title": "Future Career Pathway",

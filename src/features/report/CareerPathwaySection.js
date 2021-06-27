@@ -103,10 +103,14 @@ const Aaaaa = ({ selected }) => {
       <path d='M8.55886 219.392L60.003 200.469C97.7589 186.581 126.729 155.665 138.138 117.088V117.088C154.025 63.3643 203.164 26.34 259.186 25.8839L613.377 23' stroke={selected ? 'url(#paint0_linear)' : '#F2F2F2'} strokeWidth='45' />
       <defs>
         <linearGradient id='paint0_linear' x1='7.77943' y1='123.665' x2='500' y2='118.727' gradientUnits='userSpaceOnUse'>
-          <stop offset='0.114583' stopColor='#F2F1F1' />
+          {/* <stop offset='0.114583' stopColor='#F2F1F1' />
           <stop offset='0.401042' stopColor='#46EBD5' />
           <stop offset='0.635417' stopColor='#60EFFF' />
-          <stop offset='1' stopColor='#0061FF' />
+          <stop offset='1' stopColor='#0061FF' /> */}
+          <stop offset='0.114583' stopColor='rgba(96,239,255, 0.4)' />
+          <stop offset='0.401042' stopColor='#66FFCC' />
+          <stop offset='0.935417' stopColor='#60EFFF' />
+          <stop offset='1' stopColor='#0099cc' />
         </linearGradient>
       </defs>
     </svg>
@@ -120,10 +124,14 @@ const Aaaab = ({ selected }) => {
       <path d='M19.9999 50.9863C8.95427 50.9644 0.0178244 41.9922 0.0398119 30.9466L0.0616022 20C0.0835897 8.95429 9.0557 0.0178369 20.1014 0.0398244L362.868 0.722135L705.635 1.40445C716.681 1.42643 725.617 10.3985 725.595 21.4442L725.573 32.3908C725.551 43.4365 716.579 52.373 705.534 52.351L19.9999 50.9863Z' fill={selected ? 'url(#paint0_linear)' : '#F2F2F2'} />
       <defs>
         <linearGradient id='paint0_linear' x1='0.77943' y1='123.665' x2='500' y2='118.727' gradientUnits='userSpaceOnUse'>
-          <stop offset='0.114583' stopColor='#F2F1F1' />
+          {/* <stop offset='0.114583' stopColor='#F2F1F1' />
           <stop offset='0.141042' stopColor='#46EBD5' />
           <stop offset='0.635417' stopColor='#60EFFF' />
-          <stop offset='1' stopColor='#0061FF' />
+          <stop offset='1' stopColor='#0061FF' /> */}
+          <stop offset='0.114583' stopColor='rgba(96,239,255, 0.4)' />
+          <stop offset='0.141042' stopColor='#66FFCC' />
+          <stop offset='0.935417' stopColor='#60EFFF' />
+          <stop offset='1' stopColor='#0099cc' />
         </linearGradient>
       </defs>
     </svg>
@@ -146,6 +154,7 @@ const CareerSinglePath = ({ countryCode, tops, lefts, careerPath, position, sele
           left={lefts[1]}
           selected={selected}
           onClick={onClick}
+          // background='linear-gradient(90deg, #46EBD5 10.16%, #60EFFF 92.75%)'
           background='linear-gradient(90deg, #46EBD5 10.16%, #60EFFF 92.75%)'
         />
       )}
@@ -158,7 +167,8 @@ const CareerSinglePath = ({ countryCode, tops, lefts, careerPath, position, sele
           left={lefts[2]}
           selected={selected}
           onClick={onClick}
-          background='linear-gradient(90.07deg, #1883FF 0.07%, #0E15AD 99.99%)'
+          // background='linear-gradient(90.07deg, #1883FF 0.07%, #0E15AD 99.99%)'
+          background='linear-gradient(90.07deg, #1883FF 0.07%, #0099cc 99.99%)'
         />
       )}
       {/* <CareerBlock

@@ -18,7 +18,7 @@ import { Section } from '../components/Section'
 import { fetchMarketValue } from '../services/market-value'
 import DescriptionIcon from '@material-ui/icons/Description'
 import HourglassFullIcon from '@material-ui/icons/HourglassFull'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import i18n from '../i18n/config'
 import { useRouter } from 'next/router'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -335,7 +335,12 @@ export default function Home () {
                 </Box>
                 <Box fontSize={h3} lineHeight='21px' color='rgba(87, 91, 166, 1)'>
                   {/* {t("report.report_text")} */}
-                  {report.lang === 'cn' ? report.career_path_info.evaluation.zhs : report.career_path_info.evaluation.eng}
+                  {/* {report.lang === 'cn' ? report.career_path_info.evaluation.zhs : report.career_path_info.evaluation.eng} */}
+                  <Trans
+                    i18nKey={"careeradvice.evaluation"}
+                    values={{ jobtitle: report.career_path_info.career_paths.name}}
+                    components={[<b>defaults</b>]}
+                  />
                 </Box>
                 
             </Box>
@@ -384,7 +389,7 @@ export default function Home () {
           </div>
           </Grid>
 
-          <Grid item lg={7} md={12}>
+          <Grid item lg={12} md={12}>
             <div id='career_pathway'>
               <CareerPathwaySection 
                 report={report} 
@@ -394,7 +399,7 @@ export default function Home () {
             </div>
           </Grid>
 
-          <Grid item md={12} lg={5}>
+          <Grid item md={12} lg={12}>
             <div id='course_section'>
               <CourseSection report={report} selectedPathIndex={selectedPathIndex}/>
             </div>

@@ -82,7 +82,8 @@ const Chart = ({ income }) => {
       data: numbers.map(n => n <= income.market_mid_low ? n : undefined)
     }, {
       name: t("marketvalue.Acceptable Offer"),
-      color: '#46EBD5',
+      // color: '#46EBD5',
+      color: 'rgba(96,239,255, 0.4)',
       barGap: '-100%',
       barWidth: '50%',
       type: 'bar',

@@ -31,7 +31,10 @@
   "careeradvice":{
     "title": "职业建议",
     "demo": "好好学习,天天向上",
-    "contact": "如需了解更多信息,请关注我们的公众号"
+    "contact": "如需了解更多信息,请关注我们的公众号",
+    "evaluation":"基于系统对您的简历分析，您当前市场职位是<0>{{jobtitle}}</0>",
+    "change direction":"给您匹配到的职位是<0>{{matched_job}}</0>，但由于市场迅速的更新换代，<0>{{matched_job}}</0>已过时。所以建议您转换就业方向到<0>{{suggested_job}}</0>。基于您目前的状况，建议您可以从这些方面：<0>{{suggested_job_skills}}</0>提升自己我，学习相关知识并获得更多的经验，从而成功转行到<0>{{suggested_job}}</0>。",
+    "improve":"给您匹配到的职位是<0>{{matched_job}}</0>，目前市场上该职位火爆，未来发展可期。建议您可以从这些方面：<0>{{skills_needed}}</0> 提升自我，学习更多的知识并获得更多的经验，从而晋升到职位的更高层次。"
   },
   "career_pathway":{
     "title": "学习路径",
