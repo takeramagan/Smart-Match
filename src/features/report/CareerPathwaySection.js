@@ -60,7 +60,7 @@ const CareerBlock = ({ countryCode, name, salary, top, left, selected, noBackgro
           {name}
         </Box>
         <Box className='salary' fontSize={h5} color={selected ? 'white' : 'black'}>
-          Avg {formatter(countryCode).format(salary)}
+        Approx. {formatter(countryCode).format(salary)}
         </Box>
       </Box>
 
@@ -68,7 +68,7 @@ const CareerBlock = ({ countryCode, name, salary, top, left, selected, noBackgro
   )
 }
 
-const CareerOriginBlock = ({ countryCode, name, salary, top, left, selected, noBackgroundColor, onClick }) => {
+const CareerOriginBlock = ({ countryCode, name, salary, top, left, selected, noBackgroundColor, onClick, low, high }) => {
   const classes = useStyles({ noBackgroundColor, selected })
   return (
     <Box
@@ -89,7 +89,8 @@ const CareerOriginBlock = ({ countryCode, name, salary, top, left, selected, noB
           {name}
         </Box>
         <Box className='salary' fontSize={h5} color='#6A707E'>
-          {formatter(countryCode).format(salary)}
+          {/* {formatter(countryCode).format(salary)} */}
+          {formatter(countryCode).format(low)} ~ {formatter(countryCode).format(high)}
         </Box>
       </Box>
 
@@ -238,6 +239,7 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
   const curJobTitle = careerPath.name
   const curFulltimeSalary = report.market_value_info.full_time_market_info
   const paths = careerPath.path
+  const {low, high} = report.market_value_info.predicted_full_time_salary
   const market_value_result = paths.map(path=> {
     const curLevel = {title:path.name, market_avg_salary:{fulltime:path.salary.market_avg_salary_fulltime}}
     const level2 = path.next_level //第2个job Block存在
@@ -289,7 +291,9 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
             countryCode={report.countryCode}
             // name={curJobTitle} salary={curFulltimeSalary.avg} top={150} left={0} />
             // name={curJobTitle} salary={curFulltimeSalary.avg} top={150} left={ width > 1200 ? 130  : width> 1100 ? 100 : width > 1000? 80 : width> 980 ? 50 : width> 800 ? 30: 0} />
-            name={curJobTitle} salary={curFulltimeSalary.avg} top={150} left={ width > 800 ? (width-800) * 0.3 : 0} />
+            name={curJobTitle} salary={curFulltimeSalary.avg} top={150} 
+            low={low} high={high}
+            left={ width > 800 ? (width-800) * 0.3 : 0} />
 
           {/* career path 1 */}
         {listOfPathIndex[0] != -1 && 

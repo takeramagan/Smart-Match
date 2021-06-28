@@ -8,11 +8,12 @@ import careerMapping from '../../constant/careerMapping.json'
 export const CareerAdviceSection = ({ report }) => {
   const { t } = useTranslation()
   // const isChinese = (i18n.language.toLowerCase() === 'cn') //current language is Chinese
-  const career_advice = report.lang === 'cn' ? report.career_path_info.career_advice.zhs : report.career_path_info.career_advice.eng
+  // const career_advice = report.lang === 'cn' ? report.career_path_info.career_advice.zhs : report.career_path_info.career_advice.eng
   // const {career_advice, evaluation} = report.career_path_info
   const jobtitle =  report.career_path_info.career_paths.name
   const suggested_job = careerMapping[jobtitle]
-  const changeCareer = jobtitle === suggested_job
+  const changeCareer = (jobtitle != suggested_job)
+
   const skills_needed = report.career_path_info.career_paths.skills_needed ?? "好好学习"
   const suggested_job_skills = report.career_path_info.career_paths.suggested_job_needed_string ?? "更加好好学习"
   const color = "#0099cc"
