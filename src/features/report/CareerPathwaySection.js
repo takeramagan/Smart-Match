@@ -1,5 +1,5 @@
 import { Box, Link, Typography, Button } from '@material-ui/core'
-import { useState } from 'react'
+import { useEffect, useState, useLayoutEffect } from 'react'
 import { Section } from '../../components/Section'
 import { makeStyles } from '@material-ui/core/styles'
 import { formatter } from '../../untils/currency'
@@ -97,19 +97,25 @@ const CareerOriginBlock = ({ countryCode, name, salary, top, left, selected, noB
   )
 }
 
-const Aaaaa = ({ selected }) => {
+const Aaaaa = ({ selected, left: v }) => {
+  const left = v > 600 ? v : 600
+  const path = `M0.55886 189.392L50.003 180.469C87.7589 166.581 126.729 155.665 138.138 117.088V117.088C154.025 83.3643 183.164 36.34 249.186 45.8839L${left} 45.8839`
+  // const path = `M8.55886 219.392L60.003 200.469L800 23`
   return (
-    <svg width='380' height='241' viewBox='0 0 614 241' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M8.55886 219.392L60.003 200.469C97.7589 186.581 126.729 155.665 138.138 117.088V117.088C154.025 63.3643 203.164 26.34 259.186 25.8839L613.377 23' stroke={selected ? 'url(#paint0_linear)' : '#F2F2F2'} strokeWidth='45' />
+    // <svg width='500' height='241' viewBox='0 0 614 241' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width={left} height='241' viewBox='0 0 614 241' fill='none' xmlns='http://www.w3.org/2000/svg' >
+      {/* <path d='M8.55886 219.392L60.003 200.469C97.7589 186.581 126.729 155.665 138.138 117.088V117.088C154.025 63.3643 203.164 26.34 259.186 25.8839L613.377 23' stroke={selected ? 'url(#paint0_linear)' : '#F2F2F2'} strokeWidth='45' /> */}
+      <path d={path} stroke={selected ? 'url(#paint0_linear)' : '#F2F2F2'} strokeWidth='30' />
       <defs>
-        <linearGradient id='paint0_linear' x1='7.77943' y1='123.665' x2='500' y2='118.727' gradientUnits='userSpaceOnUse'>
+        {/* <linearGradient id='paint0_linear' x1='7.77943' y1='123.665' x2='500' y2='118.727' gradientUnits='userSpaceOnUse'> */}
+        <linearGradient id='paint0_linear' x1='7.77943' y1='123.665' x2={left} y2='118.727' gradientUnits='userSpaceOnUse'>
           {/* <stop offset='0.114583' stopColor='#F2F1F1' />
           <stop offset='0.401042' stopColor='#46EBD5' />
           <stop offset='0.635417' stopColor='#60EFFF' />
           <stop offset='1' stopColor='#0061FF' /> */}
           <stop offset='0.114583' stopColor='rgba(96,239,255, 0.4)' />
           <stop offset='0.401042' stopColor='#66FFCC' />
-          <stop offset='0.935417' stopColor='#60EFFF' />
+          <stop offset='0.635417' stopColor='#60EFFF' />
           <stop offset='1' stopColor='#0099cc' />
         </linearGradient>
       </defs>
@@ -118,10 +124,14 @@ const Aaaaa = ({ selected }) => {
   )
 }
 
-const Aaaab = ({ selected }) => {
+const Aaaab = ({ selected, left :v}) => {
+  const left = v > 500 ? v : 500
+  const path =`M19.9999 50.9863C8.95427 50.9644 0.0178244 41.9922 0.0398119 30.9466L0.0616022 20C0.0835897 8.95429 9.0557 0.0178369 20.1014 0.0398244L362.868 0.722135L705.635 1.40445C716.681 1.42643 725.617 10.3985 725.595 21.4442L725.573 32.3908C725.551 43.4365 716.579 52.373 705.534 52.351L19.9999 50.9863Z`
   return (
-    <svg width='390' height='53' viewBox='0 0 726 53' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M19.9999 50.9863C8.95427 50.9644 0.0178244 41.9922 0.0398119 30.9466L0.0616022 20C0.0835897 8.95429 9.0557 0.0178369 20.1014 0.0398244L362.868 0.722135L705.635 1.40445C716.681 1.42643 725.617 10.3985 725.595 21.4442L725.573 32.3908C725.551 43.4365 716.579 52.373 705.534 52.351L19.9999 50.9863Z' fill={selected ? 'url(#paint0_linear)' : '#F2F2F2'} />
+    // <svg width={left} height='43' viewBox='0 0 726 53' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width={left + 40} height='30' viewBox='0 0 726 33' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      {/* <path d='M19.9999 50.9863C8.95427 50.9644 0.0178244 41.9922 0.0398119 30.9466L0.0616022 20C0.0835897 8.95429 9.0557 0.0178369 20.1014 0.0398244L362.868 0.722135L705.635 1.40445C716.681 1.42643 725.617 10.3985 725.595 21.4442L725.573 32.3908C725.551 43.4365 716.579 52.373 705.534 52.351L19.9999 50.9863Z' fill={selected ? 'url(#paint0_linear)' : '#F2F2F2'} /> */}
+      <path d={path} fill={selected ? 'url(#paint0_linear)' : '#F2F2F2'} />
       <defs>
         <linearGradient id='paint0_linear' x1='0.77943' y1='123.665' x2='500' y2='118.727' gradientUnits='userSpaceOnUse'>
           {/* <stop offset='0.114583' stopColor='#F2F1F1' />
@@ -130,7 +140,7 @@ const Aaaab = ({ selected }) => {
           <stop offset='1' stopColor='#0061FF' /> */}
           <stop offset='0.114583' stopColor='rgba(96,239,255, 0.4)' />
           <stop offset='0.141042' stopColor='#66FFCC' />
-          <stop offset='0.935417' stopColor='#60EFFF' />
+          <stop offset='0.635417' stopColor='#60EFFF' />
           <stop offset='1' stopColor='#0099cc' />
         </linearGradient>
       </defs>
@@ -205,8 +215,24 @@ const selectCareerPath = (career) => {
 }
 
 export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPathIndex }) {
-  const tops = [10, 146, 290]
-  const lefts = [30, 230, 480, 765]
+  // const tops = [10, 146, 290]
+  // const lefts = [30, 230, 480, 765]
+  const tops = [25, 146, 275]
+  let width = document.getElementById('career_pathway')?.getBoundingClientRect().width
+  const [lefts, setLefts] = useState([30, 230, 480, 765])
+
+  const resize = () =>{
+    width = document.getElementById('career_pathway')?.getBoundingClientRect().width ?? width;
+    setLefts([25 + 0.1*width, 0.3*width, 0.7*width, 0.7*width])
+  }
+  useEffect(()=>{
+    window.addEventListener('resize', resize)
+    return () =>{window.removeEventListener('resize',resize);}
+  }, [])
+  useLayoutEffect(() => {
+    resize()
+  }, []);
+
   const careerPath = report.career_path_info.career_paths
   // const curJobTitle = report.market_value_info.matched_job_title
   const curJobTitle = careerPath.name
@@ -248,9 +274,10 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
 
   }
   const { t } = useTranslation()
+  const scrollToSection = () => document.getElementById("course_section").scrollIntoView();
   return (
     <Section >
-      <Box p={4} style={{minWidth:790}} mr={-8}>
+      <Box p={4} style={{minWidth:790, width:'100vw'}} mr={-8} id='pathwaybox'>
         <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3' flexGrow='1'>
           {t("career_pathway.title")}
         </Box>
@@ -260,7 +287,9 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
           {/* <CareerOriginBlock name={market_value_result[0].matched_job_title} salary={market_value_result[0].fulltime.market_avg} top={150} left={0} /> */}
           <CareerOriginBlock 
             countryCode={report.countryCode}
-            name={curJobTitle} salary={curFulltimeSalary.avg} top={150} left={0} />
+            // name={curJobTitle} salary={curFulltimeSalary.avg} top={150} left={0} />
+            // name={curJobTitle} salary={curFulltimeSalary.avg} top={150} left={ width > 1200 ? 130  : width> 1100 ? 100 : width > 1000? 80 : width> 980 ? 50 : width> 800 ? 30: 0} />
+            name={curJobTitle} salary={curFulltimeSalary.avg} top={150} left={ width > 800 ? (width-800) * 0.3 : 0} />
 
           {/* career path 1 */}
         {listOfPathIndex[0] != -1 && 
@@ -271,7 +300,7 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
             position={0}
             selected={pathPosition === 0}
             careerPath={selectCareerPath(market_value_result[listOfPathIndex[0]])}
-            onClick={() => {setSelectedPathIndex(listOfPathIndex[0]); setPathPosition(0)}}
+            onClick={() => {setSelectedPathIndex(listOfPathIndex[0]); setPathPosition(0); scrollToSection()}}
           />}
           {listOfPathIndex[1] != -1 && (
             <CareerSinglePath
@@ -281,7 +310,7 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
               position={1}
               selected={pathPosition === 1}
               careerPath={selectCareerPath(market_value_result[listOfPathIndex[1]])}
-              onClick={() => {setSelectedPathIndex(listOfPathIndex[1]); setPathPosition(1)}}
+              onClick={() => {setSelectedPathIndex(listOfPathIndex[1]); setPathPosition(1); scrollToSection()}}
             />
           )}
           {listOfPathIndex[2] != -1 && <CareerSinglePath
@@ -291,20 +320,24 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
             position={2}
             selected={pathPosition === 2}
             careerPath={selectCareerPath(market_value_result[listOfPathIndex[2]])}
-            onClick={() => {setSelectedPathIndex(listOfPathIndex[2]); setPathPosition(2)}}
+            onClick={() => {setSelectedPathIndex(listOfPathIndex[2]); setPathPosition(2); scrollToSection()}}
           />}
           {listOfPathIndex[0] != -1 &&
-          <Box top='-10px' left='100px' position='absolute' zIndex={2}>
-            <Aaaaa selected={pathPosition === 0} />
+          // <Box top='-10px' left='50px' position='absolute' zIndex={2}>
+          // <Box top='20px' left={width < 500 ? 50 : width> 800? 0 : 40} position='absolute' zIndex={2}>
+          <Box top='20px' left={50} position='absolute' zIndex={2}>
+            <Aaaaa selected={pathPosition === 0} left={lefts[2]}/>
           </Box>}
           {listOfPathIndex[1] != -1 && (
-            <Box top='160px' left='100px' position='absolute' zIndex={3}>
-              <Aaaab selected={pathPosition === 1} />
+            <Box top='173px' left='100px' position='absolute' zIndex={3}>
+              <Aaaab selected={pathPosition === 1} left={lefts[2]}/>
             </Box>
           )}
           {listOfPathIndex[2] != -1 && 
-            <Box top='145px' left='100px' position='absolute' zIndex={2} style={{ transform: 'rotateX(180deg)' }}>
-              <Aaaaa selected={pathPosition === 2} />
+            // <Box top='145px' left='50px' position='absolute' zIndex={2} style={{ transform: 'rotateX(180deg)' }}>
+            // <Box top='130px' left={width < 500 ? 50 : width> 800? 0 : 40} position='absolute' zIndex={2} style={{ transform: 'rotateX(180deg)' }}>
+            <Box top='120px' left='50px' position='absolute' zIndex={2} style={{ transform: 'rotateX(180deg)' }}>
+              <Aaaaa selected={pathPosition === 2} left={lefts[2]}/>
             </Box>
           }
         </Box>
