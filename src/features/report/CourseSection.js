@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   clicktext: {
     '&:hover':{
       transition: 'all',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.05)',
       cursor: 'pointer',
     }
   }

@@ -13,9 +13,9 @@ export const CareerAdviceSection = ({ report }) => {
   const jobtitle =  report.career_path_info.career_paths.name
   const suggested_job = careerMapping[jobtitle]
   const changeCareer = jobtitle === suggested_job
-  const skills_needed = "好好学习"
-  const suggested_job_skills = "更加好好学习"
-
+  const skills_needed = report.career_path_info.career_paths.skills_needed ?? "好好学习"
+  const suggested_job_skills = report.career_path_info.career_paths.suggested_job_needed_string ?? "更加好好学习"
+  const color = "#0099cc"
   return (
     <Section >
       <Box p={4} mb={1}>
@@ -30,12 +30,12 @@ export const CareerAdviceSection = ({ report }) => {
           <Trans
             i18nKey="careeradvice.change direction"
             values={{ matched_job: jobtitle, suggested_job: suggested_job, suggested_job_skills: suggested_job_skills}}
-            components={[<b>defaults</b>]}
+            components={[<b style={{color:color}}>defaults</b>]}
           /> :
           <Trans
           i18nKey="careeradvice.improve"
           values={{ matched_job: jobtitle, skills_needed: skills_needed}}
-          components={[<b>defaults</b>]}
+          components={[<b style={{color:color}}>defaults</b>]}
         />
           }
 
