@@ -14,8 +14,8 @@ export const CareerAdviceSection = ({ report }) => {
   const suggested_job = careerMapping[jobtitle]
   const changeCareer = (jobtitle != suggested_job)
 
-  const skills_needed = report.career_path_info.career_paths.skills_needed ?? "好好学习"
-  const suggested_job_skills = report.career_path_info.career_paths.suggested_job_needed_string ?? "更加好好学习"
+  const skills_needed = report.career_path_info.career_paths.skills_needed?.join(report.lang==='cn'? '，' : ', ') ?? "好好学习"
+  const suggested_job_skills = report.career_path_info.career_paths.suggested_job_needed_string?.join(report.lang==='cn'? '，' : ', ')  ?? "更加好好学习"
   const color = "#0099cc"
   return (
     <Section >
