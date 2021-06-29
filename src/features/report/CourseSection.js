@@ -149,10 +149,11 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
             <Box color='#6A707E' fontSize={h3} display='flex' alignItems='center'>
               <Box
                 width='67px' height='67px' mr={1} style={{
-                  backgroundColor: '#ccc'
+                  // backgroundColor: '#ccc'
                 }}
               >
-                <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' />
+                {/* <img width='67px' height='67px' src='https://pbs.twimg.com/profile_images/1146505592879669248/VXrkf_GO_400x400.jpg' /> */}
+                <img width='67px' height='67px' src='Amazon.svg' />
               </Box>
 
               {/* <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>{t('suggest.brain station')} <br /> {t('suggest.data science')}</Link> */}
