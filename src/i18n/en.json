@@ -81,7 +81,7 @@
   "marketvalue":{
     "title":"Market Value",
      "predicted salary": "Your Predicted salary",
-    "salary average": "Compared to average pay of {{average}} the same position in Toronto.",
+    "salary average": "Compared to average pay of {{average}} the same position in {{area}}.",
     "from" : "From",
     "to" : "To",
     "Offer too low" : "Low offer",

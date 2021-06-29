@@ -120,6 +120,7 @@ console.log("report ", report)
   // const income={market_low: salaryInfo.low, market_high: salaryInfo.high, market_mid_low:salaryInfo.mid_Low, predicted_market_value:{high, low}}
   const income={market_low, market_high, market_mid_low, predicted_market_value:{high, low}}
   const theme = useTheme()
+  const area = report.lang === 'cn' ? (report.countryCode === 'us' ? '美国' : '加拿大') : (report.countryCode === 'us' ? 'USA' : 'Canada')
   const { t } = useTranslation()
   return (
     <Section>
@@ -170,7 +171,7 @@ console.log("report ", report)
 
           <Box pt={3} fontSize={h3} fontWeight='500' lineHeight='24px' color='#373A70' width='45%'>
             {/* Compared to average pay of {formatter.format(bestMatch.fulltime.market_avg)} the same position in Toronto. */}
-            {t('marketvalue.salary average', {average: formatter(report.countryCode).format(avg)})}
+            {t('marketvalue.salary average', {average: formatter(report.countryCode).format(avg), area:area})}
           </Box>
         </Box>
 
