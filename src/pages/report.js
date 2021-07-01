@@ -271,10 +271,14 @@ export default function Home () {
   const [selectedPathIndex, setSelectedPathIndex] = useState(0)
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeOut = setTimeout(() => {
       setLoading(false)
     }, 3000)
+    return () => { if(timeOut) clearTimeout(timeOut)}
   }, [])
+
+  const params = useRouter().query
+  const userId = params.id
 
   const onTrackLink = (url) => {
     report ? linkTrack(report.id, url) : null
@@ -289,12 +293,12 @@ export default function Home () {
             {t('report.demo')}
           </Button> */}
 
-          {/* <Button variant='contained' color='primary' disableElevation onClick={() => setViewHistory(!viewHistory)} style={{marginLeft:20}}>
+          <Button variant='contained' color='primary' disableElevation onClick={() => setViewHistory(!viewHistory)} style={{marginLeft:20}}>
             {viewHistory ? t('report.hideHistory') : t('report.history')}
-          </Button> */}
+          </Button>
         </Box>
         <SwipeableDrawer anchor="right" open={viewHistory} onClose={() => setViewHistory(false)} onOpen={()=>{}}>
-          <HistoryList/>
+          <HistoryList setReport={setReport} id={userId}/>
         </SwipeableDrawer>
       </Box>
     )

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -14,6 +14,7 @@ import HistoryIcon from '@material-ui/icons/History';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 
 import { useTranslation } from 'react-i18next'
+import { fetchHistory } from '../services/market-value';
 
 const useStyles = makeStyles({
   list: {
@@ -26,12 +27,40 @@ const useStyles = makeStyles({
   },
 });
 
+const HistoryDisplay = ( {list, setReport, loading, error} ) =>{
+  if(loading) return <Box>Loading</Box>
 
-export const HistoryList = (props) =>{
+  if(error) return <Box>Loading Error, please try again</Box>
+  if(!list || ! list.length) return <Box>Empty history</Box>
+  return(
+    <List>
+      {list.map((history, index) => (
+        <Box display='flex' alignItems="center" key={index}>
+          <ListItemText>{history.report_time}</ListItemText>
+          <Button           
+            // href={history.url}
+            // target="_blank"
+            onClick={() => setReport(list[index].report_data)}
+          ><CloudDownloadIcon/></Button>
+
+        </Box>
+      ))}
+    </List>
+  )
+}
+
+export const HistoryList = ({setReport, id}) =>{
   const classes = useStyles();
   // const { historyList } = props
-  const historyList  = [{resume:'100', url:"https://www.prolighting.com/specsheets/dsw-302-xx.pdf"},{resume:'100', url:"https://www.prolighting.com/specsheets/dsw-302-xx.pdf"}]
+  // const historyList  = [{resume:'100', url:"https://www.prolighting.com/specsheets/dsw-302-xx.pdf"},{resume:'100', url:"https://www.prolighting.com/specsheets/dsw-302-xx.pdf"}]
   const { t } = useTranslation()
+  const [historyList, SetHistoryList] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(()=>{
+    fetchHistory()
+  }, [])
 
   return (
     <Box m={2} style={{width:300}}>
@@ -43,23 +72,7 @@ export const HistoryList = (props) =>{
       </Box>
       <Divider mb={1}/>
       <Box mt={1}>
-        {
-          historyList?.length ?       
-          <List>
-            {historyList.map(history => (
-              <Box display='flex' alignItems="center" >
-                <ListItemText>{history.resume}</ListItemText>
-                <Button           
-                  href={history.url}
-                  target="_blank"
-                ><CloudDownloadIcon/></Button>
-
-              </Box>
-            ))}
-          </List>
-          : 
-          <Box>Empty history</Box>
-        }
+        <HistoryDisplay list={historyList} setReport={setReport} loading={loading} error={error}/>
       </Box>
     </Box>
   )
