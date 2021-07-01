@@ -48,8 +48,11 @@ export const fetchHistory = () => {
 
   const myHeaders = new Headers()
   console.log(x_api_key)
-  myHeaders.append('x-api-key', x_api_key)
-  myHeaders.append('DNT', '1')
+  // myHeaders.append('x-api-key', x_api_key)
+  myHeaders.append('X-Api-Key', x_api_key)
+  // myHeaders.append('Authorization', x_api_key)
+  // myHeaders.append('dcc', x_api_key)
+  // myHeaders.append('DNT', '1')
 
   const formdata = new FormData()
   formdata.append('user_id', 1000)
