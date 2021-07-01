@@ -15,7 +15,7 @@ import { CareerAdviceSection} from '../features/report/CareerAdviceSection'
 
 import { useDropzone } from 'react-dropzone'
 import { Section } from '../components/Section'
-import { fetchMarketValue } from '../services/market-value'
+import { fetchHistory, fetchMarketValue } from '../services/market-value'
 import DescriptionIcon from '@material-ui/icons/Description'
 import HourglassFullIcon from '@material-ui/icons/HourglassFull'
 import { Trans, useTranslation } from 'react-i18next'
@@ -293,7 +293,9 @@ export default function Home () {
             {t('report.demo')}
           </Button> */}
 
-          <Button variant='contained' color='primary' disableElevation onClick={() => setViewHistory(!viewHistory)} style={{marginLeft:20}}>
+          <Button variant='contained' color='primary' disableElevation 
+            onClick={() => {setViewHistory(!viewHistory); fetchHistory()}} 
+            style={{marginLeft:20}}>
             {viewHistory ? t('report.hideHistory') : t('report.history')}
           </Button>
         </Box>

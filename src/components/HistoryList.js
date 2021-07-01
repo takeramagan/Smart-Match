@@ -28,6 +28,8 @@ const useStyles = makeStyles({
 });
 
 const HistoryDisplay = ( {list, setReport, loading, error} ) =>{
+const d = new Date('2021-06-30T02:08:05.870595')
+console.log(d.getFullYear(),d.toString().trimLeft(), d.getDate(), d.getHours(), d.getMinutes())
   if(loading) return <Box>Loading</Box>
 
   if(error) return <Box>Loading Error, please try again</Box>
@@ -59,7 +61,7 @@ export const HistoryList = ({setReport, id}) =>{
   const [error, setError] = useState(null)
 
   useEffect(()=>{
-    fetchHistory()
+    // fetchHistory()
   }, [])
 
   return (

@@ -42,15 +42,18 @@ const checkStatus = (response) => {
 
 export const fetchHistory = () => {
   const url = APP_END_POINT_HISTORY
+  // const url = APP_END_POINT
   const x_api_key = X_API_KEY_HISTORY
+  // const x_api_key = X_API_KEY
 
   const myHeaders = new Headers()
+  console.log(x_api_key)
   myHeaders.append('x-api-key', x_api_key)
   myHeaders.append('DNT', '1')
 
   const formdata = new FormData()
   formdata.append('user_id', 1000)
-
+ 
   // Object.entries(params).forEach(([key, value]) => formdata.append(key, value))
   
   const requestOptions = {
@@ -58,11 +61,12 @@ export const fetchHistory = () => {
     headers: myHeaders,
     body: formdata,
     redirect: 'follow',
-    mode: 'no-cors'
+    // mode: 'no-cors'
   }
+// console.log("heander", myHeaders)
 //   axios(url, requestOptions).then(res => res.json()).then(console.log).catch(e=>console.log("e fet", e))
 //   axios({method:'POST', url, 
 //   headers: myHeaders,data:formdata
 // }).then(res => res.json()).then(console.log).catch(e=>console.log("e fet", e))
-  return fetch(url, requestOptions).then(res => res.json()).then(console.log).catch(e=>console.log("e fet", e))
+  return fetch(url, requestOptions).then(res => {console.log("res= ", res); return res.json()}).then(console.log).catch(e=>console.log("e fet", e))
 }
