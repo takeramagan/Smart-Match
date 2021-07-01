@@ -20,13 +20,22 @@ const Chart = ({ income }) => {
 
   const getNumbers = () => {
     const result = []
-    let n = income.market_low
-    const increment = Math.round((income.market_high - income.market_low) / 5)
-    while (n < income.market_high) {
-      result.push(n)
-      n = n + increment
+    const NumOfColumns = 4
+    try{
+      let n = parseInt(income.market_low) //莫名出现数字解析成字符串...
+      const high = parseInt(income.market_high)
+      const low = parseInt(income.market_low)
+      const increment = Math.round((high - low) / NumOfColumns)
+      
+      for(let i = 0; i <= NumOfColumns; i++) {
+        result.push(n)
+        n = n + increment
+      }
+      return result
+    }catch(e){
+      console.log('Unexpected error, ', e)
+      return []
     }
-    return result
   }
  
   const numbers = getNumbers()
