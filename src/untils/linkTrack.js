@@ -22,7 +22,5 @@ export const linkTrack = (id, jumptoUrl) => {
     body: formdata
   }
   fetch(LINK_TRACK, requestOptions)
-  // .then(res=>{return res?.json()})
-  // .then(res => console.log('data=', res))
   .catch((e)=>{console.log("error happens ", e)})
 }

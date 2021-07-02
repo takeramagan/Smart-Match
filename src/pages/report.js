@@ -29,7 +29,7 @@ import TwitterIcon from '@material-ui/icons/Twitter';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import { makeStyles } from '@material-ui/core/styles';
 import { linkTrack } from '../untils/linkTrack';
-import { FACEBOOK, INSTAGRAM, LINKEDIN, TWITTER } from '../constant/externalURLs';
+import { FACEBOOK, INSTAGRAM, LINKEDIN, TEST_USER_ID, TWITTER } from '../constant/externalURLs';
 
 const useStyles = makeStyles({
   icon:{
@@ -278,7 +278,7 @@ export default function Home () {
   }, [])
 
   const params = useRouter().query
-  const userId = params.id
+  const userId =TEST_USER_ID ?? params.id
 
   const onTrackLink = (url) => {
     report ? linkTrack(report.id, url) : null
@@ -294,13 +294,13 @@ export default function Home () {
           </Button> */}
 
           <Button variant='contained' color='primary' disableElevation 
-            onClick={() => {setViewHistory(!viewHistory); fetchHistory()}} 
+            onClick={() => {setViewHistory(!viewHistory)}} 
             style={{marginLeft:20}}>
             {viewHistory ? t('report.hideHistory') : t('report.history')}
           </Button>
         </Box>
         <SwipeableDrawer anchor="right" open={viewHistory} onClose={() => setViewHistory(false)} onOpen={()=>{}}>
-          <HistoryList setReport={setReport} id={userId}/>
+          <HistoryList setReport={setReport} id={userId} />
         </SwipeableDrawer>
       </Box>
     )

@@ -29,3 +29,5 @@ export const X_API_KEY_HISTORY =
   process.env.ENV_FLAG === 'production' ?
   'YezwSpnUoYajNUJVNb8AV8CjBikAcUSG4107orID' : 
   'RYHufPIBK933TCRmjfk8L2nYUDFEiW9e2i2AVy12'
+
+export const TEST_USER_ID = process.env.ENV_FLAG === 'production' ? 0 : 1000 //自己测试用 测试环境值是1000

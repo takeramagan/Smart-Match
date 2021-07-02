@@ -27,22 +27,21 @@ const useStyles = makeStyles({
   },
 });
 
-const HistoryDisplay = ( {list, setReport, loading, error} ) =>{
-const d = new Date('2021-06-30T02:08:05.870595')
-console.log(d.getFullYear(),d.toString().trimLeft(), d.getDate(), d.getHours(), d.getMinutes())
-  if(loading) return <Box>Loading</Box>
+const HistoryDisplay = ( {dataList, setReport, loading, error} ) =>{
 
-  if(error) return <Box>Loading Error, please try again</Box>
-  if(!list || ! list.length) return <Box>Empty history</Box>
+  if(error) return <Box style={{color: 'red'}}>{error.toString()}<br/>please try again</Box>
+  if(loading) return <Box>Loading</Box>
+  if(!dataList || ! dataList.length) return <Box>Empty history</Box>
+
   return(
     <List>
-      {list.map((history, index) => (
+      {dataList.map((history, index) => (
         <Box display='flex' alignItems="center" key={index}>
-          <ListItemText>{history.report_time}</ListItemText>
+          <ListItemText>{history.report_time.split('.')[0].split('T').join(' ')}{history.country_code === 'ca' ? ' Canada' : ' USA'}</ListItemText>
           <Button           
             // href={history.url}
             // target="_blank"
-            onClick={() => setReport(list[index].report_data)}
+            onClick={() => setReport(dataList[index].report_data)}
           ><CloudDownloadIcon/></Button>
 
         </Box>
@@ -56,12 +55,18 @@ export const HistoryList = ({setReport, id}) =>{
   // const { historyList } = props
   // const historyList  = [{resume:'100', url:"https://www.prolighting.com/specsheets/dsw-302-xx.pdf"},{resume:'100', url:"https://www.prolighting.com/specsheets/dsw-302-xx.pdf"}]
   const { t } = useTranslation()
-  const [historyList, SetHistoryList] = useState(null)
+  const [historyList, setHistoryList] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(()=>{
-    // fetchHistory()
+    setLoading(true)
+    fetchHistory({id}).then(
+        histories => {
+          setHistoryList(histories)
+          setLoading(false)
+        }
+    ).catch(setError)
   }, [])
 
   return (
@@ -74,7 +79,7 @@ export const HistoryList = ({setReport, id}) =>{
       </Box>
       <Divider mb={1}/>
       <Box mt={1}>
-        <HistoryDisplay list={historyList} setReport={setReport} loading={loading} error={error}/>
+        <HistoryDisplay dataList={historyList} setReport={setReport} loading={loading} error={error}/>
       </Box>
     </Box>
   )
