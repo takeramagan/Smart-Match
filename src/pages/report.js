@@ -269,6 +269,9 @@ export default function Home () {
   const { t } = useTranslation()
   const [viewHistory, setViewHistory] = useState(false)
   const [selectedPathIndex, setSelectedPathIndex] = useState(0)
+  const [historyList, setHistoryList] = useState(null)
+  const [loadingHistory, setLoadingHistory] = useState(true)
+  const [errorHistory, setErrorHistory] = useState(null)
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -283,6 +286,17 @@ export default function Home () {
   const onTrackLink = (url) => {
     report ? linkTrack(report.id, url) : null
   }
+
+  const getHistory = () => {
+  // console.log("get history")
+    setLoadingHistory(true)
+    fetchHistory({id: userId}).then(
+        histories => {
+          setHistoryList(histories)
+          setLoadingHistory(false)
+        }
+    ).catch(setErrorHistory)
+  }
   
   if (!report) {
     return (
@@ -294,13 +308,13 @@ export default function Home () {
           </Button> */}
 
           <Button variant='contained' color='primary' disableElevation 
-            onClick={() => {setViewHistory(!viewHistory)}} 
+            onClick={() => {setViewHistory(!viewHistory); getHistory()}} 
             style={{marginLeft:20}}>
             {viewHistory ? t('report.hideHistory') : t('report.history')}
           </Button>
         </Box>
-        <SwipeableDrawer anchor="right" open={viewHistory} onClose={() => setViewHistory(false)} onOpen={()=>{}}>
-          <HistoryList setReport={setReport} id={userId} />
+        <SwipeableDrawer anchor="right" open={viewHistory} onClose={() => {setViewHistory(false)}} onOpen={()=>{}}>
+          <HistoryList setReport={setReport} loading={loadingHistory} error={errorHistory} historyList={historyList}/>
         </SwipeableDrawer>
       </Box>
     )

@@ -158,7 +158,7 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
 
               {/* <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>{t('suggest.brain station')} <br /> {t('suggest.data science')}</Link> */}
               <Box>{suggestedCertificates.slice(0,3).map(item=>
-                <Link target='_blank' rel='noreferrer' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)}>{item}<br/></Link>
+                <Link target='_blank' key={item} rel='noreferrer' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)}>{item}<br/></Link>
               )}</Box>
             </Box>
           </Box>
@@ -177,7 +177,7 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
               {/* <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{suggestedCourses.slice(0,3).map(course => <>{course}<br/></>)}</Link> */}
               <Box>{suggestedCourses.slice(0,3).map(item=>
                 // <Link target='_blank' rel='noreferrer' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)}>{item}<br/></Link>
-                <Link target='_blank' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)} style={{zIndex: 0}}>•{item}<br/></Link>
+                <Link target='_blank' key={item} href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)} style={{zIndex: 0}}>•{item}<br/></Link>
               )}
               </Box>
             </Box>

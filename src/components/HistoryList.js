@@ -50,24 +50,20 @@ const HistoryDisplay = ( {dataList, setReport, loading, error} ) =>{
   )
 }
 
-export const HistoryList = ({setReport, id}) =>{
-  const classes = useStyles();
-  // const { historyList } = props
-  // const historyList  = [{resume:'100', url:"https://www.prolighting.com/specsheets/dsw-302-xx.pdf"},{resume:'100', url:"https://www.prolighting.com/specsheets/dsw-302-xx.pdf"}]
-  const { t } = useTranslation()
-  const [historyList, setHistoryList] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+export const HistoryList = ({setReport, loading, error, historyList}) =>{
 
-  useEffect(()=>{
-    setLoading(true)
-    fetchHistory({id}).then(
-        histories => {
-          setHistoryList(histories)
-          setLoading(false)
-        }
-    ).catch(setError)
-  }, [])
+  const { t } = useTranslation()
+
+
+  // useEffect(()=>{
+  //   loadingHistory(true)
+  //   fetchHistory({id}).then(
+  //       histories => {
+  //         setHistoryList(histories)
+  //         loadingHistory(false)
+  //       }
+  //   ).catch(setError)
+  // }, [])
 
   return (
     <Box m={2} style={{width:300}}>
