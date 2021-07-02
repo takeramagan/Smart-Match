@@ -290,6 +290,7 @@ console.log("userid=", userId)
   const getHistory = () => {
   // console.log("get history")
     setLoadingHistory(true)
+    setErrorHistory(false)
     fetchHistory({id: userId}).then(
         histories => {
 console.log("history= ", histories)
