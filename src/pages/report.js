@@ -282,7 +282,7 @@ export default function Home () {
 
   const params = useRouter().query
   const userId = params.id
-console.log(userId)
+console.log("userid=", userId)
   const onTrackLink = (url) => {
     report ? linkTrack(report.id, url) : null
   }
@@ -292,6 +292,7 @@ console.log(userId)
     setLoadingHistory(true)
     fetchHistory({id: userId}).then(
         histories => {
+console.log("history= ", histories)
           setHistoryList(histories)
           setLoadingHistory(false)
         }
