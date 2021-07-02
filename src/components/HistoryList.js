@@ -11,7 +11,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import HistoryIcon from '@material-ui/icons/History';
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+// import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 import { useTranslation } from 'react-i18next'
 import { fetchHistory } from '../services/market-value';
@@ -42,7 +43,7 @@ const HistoryDisplay = ( {dataList, setReport, loading, error} ) =>{
             // href={history.url}
             // target="_blank"
             onClick={() => setReport(dataList[index].report_data)}
-          ><CloudDownloadIcon/></Button>
+          ><VisibilityIcon /></Button>
 
         </Box>
       ))}
