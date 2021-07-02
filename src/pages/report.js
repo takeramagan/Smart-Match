@@ -281,8 +281,8 @@ export default function Home () {
   }, [])
 
   const params = useRouter().query
-  const userId =TEST_USER_ID ?? params.id
-
+  const userId = params.id
+console.log(userId)
   const onTrackLink = (url) => {
     report ? linkTrack(report.id, url) : null
   }
