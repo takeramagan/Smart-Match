@@ -12,7 +12,7 @@ export const CareerAdviceSection = ({ report }) => {
   // const {career_advice, evaluation} = report.career_path_info
   const jobtitle =  report.career_path_info.career_paths.name
   const suggested_job = careerMapping[jobtitle]
-  const changeCareer = (jobtitle != suggested_job)
+  const changeCareer = suggested_job && (jobtitle != suggested_job) //建议job不存在的时候 不需要换工作
 
   const skills_needed = report.career_path_info.career_paths.skills_needed?.join(report.lang==='cn'? '，' : ', ') ?? "好好学习"
   const suggested_job_skills = report.career_path_info.career_paths.suggested_job_needed_string?.join(report.lang==='cn'? '，' : ', ')  ?? "更加好好学习"

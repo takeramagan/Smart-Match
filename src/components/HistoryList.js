@@ -16,6 +16,8 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 
 import { useTranslation } from 'react-i18next'
 import { fetchHistory } from '../services/market-value';
+import { APP_END_POINT_GET_HISTORY_BY_ID } from '../constant/externalURLs';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles({
   list: {
@@ -30,19 +32,40 @@ const useStyles = makeStyles({
 
 const HistoryDisplay = ( {dataList, setReport, loading, error} ) =>{
 
+  const params = useRouter().query
+  const userId = params.id
+  const lang = params.lang?.toLowerCase() //get language
+  const [loadingHistory, setLoadingHistory] = useState(false)
+  const [errorFetching, setErrorFetching]  = useState(null)
+
   if(error) return <Box style={{color: 'red'}}>{error.toString()}<br/>please try again</Box>
   if(loading) return <Box>Loading</Box>
   if(!dataList || ! dataList.length) return <Box>Empty history</Box>
 
+  const fetchHistoryByID = (report_id, countryCode) => {
+    setLoadingHistory(true)
+    setErrorFetching(null)
+    fetchHistory({id: userId, url: APP_END_POINT_GET_HISTORY_BY_ID, report_id})
+    .then(report =>{
+      console.log(report_id, report);
+      setReport({...report[0].report_data, id:userId, countryCode: countryCode.toLowerCase(), lang})
+    })
+    .catch(setErrorFetching)
+    setLoadingHistory(false)
+  }
+
   return(
     <List>
+      {loadingHistory && <ListItemText>Loading...</ListItemText>}
+      {errorFetching && <ListItemText style={{color:"red"}}>Could not get report at this time, please retry later!</ListItemText>}
       {dataList.map((history, index) => (
         <Box display='flex' alignItems="center" key={index}>
           <ListItemText>{history.report_time.split('.')[0].split('T').join(' ')}{history.country_code === 'ca' ? ' Canada' : ' USA'}</ListItemText>
           <Button           
             // href={history.url}
             // target="_blank"
-            onClick={() => setReport(dataList[index].report_data)}
+            // onClick={() => setReport(dataList[index].report_data)}
+            onClick={() => fetchHistoryByID(history.resume_hash, history.country_code)}
           ><VisibilityIcon /></Button>
 
         </Box>

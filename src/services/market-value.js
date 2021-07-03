@@ -40,8 +40,8 @@ const checkStatus = (response) => {
   }
 }
 
-export const fetchHistory = ({id}) => {
-  const url = APP_END_POINT_HISTORY
+export const fetchHistory = ({id, url=APP_END_POINT_HISTORY, report_id}) => {
+  // const url = APP_END_POINT_HISTORY
   const x_api_key = X_API_KEY_HISTORY
 
 
@@ -56,6 +56,7 @@ export const fetchHistory = ({id}) => {
   const formdata = new FormData()
   formdata.append('user_id', id)
   formdata.append('dcc', x_api_key)
+  report_id && formdata.append('report_id', report_id)
 
  
   // Object.entries(params).forEach(([key, value]) => formdata.append(key, value))

@@ -31,3 +31,13 @@ export const X_API_KEY_HISTORY =
   'RYHufPIBK933TCRmjfk8L2nYUDFEiW9e2i2AVy12'
 
 export const TEST_USER_ID = process.env.ENV_FLAG === 'production' ? 0 : 1000 //自己测试用 测试环境值是1000
+
+export const APP_END_POINT_GET_HISTORY_IDS = 
+  process.env.ENV_FLAG === 'production' ?
+  'https://production-history-reports.metisign.com/get_history_report_ids' :
+  'https://staging-history-reports.metisign.com/get_history_report_ids'
+
+  export const APP_END_POINT_GET_HISTORY_BY_ID = 
+  process.env.ENV_FLAG === 'production' ?
+  'https://production-history-reports.metisign.com/get_history_report_by_id' :
+  'https://staging-history-reports.metisign.com/get_history_report_by_id'
