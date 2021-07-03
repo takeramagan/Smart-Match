@@ -122,7 +122,7 @@ console.log("report ", report)
   const predictSalary = fulltime ? report.market_value_info.predicted_full_time_salary : report.market_value_info.predicted_contract_salary
   const {low, high} = predictSalary
   const { avg } = salaryInfo
-  const market_low = fulltime ? salaryInfo.low : 20
+  const market_low = fulltime ? salaryInfo.low : Math.floor(0.8*salaryInfo.low)
   const market_high = fulltime ? salaryInfo.high : salaryInfo.high
   const market_mid_low = fulltime ? salaryInfo.mid_Low : salaryInfo.mid_low
   // const buttonText = fulltime ? "Fulltime" : "Contract"
