@@ -124,8 +124,8 @@ const HardSkillSection = ({ report }) => {
 
 const SuggestedCourse = ({report, selectedPathIndex}) => {
   const { t } = useTranslation()
-  const suggestedCourses = report.career_path_info.career_paths.path[selectedPathIndex]?.how_to_improve?.suggested_courses ?? ['Resume interview']
-  const suggestedCertificates = report.career_path_info.career_paths.path[selectedPathIndex]?.how_to_improve?.required_certificates ?? ['You are awesome']
+  const suggestedCourses = report.career_path_info.career_paths.path[selectedPathIndex]?.how_to_improve?.suggested_courses?.slice(0,3)
+  const suggestedCertificates = report.career_path_info.career_paths.path[selectedPathIndex]?.how_to_improve?.required_certificates
 
   return (
     <Box py={2} display='flex' justifyContent='space-between' flexDirection="column">
@@ -157,7 +157,7 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
               </Box>
 
               {/* <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>{t('suggest.brain station')} <br /> {t('suggest.data science')}</Link> */}
-              <Box>{suggestedCertificates.slice(0,3).map(item=>
+              <Box>{suggestedCertificates?.slice(0,3).map(item=>
                 <Link target='_blank' key={item} rel='noreferrer' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)}>{item}<br/></Link>
               )}</Box>
             </Box>
@@ -173,12 +173,15 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
                 <img width='67px' height='40px' src='https://static.wixstatic.com/media/d44c9e_b34eb8491f984802b8961715fdf76082~mv2.png/v1/fill/w_96,h_60,al_c,q_85,usm_0.66_1.00_0.01/DK-Logo.webp' />
               </Box>
 
-              {/* <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{t('suggest.general assembly')} <br />{t('suggest.front end')}</Link> */}
-              {/* <Link target='_blank' rel='noreferrer' href='https://generalassemb.ly/education/front-end-web-development/toronto'>{suggestedCourses.slice(0,3).map(course => <>{course}<br/></>)}</Link> */}
-              <Box>{suggestedCourses.slice(0,3).map(item=>
-                // <Link target='_blank' rel='noreferrer' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)}>{item}<br/></Link>
+              <Box>
+              {/* {suggestedCourses.slice(0,3).map(item=>
                 <Link target='_blank' key={item} href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)} style={{zIndex: 0}}>•{item}<br/></Link>
-              )}
+              )} */}
+              {suggestedCourses.map(course => {
+                  const [k, v] = Object.entries(course)[0]
+                  return  <Link target='_blank' key={k} href={v} onClick={()=>linkTrack(report.id, v)}>•{k}<br/></Link>
+               })
+              }
               </Box>
             </Box>
           </Box>
