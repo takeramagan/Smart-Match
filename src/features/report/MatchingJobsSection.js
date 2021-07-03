@@ -18,7 +18,7 @@ export function MatchingJobsSection ({ report }) {
   const recruiterJobsPerPage = 3
   const recruiterJobs = report.job_matching_results.metisign_job_matching_info
   
-  const NumOfRecruiterPage = Math.floor(recruiterJobs.length / recruiterJobsPerPage)
+  const NumOfRecruiterPage = recruiterJobs?.length ? Math.floor(recruiterJobs.length / recruiterJobsPerPage) : 0
   const recruiterPages = []
   for(let i=0; i<NumOfRecruiterPage; i++){
     recruiterPages.push(recruiterJobs.slice(i*recruiterJobsPerPage, (i+1)*recruiterJobsPerPage))
@@ -27,7 +27,7 @@ export function MatchingJobsSection ({ report }) {
   // const websiteJobs = report.job_matching_info.result
   const websiteJobs = report.job_matching_results.job_matching_info
   const websiteJobsPerPage = 5
-  const NumOfWebsitePage = Math.floor(websiteJobs.length / websiteJobsPerPage)
+  const NumOfWebsitePage = websiteJobs?.length ? Math.floor(websiteJobs.length / websiteJobsPerPage) : 0
   const websitePages = []
   for(let i=0; i<NumOfWebsitePage; i++){
     websitePages.push(websiteJobs.slice(i*websiteJobsPerPage, (i+1)*websiteJobsPerPage))
