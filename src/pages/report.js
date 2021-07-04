@@ -27,18 +27,33 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, theme } from '@material-ui/core/styles';
 import { linkTrack } from '../untils/linkTrack';
 import { APP_END_POINT_GET_HISTORY_IDS, FACEBOOK, INSTAGRAM, LINKEDIN, TEST_USER_ID, TWITTER } from '../constant/externalURLs';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme)=>({
   icon:{
     width: '40px',
     height: '40px',
     borderRadius: '20px',
     color:'black'
+  },
+  sidebar:{
+    width:'185px',  
+    minWidth:'185px',
+    [theme.breakpoints.down('sm')]: {
+      width:'0px',  
+      minWidth:'0px',
+      visibility: 'hidden'
+    },
+  },
+  navibtn_container:{
+    [theme.breakpoints.down('sm')]: {
+      width:'0px',  
+      visibility: 'hidden'
+    },
   }
-})
+}))
 
 function FileDropzone (props) {
   const { onSuccess, onError } = props
@@ -288,6 +303,7 @@ export default function Home () {
   const [loadingHistory, setLoadingHistory] = useState(true)
   const [errorHistory, setErrorHistory] = useState(null)
 
+  const classes = useStyles()
   useEffect(() => {
     const timeOut = setTimeout(() => {
       setLoading(false)
@@ -361,9 +377,9 @@ console.log("history= ", histories)
 
 
 <Box display='flex' flexDirection='row' >
-  <Box style={{width:185,  minWidth:185}}>
-
-      <Section style={{padding:'30px 10px 30px 10px', top: 18, borderRadius:5, position:'sticky'}}>
+  {/* <Box style={{width:185,  minWidth:185}}> */}
+  <Box className={classes['sidebar']}>
+      <Section style={{padding:'30px 10px 30px 10px', top: 18, borderRadius:5, position:'sticky'}} className={classes['navibtn_container']}>
             <Box  display='flex' flexDirection='column'>
                 <NaviButtons/>
             </Box>
