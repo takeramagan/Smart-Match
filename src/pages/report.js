@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Box, Button, Container, Grid, LinearProgress, Select, FormControl, InputLabel, MenuItem, Typography} from '@material-ui/core'
+import { Box, Button, Container, Grid, LinearProgress, Select, FormControl, InputLabel, MenuItem, Typography, Link} from '@material-ui/core'
 import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 
 import { Header } from '../components/Header'
@@ -232,6 +232,21 @@ const fetchReport = (files, params) => {
   return fetchMarketValue(files[0], params)
 }
 
+const NaviButtons = () =>{
+  
+const { t } = useTranslation()
+return(
+  <>
+    <Link href='#career_advice'>{t('careeradvice.title')}</Link>
+    <Link href='#market_value'>{t('marketvalue.title')}</Link>
+    <Link href='#market_competitiveness'>{t('radarchart.title')}</Link>
+    <Link href='#match_jobs'>{t('matching jobs.title')}</Link>
+    <Link href='#career_pathway'>{t("career_pathway.title")}</Link>
+    <Link href='#course_section'>{t("course.title")}</Link>
+  </>
+  )
+}
+
 const SocialMedia = ({onTrack}) => {
   const { t } = useTranslation()
   const classes = useStyles()
@@ -345,7 +360,16 @@ console.log("history= ", histories)
         </Box> */}
 
 
+<Box display='flex' flexDirection='row' >
+  <Box style={{width:185,  minWidth:185}}>
 
+      <Section style={{padding:'30px 10px 30px 10px', top: 18, borderRadius:5, position:'sticky'}}>
+            <Box  display='flex' flexDirection='column'>
+                <NaviButtons/>
+            </Box>
+      </Section>
+
+  </Box>
 
       <Container style={{ marginTop: 18, position:"relative"}}>
 
@@ -429,6 +453,7 @@ console.log("history= ", histories)
           </Grid>
         </Grid>
       </Container>
+</Box>
     </>
   )
 }
