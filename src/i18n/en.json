@@ -33,11 +33,11 @@
     "demo": "Good good study, day day up",
     "contact": "To obtain more infomation, please follow us on social media",
     "evaluation":"Based on the system's analysis of your resume, your current position is <0>{{jobtitle}}</0>.",
-    "change direction":"Your matching profession is a <0>{{matched_job}}</0>, but due to the rapid renewal of the market, being a <0>{{matched_job}}</0> has become obsolete. Therefore, it is recommended that you change your employment direction to <0>{{suggested_job}}</0>. Based on your current situation, it is recommended that you can learn these aspects: <0>{{suggested_job_skills}}</0> to improve yourself, learn relevant knowledge and gain more experience, so as to successfully transfer to be a <0>{{suggested_job}}</0>.",
+    "change direction":"You match the qualifications of a <0>{{matched_job}}</0>. However, the position of a <0>{{matched_job}}</0> is being rapidly replaced in the changing market conditions. The market statistics shows that in order to stay on top of your game,  it is recommended that you shift your career direction towards <0>{{suggested_job}}</0>. Explore the following modules to learn how you can succeed as a <0>{{suggested_job}}</0> : <0>{{suggested_job_skills}}</0>.",
     "improve":"Your matching profession is a <0>{{matched_job}}</0>. The position is currently popular in the market, and the future can be expected. It is recommended that you can improve yourself with these aspects: <0>{{skills_needed}}</0>. Learning more knowledge and gaining more experience, so as to be promoted to a higher level of the position."
   },
   "career_pathway":{
-    "title": "Future Career Pathway",
+    "title": "Your Personalized Career Path",
     "contact": "Above is based on your resume analysis, if you need one-to-one professional service to obtain customized learning path, please click here to contact"
   },
   "course":{
@@ -60,18 +60,18 @@
   "radarchart":{
     "title":"Resume Analysis Result",
     "fit job": "You are a good fit for <0>{{jobtitle}}</0>",
-    "text": "Below is your resume evaluation based on 4 aspects such as Format, Logic, Language and how much your resume matches the job title.",
+    "text": "Below is your resume evaluation in 4 key aspects:Formatting, Logic, Language Ability, and Suitability (how much your resume matches the job position).",
     "Format": "Format",
     "Language": "Language",
     "Match Level": "Match Level",
     "Logic":"Logic",
     "Resume Analysis":"Resume Analysis",
     "rank":"You are ranked {{joblevel}} level {{competitiveness}}/10 compared to your competitors. Below are your detailed category of your resume analysis.",
-    "contact": "If you need to analyze your resume through senior recruiters, please click here"
+    "contact": "Click here to get <0>FREE</0> detailed analysis and suggestions from Senior Recruiter. <0>(Limited Time Only)</0>"
   },
   "matching jobs":{
     "title":"Matching Jobs",
-    "text": "Here are the best matching jobs that you can apply right away. The percentage shows how much you meet the job requirements.",
+    "text": "AI analyzed best Matching Jobs for you to apply now.",
     "View More": "View More",
     "apply": "Apply",
     "website": "Jobs from AI recommendation",
@@ -80,8 +80,8 @@
   },
   "marketvalue":{
     "title":"Market Value",
-     "predicted salary": "Your Predicted salary",
-    "salary average": "Compared to average pay of {{average}} the same position in {{area}}.",
+     "predicted salary": "Your Estimated Salary",
+    "salary average": "The Average Salary for this position is {{average}} in {{area}}.",
     "from" : "From",
     "to" : "To",
     "Offer too low" : "Low offer",

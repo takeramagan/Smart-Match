@@ -382,7 +382,7 @@ console.log("history= ", histories)
   {/* <Box style={{width:185,  minWidth:185}}> */}
   <Box className={classes['sidebar']}>
       <Section 
-        style={{padding:'30px 10px 30px 10px', top: 18, borderRadius:5, position:'sticky', width: naviWindth, minWidth: naviWindth}} 
+        style={{padding:'30px 10px 30px 10px', top: 18, borderRadius:5, position:'sticky', width: naviWindth, minWidth: naviMinWindth}} 
         className={classes['navibtn_container']}>
             <Box  display='flex' flexDirection='column'>
                 <NaviButtons/>

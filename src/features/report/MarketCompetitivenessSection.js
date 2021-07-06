@@ -152,7 +152,11 @@ export const MarketCompetitiveness = ({ report }) => {
         <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' mt={-2} mb={-3}>
           <a href={DK_SERVICE} target="_blank" style={{textDecoration:'none'}} onClick={() => linkTrack(report.id, DK_SERVICE)}>
             <Typography color='primary' className={classes.clicktext} style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
-              {t('radarchart.contact')}
+              {/* {t('radarchart.contact')} */}
+              <Trans
+                i18nKey="radarchart.contact"
+                components={[<b style={{color: 'red'}}>defaults</b>]}
+              />
             </Typography>
           </a>
           {/* <Box display='flex' alignItems='center'>

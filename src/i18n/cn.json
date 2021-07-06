@@ -67,7 +67,7 @@
     "Logic": "逻辑",
     "Resume Analysis": "简历评估",
     "rank": "相对您的竞争者, 您在 {{joblevel}} 级别的竞争力为 {{competitiveness}}/10. 以下是您的简历评估的详细结果.",
-    "contact": "如果需要人工分析简历（资深猎头），请点击此处"
+    "contact": "获取<0>免费</0>详细简历分析和建议（资深猎头），请点击此处<0>(限时优惠)</0>"
   },
   "matching jobs":{
     "title":"职位推荐",
