@@ -1,4 +1,5 @@
 export const DK_LINK = 'https://www.dk-education.com/book-online'
+export const DK_SERVICE = 'https://www.dk-education.com/bookings-checkout/%E7%A7%81%E4%BA%BA%E8%AE%A2%E5%88%B6%E5%92%A8%E8%AF%A2%E6%9C%8D%E5%8A%A1/book'
 
 export const LINK_TRACK = 'https://ai.smartmatch.app/member/hytz.php'  //跟踪访问信息入口
 
@@ -30,7 +31,7 @@ export const X_API_KEY_HISTORY =
   'YezwSpnUoYajNUJVNb8AV8CjBikAcUSG4107orID' : 
   'RYHufPIBK933TCRmjfk8L2nYUDFEiW9e2i2AVy12'
 
-export const TEST_USER_ID = process.env.ENV_FLAG === 'production' ? 0 : 1000 //自己测试用 测试环境值是1000
+// export const TEST_USER_ID = process.env.ENV_FLAG === 'production' ? 0 : 1000 //自己测试用 测试环境值是1000
 
 export const APP_END_POINT_GET_HISTORY_IDS = 
   process.env.ENV_FLAG === 'production' ?

@@ -5,7 +5,7 @@ import ReactECharts from 'echarts-for-react'
 import { useTheme } from '@material-ui/core/styles'
 import { useTranslation, Trans } from 'react-i18next'
 import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
-import { DK_LINK } from '../../constant/externalURLs'
+import { DK_SERVICE } from '../../constant/externalURLs'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { linkTrack } from '../../untils/linkTrack'
 
@@ -150,7 +150,7 @@ export const MarketCompetitiveness = ({ report }) => {
         </Box> */}
  
         <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' mt={-2} mb={-3}>
-          <a href={DK_LINK} target="_blank" style={{textDecoration:'none'}} onClick={() => linkTrack(report.id, DK_LINK)}>
+          <a href={DK_SERVICE} target="_blank" style={{textDecoration:'none'}} onClick={() => linkTrack(report.id, DK_SERVICE)}>
             <Typography color='primary' className={classes.clicktext} style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
               {t('radarchart.contact')}
             </Typography>
@@ -171,9 +171,9 @@ export const MarketCompetitiveness = ({ report }) => {
             </Button>
           </Box> */}
             <Link
-              href={DK_LINK}
+              href={DK_SERVICE}
               target='_blank'
-              onClick={() => {linkTrack(report.id, DK_LINK)}}
+              onClick={() => {linkTrack(report.id, DK_SERVICE)}}
             >
               <img src='ai.svg' width={80} height={100} className={classes.ai}/>
             </Link>

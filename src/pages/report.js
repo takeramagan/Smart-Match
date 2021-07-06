@@ -29,7 +29,7 @@ import TwitterIcon from '@material-ui/icons/Twitter';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import { makeStyles, theme } from '@material-ui/core/styles';
 import { linkTrack } from '../untils/linkTrack';
-import { APP_END_POINT_GET_HISTORY_IDS, FACEBOOK, INSTAGRAM, LINKEDIN, TEST_USER_ID, TWITTER } from '../constant/externalURLs';
+import { APP_END_POINT_GET_HISTORY_IDS, FACEBOOK, INSTAGRAM, LINKEDIN, TWITTER } from '../constant/externalURLs';
 
 const useStyles = makeStyles((theme)=>({
   icon:{
