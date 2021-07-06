@@ -60,7 +60,7 @@
   "radarchart":{
     "title":"Resume Analysis Result",
     "fit job": "You are a good fit for <0>{{jobtitle}}</0>",
-    "text": "Below is your resume evaluation in 4 key aspects:Formatting, Logic, Language Ability, and Suitability (how much your resume matches the job position).",
+    "text": "Below is your resume evaluation in 4 key aspects : Formatting, Logic, Language Ability, and Suitability (how much your resume matches the job position).",
     "Format": "Format",
     "Language": "Language",
     "Match Level": "Match Level",
