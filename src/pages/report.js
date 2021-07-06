@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme)=>({
     color:'black'
   },
   sidebar:{
-    width:'185px',  
-    minWidth:'185px',
+    // width:'185px',  
+    // minWidth:'185px',
     [theme.breakpoints.down('sm')]: {
       width:'0px',  
       minWidth:'0px',
@@ -302,6 +302,8 @@ export default function Home () {
   const [historyList, setHistoryList] = useState(null)
   const [loadingHistory, setLoadingHistory] = useState(true)
   const [errorHistory, setErrorHistory] = useState(null)
+  const naviWindth = report?.lang === 'cn' ? 90: 185
+  const naviMinWindth = report?.lang === 'cn' ? 90: 185
 
   const classes = useStyles()
   useEffect(() => {
@@ -379,7 +381,9 @@ console.log("history= ", histories)
 <Box display='flex' flexDirection='row' >
   {/* <Box style={{width:185,  minWidth:185}}> */}
   <Box className={classes['sidebar']}>
-      <Section style={{padding:'30px 10px 30px 10px', top: 18, borderRadius:5, position:'sticky'}} className={classes['navibtn_container']}>
+      <Section 
+        style={{padding:'30px 10px 30px 10px', top: 18, borderRadius:5, position:'sticky', width: naviWindth, minWidth: naviWindth}} 
+        className={classes['navibtn_container']}>
             <Box  display='flex' flexDirection='column'>
                 <NaviButtons/>
             </Box>
