@@ -157,8 +157,14 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
               </Box>
 
               {/* <Link target='_blank' rel='noreferrer' href='https://brainstation.io/course/online/data-science'>{t('suggest.brain station')} <br /> {t('suggest.data science')}</Link> */}
-              <Box>{suggestedCertificates?.slice(0,3).map(item=>
+              {/* <Box>{suggestedCertificates?.slice(0,3).map(item=>
                 <Link target='_blank' key={item} rel='noreferrer' href={DK_LINK} onClick={()=>linkTrack(report.id, DK_LINK)}>{item}<br/></Link>
+              )}</Box> */}
+              <Box>{suggestedCertificates?.slice(0,3).map(item=>
+                {
+                  const [name, link] = Object.entries(item)[0]
+                  return <Link target='_blank' key={name} rel='noreferrer' href={link} onClick={()=>linkTrack(report.id, link)}>{name}<br/></Link>
+                }
               )}</Box>
             </Box>
           </Box>
