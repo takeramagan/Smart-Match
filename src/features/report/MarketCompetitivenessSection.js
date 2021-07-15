@@ -5,7 +5,7 @@ import ReactECharts from 'echarts-for-react'
 import { useTheme } from '@material-ui/core/styles'
 import { useTranslation, Trans } from 'react-i18next'
 import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
-import { DK_SERVICE } from '../../constant/externalURLs'
+import { DK_RESUME } from '../../constant/externalURLs'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { linkTrack } from '../../untils/linkTrack'
 
@@ -100,7 +100,17 @@ export const MarketCompetitiveness = ({ report }) => {
   // const language = 80
   // const matchLevel = 90
   // const grammer = 100
-  const { format, language, matching : matchLevel, logic } = report.resume_marking_info
+  const { format, language, matching : matchLevel, logic, 
+    format_to_improve,  language_to_improve, logic_to_improve, profession_match_to_improve} = report.resume_marking_info
+  let format_improve = report.lang === 'cn' ? format_to_improve?.zhs : format_to_improve?.eng
+  format_improve = format_improve ? format_improve[0] : ""
+  let lang_improve = report.lang === 'cn' ? language_to_improve?.zhs : language_to_improve?.eng
+  lang_improve = lang_improve ? lang_improve[0] : ""
+  let profession_improve = report.lang === 'cn' ? profession_match_to_improve?.zhs : profession_match_to_improve?.eng
+  profession_improve = profession_improve ? profession_improve[0] : ""
+  let logic_improve = report.lang === 'cn' ? logic_to_improve?.zhs : logic_to_improve?.eng
+  logic_improve = logic_improve ? logic_improve[0] : ""
+console.log(logic_to_improve, logic_improve)
   const classes = useStyles()
   return (
     <Section>
@@ -132,10 +142,10 @@ export const MarketCompetitiveness = ({ report }) => {
 
           <Grid item xs={4}>
             <Box display='flex' flexDirection="column" mt={4}>
-              <PercentageLabel name={t('radarchart.Format')} value={format} />
-              <PercentageLabel name= {t('radarchart.Language')} value={language} />
-              <PercentageLabel name= {t('radarchart.Match Level')} value={matchLevel} />
-              <PercentageLabel name= {t('radarchart.Logic')} value={logic} />
+              <PercentageLabel name={t('radarchart.Format')} value={format} text={format_improve}/>
+              <PercentageLabel name= {t('radarchart.Language')} value={language} text={lang_improve}/>
+              <PercentageLabel name= {t('radarchart.Match Level')} value={matchLevel} text={profession_improve}/>
+              <PercentageLabel name= {t('radarchart.Logic')} value={logic} text={logic_improve}/>
             </Box>
           </Grid>
         </Grid>
@@ -150,7 +160,7 @@ export const MarketCompetitiveness = ({ report }) => {
         </Box> */}
  
         <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' mt={-2} mb={-3}>
-          <a href={DK_SERVICE} target="_blank" style={{textDecoration:'none'}} onClick={() => linkTrack(report.id, DK_SERVICE)}>
+          <a href={DK_RESUME} target="_blank" style={{textDecoration:'none'}} onClick={() => linkTrack(report.id, DK_RESUME)}>
             <Typography color='primary' className={classes.clicktext} style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
               {/* {t('radarchart.contact')} */}
               <Trans
@@ -175,9 +185,9 @@ export const MarketCompetitiveness = ({ report }) => {
             </Button>
           </Box> */}
             <Link
-              href={DK_SERVICE}
+              href={DK_RESUME}
               target='_blank'
-              onClick={() => {linkTrack(report.id, DK_SERVICE)}}
+              onClick={() => {linkTrack(report.id, DK_RESUME)}}
             >
               <img src='ai.svg' width={80} height={100} className={classes.ai}/>
             </Link>
