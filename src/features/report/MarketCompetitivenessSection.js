@@ -103,14 +103,13 @@ export const MarketCompetitiveness = ({ report }) => {
   const { format, language, matching : matchLevel, logic, 
     format_to_improve,  language_to_improve, logic_to_improve, profession_match_to_improve} = report.resume_marking_info
   let format_improve = report.lang === 'cn' ? format_to_improve?.zhs : format_to_improve?.eng
-  format_improve = format_improve ? format_improve[0] : ""
+  format_improve = format < 100 ? format_improve[0] : t('radarchart.Format 100')
   let lang_improve = report.lang === 'cn' ? language_to_improve?.zhs : language_to_improve?.eng
-  lang_improve = lang_improve ? lang_improve[0] : ""
+  lang_improve = language < 100  ? lang_improve[0] : t('radarchart.Language 100')
   let profession_improve = report.lang === 'cn' ? profession_match_to_improve?.zhs : profession_match_to_improve?.eng
-  profession_improve = profession_improve ? profession_improve[0] : ""
+  profession_improve = matchLevel < 100 ? profession_improve[0] : t('radarchart.Match 100')
   let logic_improve = report.lang === 'cn' ? logic_to_improve?.zhs : logic_to_improve?.eng
-  logic_improve = logic_improve ? logic_improve[0] : ""
-console.log(logic_to_improve, logic_improve)
+  logic_improve = logic < 100 ? logic_improve[0] : t('radarchart.Logic 100')
   const classes = useStyles()
   return (
     <Section>
