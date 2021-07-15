@@ -33,8 +33,8 @@
     "demo": "Good good study, day day up",
     "contact": "To obtain more infomation, please follow us on social media",
     "evaluation":"Based on the system's analysis of your resume, your current position is <0>{{jobtitle}}</0>.",
-    "change direction":"You match the qualifications of a <0>{{matched_job}}</0>. However, the position of a <0>{{matched_job}}</0> is being rapidly replaced in the changing market conditions. The market statistics shows that in order to stay on top of your game,  it is recommended that you shift your career direction towards <0>{{suggested_job}}</0>. Explore the following modules to learn how you can succeed as a <0>{{suggested_job}}</0> : <0>{{suggested_job_skills}}</0>.",
-    "improve":"Your matching profession is a <0>{{matched_job}}</0>. The position is currently popular in the market, and the future can be expected. It is recommended that you can improve yourself with these aspects: <0>{{skills_needed}}</0>. Learning more knowledge and gaining more experience, so as to be promoted to a higher level of the position."
+    "change direction":"The profession your qualifications match is <0>{{matched_job}}</0>. However, this position is experiencing rapid replacement in the current market conditions. Market statistics show that in order to stay ahead of the game, it is recommended that your career is shifted towards the direction of <0>{{suggested_job}}</0>. To get started with this transition, explore the following modules to learn how you can succeed as a <0>{{suggested_job}}</0> : <0>{{suggested_job_skills}}</0>.",
+    "improve":"The profession your qualifications match is <0>{{matched_job}}</0>. This position is currently popular in the market with good job prospects in the future. To further enhance your career opportunities, here are some areas of improvement: <0>{{skills_needed}}</0>. Expanding your knowledge and gaining more experience in these areas will increase your chances of obtaining higher level positions in your professional field."
   },
   "career_pathway":{
     "title": "Your Personalized Career Path",
@@ -54,28 +54,28 @@
   "data science": "Data Science Course",
   "general assembly":"General Assembly",
   "front end":"Front-end Development",
-  "contact": "If you need one-to-one professional service to obtain customized learning courses, please click here"
+  "contact": "Want 1-on-1 professional advice to get customized learning courses? Click here."
   },
 
   "radarchart":{
-    "title":"Resume Analysis Result",
+    "title":"Result from Resume Analysis",
     "fit job": "You are a good fit for <0>{{jobtitle}}</0>",
     "text": "Below is your resume evaluation in 4 key aspects : Formatting, Logic, Language Ability, and Suitability (how much your resume matches the job position).",
     "Format": "Format",
     "Language": "Language",
-    "Match Level": "Match Level",
+    "Match Level": "Profession Match",
     "Logic":"Logic",
     "Resume Analysis":"Resume Analysis",
     "rank":"You are ranked {{joblevel}} level {{competitiveness}}/10 compared to your competitors. Below are your detailed category of your resume analysis.",
-    "contact": "Click here to get <0>FREE</0> detailed analysis and suggestions from Senior Recruiter. <0>(Limited Time Only)</0>"
+    "contact": "Click here for a <0>FREE</0> detailed analysis and feedback from an expert Senior Recruiter. <0>(Limited Time Only)</0>"
   },
   "matching jobs":{
     "title":"Matching Jobs",
-    "text": "AI analyzed best Matching Jobs for you to apply now.",
+    "text": "Apply now to jobs best matched for you.",
     "View More": "View More",
     "apply": "Apply",
-    "website": "Jobs from AI recommendation",
-    "recruiter": "Direct Hiring",
+    "website": "AI recommended jobs",
+    "recruiter": "Apply directly with MetiSign",
     "salary": "Salary: "
   },
   "marketvalue":{
