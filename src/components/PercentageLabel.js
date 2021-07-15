@@ -29,7 +29,6 @@ export function CircularProgressWithLabel (props) {
 }
 
 export const PercentageLabel = ({ name, value, text }) => {
-console.log("text", text)
     //add popover
     const [anchorEl, setAnchorEl] = useState(null);
     const handlePopoverOpen = (event) => {
