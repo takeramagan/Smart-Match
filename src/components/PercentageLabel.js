@@ -1,6 +1,7 @@
 import { Box, CircularProgress, Typography, Popover } from '@material-ui/core'
 import {h4} from '../constant/fontsize'
 import { useState } from 'react'
+import { POPUP_BG_COLOR } from '../constant/color'
 
 export function CircularProgressWithLabel (props) {
   return (
@@ -69,7 +70,7 @@ export const PercentageLabel = ({ name, value, text }) => {
       disableScrollLock
     >
       {/* {Object.entries(job).map(([key, value]) => <Typography key={key}>{key} : {value.toString()}</Typography>)} */}
-      <Box p={1} width={300} minHeight={50} bgcolor='rgba(96,239,255, 0.4)'>
+      <Box p={1} width={300} minHeight={50} bgcolor={POPUP_BG_COLOR}>
         {text && <Typography>{name}: {text}</Typography>}
       </Box>
     </Popover>

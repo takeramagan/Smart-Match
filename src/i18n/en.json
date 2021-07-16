@@ -54,7 +54,8 @@
   "data science": "Data Science Course",
   "general assembly":"General Assembly",
   "front end":"Front-end Development",
-  "contact": "Want 1-on-1 professional advice to get customized learning courses? Click here."
+  "contact": "Want 1-on-1 professional advice to get customized learning courses? ",
+  "Click here": "Click here."
   },
 
   "radarchart":{
@@ -67,7 +68,8 @@
     "Logic":"Logic",
     "Resume Analysis":"Resume Analysis",
     "rank":"You are ranked {{joblevel}} level {{competitiveness}}/10 compared to your competitors. Below are your detailed category of your resume analysis.",
-    "contact": "Click here for a <0>FREE</0> detailed analysis and feedback from an expert Senior Recruiter. <0>(Limited Time Only)</0>",
+    "Click here": "Click here",
+    "contact": " for a <0>FREE</0> detailed analysis and feedback from an expert Senior Recruiter. <0>(Limited Time Only)</0>",
     "Language 100":"Congratulations! The language used in your resume is strong, clear, and concise.",
     "Match 100": "Congratulations! Your resume shows you are a great match for your profession.",
     "Format 100": "Congratulations! The format of your resume is clear and easy to follow.",

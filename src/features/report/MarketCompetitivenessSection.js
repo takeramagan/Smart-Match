@@ -68,14 +68,14 @@ export const RadarChart = ({ report }) => {
       ]
     },
     series: [{
-      name: '预算 vs 开销（Budget vs spending）',
+      name: t('radarchart.Resume Analysis'),
       symbol: 'none',
       type: 'radar',
       areaStyle: {},
       data: [
         {
           value: [format, language, matchLevel, logic],
-          name: t('radarchart.Resume Analysis')
+          // name: t('radarchart.Resume Analysis')
         }
       ]
     }]
@@ -159,15 +159,23 @@ export const MarketCompetitiveness = ({ report }) => {
         </Box> */}
  
         <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' mt={-2} mb={-3}>
-          <a href={DK_RESUME} target="_blank" style={{textDecoration:'none'}} onClick={() => linkTrack(report.id, DK_RESUME)}>
+          {/* <a href={DK_RESUME} target="_blank" style={{textDecoration:'none'}} onClick={() => linkTrack(report.id, DK_RESUME)}>
             <Typography color='primary' className={classes.clicktext} style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
-              {/* {t('radarchart.contact')} */}
               <Trans
                 i18nKey="radarchart.contact"
                 components={[<b style={{color: 'red'}}>defaults</b>]}
               />
             </Typography>
-          </a>
+          </a> */}
+            <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
+              <a href={DK_RESUME} target="_blank" style={{color:'#0061FF'}} onClick={() => linkTrack(report.id, DK_RESUME)}>
+                {t("radarchart.Click here")}
+              </a>
+              <Trans
+                i18nKey="radarchart.contact"
+                components={[<b style={{color: 'red'}}>defaults</b>]}
+              />
+            </Typography>
           {/* <Box display='flex' alignItems='center'>
             <Button
               variant="contained"

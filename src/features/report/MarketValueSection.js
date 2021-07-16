@@ -76,29 +76,32 @@ const Chart = ({ income }) => {
     },
     legend: { bottom: 0, selectedMode: false },
     tooltip: {
+      show:true,
       trigger: 'item',
-      axisPointer: { // Use axis to trigger tooltip
-        type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
-      }
+      // axisPointer: { // Use axis to trigger tooltip
+      //   type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
+      // }
     },
     color: [theme.palette.primary.main, '#E5E5E5'],
     series: [{
-      name: t("marketvalue.Offer too low"),
+      // name: t("marketvalue.Offer too low"),
       color: '#E0E0E0',
       barGap: '-100%',
       barWidth: '50%',
       type: 'bar',
-      data: numbers.map(n => n <= income.market_mid_low ? n : undefined)
+      data: numbers.map(n => n <= income.market_mid_low ? n : undefined),
+      tooltip: {
+
+      }
     }, {
-      name: t("marketvalue.Acceptable Offer"),
-      // color: '#46EBD5',
+      // name: t("marketvalue.Acceptable Offer"),
       color: 'rgba(96,239,255, 0.4)',
       barGap: '-100%',
       barWidth: '50%',
       type: 'bar',
       data: numbers.map(n => n > income.market_mid_low ? n : undefined)
     }, {
-      name: t("marketvalue.Most likely Offer"),
+      // name: t("marketvalue.Most likely Offer"),
       color: '#0061FF',
       barGap: '-100%',
       barWidth: '50%',
@@ -184,7 +187,7 @@ console.log("report ", report)
           </Box>
         </Box>
 
-        <Box width='100%' mt={-5}><Chart income={income} /></Box>
+        <Box width='100%' mt={-4} mb={-3}><Chart income={income} /></Box>
       </Box>
     </Section>
   )

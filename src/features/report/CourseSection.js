@@ -213,11 +213,17 @@ export function CourseSection ({ report, selectedPathIndex }) {
         </Box> */}
         <SuggestedCourse report={report} selectedPathIndex={selectedPathIndex}/>
         <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
-          <a href={DK_IMPROVE} target="_blank" style={{textDecoration:'none'}} onClick={() => linkTrack(report.id, DK_IMPROVE)}>
+          {/* <a href={DK_IMPROVE} target="_blank" style={{textDecoration:'none'}} onClick={() => linkTrack(report.id, DK_IMPROVE)}>
             <Typography color='primary' className={classes.clicktext} style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
               {t('suggest.contact')}
             </Typography>
-          </a>
+          </a> */}
+            <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
+              {t('suggest.contact')}
+              <a href={DK_IMPROVE} target="_blank" style={{color:'#0061FF'}} onClick={() => linkTrack(report.id, DK_IMPROVE)}>
+              {t('suggest.Click here')}
+              </a>
+            </Typography>
             <Link
               href={DK_IMPROVE}
               target='_blank'

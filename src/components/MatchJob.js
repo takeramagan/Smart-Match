@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { h, h1, h2, h3, h4, h5} from '../constant/fontsize'
 import { useState } from 'react'
 import { METISIGN_WEBSITE } from '../constant/externalURLs'
+import { POPUP_BG_COLOR } from '../constant/color'
 
 const useStyles = makeStyles({
   root: {
@@ -135,7 +136,8 @@ export function MatchJob ({ job, onClick, metisign }) {
       disableScrollLock
     >
       {/* {Object.entries(job).map(([key, value]) => <Typography key={key}>{key} : {value.toString()}</Typography>)} */}
-      <Box p={1} width={370} bgcolor='rgba(96,239,255, 0.4)'>
+      {/* <Box p={1} width={370} bgcolor='rgba(96,239,255, 0.4)'>*/}
+      <Box p={1} width={370} bgcolor={POPUP_BG_COLOR}>
         {job_company && <Typography>Company: {job_company}</Typography>}
         {rating && <Typography>Rating: {rating}</Typography>}
         {job_id && <Typography>Job id: {job_id}</Typography>       }
