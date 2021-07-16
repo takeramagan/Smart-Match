@@ -135,7 +135,7 @@ export function MatchJob ({ job, onClick, metisign }) {
       disableScrollLock
     >
       {/* {Object.entries(job).map(([key, value]) => <Typography key={key}>{key} : {value.toString()}</Typography>)} */}
-      <Box p={1} width={370}>
+      <Box p={1} width={370} bgcolor='rgba(96,239,255, 0.4)'>
         {job_company && <Typography>Company: {job_company}</Typography>}
         {rating && <Typography>Rating: {rating}</Typography>}
         {job_id && <Typography>Job id: {job_id}</Typography>       }

@@ -302,8 +302,8 @@ export default function Home () {
   const [historyList, setHistoryList] = useState(null)
   const [loadingHistory, setLoadingHistory] = useState(true)
   const [errorHistory, setErrorHistory] = useState(null)
-  const naviWindth = report?.lang === 'cn' ? 90: 185
-  const naviMinWindth = report?.lang === 'cn' ? 90: 185
+  // const naviWindth = report?.lang === 'cn' ? 90: 185
+  // const naviMinWindth = report?.lang === 'cn' ? 90: 185
 
   const classes = useStyles()
   useEffect(() => {
@@ -327,7 +327,7 @@ console.log("userid=", userId)
     // fetchHistory({id: userId}).then(
     fetchHistory({id: userId, url: APP_END_POINT_GET_HISTORY_IDS}).then(
         histories => {
-console.log("history= ", histories)
+// console.log("history= ", histories)
           setHistoryList(histories)
           setLoadingHistory(false)
         }
@@ -379,8 +379,8 @@ console.log("history= ", histories)
 
 
 <Box display='flex' flexDirection='row' >
-  {/* <Box style={{width:185,  minWidth:185}}> */}
-  <Box className={classes['sidebar']}>
+
+  {/* <Box className={classes['sidebar']}>
       <Section 
         style={{padding:'30px 10px 30px 10px', top: 18, borderRadius:5, position:'sticky', width: naviWindth, minWidth: naviMinWindth}} 
         className={classes['navibtn_container']}>
@@ -389,7 +389,7 @@ console.log("history= ", histories)
             </Box>
       </Section>
 
-  </Box>
+  </Box> */}
 
       <Container style={{ marginTop: 18, position:"relative"}}>
 

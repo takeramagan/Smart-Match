@@ -69,7 +69,7 @@ export const PercentageLabel = ({ name, value, text }) => {
       disableScrollLock
     >
       {/* {Object.entries(job).map(([key, value]) => <Typography key={key}>{key} : {value.toString()}</Typography>)} */}
-      <Box p={1} width={300} minHeight={50}>
+      <Box p={1} width={300} minHeight={50} bgcolor='rgba(96,239,255, 0.4)'>
         {text && <Typography>{name}: {text}</Typography>}
       </Box>
     </Popover>
