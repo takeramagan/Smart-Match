@@ -54,7 +54,7 @@
   "data science": "大数据课程",
   "general assembly":"General Assembly",
   "front end":"前端开发",
-  "contact": "如果需要一对一专业服务定制学习课程?请",
+  "contact": "如果需要一对一专业服务定制学习课程? ",
   "Click here": "点击此处."
   },
 
@@ -98,7 +98,8 @@
     "avg": "平均值",
     "mid-high" : "中高",
     "high" : "高",
-    "per hour":" / 小时"
+    "per hour":" / 小时",
+    "ranking" :"你的预测市场价值打败了 {{ranking}}% 的人."
   },
   "contact":{
     "click me": "点我"

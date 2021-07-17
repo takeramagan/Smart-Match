@@ -98,7 +98,8 @@
     "avg": "avg",
     "mid-high" : "mid-high",
     "high" : "high",
-    "per hour":" / hour"
+    "per hour":" / hour",
+    "ranking" :"Your predicted market value is ranked around {{ranking}}% of the market."
   },
   "contact":{
     "click me": "Click Me"

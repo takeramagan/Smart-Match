@@ -6,6 +6,7 @@ import { formatter } from '../../untils/currency'
 import { useTranslation } from 'react-i18next'
 import { h, h1, h2, h3, h4, h5} from '../../constant/fontsize'
 import { useState } from 'react'
+import { POPUP_BG_COLOR } from '../../constant/color'
 
 
 const Chart = ({ income }) => {
@@ -90,9 +91,6 @@ const Chart = ({ income }) => {
       barWidth: '50%',
       type: 'bar',
       data: numbers.map(n => n <= income.market_mid_low ? n : undefined),
-      tooltip: {
-
-      }
     }, {
       // name: t("marketvalue.Acceptable Offer"),
       color: 'rgba(96,239,255, 0.4)',
@@ -106,7 +104,40 @@ const Chart = ({ income }) => {
       barGap: '-100%',
       barWidth: '50%',
       type: 'bar',
-      data: numbers.map(n => n === mostLikelyOffer ? n : undefined)
+      data: numbers.map(n => n === mostLikelyOffer ? n : undefined),
+      tooltip: {
+        trigger: 'item',
+        axisPointer: {
+          type: 'shadow',
+        },
+       formatter: (params) => {
+        //  return (params.name + '  ' + '<b>' + params.data.toLocaleString() +'</b>' +'<br/>'+
+        //            "Your are here" + '<br/>' + 'Beat ' + ' 50%'
+        //  );
+         return (params.name + '  ' + '<b>' + params.data.toLocaleString() +'</b>' +'<br/>' + "Your are here"
+);
+       },
+      },
+      // label: {
+      //   show: true,
+      //   position: "top",
+      //   // rotate: 90,
+      //   // align: "middle",
+      //   // verticalAlign: "middle",
+      //   fontSize: 12,
+      //   //formatter: '{@pop2035} millions', //pop value as strin
+      //   // formatter: 'You are here<br />Beaten 50%',
+      //   backgroundColor: 'blue',
+      //   padding: [4, 10],
+      //   borderRadius: 3,
+      //   borderWidth: 1,
+      //   // borderColor: 'rgba(0,0,0,0.5)',
+      //   color:'white',
+      //   margin: 50,
+      //   formatter: function (params) {
+      //      return ("Your are here");
+      //   }
+      // }
     }]
   }
   return (
@@ -128,6 +159,7 @@ console.log("report ", report)
   const market_low = fulltime ? salaryInfo.low : Math.floor(0.8*salaryInfo.low)
   const market_high = fulltime ? salaryInfo.high : salaryInfo.high
   const market_mid_low = fulltime ? salaryInfo.mid_Low : salaryInfo.mid_low
+  const ranking = fulltime ? report.market_value_info.ranking?.full_time : report.market_value_info.ranking?.contract
   // const buttonText = fulltime ? "Fulltime" : "Contract"
   // const income={market_low: salaryInfo.low, market_high: salaryInfo.high, market_mid_low:salaryInfo.mid_Low, predicted_market_value:{high, low}}
   const income={market_low, market_high, market_mid_low, predicted_market_value:{high, low}}
@@ -187,7 +219,10 @@ console.log("report ", report)
           </Box>
         </Box>
 
-        <Box width='100%' mt={-4} mb={-3}><Chart income={income} /></Box>
+        <Box width='100%' mt={-4} mb={-8}><Chart income={income} /></Box>
+        <Box pt={3} fontSize={h3} fontWeight='500' lineHeight='24px' color='#373A70'>
+            {t('marketvalue.ranking', {ranking: ranking})}
+          </Box>
       </Box>
     </Section>
   )
