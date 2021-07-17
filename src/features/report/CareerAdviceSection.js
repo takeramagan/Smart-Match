@@ -24,9 +24,6 @@ export const CareerAdviceSection = ({ report }) => {
           {t('careeradvice.title')}
         </Box>
         <Box fontSize={h2} fontWeight='500' color='#6A707E'>
-        {/* {t('careeradvice.demo')} */}
-          {/* <Typography color='primary'>{evaluation}</Typography> */}
-        {/* {career_advice} */}
         {changeCareer ? 
           <Trans
             i18nKey="careeradvice.change direction"

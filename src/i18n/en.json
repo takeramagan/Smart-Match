@@ -32,7 +32,7 @@
     "title": "Career Advice",
     "demo": "Good good study, day day up",
     "contact": "To obtain more infomation, please follow us on social media",
-    "evaluation":"Based on the system's analysis of your resume, your current position is <0>{{jobtitle}}</0>.",
+    "evaluation":"According to the resume analysis, the profession your qualifications match is <0>{{jobtitle}}</0>.",
     "change direction":"The profession your qualifications match is <0>{{matched_job}}</0>. However, this position is experiencing rapid replacement in the current market conditions. Market statistics show that in order to stay ahead of the game, it is recommended that your career is shifted towards the direction of <0>{{suggested_job}}</0>. To get started with this transition, explore the following modules to learn how you can succeed as a <0>{{suggested_job}}</0> : <0>{{suggested_job_skills}}</0>.",
     "improve":"The profession your qualifications match is <0>{{matched_job}}</0>. This position is currently popular in the market with good job prospects in the future. To further enhance your career opportunities, here are some areas of improvement: <0>{{skills_needed}}</0>. Expanding your knowledge and gaining more experience in these areas will increase your chances of obtaining higher level positions in your professional field."
   },
@@ -60,8 +60,8 @@
 
   "radarchart":{
     "title":"Result from Resume Analysis",
-    "fit job": "You are a good fit for <0>{{jobtitle}}</0>",
-    "text": "Below is your resume evaluation in 4 key aspects : Formatting, Logic, Language Ability, and Suitability (how much your resume matches the job position).",
+    "fit job": "The profession your qualifications match is <0>{{jobtitle}}</0>",
+    "text": "HR/Recruiter evaluates resumes in 4 key aspects: Formatting, Logic, Profession Match (how much your resume matches the job position), Language Ability",
     "Format": "Format",
     "Language": "Language",
     "Match Level": "Profession Match",
@@ -69,7 +69,7 @@
     "Resume Analysis":"Resume Analysis",
     "rank":"You are ranked {{joblevel}} level {{competitiveness}}/10 compared to your competitors. Below are your detailed category of your resume analysis.",
     "Click here": "Click here",
-    "contact": " for a <0>FREE</0> detailed analysis and feedback from an expert Senior Recruiter. <0>(Limited Time Only)</0>",
+    "contact": " for a <0>FREE</0> detailed analysis from an expert Senior Recruiter.",
     "Language 100":"Congratulations! The language used in your resume is strong, clear, and concise.",
     "Match 100": "Congratulations! Your resume shows you are a great match for your profession.",
     "Format 100": "Congratulations! The format of your resume is clear and easy to follow.",
