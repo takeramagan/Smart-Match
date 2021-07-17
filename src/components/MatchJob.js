@@ -13,6 +13,9 @@ const useStyles = makeStyles({
   bar: {
     background: 'linear-gradient(90deg, #46EBD5 23.47%, #60EFFF 43.32%, #0061FF 66.27%)',
     borderRadius: '16px'
+  },
+  popover:{
+    borderRadius: '15px',
   }
 })
 
@@ -48,6 +51,7 @@ export function MatchJob ({ job, onClick, metisign }) {
   const link = job_link ?? METISIGN_WEBSITE
   const salary = job_salary ?? 'Not Disclosed'
   //add popover
+  const classes=useStyles()
   const [anchorEl, setAnchorEl] = useState(null);
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -130,8 +134,8 @@ export function MatchJob ({ job, onClick, metisign }) {
       onClose={handlePopoverClose}
       style={{ 
         pointerEvents: 'none', 
-        width: 400,
       }}
+      classes={{paper:classes.popover}}
       disableRestoreFocus
       disableScrollLock
     >

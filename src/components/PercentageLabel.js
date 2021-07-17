@@ -1,7 +1,13 @@
-import { Box, CircularProgress, Typography, Popover } from '@material-ui/core'
+import { Box, CircularProgress, Typography, Popover, makeStyles } from '@material-ui/core'
 import {h4} from '../constant/fontsize'
 import { useState } from 'react'
 import { POPUP_BG_COLOR } from '../constant/color'
+
+const useStyles = makeStyles({
+  popover:{
+    borderRadius: '15px',
+  }
+})
 
 export function CircularProgressWithLabel (props) {
   return (
@@ -39,6 +45,7 @@ export const PercentageLabel = ({ name, value, text }) => {
       setAnchorEl(null);
     };
     const openPopOver = Boolean(anchorEl);
+    const classes = useStyles()
   return (
     <Box p={1} 
       textAlign='center'
@@ -64,8 +71,8 @@ export const PercentageLabel = ({ name, value, text }) => {
       onClose={handlePopoverClose}
       style={{ 
         pointerEvents: 'none', 
-        width: 400,
       }}
+      classes={{paper:classes.popover}}
       disableRestoreFocus
       disableScrollLock
     >
