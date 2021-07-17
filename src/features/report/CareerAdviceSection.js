@@ -18,28 +18,48 @@ export const CareerAdviceSection = ({ report }) => {
   const suggested_job_skills = report.career_path_info.career_paths.suggested_job_needed_string?.join(report.lang==='cn'? '，' : ', ')  ?? "更加好好学习"
   const color = "#0099cc"
   return (
-    <Section >
-      <Box p={4} mb={1}>
-        <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
-          {t('careeradvice.title')}
-        </Box>
-        <Box fontSize={h2} fontWeight='500' color='#6A707E'>
-        {changeCareer ? 
-          <Trans
-            i18nKey="careeradvice.change direction"
-            values={{ matched_job: jobtitle, suggested_job: suggested_job, suggested_job_skills: suggested_job_skills}}
-            components={[<b style={{color:color}}>defaults</b>]}
-          /> :
-          <Trans
+    // <Section >
+    //   <Box p={4} mb={1}>
+    //     <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
+    //       {t('careeradvice.title')}
+    //     </Box>
+    //     <Box fontSize={h2} fontWeight='500' color='#6A707E'>
+    //     {changeCareer ? 
+    //       <Trans
+    //         i18nKey="careeradvice.change direction"
+    //         values={{ matched_job: jobtitle, suggested_job: suggested_job, suggested_job_skills: suggested_job_skills}}
+    //         components={[<b style={{color:color}}>defaults</b>]}
+    //       /> :
+    //       <Trans
+    //       i18nKey="careeradvice.improve"
+    //       values={{ matched_job: jobtitle, skills_needed: skills_needed}}
+    //       components={[<b style={{color:color}}>defaults</b>]}
+    //     />
+    //       }
+
+    //     </Box>
+            
+    //   </Box>
+    // </Section>
+    <>
+      <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
+        {t('careeradvice.title')}
+      </Box>
+      <Box fontSize={h2} fontWeight='500' color='#6A707E'>
+      {changeCareer ? 
+        <Trans
+          i18nKey="careeradvice.change direction"
+          values={{ matched_job: jobtitle, suggested_job: suggested_job, suggested_job_skills: suggested_job_skills}}
+          components={[<b style={{color:color}}>defaults</b>]}
+        /> :
+        <Trans
           i18nKey="careeradvice.improve"
           values={{ matched_job: jobtitle, skills_needed: skills_needed}}
           components={[<b style={{color:color}}>defaults</b>]}
         />
-          }
+        }
 
-        </Box>
-            
       </Box>
-    </Section>
+    </>      
   )
 }

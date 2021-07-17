@@ -93,13 +93,10 @@ export const MarketCompetitiveness = ({ report }) => {
   const theme = useTheme()
   const { t } = useTranslation()
   const jobtitle = report.market_value_info.matched_job_title
-  // const overall_level = 3
+
   const jobLevel = 'Senior'
   const competitiveness = 9
-  // const format = 70
-  // const language = 80
-  // const matchLevel = 90
-  // const grammer = 100
+
   const { format, language, matching : matchLevel, logic, 
     format_to_improve,  language_to_improve, logic_to_improve, profession_match_to_improve} = report.resume_marking_info
   let format_improve = report.lang === 'cn' ? format_to_improve?.zhs : format_to_improve?.eng
@@ -142,21 +139,12 @@ export const MarketCompetitiveness = ({ report }) => {
           <Grid item xs={4}>
             <Box display='flex' flexDirection="column" mt={4}>
               <PercentageLabel name={t('radarchart.Format')} value={format} text={format_improve}/>
-              <PercentageLabel name= {t('radarchart.Language')} value={language} text={lang_improve}/>
-              <PercentageLabel name= {t('radarchart.Match Level')} value={matchLevel} text={profession_improve}/>
               <PercentageLabel name= {t('radarchart.Logic')} value={logic} text={logic_improve}/>
+              <PercentageLabel name= {t('radarchart.Match Level')} value={matchLevel} text={profession_improve}/>
+              <PercentageLabel name= {t('radarchart.Language')} value={language} text={lang_improve}/>
             </Box>
           </Grid>
         </Grid>
-        {/* <Box>
-          <RadarChart report={report} />
-        </Box>
-        <Box display='flex' flexDirection="row" justifyContent='space-around' p={4}>
-          <PercentageLabel name={t('radarchart.Format')} value={report.experiences_competitiveness} />
-          <PercentageLabel name= {t('radarchart.Language')} value={report.education_competitiveness} />
-          <PercentageLabel name= {t('radarchart.Match Level')} value={report.soft_skill_competitiveness} />
-          <PercentageLabel name= {t('radarchart.Grammar')} value={report.hard_skill_competitiveness} />
-        </Box> */}
  
         <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' mt={-2} mb={-3}>
           {/* <a href={DK_RESUME} target="_blank" style={{textDecoration:'none'}} onClick={() => linkTrack(report.id, DK_RESUME)}>
@@ -168,29 +156,23 @@ export const MarketCompetitiveness = ({ report }) => {
             </Typography>
           </a> */}
             <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
-              <a href={DK_RESUME} target="_blank" style={{color:'#0061FF'}} onClick={() => linkTrack(report.id, DK_RESUME)}>
+              {/* <a href={DK_RESUME} target="_blank" style={{color:'#0061FF'}} onClick={() => linkTrack(report.id, DK_RESUME)}>
                 {t("radarchart.Click here")}
-              </a>
+              </a> */}
+              <Button href={DK_RESUME} 
+                variant='contained' 
+                color='primary' 
+                target="_blank"
+                style={{borderRadius:15, marginRight:10, height:30}}
+                onClick={() => linkTrack(report.id, DK_RESUME)}
+              >
+                  {t("radarchart.Click here")}
+              </Button>
               <Trans
                 i18nKey="radarchart.contact"
-                components={[<b style={{color: 'red'}}>defaults</b>]}
+                components={[<b >defaults</b>]}
               />
             </Typography>
-          {/* <Box display='flex' alignItems='center'>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<AccountCircleIcon />}
-              href={DK_LINK}
-              target='_blank'
-              color='primary'
-              size='small'
-              style={{borderRadius:20, width:105 }}
-              onClick={() => {linkTrack(report.id, DK_LINK)}}
-            >
-              {t('contact.click me')}
-            </Button>
-          </Box> */}
             <Link
               href={DK_RESUME}
               target='_blank'

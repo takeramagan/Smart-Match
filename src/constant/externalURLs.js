@@ -1,5 +1,5 @@
 export const DK_LINK = 'https://www.dk-education.com/book-online'
-export const DK_RESUME = 'https://www.dk-education.com/challenge-page/4660dd37-46ca-4761-b8c9-2d874833ce63/'
+export const DK_RESUME = 'https://www.dk-education.com/challenge-page/1ebf7f2b-13ef-4478-97bc-656a057b8e31/'
 export const DK_IMPROVE = 'https://www.dk-education.com/challenge-page/1645657a-6a55-44f8-8db4-3a45b39eead3/'
 // export const DK_SERVICE = 'https://www.dk-education.com/bookings-checkout/%E7%A7%81%E4%BA%BA%E8%AE%A2%E5%88%B6%E5%92%A8%E8%AF%A2%E6%9C%8D%E5%8A%A1/book'
 

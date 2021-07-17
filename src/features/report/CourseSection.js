@@ -5,6 +5,7 @@ import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
 import { DK_LINK, DK_IMPROVE } from '../../constant/externalURLs'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { linkTrack } from '../../untils/linkTrack'
+import { CareerAdviceSection } from './CareerAdviceSection'
 
 const useStyles = makeStyles({
   ai: {
@@ -203,13 +204,17 @@ export function CourseSection ({ report, selectedPathIndex }) {
   return (
     <Section >
       <Box p={4} mb={4}>
-        <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
+        <CareerAdviceSection report={report}/>
+        {/* <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
           {t("course.title")}
-        </Box>
-        <EducationSection report={report} selectedPathIndex={selectedPathIndex}/>
+        </Box> */}
+        {/* <EducationSection report={report} selectedPathIndex={selectedPathIndex}/> */}
         {/* <Box display='flex' justifyContent='space-between'>
           <SoftSkillSection report={report} />
           <HardSkillSection report={report} />
+        </Box> */}
+        {/* <Box fontSize={h1} mb={-3} mt={2} fontWeight='500' color='#024CC3'>
+          {t("course.title")}
         </Box> */}
         <SuggestedCourse report={report} selectedPathIndex={selectedPathIndex}/>
         <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
@@ -220,9 +225,18 @@ export function CourseSection ({ report, selectedPathIndex }) {
           </a> */}
             <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
               {t('suggest.contact')}
-              <a href={DK_IMPROVE} target="_blank" style={{color:'#0061FF'}} onClick={() => linkTrack(report.id, DK_IMPROVE)}>
+              {/* <a href={DK_IMPROVE} target="_blank" style={{color:'#0061FF'}} onClick={() => linkTrack(report.id, DK_IMPROVE)}>
               {t('suggest.Click here')}
-              </a>
+              </a> */}
+              <Button href={DK_IMPROVE} 
+                variant='contained' 
+                color='primary' 
+                target="_blank"
+                style={{borderRadius:15, marginLeft:10, height:30}}
+                onClick={() => linkTrack(report.id, DK_IMPROVE)}
+              >
+                  {t("radarchart.Click here")}
+              </Button>
             </Typography>
             <Link
               href={DK_IMPROVE}

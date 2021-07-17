@@ -436,11 +436,11 @@ console.log("userid=", userId)
 
         {/* <Grid container spacing={4} style={{position:'absolute', top:120}}> */}
         <Grid container spacing={4} >
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <div id='career_advice'>
               <CareerAdviceSection report={report} />
             </div>
-          </Grid>
+          </Grid> */}
           <Grid item md={6} xs={12}>
             <div id='market_value'>
               <MarketValueSection report={report} />
