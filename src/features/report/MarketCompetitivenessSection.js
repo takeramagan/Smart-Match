@@ -1,4 +1,4 @@
-import { Box, Grid, Button, Typography, makeStyles, Link } from '@material-ui/core'
+import { Box, Grid, Button, Typography, makeStyles, Link, Popover } from '@material-ui/core'
 import { PercentageLabel } from '../../components/PercentageLabel'
 import { Section } from '../../components/Section'
 import ReactECharts from 'echarts-for-react'
@@ -8,6 +8,8 @@ import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
 import { DK_RESUME } from '../../constant/externalURLs'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { linkTrack } from '../../untils/linkTrack'
+import { useState } from 'react'
+import { POPUP_BG_COLOR } from '../../constant/color'
 
 const useStyles = makeStyles({
   ai: {
@@ -25,7 +27,10 @@ const useStyles = makeStyles({
       transform: 'scale(1.1)',
       cursor: 'pointer',
     }
-  }
+  },
+  // popover:{
+  //   borderRadius: '15px',
+  // }
 })
 
 export const RadarChart = ({ report }) => {
@@ -34,7 +39,23 @@ export const RadarChart = ({ report }) => {
   // const language = 80
   // const matchLevel = 90
   // const grammer = 100
-  const { format, language, matching : matchLevel, logic } = report.resume_marking_info
+  const { format, language, matching : matchLevel, logic,
+    format_explanation, language_explanation, profesion_match_explanation, logic_explanation
+  } = report.resume_marking_info
+  const getExplaination = (explaination) => {
+    return (report.lang === 'cn' ? (explaination.zhs ?? explaination.eng) : explaination.eng)
+    const words = (report.lang === 'cn' ? (explaination.zhs ?? explaination.eng) : explaination.eng)
+    const temp = words.split(' ')
+    const ret = []
+    for(let i = 0; i< temp.length; i+=8){
+      ret.push(temp.slice(i, i+10).join(" "))
+    }
+    return ret.join('<br />')
+  }
+  const formatExpl = getExplaination(format_explanation)
+  const langExpl = getExplaination(language_explanation)
+  const logicExpl = getExplaination(profesion_match_explanation)
+  const matchExpl = getExplaination(logic_explanation)
   const option = {
     title: {
     },
@@ -76,15 +97,93 @@ export const RadarChart = ({ report }) => {
         {
           value: [format, language, matchLevel, logic],
           // name: t('radarchart.Resume Analysis')
+          tooltip:{
+            show:true,
+            trigger:'item',
+            textStyle:{width:200},
+            position:(point, params, dom, rect, size) => ([-10, point[1]]),
+            formatter: function(params){ 
+              return (
+              // t('radarchart.Resume Analysis') + '<br />' + 
+              t('radarchart.Format') + ':    ' + params.value[0] + '<br />' + formatExpl + '<br />' + '<br />' + 
+              t('radarchart.Logic') + ':    ' + params.value[3] + '<br />' + logicExpl + '<br />' + '<br />' + 
+              t('radarchart.Match Level') + ':    ' + params.value[2] + '<br />' + matchExpl + '<br />' + '<br />' + 
+              t('radarchart.Language') + ':    ' + params.value[1] + '<br />' + langExpl + '<br />' 
+              )          
+            },
+          }
         }
       ]
-    }]
+    }],
+
   }
+  // const [enterRadar, setEnterRadar] = useState(false)
+  // // const [radar, setRadar] = useState({enterRadar:false, anchorEl:null})
+  // const onMouseEnter = (e) => {
+  //   console.log("over", e)
+  //   setEnterRadar((v) =>  (!v ? true: v))
+  //   // e.preventDefalt()
+  //   // setRadar({...radar, enterRadar:true})
+  // }
+  // const onMouseOut = (e) => {
+  //   console.log("out")
+  //   setEnterRadar(false)
+  //   // setAnchorEl(null);
+  //   // setRadar({...radar, enterRadar:false})
+  // }
+
+    //add popover
+    // const classes=useStyles()
+    // const [anchorEl, setAnchorEl] = useState(null);
+    // const handlePopoverOpen = (event) => {
+    //   console.log('event in ', event)
+    //   setAnchorEl(event.currentTarget);
+    //   // setRadar({...radar, anchorEl: event.currentTarget})
+    //   // event.stopPropagation()
+
+    // };
+    // const handlePopoverClose = () => {
+    //   setAnchorEl(null);
+    //   // setRadar({...radar, anchorEl: null})
+    //   console.log('event out ')
+
+    // };
+    // const openPopOver = Boolean(anchorEl);
+  
   return (
-    <Box height={400}>
+    <Box height={400}
+      // onMouseEnter={handlePopoverOpen}
+      // onMouseLeave={handlePopoverClose}
+    >
       <ReactECharts
+        // onEvents={{ 'mouseover': onMouseEnter, 'mouseout' : onMouseOut}}
+        // onEvents={{ 'mouseover': handlePopoverOpen, 'mouseout' : handlePopoverClose}}
         option={option} style={{ height: '400px', width: '100%' }}
       />
+          {/* <Popover
+      id="popover"
+      open={openPopOver}
+      anchorEl={ anchorEl}
+      anchorOrigin={{
+        vertical: 20,
+        horizontal: 0,
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'left',
+      }}
+      onClose={handlePopoverClose}
+      style={{ 
+        pointerEvents: 'none', 
+      }}
+      classes={{paper:classes.popover}}
+      // disableRestoreFocus
+      disableScrollLock
+    >
+      <Box p={1} width={370} bgcolor={POPUP_BG_COLOR}>
+	hello
+      </Box>
+    </Popover> */}
     </Box>
   )
 }
