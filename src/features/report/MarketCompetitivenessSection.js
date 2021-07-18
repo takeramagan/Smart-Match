@@ -44,18 +44,18 @@ export const RadarChart = ({ report }) => {
   } = report.resume_marking_info
   const getExplaination = (explaination) => {
     return (report.lang === 'cn' ? (explaination.zhs ?? explaination.eng) : explaination.eng)
-    const words = (report.lang === 'cn' ? (explaination.zhs ?? explaination.eng) : explaination.eng)
-    const temp = words.split(' ')
-    const ret = []
-    for(let i = 0; i< temp.length; i+=8){
-      ret.push(temp.slice(i, i+10).join(" "))
-    }
-    return ret.join('<br />')
+    // const words = (report.lang === 'cn' ? (explaination.zhs ?? explaination.eng) : explaination.eng)
+    // const temp = words.split(' ')
+    // const ret = []
+    // for(let i = 0; i< temp.length; i+=8){
+    //   ret.push(temp.slice(i, i+10).join(" "))
+    // }
+    // return ret.join('<br />')
   }
   const formatExpl = getExplaination(format_explanation)
   const langExpl = getExplaination(language_explanation)
-  const logicExpl = getExplaination(profesion_match_explanation)
-  const matchExpl = getExplaination(logic_explanation)
+  const matchExpl = getExplaination(profesion_match_explanation)
+  const logicExpl = getExplaination(logic_explanation)
   const option = {
     title: {
     },
