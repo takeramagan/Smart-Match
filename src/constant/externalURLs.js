@@ -1,6 +1,6 @@
 export const DK_LINK = 'https://www.dk-education.com/book-online'
-export const DK_RESUME = 'https://www.dk-education.com/challenge-page/1ebf7f2b-13ef-4478-97bc-656a057b8e31/'
-export const DK_IMPROVE = 'https://www.dk-education.com/challenge-page/1645657a-6a55-44f8-8db4-3a45b39eead3/'
+export const DK_RESUME = 'https://www.dk-education.com/service-page/%E4%B8%80%E5%AF%B9%E4%B8%80%E7%AE%80%E5%8E%86%E4%BF%AE%E6%94%B9%E6%9C%8D%E5%8A%A1-1?referral=service_list_widget'
+export const DK_IMPROVE = 'https://www.dk-education.com/service-page/%E4%B8%80%E5%AF%B9%E4%B8%80%E8%81%8C%E4%B8%9A%E8%A7%84%E5%88%92%E6%9C%8D%E5%8A%A1?referral=service_list_widget'
 // export const DK_SERVICE = 'https://www.dk-education.com/bookings-checkout/%E7%A7%81%E4%BA%BA%E8%AE%A2%E5%88%B6%E5%92%A8%E8%AF%A2%E6%9C%8D%E5%8A%A1/book'
 
 export const LINK_TRACK = 'https://ai.smartmatch.app/member/hytz.php'  //跟踪访问信息入口
