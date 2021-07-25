@@ -67,7 +67,7 @@ const JobDetail = ({job, index}) => {
   // let initJob = {status:0, link:"", post_date:"", applicants:[],title:"", modify_date:"", description:null, salary_start:null, salary_end:null}
   let initJob = {}
   const isNew = index === -1
-  const { id, status, link, post_date, modify_date, applicants, title, description, salary_start, salary_end, job_type } =  isNew ? initJob:job
+  const { id, status, link, post_date, modify_date, applicants, title, description, salary_start, salary_end, job_type, note } =  isNew ? initJob:job
 
   // const [state, setState] = React.useState({
   //   age: '',
@@ -136,9 +136,9 @@ const JobDetail = ({job, index}) => {
                   }}
                 >
                   {/* <option aria-label="None" value="" /> */}
-                  <option value={0}>Open</option>
+                  <option value={0}>Applying</option>
                   <option value={1}>Closed</option>
-                  <option value={2}>Pending</option>
+                  <option value={2}>Filled</option>
                 </Select>
               </FormControl>
             </Box>
@@ -146,6 +146,10 @@ const JobDetail = ({job, index}) => {
               Salary:
               <TextField id="salaryStart" label="From" variant="outlined" value={salary_start} size='small' style={{width:100, marginRight:10, marginLeft:10}} />
               <TextField id="salaryEnd" label="To" variant="outlined" value={salary_end} size='small' style={{width:100}}/>
+            </Box>
+            <Box mt={2}>
+            <TextField id="note" label="Job Note" variant="outlined" rowsMax={5} rows={2} fullWidth
+              multiline value={note}/>
             </Box>
             <Box mt={2}>
             <TextField id="description" label="Job Description" variant="outlined" rowsMax={15} rows={5} fullWidth
@@ -165,29 +169,36 @@ const JobDetail = ({job, index}) => {
 
 const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style}) => {
 
-  const { id, status, link, post_date, modify_date, applicants, title, edit } = item
-  const job_status = status === 0 ? "Closed" : status === 1 ? "Open" : status === 2 ? "Pending" : status
+  const { id, status, link, post_date, modify_date, applicants, title, edit, note } = item
+  const job_status = status === 0 ? "Closed" : status === 1 ? "Accepting" : status === 2 ? "Filled" : status
   const numOfApplicants = index === undefined ? "Applicants" : applicants.length //标题没有index
 
   return(
     <Box>
       <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center' style={style}>
-        <Box width='15%' overflow='hidden'>{id}</Box>
-        <Box width='30%' overflow='hidden'>{title}</Box>
-        <Box width='15%' overflow='hidden'>{job_status}</Box>
-        <Box width='15%' overflow='hidden' textAlign='center'>
+        <Box width='8%' overflow='hidden'>{id}</Box>
+        <Box width='20%' overflow='hidden'>{title}</Box>
+        <Box width='10%' overflow='hidden' textAlign='center'>
           {/**index === undefined 表示list 的标题栏*/}
           {index === undefined  && numOfApplicants}
-          {index !== undefined && <Button onClick={() => onShowApplicants(index)}>{numOfApplicants}</Button>}
+          {index !== undefined && 
+            <Button onClick={() => onShowApplicants(index)} variant='contained' color='primary' style={{height:30, marginTop:10, marginBottom:10}}
+            >{numOfApplicants}</Button>}
         </Box>
-        <Box width='15%' overflow='hidden'>{post_date}</Box>
-        <Box width='10%' >
+        <Box width='20%' overflow='hidden' textAlign='center'>{job_status}</Box>
+        <Box width='8%' >
           {index === undefined && edit}
-        {  index !== undefined && <Button onClick={() => onShowJobDetail(index)}>
-          {/* {showDetail && <ExpandLessIcon/>} 
-          {!showDetail && <ExpandMoreIcon/>}  */}
-          <EditIcon/>
-          </Button>}
+          {index !== undefined && 
+          <Button onClick={() => onShowJobDetail(index)}>
+            {/* {showDetail && <ExpandLessIcon/>} 
+            {!showDetail && <ExpandMoreIcon/>}  */}
+            <EditIcon color='primary'/>
+          </Button>
+          }
+        </Box>
+        <Box width='10%' overflow='hidden'>{post_date}</Box>
+        <Box width='26%' overflow='hidden' textAlign='center'>
+          {note}
         </Box>
       </Box>
       {/* {showDetail && <JobCard job={item}/>} */}
@@ -234,7 +245,7 @@ const JobManagement = () => {
       <Section >
         <Box p={4} mt={4}>
           <CardItem 
-          item={{id:"Id", title:"Job title", status:'Job status',post_date:"Post date", edit:"Edit job"}} 
+          item={{id:"Id", title:"Job title", status:'Job status',post_date:"Post date", edit:"Edit job", note:"Note"}} 
             style={{fontWeight:600}}  key={-1}/>
           {mockdata.length === 0 && "No application history"}
           {mockdata.map((job, i) => 
