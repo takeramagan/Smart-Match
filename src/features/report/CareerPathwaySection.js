@@ -276,7 +276,9 @@ export function CareerPathwaySection ({ report, selectedPathIndex, setSelectedPa
 
   }
   const { t } = useTranslation()
-  const scrollToSection = () => document.getElementById("course_section").scrollIntoView();
+  const scrollToSection = () => {
+    // document.getElementById("course_section").scrollIntoView();
+  }
   return (
     <Section >
       <Box p={4} style={{minWidth:790, width:'100vw'}} mr={-8} id='pathwaybox'>
