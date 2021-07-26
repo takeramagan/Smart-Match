@@ -26,17 +26,19 @@ const JobCard = ({job}) => {
             <Box>Link: <a target='_blank' href={job_link}>Visit Job Link</a></Box>
           </Box>
           <Box display='flex' flexDirection='row'>
-            History:
+            Updates:
             <Box ml={2} display='flex' flexDirection='column'>
-              <Box>Applied on {apply_date}</Box>
-              {view_date && <Box>Viewed on {view_date}</Box>}
-              {download_date && <Box>Download on {download_date}</Box>}
+              <Box>Job closed on 2021-07-23</Box>
+              <Box>Second round interview on 2021-07-10</Box>
+              <Box>You got a interview on 2021-06-25</Box>
+              <Box>Viewed on 2021-06-21</Box>
+              <Box>Applied on 2021-06-20</Box>
               </Box>
             </Box>
           </Box>
         
         {comments && <Box>Comments: {comments}</Box>}
-        <Box>Description: {job_description}</Box>
+        {/* <Box>Description: {job_description}</Box> */}
       </Box>
     </Box>
     )
@@ -47,7 +49,7 @@ const CardItem = ({index, showDetail, onClick, item, style}) => {
     if(!showDetail) onClick(index)
     else onClick(-1)
   }
-  const { job_id, job_status, job_link, apply_date, job_title,
+  const { job_id, job_status, job_link, apply_date, job_title, updates, latest_update,
     job_description, job_company, company_logo, application_status, comments
   } = item
 
@@ -58,7 +60,7 @@ const CardItem = ({index, showDetail, onClick, item, style}) => {
         <Box width='30%' overflow='hidden'>{job_title}</Box>
         <Box width='20%' overflow='hidden'>{job_company}</Box>
         <Box width='15%' overflow='hidden'>{job_status}</Box>
-        <Box width='20%' overflow='hidden'>{apply_date}</Box>
+        <Box width='20%' overflow='hidden'>{latest_update}</Box>
         <Box width='5%' >
         {  index !== undefined && <Button onClick={onClickItem}>
           {showDetail && <ExpandLessIcon/>} 
@@ -133,7 +135,7 @@ const ApplyHistory = () => {
       <Section >
         <Box p={4} mt={4}>
           <CardItem 
-          item={{job_id:"Id", job_title:"Job title", job_company: 'Company', job_status:'Job status',apply_date:"Apply date"}} 
+          item={{job_id:"Id", job_title:"Job title", job_company: 'Company', job_status:'Job status',latest_update:"Application status"}} 
             style={{fontWeight:600}}  key={-1}/>
           {mockdata.length === 0 && "No application history"}
           {mockdata.map((job, i) => <CardItem index={i} item={job} onClick={onClick} showDetail={showItem === i} key={i}/>)}
@@ -141,7 +143,7 @@ const ApplyHistory = () => {
       </Section>
 
 
-      <Section>
+      {/* <Section>
         <Box p={4} my={4}>
           <Box fontSize={h1} mb={2} fontWeight='500' color={COLOR_TITLE} flexGrow='1'>
             Jobs you applied 6 months ago
@@ -154,7 +156,7 @@ const ApplyHistory = () => {
           {mockdataBf6.map((job, i) => <OldHistoryItem index={i} item={job} onClick={onClick} showDetail={showItem === i} key={i}/>)}
         </Box>
         </Box>
-      </Section>
+      </Section> */}
     </Container>
   )
 }
