@@ -26,7 +26,7 @@ console.log("env = ", process.env.NODE_ENV)
   return fetch(url, requestOptions).then(checkStatus)
 }
 
-const checkStatus = (response) => {
+export const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
     return response.json()
   } else if (response.status === 401) {

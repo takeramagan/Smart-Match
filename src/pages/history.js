@@ -1,14 +1,16 @@
 import { Container, Box, Button } from "@material-ui/core"
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Section } from "../components/Section"
 import { COLOR_TITLE, SECTION_BLUE } from "../constant/color";
 import { h ,h1, h2} from'../constant/fontsize'
 import mockdata from '../constant/mockApplyHistory.json'
 import mockdataBf6 from '../constant/mockApplyHistory.json' // 6个月之前的数据
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
-
+import axios from "axios";
+import { useRequest } from "../hooks/useRequest";
+import { use } from "stylis";
 
 const JobCard = ({job}) => {
   const { job_id, job_status, job_link, apply_date, job_title,
@@ -111,11 +113,57 @@ const OldHistoryItem = ({item, style, isTitle, index}) => {
   )
 }
 
+
+
+
+export const applicationHistory = (config) => {
+  return axios(config)
+}
+
 const ApplyHistory = () => {
   const [showItem, setShowItem] = useState(-1)
   const onClick = (id) => {
     setShowItem(id)
   }
+
+  const {requestHandler} = useRequest(applicationHistory)
+  const getData = async () => {
+    const config = {
+      method: 'get',
+      url: 'https://ai.smartmatch.app/chen/job.php?action=shuju&page=1&limit=30'}
+
+    const data = await requestHandler(config)
+    console.log("get data", data)
+  }
+
+  const postData = async () => {
+    const data = new FormData();
+    data.append('action', 'addjob');
+    data.append('jobtitle', 'frontend developer');
+    data.append('remuneration', '10-100');
+    data.append('company', 'microsoft');
+    data.append('note', '123');
+    data.append('status', 'fi');
+    data.append('joblink', 'www.baidu.com');
+
+    
+    var config = {
+      method: 'post',
+      url: 'https://ai.smartmatch.app/chen/job.php',
+      headers: { 
+        // ...data.getHeaders()
+      },
+      data : data
+    };
+
+    const returnData = await requestHandler(config)
+    console.log("post data", returnData)
+  }
+
+  useEffect(() => {
+    getData()
+    postData()
+  }, [])
   return(
     <Container 
       style={{ marginTop: 18}}
@@ -124,7 +172,7 @@ const ApplyHistory = () => {
       <Section>
         <Box p={4}>
           <Box fontSize={h} fontWeight='500' lineHeight='42px' color={COLOR_TITLE}>
-            Apply History
+            Application History
           </Box>
           <Box fontSize={h1} >
             Following are jobs you applied in 6 months
