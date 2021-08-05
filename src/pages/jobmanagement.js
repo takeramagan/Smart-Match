@@ -1,4 +1,5 @@
-import { Container, Box, Button, Modal ,TextField, Select, FormControl , InputLabel} from "@material-ui/core"
+import { Container, Box, Button, Modal ,TextField, Select, FormControl , InputLabel, 
+  Dialog, DialogActions, DialogTitle,DialogContent, DialogContentText } from "@material-ui/core"
 import { Section } from "../components/Section"
 import { h ,h1, h2} from'../constant/fontsize'
 import mockdata from '../constant/mockReleasedJobs.json'
@@ -8,6 +9,10 @@ import { useCallback, useState } from 'react'
 import { COLOR_TITLE } from "../constant/color"
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import EditIcon from '@material-ui/icons/Edit';
+import * as yup from 'yup';
+import { useFormik } from 'formik';
+import { useDispatch } from "react-redux"
+import { useRequest } from "../hooks/useRequest"
 
 
 const ApplicantItem = ({item, isTitle, style, index}) => {
@@ -63,16 +68,104 @@ const  ApplicantsDetail = ({job}) => {
 )
 }      
 
-const JobDetail = ({job, index}) => {
+
+const validationSchema = yup.object({
+  title: yup
+    .string()
+    .required('Job title is required'),
+  salary_start: yup
+    .number().integer().moreThan(0, "Should > 0")
+    .required("Required"),
+  salary_end: yup
+    .number().min(yup.ref('salary_start'), "To >= From")
+    .required("Required"),
+  description: yup
+    .string()
+    .required('Job description is required'),
+  note: yup
+    .string(),
+  jobtype: yup.number(),
+  status: yup.number()
+});
+
+//Edit or add Job
+const JobDetail = ({job, index, closeModal}) => {
   // let initJob = {status:0, link:"", post_date:"", applicants:[],title:"", modify_date:"", description:null, salary_start:null, salary_end:null}
   let initJob = {}
   const isNew = index === -1
   const { id, status, link, post_date, modify_date, applicants, title, description, salary_start, salary_end, job_type, note } =  isNew ? initJob:job
+  
+  const [openConfirmDlg, setOpenConfirmDlg] = useState(false) //open confirm dialog
 
-  // const [state, setState] = React.useState({
-  //   age: '',
-  //   name: 'hai',
-  // });
+  const formik = useFormik({
+    initialValues: {
+      title: title ?? "",
+      salary_start: salary_start > 0 ? salary_start : 0,
+      salary_end: salary_end > 0 ? salary_end : 0,
+      note: note ?? "",
+      description: description ?? "",
+      jobtype: (job_type >=0 && job_type <=2) ? job_type : 0,//0:full time 1:contract 2:part
+      status: (status >=0 && status <=2) ? status : 0,//0:applying 1:closed 2:filled
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values)
+      submitData(values)
+    },
+  });
+
+  const { requestHandler } = useRequest()
+  const submitData = async (values) => {
+    try{
+      const data = new FormData()
+      data.append('action', isNew ? 'addjob' : 'edithob');
+      data.append('jobtitle', values.title);
+      // data.append('remuneration', values.salary_start + ',' + values.salary_end);
+      data.append('company', 'microsoft');
+      data.append('note', values.note);
+      data.append('hyid', '1');
+      data.append('status', 'start');
+      data.append('joblink', 'www.baidu.com');
+      const config = {
+        method: 'post',
+        url: 'https://ai.smartmatch.app/chen/job.php',
+        data : data
+      }
+      const result = await requestHandler(config)
+
+      console.log("submit result", result)
+      if(result.code === 0) {
+        console.log("Submit succcess")
+        closeModal()
+      }else{
+        console.log("data error submit")
+      }
+    }catch(e){
+      console.log("error submit")
+    }
+  }
+
+  const equals = (init, cur) => {
+    for(const [k, v] of Object.entries(init)){
+      if(v != cur[k]) return false
+    }
+    return true
+  }
+
+  const onClickCancel = () => {
+    if(equals(formik.initialValues, formik.values)){
+      console.log("close ")
+      closeModal()
+    }else{
+      console.log("not equal ")
+      //open confirm dialog
+      setOpenConfirmDlg(true)
+    }
+  }
+
+  const onCloseDlg = () => {
+    setOpenConfirmDlg(false)
+  }
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -93,9 +186,15 @@ const JobDetail = ({job, index}) => {
       </Section>
       <Section >
         <Box p={4} mt={4} fontSize={h2}>
-        <form>
+        <form onSubmit={formik.handleSubmit}>
             <Box >
-              <TextField id="title" label="Title" variant="outlined" value={title} size='small' style={{width: 300}}/>
+              <TextField id="title" label="Job title" variant="outlined" size='small' name='title'
+                value={formik.values.title}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.title && Boolean(formik.errors.title)}
+                helperText={formik.touched.title && formik.errors.title}
+                style={{width: 300}}/>
             </Box>
 
             <Box mt={2}>
@@ -106,11 +205,11 @@ const JobDetail = ({job, index}) => {
                   native
                   variant="outlined"
                   // value={state.age}
-                  value={job_type}
-                  onChange={handleChange}
+                  value={formik.values.jobtype}
+                  onChange={formik.handleChange}
                   label="Job type"
                   inputProps={{
-                    name: 'age',
+                    name: 'jobtype',
                     id: 'jobtype',
                   }}
                 >
@@ -127,11 +226,11 @@ const JobDetail = ({job, index}) => {
                   native
                   variant="outlined"
                   // value={state.age}
-                  value={job_type}
-                  onChange={handleChange}
+                  value={formik.values.status}
+                  onChange={formik.handleChange}
                   label="Job status"
                   inputProps={{
-                    name: 'age',
+                    name: 'status',
                     id: 'status',
                   }}
                 >
@@ -144,24 +243,66 @@ const JobDetail = ({job, index}) => {
             </Box>
             <Box mt={2}>
               Salary:
-              <TextField id="salaryStart" label="From" variant="outlined" value={salary_start} size='small' style={{width:100, marginRight:10, marginLeft:10}} />
-              <TextField id="salaryEnd" label="To" variant="outlined" value={salary_end} size='small' style={{width:100}}/>
+              <TextField id="salary_start" label="From" variant="outlined" size='small' type='number'
+                value={formik.values.salary_start}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.salary_start && Boolean(formik.errors.salary_start)}
+                helperText={formik.touched.salary_start && formik.errors.salary_start}
+                style={{width:100, marginRight:10, marginLeft:10}} />
+              <TextField id="salary_end" label="To" variant="outlined" size='small' type='number'
+                style={{width:100}}
+                onBlur={formik.handleBlur}
+                value={formik.values.salary_end}
+                onChange={formik.handleChange}
+                error={formik.touched.salary_end && Boolean(formik.errors.salary_end)}
+                helperText={formik.touched.salary_end && formik.errors.salary_end}
+              />
             </Box>
             <Box mt={2}>
-            <TextField id="note" label="Job Note" variant="outlined" rowsMax={5} rows={2} fullWidth
-              multiline value={note}/>
+            <TextField id="note" label="Job Note" variant="outlined" rowsMax={5} rows={2} fullWidth multiline 
+              value={formik.values.note}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
             </Box>
             <Box mt={2}>
             <TextField id="description" label="Job Description" variant="outlined" rowsMax={15} rows={5} fullWidth
-              multiline value={description}/>
+              multiline 
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.description && Boolean(formik.errors.description)} 
+              helperText={formik.touched.description && formik.errors.description}
+            />
             </Box>
             <Box mt={3}>
-              <Button variant="contained" color="primary" style={{marginRight:10}}>Submit</Button>
-              <Button variant="contained" color="primary">Cancel</Button>
+              <Button variant="contained" color="primary" style={{marginRight:10}} type="submit">Submit</Button>
+              <Button variant="contained" color="primary" onClick={onClickCancel}>Cancel</Button>
             </Box>
           </form>
         </Box>
       </Section>
+
+      <Dialog
+        open={openConfirmDlg}
+        onClose={onCloseDlg}
+      >
+        <DialogTitle >{"Confirm"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText >
+              Discard modification?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onCloseDlg} color="primary">
+            Disagree
+          </Button>
+          <Button onClick={()=>{onCloseDlg(); closeModal()}} color="primary" autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
 )
 }
@@ -223,6 +364,36 @@ const JobManagement = () => {
     setShowItem(id)
     setShowApplicants(true)
   }
+
+  const closeModal = () => {
+    setShowItem(-1);
+    setShowJobDetail(false); 
+    setShowApplicants(false)
+  }
+
+  const onClose = () => { 
+    if(showJobDetail){ //在jobmodal 里面自己控制关闭
+      console.log(showJobDetail)
+    }else{
+      closeModal()
+    }
+  }
+
+  //fetch data
+  const dispatch = useDispatch()
+  const {loading, requestHandler:requestJobList} = useRequest()
+  const getData = async () => {
+    const config = {
+      method: 'get',
+      url: 'https://ai.smartmatch.app/chen/job.php?action=shuju&page=1&limit=30'}
+
+    const data = await requestHandler(config)
+    console.log("get data", data.data)
+    if(data.code === 0) dispatch(historyAction.addHistoryList(data.data))
+  }
+
+
+
   return(
     <Container 
       style={{ marginTop: 18}}
@@ -259,9 +430,9 @@ const JobManagement = () => {
           )}
         </Box>
       </Section>
-      <Modal open={showJobDetail || showApplicants} onClose={() => {setShowItem(-1); setShowJobDetail(false); setShowApplicants(false)}}>
+      <Modal open={showJobDetail || showApplicants} onClose={onClose}>
         <>
-        {showJobDetail && <JobDetail job={mockdata[showItem]} index={showItem}></JobDetail>}
+        {showJobDetail && <JobDetail job={mockdata[showItem]} index={showItem} closeModal={closeModal}></JobDetail>}
         {showApplicants && <ApplicantsDetail job={mockdata[showItem]}></ApplicantsDetail>}
         </>
       </Modal>

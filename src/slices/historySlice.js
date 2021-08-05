@@ -5,14 +5,21 @@ const initialState = {
   historyList:[]
 }
 
-export const historySlice = createSlice({
+const historySlice = createSlice({
   name:"historySlice",
   initialState,
   reducers: {
     setCurrentPage: (state, action) => state.currentPage = action.payload,
-    addHistoryList: (state, action) => { return [...state.historyList, ...action.payload]},
-    deleteHistory: (state, action) => {return state.historyList.filter(item => item.id != action.payload.id )},
+    setHistoryList: (state, action) => ({...state, historyList: [...action.payload]}),
+    addHistoryList: (state, action) =>  ({...state, historyList: [...state.historyList, ...action.payload]}),
+    deleteHistory: (state, action) => ({...state, historyList: state.historyList.filter(item => item.id != action.payload.id )}),
   }
 })
 
 export const historyReducer =  historySlice.reducer
+export const historyAction = {
+  setCurrentPage: historySlice.actions.setCurrentPage,
+  setHistoryList: historySlice.actions.setHistoryList,
+  addHistoryList: historySlice.actions.addHistoryList,
+  deleteHistory: historySlice.actions.deleteHistory
+}

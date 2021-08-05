@@ -1,4 +1,4 @@
-import { Container, Box, Button } from "@material-ui/core"
+import { Container, Box, Button, Popover } from "@material-ui/core"
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useEffect, useState } from 'react'
@@ -11,35 +11,40 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import axios from "axios";
 import { useRequest } from "../hooks/useRequest";
 import { use } from "stylis";
+import { useDispatch, useSelector } from "react-redux";
+import { historyAction } from "../slices/historySlice";
 
 const JobCard = ({job}) => {
-  const { job_id, job_status, job_link, apply_date, job_title,
-    job_description, job_company, company_logo, application_status, comments, job_salary
+  const { jobid, job_status, joblink, apply_date, jobtitle,
+    job_description, company, company_logo, application_status, feedback, job_salary
   } = job
-  const { view_date, download_date} = application_status
+  // const { view_date, download_date} = application_status
   return(
-    <Box display='flex' flexDirection='row' color='white' bgcolor={SECTION_BLUE} py={1} pl={1} borderRadius={10} mb={2}>
+    <Box display='flex' flexDirection='row' color='white' bgcolor={SECTION_BLUE} p={2} 
+      // borderRadius={10}
+      // mb={2}
+      >
       <img width={80} height={80} src={company_logo ?? 'defaultlogo.svg'} style={{borderRadius:15}}/>
       <Box ml={2} flexGrow={1}>
         <Box display='flex' flexDirection='row'>
           <Box width='30%'>
-            <Box>Company: {job_company}</Box>
+            <Box>Company: {company}</Box>
             <Box>Salary: {job_salary ?? 'Not disclosed'}</Box>
-            <Box>Link: <a target='_blank' href={job_link}>Visit Job Link</a></Box>
+            <Box>Link: <a target='_blank' href={joblink}>Visit Job Link</a></Box>
           </Box>
           <Box display='flex' flexDirection='row'>
             Updates:
             <Box ml={2} display='flex' flexDirection='column'>
-              <Box>Job closed on 2021-07-23</Box>
-              <Box>Second round interview on 2021-07-10</Box>
-              <Box>You got a interview on 2021-06-25</Box>
-              <Box>Viewed on 2021-06-21</Box>
-              <Box>Applied on 2021-06-20</Box>
+              <Box>2021-07-23: Job closed</Box>
+              <Box>2021-07-10: Second round interview</Box>
+              <Box>2021-06-25: You got a interview</Box>
+              <Box>2021-06-21: Viewed</Box>
+              <Box>2021-06-20: Applied</Box>
               </Box>
             </Box>
           </Box>
         
-        {comments && <Box>Comments: {comments}</Box>}
+        {feedback && <Box>Feedback: {feedback}</Box>}
         {/* <Box>Description: {job_description}</Box> */}
       </Box>
     </Box>
@@ -51,26 +56,66 @@ const CardItem = ({index, showDetail, onClick, item, style}) => {
     if(!showDetail) onClick(index)
     else onClick(-1)
   }
-  const { job_id, job_status, job_link, apply_date, job_title, updates, latest_update,
-    job_description, job_company, company_logo, application_status, comments
+  const { jobid, status, joblink, apply_date, jobtitle, updates, latest_update,
+    job_description, company, company_logo, application_status, feedback
   } = item
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handlePopoverOpen = (event) => {
+    console.log("enter", event.currentTarget)
+    if(index != undefined) setAnchorEl(event.currentTarget); //不是title
+  };
+  const handlePopoverClose = () => {
+    console.log("leave")
+
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+
   return(
-    <Box>
-      <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center' style={style}>
-        <Box width='10%' overflow='hidden'>{job_id}</Box>
-        <Box width='30%' overflow='hidden'>{job_title}</Box>
-        <Box width='20%' overflow='hidden'>{job_company}</Box>
-        <Box width='15%' overflow='hidden'>{job_status}</Box>
+    <Box
+      onMouseEnter={handlePopoverOpen}
+      onMouseLeave={handlePopoverClose}
+      my={1}
+    >
+      <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center' style={style}
+
+      >
+        <Box width='10%' overflow='hidden'>{jobid}</Box>
+        <Box width='30%' overflow='hidden'>{jobtitle}</Box>
+        <Box width='20%' overflow='hidden'>{company}</Box>
+        <Box width='15%' overflow='hidden'>{status}</Box>
         <Box width='20%' overflow='hidden'>{latest_update}</Box>
         <Box width='5%' >
-        {  index !== undefined && <Button onClick={onClickItem}>
+        {/* {  index !== undefined && <Button onClick={onClickItem}>
           {showDetail && <ExpandLessIcon/>} 
           {!showDetail && <ExpandMoreIcon/>} 
-          </Button>}
+          </Button>} */}
         </Box>
       </Box>
-      {showDetail && <JobCard job={item}/>}
+      {/* {showDetail && <JobCard job={item}/>} */}
+
+      <Popover
+        open={open}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        // onClose={handlePopoverClose}
+        disableRestoreFocus
+        disableScrollLock
+        style={{ 
+          pointerEvents: 'none', 
+        }}
+      >
+        <JobCard job={item}/>
+      </Popover>
+
     </Box>
   )
 }
@@ -80,45 +125,45 @@ const CardItem = ({index, showDetail, onClick, item, style}) => {
  * @param 
  * @returns 
  */
-const OldHistoryItem = ({item, style, isTitle, index}) => {
-  const onClickItem = () => {
-    if(!showDetail) onClick(index)
-    else onClick(-1)
-  }
-  const { job_id, job_status, job_link, apply_date, job_title,
-    job_description, job_company, company_logo, application_status, comments
-  } = item
+// const OldHistoryItem = ({item, style, isTitle, index}) => {
+//   const onClickItem = () => {
+//     if(!showDetail) onClick(index)
+//     else onClick(-1)
+//   }
+//   const { jobid, status, joblink, apply_date, jobtitle,
+//     job_description, company, company_logo, application_status, feedback
+//   } = item
 
-  return(
-    <Box>
-      <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center' style={style}>
-        <Box width='10%' overflow='hidden'>{job_id}</Box>
-        <Box width='30%' overflow='hidden'>{job_title}</Box>
-        <Box width='20%' overflow='hidden'>{job_company}</Box>
-        <Box width='10%' overflow='hidden'>{apply_date}</Box>
-        <Box width='15%' textAlign='center' >
-          {isTitle && 'Resume history'}
-          {!isTitle && <Box><Button><CloudDownloadIcon color='primary'/></Button></Box>
-          }
-        </Box>
-        <Box width='15%' textAlign='center'>
-          {isTitle && 'Analysis Report'}
-          {
-          !isTitle && <Box><Button><CloudDownloadIcon color='primary'/></Button></Box>
-          }
-        </Box>
-      </Box>
-      {/* {showDetail && <JobCard job={item}/>} */}
-    </Box>
-  )
-}
-
-
+//   return(
+//     <Box>
+//       <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center' style={style}>
+//         <Box width='10%' overflow='hidden'>{jobid}</Box>
+//         <Box width='30%' overflow='hidden'>{jobtitle}</Box>
+//         <Box width='20%' overflow='hidden'>{company}</Box>
+//         <Box width='10%' overflow='hidden'>{apply_date}</Box>
+//         <Box width='15%' textAlign='center' >
+//           {isTitle && 'Resume history'}
+//           {!isTitle && <Box><Button><CloudDownloadIcon color='primary'/></Button></Box>
+//           }
+//         </Box>
+//         <Box width='15%' textAlign='center'>
+//           {isTitle && 'Analysis Report'}
+//           {
+//           !isTitle && <Box><Button><CloudDownloadIcon color='primary'/></Button></Box>
+//           }
+//         </Box>
+//       </Box>
+//       {/* {showDetail && <JobCard job={item}/>} */}
+//     </Box>
+//   )
+// }
 
 
-export const applicationHistory = (config) => {
-  return axios(config)
-}
+
+
+// const applicationHistory = (config) => {
+//   return axios(config)
+// }
 
 const ApplyHistory = () => {
   const [showItem, setShowItem] = useState(-1)
@@ -126,14 +171,21 @@ const ApplyHistory = () => {
     setShowItem(id)
   }
 
-  const {requestHandler} = useRequest(applicationHistory)
-  const getData = async () => {
+  const { currentPage, historyList } = useSelector(store => store.history)
+  console.log("crr", currentPage, historyList)
+  const dispatch = useDispatch()
+
+  const {loading, requestHandler} = useRequest(true)
+  const getData = async (isAppend = true) => {
     const config = {
       method: 'get',
-      url: 'https://ai.smartmatch.app/chen/job.php?action=shuju&page=1&limit=30'}
+      url: 'https://ai.smartmatch.app/chen/job.php?action=shuju&page=1&limit=30'
+      // url: 'https://ai.smartmatch.app/chen/jobrecord.php?action=shuju&hyid=2'
+    }
 
     const data = await requestHandler(config)
-    console.log("get data", data)
+    console.log("get data", data.data)
+    if(data.code === 0) dispatch(isAppend ? historyAction.addHistoryList(data.data) : historyAction.setHistoryList(data.data))
   }
 
   const postData = async () => {
@@ -145,6 +197,7 @@ const ApplyHistory = () => {
     data.append('note', '123');
     data.append('status', 'fi');
     data.append('joblink', 'www.baidu.com');
+    data.append('hyid', 1);
 
     
     var config = {
@@ -161,8 +214,7 @@ const ApplyHistory = () => {
   }
 
   useEffect(() => {
-    getData()
-    postData()
+    getData(false)
   }, [])
   return(
     <Container 
@@ -183,10 +235,11 @@ const ApplyHistory = () => {
       <Section >
         <Box p={4} mt={4}>
           <CardItem 
-          item={{job_id:"Id", job_title:"Job title", job_company: 'Company', job_status:'Job status',latest_update:"Application status"}} 
+          item={{jobid:"Id", jobtitle:"Job title", company: 'Company', status:'Job status',latest_update:"Application status"}} 
             style={{fontWeight:600}}  key={-1}/>
-          {mockdata.length === 0 && "No application history"}
-          {mockdata.map((job, i) => <CardItem index={i} item={job} onClick={onClick} showDetail={showItem === i} key={i}/>)}
+            {loading && "Loading"}
+            {!loading && historyList.length === 0 && "No application history"}
+            {!loading && historyList.map((job, i) => <CardItem index={i} item={job} onClick={onClick} showDetail={showItem === i} key={i}/>)}
         </Box>
       </Section>
 

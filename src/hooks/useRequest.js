@@ -1,3 +1,4 @@
+import axios from "axios"
 import { useState } from "react"
 
 export const checkStatus = (response) => {
@@ -14,7 +15,7 @@ export const checkStatus = (response) => {
   return Promise.reject(error)
 }
 
-export const useRequest = (func, initLoading = false) => {
+export const useRequest = (initLoading = false, func=axios) => {
   const [loading, setLoading] = useState(initLoading)
   const [error, setError] = useState(false)
   const requestHandler = async (...rest) => {

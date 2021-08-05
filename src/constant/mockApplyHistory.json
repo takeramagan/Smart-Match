@@ -13,7 +13,7 @@
       {"view_date": "2021-02-26",
       "download_date": "2021-02-26"}
     ,
-    "comments": "very good"
+    "feedback": "very good"
   },
   {
     "job_id": 123456,
@@ -30,7 +30,7 @@
     {"view_date": "2021-02-26",
     "download_date": "2021-02-26"}
   ,
-    "comments": "very good"
+    "feedback": "very good"
   },
   {
     "job_id": 123456,
@@ -46,7 +46,7 @@
       {"view_date": "2021-02-26",
       "download_date": "2021-02-26"}
     ,
-    "comments": "very good"
+    "feedback": "very good"
   },
   {
     "job_id": 123456,
@@ -62,7 +62,7 @@
       {"view_date": "2021-02-26",
       "download_date": "2021-02-26"}
     ,
-    "comments": "very good"
+    "feedback": "very good"
   },
   {
     "job_id": 123456,
@@ -78,7 +78,7 @@
       {"view_date": "2021-02-26",
       "download_date": "2021-02-26"}
     ,
-    "comments": "very good"
+    "feedback": "very good"
   },
   {
     "job_id": 123456,
@@ -94,7 +94,7 @@
       {"view_date": "2021-02-26",
       "download_date": "2021-02-26"}
     ,
-    "comments": "very good"
+    "feedback": "very good"
   },
   {
     "job_id": 123456,
@@ -110,7 +110,7 @@
       {"view_date": "2021-02-26",
       "download_date": "2021-02-26"}
     ,
-    "comments": "very good"
+    "feedback": "very good"
   },
   {
     "job_id": 123456,
@@ -127,7 +127,7 @@
       {"view_date": "2021-02-26",
       "download_date": "2021-02-26"}
     ,
-    "comments": "very good"
+    "feedback": "very good"
   },
   {
     "job_id": 123456,
@@ -143,7 +143,7 @@
       {"view_date": "2021-02-26",
       "download_date": "2021-02-26"}
     ,
-    "comments": "very good"
+    "feedback": "very good"
   },
   {
     "job_id": 123456,
@@ -159,6 +159,6 @@
       {"view_date": "2021-02-26",
       "download_date": "2021-02-26"}
     ,
-    "comments": "very good"
+    "feedback": "very good"
   }
 ]
