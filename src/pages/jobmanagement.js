@@ -74,10 +74,10 @@ const validationSchema = yup.object({
     .string()
     .required('Job title is required'),
   salary_start: yup
-    .number().integer().moreThan(0, "Should > 0")
+    .number().integer("Integer only").moreThan(0, "Should > 0")
     .required("Required"),
   salary_end: yup
-    .number().min(yup.ref('salary_start'), "To >= From")
+    .number().integer("Integer only").min(yup.ref('salary_start'), "To >= From")
     .required("Required"),
   description: yup
     .string()
@@ -118,12 +118,12 @@ const JobDetail = ({job, index, closeModal}) => {
   const submitData = async (values) => {
     try{
       const data = new FormData()
-      data.append('action', isNew ? 'addjob' : 'edithob');
+      data.append('action', isNew ? 'addjob' : 'editjob');
       data.append('jobtitle', values.title);
-      // data.append('remuneration', values.salary_start + ',' + values.salary_end);
+      data.append('remuneration', values.salary_start + ',' + values.salary_end);
       data.append('company', 'microsoft');
       data.append('note', values.note);
-      data.append('hyid', '1');
+      data.append('hrid', '0');
       data.append('status', 'start');
       data.append('joblink', 'www.baidu.com');
       const config = {
