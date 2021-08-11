@@ -5,8 +5,8 @@ const initialState = {
   historyList:[]
 }
 
-const historySlice = createSlice({
-  name:"historySlice",
+const hrHistorySlice = createSlice({
+  name:"hrHistorySlice",
   initialState,
   reducers: {
     setCurrentPage: (state, action) => state.currentPage = action.payload,
@@ -16,10 +16,10 @@ const historySlice = createSlice({
   }
 })
 
-export const historyReducer =  historySlice.reducer
-export const historyAction = {
-  setCurrentPage: historySlice.actions.setCurrentPage,
-  setHistoryList: historySlice.actions.setHistoryList,
-  addHistoryList: historySlice.actions.addHistoryList,
-  deleteHistory: historySlice.actions.deleteHistory
+export const hrHistoryReducer =  hrHistorySlice.reducer
+export const hrHistoryAction = {
+  setCurrentPage: hrHistorySlice.actions.setCurrentPage,
+  setHistoryList: hrHistorySlice.actions.setHistoryList,
+  addHistoryList: hrHistorySlice.actions.addHistoryList,
+  deleteHistory: hrHistorySlice.actions.deleteHistory
 }

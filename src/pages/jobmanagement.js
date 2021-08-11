@@ -1,9 +1,9 @@
 import { Container, Box, Button, Modal ,TextField, Select, FormControl , InputLabel, 
-  Dialog, DialogActions, DialogTitle,DialogContent, DialogContentText } from "@material-ui/core"
+  Dialog, DialogActions, DialogTitle,DialogContent, DialogContentText, Chip, makeStyles } from "@material-ui/core"
 import { Section } from "../components/Section"
 import { h ,h1, h2} from'../constant/fontsize'
 import mockdata from '../constant/mockReleasedJobs.json'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 // import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { COLOR_TITLE } from "../constant/color"
@@ -11,9 +11,98 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import EditIcon from '@material-ui/icons/Edit';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useRequest } from "../hooks/useRequest"
+import { hrHistoryAction } from "../slices/hrHistorySlice"
+import { useRouter } from "next/router"
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import CloseIcon from '@material-ui/icons/Close';
 
+// const useStyles = makeStyles({
+//   rejectReasonContainer: {
+//     "&:hover":{
+//       cursor: 'default'
+//     }
+//   },
+// })
+
+const Operations = ({}) => {
+  const [showRejectReason, setShowRejectReason] = useState(false)
+  const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清", "长得不够帅"]
+  const [rejectReasons, setRejectReasons] = useState(0) //bit indicates selected or not
+  const [otherReason, setOtherReason] = useState("")
+  const [otherBlur, setOherBlur] = useState(false)
+
+  const onCloseModal = () => {
+    setShowRejectReason(false)
+    setOherBlur(false)
+  }
+
+  const checkReasons = () => (otherReason.trim() || rejectReasons)
+
+  const onSubmit = () => {
+    if(!checkReasons()) setOherBlur(true)
+    else{
+      onCloseModal()
+    }
+    console.log(otherReason)
+  }
+
+  const onSelectReason = (i) => {
+    setRejectReasons(v => {return ( v ^ (1 << i))}) //对应该位取反
+  }
+
+  const onOtherReason = (e) => {
+    setOtherReason(e.target.value)
+  }
+
+  return(
+    <Box> 
+      <Button>Invite <GroupAddIcon color="primary"/></Button>
+      <Button onClick={setShowRejectReason}>Reject <CloseIcon color="error" /></Button>
+      <Modal open={showRejectReason} onClose={onCloseModal}>
+        <Box mt={10} ml='auto' mr='auto' width="60%">
+          <Section >
+            <Box p={4} >
+              <Box fontSize={h2} color={COLOR_TITLE}>Choose the reason</Box>
+              <Box mt={2} display='flex' width={200}>
+                  { rejectReasonOptions.map((v,i) => 
+                    <Box  key={v} onClick={() => onSelectReason(i)} >
+                      <Chip
+                        clickable
+                        key={v}
+                        label={v} style={{
+                        marginRight: 18,
+                        color: (rejectReasons >> i & 1) ? '#ffffff' : 'black',
+                        backgroundColor: (rejectReasons >> i & 1) ? COLOR_TITLE :'#ffffff',
+                        filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.28))',
+                        margin: '8px 4px',
+                        overflowAnchor:"auto"
+                      }}
+                    />
+                  </Box>
+                  )}
+
+              </Box>
+              <Box display='flex' alignItems='center'>
+                Other: 
+                <TextField fullWidth id='otherreason'  
+                  value={otherReason}
+                  onChange={onOtherReason} 
+                  onBlur={() =>setOherBlur(true)}
+                ></TextField>
+              </Box>
+              <Box display='flex' alignItems='center' color="red" mt={2}>
+                {otherBlur && !checkReasons() && 'Please choose or enter a reason'}
+              </Box>
+              <SubmitAndCancel onSubmit={onSubmit} onCancel={onCloseModal}/>
+            </Box>
+          </Section>
+        </Box>
+      </Modal>
+    </Box>
+  )
+}
 
 const ApplicantItem = ({item, isTitle, style, index}) => {
   const {name, apply_date, match,resume, resume_report}  = item
@@ -35,7 +124,8 @@ const ApplicantItem = ({item, isTitle, style, index}) => {
         {!isTitle && <Button target='_blakn' href={resume_report}><CloudDownloadIcon color="primary"/></Button>}
       </Box>
       <Box width='25%' overflow='hidden' textAlign='center'>
-        {isTitle && "Operation"}
+        {/* {isTitle && "Operation"} */}
+        {isTitle && <Operations />}
       </Box>
     </Box>
 
@@ -43,15 +133,27 @@ const ApplicantItem = ({item, isTitle, style, index}) => {
 
 }
 
-const  ApplicantsDetail = ({job}) => {
-  const { id, status, link, post_date, modify_date, applicants, title } = job
-  return (
+const SubmitAndCancel = ({onSubmit, onCancel}) => {
 
+  return (
+    <Box mt={3}>
+      <Button variant="contained" color="primary" style={{marginRight:10}} onClick={onSubmit} type="submit">Submit</Button>
+      <Button variant="contained" color="primary" onClick={onCancel}>Cancel</Button>
+    </Box>
+  )
+}
+
+
+const  ApplicantsDetail = ({job}) => {
+  const { id, status, post_date, modify_date, applicants, jobtitle } = job
+  let applicantList = applicants
+  if(typeof(applicants) !== "object") applicantList = []
+  return (
     <Box style={{width:'80%', marginLeft:'auto', marginRight:'auto'}}>
       <Section >
         <Box mt={4} p={4}>
           <Box fontSize={h1} color={COLOR_TITLE}>
-            {title}
+            {jobtitle}
           </Box>
         </Box>
       </Section>
@@ -60,8 +162,8 @@ const  ApplicantsDetail = ({job}) => {
           <ApplicantItem 
           item={{name:"Name", apply_date:"Apply Date", match:'Match',resume:"Resume", resume_report:"Resume Analysis"}} 
           style={{fontWeight:600}}  isTitle/>
-          {applicants.length === 0 && "No applicants Right now"}
-          {applicants.map((item, i) => <ApplicantItem item={item} key={i} index={i}/>)}
+          {(applicantList.length === 0) && "No applicants Right now"}
+          {applicantList?.map((item, i) => <ApplicantItem item={item} key={i} index={i}/>)}
         </Box>
       </Section>
     </Box>
@@ -89,11 +191,11 @@ const validationSchema = yup.object({
 });
 
 //Edit or add Job
-const JobDetail = ({job, index, closeModal}) => {
+const JobDetail = ({job, index, closeModal, updatePage}) => {
   // let initJob = {status:0, link:"", post_date:"", applicants:[],title:"", modify_date:"", description:null, salary_start:null, salary_end:null}
   let initJob = {}
   const isNew = index === -1
-  const { id, status, link, post_date, modify_date, applicants, title, description, salary_start, salary_end, job_type, note } =  isNew ? initJob:job
+  const { jobid, hrid, status, link, post_date, modify_date, applicants, jobtitle:title, description, salarylow: salary_start, salaryhigh: salary_end, job_type, note } =  isNew ? initJob:job
   
   const [openConfirmDlg, setOpenConfirmDlg] = useState(false) //open confirm dialog
 
@@ -105,7 +207,7 @@ const JobDetail = ({job, index, closeModal}) => {
       note: note ?? "",
       description: description ?? "",
       jobtype: (job_type >=0 && job_type <=2) ? job_type : 0,//0:full time 1:contract 2:part
-      status: (status >=0 && status <=2) ? status : 0,//0:applying 1:closed 2:filled
+      status: (status >=0 && status <=2) ? status : 0,//0:accepting 1:closed 2:filled
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -119,12 +221,15 @@ const JobDetail = ({job, index, closeModal}) => {
     try{
       const data = new FormData()
       data.append('action', isNew ? 'addjob' : 'editjob');
+      if(!isNew) data.append('jobid', jobid )
       data.append('jobtitle', values.title);
-      data.append('remuneration', values.salary_start + ',' + values.salary_end);
+      data.append('salarylow', values.salary_start);
+      data.append('salaryhigh', values.salary_end);
       data.append('company', 'microsoft');
       data.append('note', values.note);
-      data.append('hrid', '0');
-      data.append('status', 'start');
+      data.append('hrid', '0'); //mock data
+      data.append('status', values.status);
+      data.append('description', values.description);
       data.append('joblink', 'www.baidu.com');
       const config = {
         method: 'post',
@@ -136,6 +241,7 @@ const JobDetail = ({job, index, closeModal}) => {
       console.log("submit result", result)
       if(result.code === 0) {
         console.log("Submit succcess")
+        updatePage()
         closeModal()
       }else{
         console.log("data error submit")
@@ -235,7 +341,7 @@ const JobDetail = ({job, index, closeModal}) => {
                   }}
                 >
                   {/* <option aria-label="None" value="" /> */}
-                  <option value={0}>Applying</option>
+                  <option value={0}>Accepting</option>
                   <option value={1}>Closed</option>
                   <option value={2}>Filled</option>
                 </Select>
@@ -276,10 +382,11 @@ const JobDetail = ({job, index, closeModal}) => {
               helperText={formik.touched.description && formik.errors.description}
             />
             </Box>
-            <Box mt={3}>
+            <SubmitAndCancel  onCancel={onClickCancel}/>
+            {/* <Box mt={3}>
               <Button variant="contained" color="primary" style={{marginRight:10}} type="submit">Submit</Button>
               <Button variant="contained" color="primary" onClick={onClickCancel}>Cancel</Button>
-            </Box>
+            </Box> */}
           </form>
         </Box>
       </Section>
@@ -308,11 +415,11 @@ const JobDetail = ({job, index, closeModal}) => {
 }
 
 
-const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style}) => {
+const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitle}) => {
 
-  const { id, status, link, post_date, modify_date, applicants, title, edit, note } = item
-  const job_status = status === 0 ? "Closed" : status === 1 ? "Accepting" : status === 2 ? "Filled" : status
-  const numOfApplicants = index === undefined ? "Applicants" : applicants.length //标题没有index
+  const { jobid:id, status, link, postdate, modify_date, applicants, jobtitle: title, edit, note } = item
+  const job_status  = status == 0 ? "Closed" : status == 1 ? "Accepting" : status == 2 ? "Filled" : status
+  const numOfApplicants = index === undefined ? "Applicants" : (applicants ?? 0) //标题没有index
 
   return(
     <Box>
@@ -321,15 +428,17 @@ const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style}) => {
         <Box width='20%' overflow='hidden'>{title}</Box>
         <Box width='10%' overflow='hidden' textAlign='center'>
           {/**index === undefined 表示list 的标题栏*/}
-          {index === undefined  && numOfApplicants}
-          {index !== undefined && 
-            <Button onClick={() => onShowApplicants(index)} variant='contained' color='primary' style={{height:30, marginTop:10, marginBottom:10}}
+          {isTitle  && numOfApplicants}
+          {!isTitle && 
+            <Button 
+              disabled={numOfApplicants === 0}
+              onClick={() => onShowApplicants(index)} variant='contained' color='primary' style={{height:30, marginTop:10, marginBottom:10}}
             >{numOfApplicants}</Button>}
         </Box>
         <Box width='20%' overflow='hidden' textAlign='center'>{job_status}</Box>
         <Box width='8%' >
-          {index === undefined && edit}
-          {index !== undefined && 
+          {isTitle && edit}
+          {!isTitle && 
           <Button onClick={() => onShowJobDetail(index)}>
             {/* {showDetail && <ExpandLessIcon/>} 
             {!showDetail && <ExpandMoreIcon/>}  */}
@@ -337,7 +446,7 @@ const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style}) => {
           </Button>
           }
         </Box>
-        <Box width='10%' overflow='hidden'>{post_date}</Box>
+        <Box width='10%' overflow='hidden'>{isTitle ? postdate : (postdate.split(" ")[0])}</Box>
         <Box width='26%' overflow='hidden' textAlign='center'>
           {note}
         </Box>
@@ -351,6 +460,11 @@ const JobManagement = () => {
   const [showItem, setShowItem] = useState(-1) //-1表示没有
   const [showJobDetail, setShowJobDetail] = useState(false)
   const [showApplicants, setShowApplicants] = useState(false)
+  const hrHistory = useSelector(store => store.history)
+  const currentPage = hrHistory.currentPage
+  const hrHistoryList = hrHistory.historyList
+  const params = useRouter().query
+  const hrId = params.id ?? 0
 
   const onShowJobDetail = (id) => {
     setShowItem(id)
@@ -381,18 +495,25 @@ const JobManagement = () => {
 
   //fetch data
   const dispatch = useDispatch()
-  const {loading, requestHandler:requestJobList} = useRequest()
+  const getHrHistory = useRequest()
   const getData = async () => {
     const config = {
       method: 'get',
-      url: 'https://ai.smartmatch.app/chen/job.php?action=shuju&page=1&limit=30'}
-
-    const data = await requestHandler(config)
-    console.log("get data", data.data)
-    if(data.code === 0) dispatch(historyAction.addHistoryList(data.data))
+      url: 'https://ai.smartmatch.app/chen/job.php?action=hrsj&page=1&limit=30' + `&hrid=${hrId}`}
+    try{
+      const data = await getHrHistory.requestHandler(config)
+      console.log("get data", data.data)
+      if(data.code === 0) dispatch(hrHistoryAction.setHistoryList(data.data))
+    }catch(e){
+      console.error("error happen while fetching posted jobs", e)
+    }
   }
 
+console.log("hr", hrHistoryList)
 
+  useEffect(()=>{
+    getData()
+  }, [])
 
   return(
     <Container 
@@ -416,10 +537,10 @@ const JobManagement = () => {
       <Section >
         <Box p={4} mt={4}>
           <CardItem 
-          item={{id:"Id", title:"Job title", status:'Job status',post_date:"Post date", edit:"Edit job", note:"Note"}} 
-            style={{fontWeight:600}}  key={-1}/>
-          {mockdata.length === 0 && "No application history"}
-          {mockdata.map((job, i) => 
+          item={{jobid:"Id", jobtitle:"Job title", status:'Job status',postdate:"Post date", edit:"Edit job", note:"Note"}} 
+            style={{fontWeight:600}}  key={-1} isTitle/>
+          {hrHistoryList.length === 0 && "No application history"}
+          {hrHistoryList.map((job, i) => 
             <CardItem 
               index={i} 
               item={job} 
@@ -432,8 +553,8 @@ const JobManagement = () => {
       </Section>
       <Modal open={showJobDetail || showApplicants} onClose={onClose}>
         <>
-        {showJobDetail && <JobDetail job={mockdata[showItem]} index={showItem} closeModal={closeModal}></JobDetail>}
-        {showApplicants && <ApplicantsDetail job={mockdata[showItem]}></ApplicantsDetail>}
+        {showJobDetail && <JobDetail job={hrHistoryList[showItem]} index={showItem} closeModal={closeModal} updatePage={getData}></JobDetail>}
+        {showApplicants && <ApplicantsDetail job={hrHistoryList[showItem]}></ApplicantsDetail>}
         </>
       </Modal>
     </Container>

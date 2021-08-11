@@ -10,9 +10,8 @@ import mockdataBf6 from '../constant/mockApplyHistory.json' // 6个月之前的�
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import axios from "axios";
 import { useRequest } from "../hooks/useRequest";
-import { use } from "stylis";
 import { useDispatch, useSelector } from "react-redux";
-import { historyAction } from "../slices/historySlice";
+import { hrHistoryAction } from "../slices/hrHistorySlice";
 
 const JobCard = ({job}) => {
   const { jobid, job_status, joblink, apply_date, jobtitle,
@@ -179,13 +178,13 @@ const ApplyHistory = () => {
   const getData = async (isAppend = true) => {
     const config = {
       method: 'get',
-      url: 'https://ai.smartmatch.app/chen/job.php?action=shuju&page=1&limit=30'
+      url: 'https://ai.smartmatch.app/chen/job.php?action=shuju&page=1&limit=30&hyid=1'
       // url: 'https://ai.smartmatch.app/chen/jobrecord.php?action=shuju&hyid=2'
     }
 
     const data = await requestHandler(config)
     console.log("get data", data.data)
-    if(data.code === 0) dispatch(isAppend ? historyAction.addHistoryList(data.data) : historyAction.setHistoryList(data.data))
+    if(data.code === 0) dispatch(isAppend ? hrHistoryAction.addHistoryList(data.data) : hrHistoryAction.setHistoryList(data.data))
   }
 
   const postData = async () => {
