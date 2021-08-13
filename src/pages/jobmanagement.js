@@ -17,11 +17,12 @@ import { hrHistoryAction } from "../slices/hrHistorySlice"
 import { useRouter } from "next/router"
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import CloseIcon from '@material-ui/icons/Close';
+import { InlineWidget } from "react-calendly";
 
 // const useStyles = makeStyles({
 //   rejectReasonContainer: {
 //     "&:hover":{
-//       cursor: 'default'
+//       cursor: 'pointer'
 //     }
 //   },
 // })
@@ -32,6 +33,11 @@ const Operations = ({}) => {
   const [rejectReasons, setRejectReasons] = useState(0) //bit indicates selected or not
   const [otherReason, setOtherReason] = useState("")
   const [otherBlur, setOherBlur] = useState(false)
+  const [inviteLink, setInviteLink] = useState("")
+  const [inviteBlur, setInviteBlur] = useState(false)
+  // const styles = useStyles()
+
+  const [showInvite, setShowInvite] = useState(false)
 
   const onCloseModal = () => {
     setShowRejectReason(false)
@@ -56,31 +62,68 @@ const Operations = ({}) => {
     setOtherReason(e.target.value)
   }
 
+  const onSubmitInvite = () => {
+    try{
+      onCloseInviteModal()
+    }catch(e){
+
+    }
+  }
+
+  const onCancelInvite = () => {
+    onCloseInviteModal()
+  }
+
+  const onCloseInviteModal =() => {
+    setShowInvite(false)
+    setInviteBlur(false)
+  }
+
+  const onChangeLink = (e) => {
+    setInviteLink(e.target.value.trim())
+  }
+
   return(
     <Box> 
-      <Button>Invite <GroupAddIcon color="primary"/></Button>
-      <Button onClick={setShowRejectReason}>Reject <CloseIcon color="error" /></Button>
-      <Modal open={showRejectReason} onClose={onCloseModal}>
-        <Box mt={10} ml='auto' mr='auto' width="60%">
+      <Button onClick={() => setShowInvite(true)}>Invite <GroupAddIcon color="primary"/></Button>
+      <Button onClick={() => setShowRejectReason(true)}>Reject <CloseIcon color="error" /></Button>
+      <Modal open={showInvite} onClose={onCloseInviteModal}>
+        <Box mt={10} ml='auto' mr='auto' width="50%" >
           <Section >
-            <Box p={4} >
+            <Box p={4}>
+              {/* <InlineWidget url="https://calendly.com/176237421/interview" /> */}
+              {/* <InlineWidget url="https://calendly.com/acmesales" /> */}
+              Invite: <TextField placeholder='Paste your invite link here'
+                onChange={onChangeLink} 
+                fullWidth value={inviteLink} 
+                onBlur={() => setInviteBlur(true)}
+              />
+              <SubmitAndCancel onSubmit={onSubmitInvite} onCancel={onCancelInvite} />
+            </Box>
+          </Section>
+        </Box>
+      </Modal>
+      <Modal open={showRejectReason} onClose={onCloseModal}>
+        <Box mt={10} ml='auto' mr='auto' width='60%'>
+          <Section >
+            <Box p={4}>
               <Box fontSize={h2} color={COLOR_TITLE}>Choose the reason</Box>
-              <Box mt={2} display='flex' width={200}>
+              <Box mt={2} display='flex' flexWrap="wrap" style={{maxWidth:'100%'}}>
                   { rejectReasonOptions.map((v,i) => 
-                    <Box  key={v} onClick={() => onSelectReason(i)} >
-                      <Chip
-                        clickable
-                        key={v}
-                        label={v} style={{
-                        marginRight: 18,
-                        color: (rejectReasons >> i & 1) ? '#ffffff' : 'black',
-                        backgroundColor: (rejectReasons >> i & 1) ? COLOR_TITLE :'#ffffff',
-                        filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.28))',
-                        margin: '8px 4px',
-                        overflowAnchor:"auto"
+                    <Chip
+                      clickable
+                      onClick={() => onSelectReason(i)}
+                      key={v}
+                      label={v} style={{
+                      marginRight: 18,
+                      color: (rejectReasons >> i & 1) ? '#ffffff' : 'black',
+                      backgroundColor: (rejectReasons >> i & 1) ? COLOR_TITLE :'#ffffff',
+                      filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.28))',
+                      margin: '8px 4px',
+                      overflowAnchor:"auto",
                       }}
                     />
-                  </Box>
+
                   )}
 
               </Box>
@@ -92,9 +135,10 @@ const Operations = ({}) => {
                   onBlur={() =>setOherBlur(true)}
                 ></TextField>
               </Box>
-              <Box display='flex' alignItems='center' color="red" mt={2}>
+              <ErrorText visible={otherBlur && !checkReasons()} text='Please choose or enter a reason'/>
+              {/* <Box display='flex' alignItems='center' color="red" mt={2}>
                 {otherBlur && !checkReasons() && 'Please choose or enter a reason'}
-              </Box>
+              </Box> */}
               <SubmitAndCancel onSubmit={onSubmit} onCancel={onCloseModal}/>
             </Box>
           </Section>
@@ -143,6 +187,13 @@ const SubmitAndCancel = ({onSubmit, onCancel}) => {
   )
 }
 
+const ErrorText = ({visible, text}) => {
+  return(
+    <Box display='flex' alignItems='center' color="red" mt={2}>
+      {visible && text}
+    </Box>
+  )
+}
 
 const  ApplicantsDetail = ({job}) => {
   const { id, status, post_date, modify_date, applicants, jobtitle } = job
