@@ -12,12 +12,13 @@ import EditIcon from '@material-ui/icons/Edit';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from "react-redux"
-import { useRequest } from "../hooks/useRequest"
+import { checkStatus, useRequest } from "../hooks/useRequest"
 import { hrHistoryAction } from "../slices/hrHistorySlice"
 import { useRouter } from "next/router"
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import CloseIcon from '@material-ui/icons/Close';
 import { InlineWidget } from "react-calendly";
+import { RESUME_INVITE, RESUME_REJECTED } from "../constant/jobstatus"
 
 // const useStyles = makeStyles({
 //   rejectReasonContainer: {
@@ -27,7 +28,9 @@ import { InlineWidget } from "react-calendly";
 //   },
 // })
 
-const Operations = ({}) => {
+
+
+const Operations = ({applicantId, jobId}) => {
   const [showRejectReason, setShowRejectReason] = useState(false)
   const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清", "长得不够帅"]
   const [rejectReasons, setRejectReasons] = useState(0) //bit indicates selected or not
@@ -38,6 +41,38 @@ const Operations = ({}) => {
   // const styles = useStyles()
 
   const [showInvite, setShowInvite] = useState(false)
+  const operatonRequest = useRequest()
+  const params = useRouter().query
+  const hrId = params.id ?? 0
+
+  const getOperationconfig = (data) => {
+    const formdata = new FormData
+    formdata.append('action', 'addrecord')
+    formdata.append('jobid', jobId ?? 0) //0代替
+    formdata.append('hrid', hrId ?? 0)
+    formdata.append('hyid', applicantId ?? 0) //0 代替
+console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
+    Object.entries(data).forEach(([k,v]) =>{console.log(k, v); formdata.append(k, v)})
+    return {
+      method: 'post',
+      url:'https://ai.smartmatch.app/chen/jobrecord.php',
+      data: formdata
+    }
+  }
+
+  const rejectReasonToString = () => {
+    let reason = []
+    for(let i=0; i<rejectReasonOptions.length; i++){
+      if(rejectReasons & (1 << i)){
+        reason = [...reason, rejectReasonOptions[i]]
+        console.log(reason)
+  
+      }
+    }
+
+    if(otherReason) reason = [...reason, otherReason]
+    return reason.join(" ")
+  }
 
   const onCloseModal = () => {
     setShowRejectReason(false)
@@ -46,12 +81,24 @@ const Operations = ({}) => {
 
   const checkReasons = () => (otherReason.trim() || rejectReasons)
 
-  const onSubmit = () => {
-    if(!checkReasons()) setOherBlur(true)
-    else{
-      onCloseModal()
+  const onSubmit = async () => {
+    if(!checkReasons()) {
+      setOherBlur(true)
+    }else{
+
+      try{
+        const rejectReason = rejectReasonToString()
+        console.log("reject reason", rejectReason)
+        const status = JSON.stringify({status: RESUME_REJECTED, info: rejectReason})
+        await operatonRequest.requestHandler(getOperationconfig({status: status}))
+        onCloseModal()
+        console.log("reject succ")
+      }catch(e){
+        console.error("error while reject")
+        console.error(e)
+      }
+      console.log(otherReason)
     }
-    console.log(otherReason)
   }
 
   const onSelectReason = (i) => {
@@ -62,11 +109,22 @@ const Operations = ({}) => {
     setOtherReason(e.target.value)
   }
 
-  const onSubmitInvite = () => {
-    try{
-      onCloseInviteModal()
-    }catch(e){
+  const checkLink = (link) => {
+    return link.trim().match(/^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/)
+  }
+  
+  const onSubmitInvite = async () => {
+    if(!checkLink(inviteLink)) {
+      setInviteBlur(true)
+    }else{
 
+      try{
+        const status = JSON.stringify({status: RESUME_INVITE, info: inviteLink.trim()})
+        await operatonRequest.requestHandler(getOperationconfig({status: status}))
+        onCloseInviteModal()
+      }catch(e){
+        console.error("error while submit link")
+      }
     }
   }
 
@@ -79,8 +137,10 @@ const Operations = ({}) => {
     setInviteBlur(false)
   }
 
+  const [errorLink, setErrorLink] = useState(false)
   const onChangeLink = (e) => {
     setInviteLink(e.target.value.trim())
+    setErrorLink(!checkLink(e.target.value.trim()))
   }
 
   return(
@@ -98,6 +158,7 @@ const Operations = ({}) => {
                 fullWidth value={inviteLink} 
                 onBlur={() => setInviteBlur(true)}
               />
+              <ErrorText visible={inviteBlur && errorLink} text='Please enter a valid invite link: http(s)://...'/>
               <SubmitAndCancel onSubmit={onSubmitInvite} onCancel={onCancelInvite} />
             </Box>
           </Section>
@@ -148,8 +209,8 @@ const Operations = ({}) => {
   )
 }
 
-const ApplicantItem = ({item, isTitle, style, index}) => {
-  const {name, apply_date, match,resume, resume_report}  = item
+const ApplicantItem = ({applicant, isTitle, style, index, jobid}) => {
+  const {name, apply_date, match,resume, resume_report, hyid}  = applicant
   return (
 
     <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center' style={style}>
@@ -169,7 +230,7 @@ const ApplicantItem = ({item, isTitle, style, index}) => {
       </Box>
       <Box width='25%' overflow='hidden' textAlign='center'>
         {/* {isTitle && "Operation"} */}
-        {isTitle && <Operations />}
+        {isTitle && <Operations applicantId={hyid} jobId={jobid}/>}
       </Box>
     </Box>
 
@@ -211,10 +272,10 @@ const  ApplicantsDetail = ({job}) => {
       <Section >
         <Box p={4} mt={4}>
           <ApplicantItem 
-          item={{name:"Name", apply_date:"Apply Date", match:'Match',resume:"Resume", resume_report:"Resume Analysis"}} 
+          applicant={{name:"Name", apply_date:"Apply Date", match:'Match',resume:"Resume", resume_report:"Resume Analysis"}} 
           style={{fontWeight:600}}  isTitle/>
-          {(applicantList.length === 0) && "No applicants Right now"}
-          {applicantList?.map((item, i) => <ApplicantItem item={item} key={i} index={i}/>)}
+          {(applicantList?.length === 0) && "No applicants Right now"}
+          {applicantList?.map((item, i) => <ApplicantItem applicant={item} key={i} index={i} jobid={id}/>)}
         </Box>
       </Section>
     </Box>
@@ -482,7 +543,7 @@ const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitl
           {isTitle  && numOfApplicants}
           {!isTitle && 
             <Button 
-              disabled={numOfApplicants === 0}
+              // disabled={numOfApplicants === 0}
               onClick={() => onShowApplicants(index)} variant='contained' color='primary' style={{height:30, marginTop:10, marginBottom:10}}
             >{numOfApplicants}</Button>}
         </Box>
