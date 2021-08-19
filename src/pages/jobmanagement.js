@@ -19,6 +19,9 @@ import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import CloseIcon from '@material-ui/icons/Close';
 import { InlineWidget } from "react-calendly";
 import { RESUME_INVITE, RESUME_REJECTED } from "../constant/jobstatus"
+import { APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C } from "../constant/externalURLs"
+import { v4 as uuidv4 } from 'uuid';
+import getUserId from "../untils/getUserId"
 
 // const useStyles = makeStyles({
 //   rejectReasonContainer: {
@@ -43,22 +46,35 @@ const Operations = ({applicantId, jobId}) => {
   const [showInvite, setShowInvite] = useState(false)
   const operatonRequest = useRequest()
   const params = useRouter().query
-  const hrId = params.id ?? 0
+  const hrId = params.id ?? 1
 
   const getOperationconfig = (data) => {
-    const formdata = new FormData
-    formdata.append('action', 'addrecord')
-    formdata.append('jobid', jobId ?? 0) //0代替
-    formdata.append('hrid', hrId ?? 0)
-    formdata.append('hyid', applicantId ?? 0) //0 代替
+    // const formdata = new FormData
+    // formdata.append('action', 'addrecord')
+    // formdata.append('jobid', jobId ?? 0) //0代替
+    // formdata.append('hrid', hrId ?? 0)
+    // formdata.append('hyid', applicantId ?? 0) //0 代替
 console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
-    Object.entries(data).forEach(([k,v]) =>{console.log(k, v); formdata.append(k, v)})
-    return {
-      method: 'post',
-      url:'https://ai.smartmatch.app/chen/jobrecord.php',
-      data: formdata
-    }
+    // Object.entries(data).forEach(([k,v]) =>{console.log(k, v); formdata.append(k, v)})
+  console.log("data", data)
+
+  const formData = {
+    userid: applicantId ?? 20,
+    hrid: hrId,
+    jobid: jobId ?? 1,
+    updates : data,
+    dcc: X_API_KEY_B_AND_C,
   }
+  console.log('form', formData)
+  return ({
+    method: 'post',
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    url: APP_END_POINT_B_AND_C + 'update_application',
+    data: JSON.stringify(formData)
+  })
+}
 
   const rejectReasonToString = () => {
     let reason = []
@@ -89,10 +105,16 @@ console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
       try{
         const rejectReason = rejectReasonToString()
         console.log("reject reason", rejectReason)
-        const status = JSON.stringify({status: RESUME_REJECTED, info: rejectReason})
-        await operatonRequest.requestHandler(getOperationconfig({status: status}))
-        onCloseModal()
-        console.log("reject succ")
+        // const status = JSON.stringify()
+        const resp = await operatonRequest.requestHandler(getOperationconfig({action: RESUME_REJECTED, info: rejectReason}))
+    console.log("reject = ", resp)
+        if(resp.status === 'success'){
+
+          onCloseModal()
+          console.log("reject succ")
+        }else{
+          console.log("reject error")
+        }
       }catch(e){
         console.error("error while reject")
         console.error(e)
@@ -119,8 +141,8 @@ console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
     }else{
 
       try{
-        const status = JSON.stringify({status: RESUME_INVITE, info: inviteLink.trim()})
-        await operatonRequest.requestHandler(getOperationconfig({status: status}))
+        // const status = JSON.stringify({status: RESUME_INVITE, info: inviteLink.trim()})
+        await operatonRequest.requestHandler(getOperationconfig({action: RESUME_INVITE, info: inviteLink.trim()}))
         onCloseInviteModal()
       }catch(e){
         console.error("error while submit link")
@@ -210,27 +232,27 @@ console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
 }
 
 const ApplicantItem = ({applicant, isTitle, style, index, jobid}) => {
-  const {name, apply_date, match,resume, resume_report, hyid}  = applicant
+  const {applicant_name: name, application_time: apply_date, matching_level: match,resume, resume_report, user_id, resume_link, report}  = applicant
   return (
 
     <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center' style={style}>
       <Box width='20%' overflow='hidden'>{name}</Box>
-      <Box width='15%' overflow='hidden'>{apply_date}</Box>
+      <Box width='15%' overflow='hidden'>{apply_date?.split('T')[0]}</Box>
       <Box width='10%' overflow='hidden' textAlign='center'>
         {isTitle && match}
-        {!isTitle && `${match*100}%`}
+        {!isTitle && `${match}%`}
       </Box>
       <Box width='10%' overflow='hidden' textAlign='center'>
         {isTitle && resume}
-        {!isTitle && <Button target='_blakn' href={resume}><CloudDownloadIcon color="primary"/></Button>}
+        {!isTitle && <Button target='_blank' href={resume_link}><CloudDownloadIcon color="primary"/></Button>}
       </Box>
       <Box width='20%' overflow='hidden' textAlign='center'>
         {isTitle && resume_report}
-        {!isTitle && <Button target='_blakn' href={resume_report}><CloudDownloadIcon color="primary"/></Button>}
+        {!isTitle && <Button target='_blank' href='/report'><CloudDownloadIcon color="primary"/></Button>}
       </Box>
       <Box width='25%' overflow='hidden' textAlign='center'>
-        {/* {isTitle && "Operation"} */}
-        {isTitle && <Operations applicantId={hyid} jobId={jobid}/>}
+        {isTitle && "Operation"}
+        {!isTitle && <Operations applicantId={user_id} jobId={jobid}/>}
       </Box>
     </Box>
 
@@ -257,9 +279,37 @@ const ErrorText = ({visible, text}) => {
 }
 
 const  ApplicantsDetail = ({job}) => {
-  const { id, status, post_date, modify_date, applicants, jobtitle } = job
-  let applicantList = applicants
-  if(typeof(applicants) !== "object") applicantList = []
+  const { job_id, status, post_date, modify_date, applicants, jobtitle } = job
+  // let applicantList = applicants
+  // if(typeof(applicants) !== "object") applicantList = []
+  const [applicantList, setApplicantList] = useState([])
+  const hrid = getUserId()
+  const { requestHandler } = useRequest()
+  useEffect(async ()=>{
+    try{
+      const data = new FormData()
+      data.append('hrid', hrid ?? 1); //mock data
+      data.append('jobid', job_id);
+      data.append('dcc', X_API_KEY_B_AND_C);
+
+      const config = {
+        method: 'post',
+        url: APP_END_POINT_B_AND_C + ('get_all_applications'),
+        data : data
+      }
+      const result = await requestHandler(config)
+      console.log("applicant", result.applicants_info_list)
+      if(!result.status) { //这里返回值 没有status code... T_T
+        // if(result.status === 'success') {
+        console.log("get applicants succcess")
+        setApplicantList(result.applicants_info_list.sort((a, b)=> (b.matching_level - a.matching_level)))
+      }else{
+        console.log("get applicants error")
+      }
+    }catch(e){
+      console.log("error get applicants")
+    }
+  }, [])
   return (
     <Box style={{width:'80%', marginLeft:'auto', marginRight:'auto'}}>
       <Section >
@@ -272,10 +322,10 @@ const  ApplicantsDetail = ({job}) => {
       <Section >
         <Box p={4} mt={4}>
           <ApplicantItem 
-          applicant={{name:"Name", apply_date:"Apply Date", match:'Match',resume:"Resume", resume_report:"Resume Analysis"}} 
+          applicant={{applicant_name:"Name", application_time:"Apply Date", matching_level:'Match',resume:"Resume", resume_report:"Resume Analysis"}} 
           style={{fontWeight:600}}  isTitle/>
           {(applicantList?.length === 0) && "No applicants Right now"}
-          {applicantList?.map((item, i) => <ApplicantItem applicant={item} key={i} index={i} jobid={id}/>)}
+          {applicantList?.map((item, i) => <ApplicantItem applicant={item} key={i} index={i} jobid={job_id}/>)}
         </Box>
       </Section>
     </Box>
@@ -307,8 +357,7 @@ const JobDetail = ({job, index, closeModal, updatePage}) => {
   // let initJob = {status:0, link:"", post_date:"", applicants:[],title:"", modify_date:"", description:null, salary_start:null, salary_end:null}
   let initJob = {}
   const isNew = index === -1
-  const { jobid, hrid, status, link, post_date, modify_date, applicants, jobtitle:title, description, salarylow: salary_start, salaryhigh: salary_end, job_type, note } =  isNew ? initJob:job
-  
+  const { job_id: jobid, hrid, status, link, post_date, modify_date, applicants, jobtitle:title, description, salarylow: salary_start, salaryhigh: salary_end, job_type, note } =  isNew ? initJob:job
   const [openConfirmDlg, setOpenConfirmDlg] = useState(false) //open confirm dialog
 
   const formik = useFormik({
@@ -332,26 +381,29 @@ const JobDetail = ({job, index, closeModal, updatePage}) => {
   const submitData = async (values) => {
     try{
       const data = new FormData()
-      data.append('action', isNew ? 'addjob' : 'editjob');
-      if(!isNew) data.append('jobid', jobid )
+      // data.append('action', isNew ? 'addjob' : 'editjob');
+      // if(!isNew) data.append('jobid', jobid )
       data.append('jobtitle', values.title);
       data.append('salarylow', values.salary_start);
       data.append('salaryhigh', values.salary_end);
       data.append('company', 'microsoft');
       data.append('note', values.note);
-      data.append('hrid', '0'); //mock data
-      data.append('status', values.status);
+      data.append('hrid', hrid ?? 1); //mock data
+      data.append('jobstatus', values.status);
       data.append('description', values.description);
       data.append('joblink', 'www.baidu.com');
+      data.append('jobtype', values.jobtype);
+      data.append('dcc', X_API_KEY_B_AND_C);
+      data.append('jobid',isNew ? uuidv4() : jobid);
       const config = {
         method: 'post',
-        url: 'https://ai.smartmatch.app/chen/job.php',
+        url: APP_END_POINT_B_AND_C + (isNew ? 'publish_job_posting' : 'update_job_posting'),
         data : data
       }
       const result = await requestHandler(config)
 
       console.log("submit result", result)
-      if(result.code === 0) {
+      if(result.status === 'success') {
         console.log("Submit succcess")
         updatePage()
         closeModal()
@@ -529,21 +581,21 @@ const JobDetail = ({job, index, closeModal, updatePage}) => {
 
 const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitle}) => {
 
-  const { jobid:id, status, link, postdate, modify_date, applicants, jobtitle: title, edit, note } = item
+  const { job_id:id, jobstatus:status, link, job_posting_time:postdate, modify_date, applicants, jobtitle: title, edit, note } = item
   const job_status  = status == 0 ? "Closed" : status == 1 ? "Accepting" : status == 2 ? "Filled" : status
-  const numOfApplicants = index === undefined ? "Applicants" : (applicants ?? 0) //标题没有index
+  const numOfApplicants = isTitle ? "Applicants" : (applicants ?? 0) //标题没有index
 
   return(
     <Box>
       <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center' style={style}>
-        <Box width='8%' overflow='hidden'>{id}</Box>
+        <Box width='8%' overflow='hidden'>{isTitle ? 'Job ID' : id}</Box>
         <Box width='20%' overflow='hidden'>{title}</Box>
         <Box width='10%' overflow='hidden' textAlign='center'>
           {/**index === undefined 表示list 的标题栏*/}
           {isTitle  && numOfApplicants}
           {!isTitle && 
             <Button 
-              // disabled={numOfApplicants === 0}
+              disabled={numOfApplicants === 0}
               onClick={() => onShowApplicants(index)} variant='contained' color='primary' style={{height:30, marginTop:10, marginBottom:10}}
             >{numOfApplicants}</Button>}
         </Box>
@@ -558,7 +610,7 @@ const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitl
           </Button>
           }
         </Box>
-        <Box width='10%' overflow='hidden'>{isTitle ? postdate : (postdate.split(" ")[0])}</Box>
+        <Box width='10%' overflow='hidden'>{isTitle ? postdate : (postdate.split("T")[0])}</Box>
         <Box width='26%' overflow='hidden' textAlign='center'>
           {note}
         </Box>
@@ -576,7 +628,7 @@ const JobManagement = () => {
   const currentPage = hrHistory.currentPage
   const hrHistoryList = hrHistory.historyList
   const params = useRouter().query
-  const hrId = params.id ?? 0
+  const hrId = params.id ?? 1
 
   const onShowJobDetail = (id) => {
     setShowItem(id)
@@ -609,13 +661,18 @@ const JobManagement = () => {
   const dispatch = useDispatch()
   const getHrHistory = useRequest()
   const getData = async () => {
+    const data = new FormData()
+    data.append('dcc', X_API_KEY_B_AND_C)
+    data.append('hrid', hrId)
     const config = {
-      method: 'get',
-      url: 'https://ai.smartmatch.app/chen/job.php?action=hrsj&page=1&limit=30' + `&hrid=${hrId}`}
+      method: 'post',
+      url: APP_END_POINT_B_AND_C + 'get_all_job_postings',
+      data: data
+    }
     try{
       const data = await getHrHistory.requestHandler(config)
-      console.log("get data", data.data)
-      if(data.code === 0) dispatch(hrHistoryAction.setHistoryList(data.data))
+      console.log("get data", data.job_postings)
+      if(data.job_postings) dispatch(hrHistoryAction.setHistoryList(data.job_postings))
     }catch(e){
       console.error("error happen while fetching posted jobs", e)
     }

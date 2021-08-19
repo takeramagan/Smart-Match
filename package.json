@@ -25,6 +25,7 @@
     "react-i18next": "^11.8.15",
     "react-material-ui-carousel": "^2.2.6",
     "react-redux": "^7.2.4",
+    "uuid": "^8.3.2",
     "yup": "^0.32.9"
   }
 }
