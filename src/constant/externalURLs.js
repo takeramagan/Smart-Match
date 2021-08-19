@@ -44,3 +44,15 @@ export const APP_END_POINT_GET_HISTORY_IDS =
   process.env.ENV_FLAG === 'production' ?
   'https://production-history-reports.metisign.com/get_history_report_by_id' :
   'https://staging-history-reports.metisign.com/get_history_report_by_id'
+
+
+//For HR & Customers
+  export const APP_END_POINT_B_AND_C =  
+  process.env.ENV_FLAG === 'production' ?
+  'https://production-business-end.metisign.com/' :
+  'https://staging-business-end.metisign.com/'
+
+  export const X_API_KEY_B_AND_C =  
+  process.env.ENV_FLAG === 'production' ?
+  '4SGJLsnYxu7kmrWxBHKkj3w2TpDzLLCs7jVqMXhy' :
+  '9dYNSaxizl3FVx2AS8X3sIAfgo7xYE81dRtuwu41'
