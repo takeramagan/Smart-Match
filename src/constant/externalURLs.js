@@ -46,7 +46,7 @@ export const APP_END_POINT_GET_HISTORY_IDS =
   'https://staging-history-reports.metisign.com/get_history_report_by_id'
 
 
-//For HR & Customers
+//For HR 
   export const APP_END_POINT_B_AND_C =  
   process.env.ENV_FLAG === 'production' ?
   'https://production-business-end.metisign.com/' :
@@ -56,3 +56,14 @@ export const APP_END_POINT_GET_HISTORY_IDS =
   process.env.ENV_FLAG === 'production' ?
   '4SGJLsnYxu7kmrWxBHKkj3w2TpDzLLCs7jVqMXhy' :
   '9dYNSaxizl3FVx2AS8X3sIAfgo7xYE81dRtuwu41'
+
+//For Customer
+export const APP_END_POINT_CUSTOMER =  
+process.env.ENV_FLAG === 'production' ?
+'https://production-customer-end.metisign.com/' :
+'https://staging-customer-end.metisign.com/'
+
+export const X_API_KEY_CUSTOMER =  
+process.env.ENV_FLAG === 'production' ?
+'Q1Ma7fU2rh3b88UgmseB68qqD1DTYET3509AjKLM' :
+'IfN8sdzMjd7H9gAfKObFc6I9y7DuFu862gov3P4N'

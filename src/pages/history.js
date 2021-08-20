@@ -12,8 +12,12 @@ import axios from "axios";
 import { useRequest } from "../hooks/useRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { hrHistoryAction } from "../slices/hrHistorySlice";
-import { resumeStatusArray } from "../constant/jobstatus";
+import { resumeStatusArray, RESUME_REJECTED } from "../constant/jobstatus";
 import { InlineWidget } from "react-calendly";
+import getUserId from "../untils/getUserId";
+import { APP_END_POINT_B_AND_C, APP_END_POINT_CUSTOMER, X_API_KEY_B_AND_C, X_API_KEY_CUSTOMER } from "../constant/externalURLs";
+import checkLink from "../untils/checkLink";
+import { blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({
   checkBtn:{
@@ -21,13 +25,14 @@ const useStyles = makeStyles({
     width: 60,
     borderRadius: 10,
     marginLeft: 10,
+    color: blue,
   }
 })
 
 
-const JobCard = ({job}) => {
+const JobCard = ({job, feedback}) => {
   const { jobid, job_status, joblink, apply_date, jobtitle,
-    job_description, company, company_logo, application_status, feedback, job_salary, updates
+    job_description, company, company_logo, application_status, salary_low, salary_high, updates
   } = job
   // const { view_date, download_date} = application_status
   return(
@@ -41,14 +46,14 @@ const JobCard = ({job}) => {
         <Box display='flex' flexDirection='row'>
           <Box>
             <Box>Company: {company}</Box>
-            <Box>Salary: {job_salary ?? 'Not disclosed'}</Box>
+            <Box>Salary: {salary_low ?  `$${salary_low} to $${salary_high}` : 'Not disclosed'}</Box>
             {/* <Box>Link: <a target='_blank' href={joblink}>Visit Job Link</a></Box> */}
           </Box>
           <Box display='flex' flexDirection='row' ml={4}>
             Updates:
             <Box ml={2} display='flex' flexDirection='column'>
               {//sample
-                !updates && <> 
+                !updates.length && <> 
                   <Box>2021-07-23: Job closed</Box>
                   <Box>2021-07-10: Second round interview </Box>
                   <Box>2021-06-25: You got a interview</Box>
@@ -57,7 +62,13 @@ const JobCard = ({job}) => {
                 </>
               }
               {
-                updates?.map(({time, action}) => (<Box key={time}>{time}: {action}</Box>))
+                updates && updates?.map(({time, action}) => {
+                  const {action: actionType, info} = JSON.parse(action)
+                  if(!time || actionType < 0 || actionType > resumeStatusArray.length) 
+                    return null
+                  else
+                    return(<Box key={time}>{time.split('T')[0]}: {resumeStatusArray[actionType] ?? actionType}</Box>)
+                })
               }
               </Box>
             </Box>
@@ -75,12 +86,14 @@ const CardItem = ({index, showDetail, onClick, item={}, style}) => {
     if(!showDetail) onClick(index)
     else onClick(-1)
   }
-  const { jobid, status, joblink, apply_date, jobtitle, updates, latest_update,
-    job_description, company, company_logo, astatus, feedback
+  const { job_id, status, job_link, apply_date, job_title, updates, latest_update,
+    job_description, company_name, company_logo
   } = item
 
   const isTitle = (index === undefined)
-  const { status:applicationStatus, info} = !isTitle ? JSON.parse(astatus) : {}
+  const { action:applicationStatus, info} = (!isTitle && updates.length )? JSON.parse(updates[0].action) : {}
+  const feedback = (applicationStatus === RESUME_REJECTED) ? info : null
+  console.log("feedback", feedback)
 
   const [anchorEl, setAnchorEl] = useState(null);
   const handlePopoverOpen = (event) => {
@@ -107,18 +120,27 @@ const CardItem = ({index, showDetail, onClick, item={}, style}) => {
 
   const ApplicantStatus = ({text, info}) => {
     const link = info?.trim()
+    const isValidLink = checkLink(link)
     const isCalendly = link?.startsWith('https://calendly.com/')
     return (
     <>
       {text}
-      {link && isCalendly && <Button onClick={onShowModal} variant='contained' color='primary' className={styles['checkBtn']}>Check</Button>}
-      {link && !isCalendly && <Button target='_blank' href={info} className={styles['checkBtn']}>Check</Button>}
+      {isValidLink && isCalendly && <Button onClick={onShowModal} variant='contained' color='primary' className={styles['checkBtn']}>Check</Button>}
+      {isValidLink && !isCalendly && <Button target='_blank' href={info} variant='contained' color='primary' className={styles['checkBtn']}>Check</Button>}
       <Modal open={showModal} onClose={onCloseModal} > 
         <Box mt={4} width={600} marginLeft='auto' marginRight='auto'>
           <InlineWidget url={info} />
         </Box>
       </Modal>
     </>)
+  }
+
+  const getJobStatus = (i) => {
+    //0:accepting 1:closed 2:filled
+    if(i === 0) return 'Accepting'
+    else if(i === 1) return  'Closed'
+    else if(i === 2) return 'Filled'
+    else return 'Closed' 
   }
 
   return(
@@ -130,10 +152,10 @@ const CardItem = ({index, showDetail, onClick, item={}, style}) => {
       <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center' style={style}
 
       >
-        <Box width='10%' overflow='hidden'>{isTitle ? "Id" : jobid ?? 0}</Box>
-        <Box width='30%' overflow='hidden'>{isTitle ? "Job title": joblink ? <a target='_blank' href={joblink}>{jobtitle}</a> : jobtitle ?? <a target='_blank' href='https://www.google.com'>Sample Company</a>}</Box>
-        <Box width='20%' overflow='hidden'>{isTitle ? 'Company': company ?? "Sample Company"}</Box>
-        <Box width='15%' overflow='hidden'>{isTitle ? 'Job status': status ?? 0}</Box>
+        <Box width='10%' overflow='hidden'>{isTitle ? "Id" : job_id ?? 0}</Box>
+        <Box width='30%' overflow='hidden'>{isTitle ? "Job title": job_link ? <a target='_blank' href={job_link}>{job_title}</a> : job_title ?? <a target='_blank' href='https://www.google.com'>Sample Company</a>}</Box>
+        <Box width='20%' overflow='hidden'>{isTitle ? 'Company': company_name ?? "Sample Company"}</Box>
+        <Box width='15%' overflow='hidden'>{isTitle ? 'Job status': getJobStatus(status ?? 0)}</Box>
         <Box width='20%' overflow='hidden'>{isTitle ? "Application status" : <ApplicantStatus text={resumeStatusArray[applicationStatus]} info={info}/>}</Box>
         <Box width='5%' >
         {/* {  index !== undefined && <Button onClick={onClickItem}>
@@ -162,7 +184,7 @@ const CardItem = ({index, showDetail, onClick, item={}, style}) => {
           pointerEvents: 'none', 
         }}
       >
-        <JobCard job={item}/>
+        <JobCard job={item} feedback={feedback}/>
       </Popover>
 
     </Box>
@@ -225,42 +247,46 @@ const ApplyHistory = () => {
   const dispatch = useDispatch()
 
   const {loading, requestHandler} = useRequest(true)
+  const userId = getUserId()
   const getData = async (isAppend = true) => {
+    const formData = new FormData()
+    formData.append('userid', userId ?? 20)
+    formData.append('dcc', X_API_KEY_CUSTOMER)
     const config = {
-      method: 'get',
-      url: 'https://ai.smartmatch.app/chen/job.php?action=shuju&page=1&limit=30&hyid=0'
-      // url: 'https://ai.smartmatch.app/chen/jobrecord.php?action=shuju&hyid=2'
+      method: 'post',
+      url:  APP_END_POINT_CUSTOMER + 'get_all_applications',
+      data: formData
     }
 
     const data = await requestHandler(config)
-    console.log("get data", data.data)
-    if(data.code === 0) dispatch(isAppend ? hrHistoryAction.addHistoryList(data.data) : hrHistoryAction.setHistoryList(data.data))
+    console.log("get data", data)
+    if(data.applicants_info_list) dispatch(isAppend ? hrHistoryAction.addHistoryList(data.applicants_info_list) : hrHistoryAction.setHistoryList(data.applicants_info_list))
   }
 
-  const postData = async () => {
-    const data = new FormData();
-    data.append('action', 'addjob');
-    data.append('jobtitle', 'frontend developer');
-    data.append('remuneration', '10-100');
-    data.append('company', 'microsoft');
-    data.append('note', '123');
-    data.append('status', 'fi');
-    data.append('joblink', 'www.baidu.com');
-    data.append('hyid', 1);
+  // const postData = async () => {
+  //   const data = new FormData();
+  //   data.append('action', 'addjob');
+  //   data.append('jobtitle', 'frontend developer');
+  //   data.append('remuneration', '10-100');
+  //   data.append('company', 'microsoft');
+  //   data.append('note', '123');
+  //   data.append('status', 'fi');
+  //   data.append('joblink', 'www.baidu.com');
+  //   data.append('hyid', 1);
 
     
-    var config = {
-      method: 'post',
-      url: 'https://ai.smartmatch.app/chen/job.php',
-      headers: { 
-        // ...data.getHeaders()
-      },
-      data : data
-    };
+  //   var config = {
+  //     method: 'post',
+  //     url: 'https://ai.smartmatch.app/chen/job.php',
+  //     headers: { 
+  //       // ...data.getHeaders()
+  //     },
+  //     data : data
+  //   };
 
-    const returnData = await requestHandler(config)
-    console.log("post data", returnData)
-  }
+  //   const returnData = await requestHandler(config)
+  //   console.log("post data", returnData)
+  // }
 
   useEffect(() => {
     getData(false)

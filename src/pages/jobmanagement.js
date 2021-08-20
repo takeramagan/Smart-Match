@@ -1,5 +1,5 @@
 import { Container, Box, Button, Modal ,TextField, Select, FormControl , InputLabel, 
-  Dialog, DialogActions, DialogTitle,DialogContent, DialogContentText, Chip, makeStyles } from "@material-ui/core"
+  Dialog, DialogActions, DialogTitle,DialogContent, DialogContentText, Chip, makeStyles, MenuItem  } from "@material-ui/core"
 import { Section } from "../components/Section"
 import { h ,h1, h2} from'../constant/fontsize'
 import mockdata from '../constant/mockReleasedJobs.json'
@@ -22,6 +22,7 @@ import { RESUME_INVITE, RESUME_REJECTED } from "../constant/jobstatus"
 import { APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C } from "../constant/externalURLs"
 import { v4 as uuidv4 } from 'uuid';
 import getUserId from "../untils/getUserId"
+import checkLink from "../untils/checkLink"
 
 // const useStyles = makeStyles({
 //   rejectReasonContainer: {
@@ -57,22 +58,16 @@ const Operations = ({applicantId, jobId}) => {
 console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
     // Object.entries(data).forEach(([k,v]) =>{console.log(k, v); formdata.append(k, v)})
   console.log("data", data)
-
-  const formData = {
-    userid: applicantId ?? 20,
-    hrid: hrId,
-    jobid: jobId ?? 1,
-    updates : data,
-    dcc: X_API_KEY_B_AND_C,
-  }
-  console.log('form', formData)
+  const formData = new FormData()
+  formData.append('userid', applicantId ?? 20)
+  formData.append('hrid', hrId)
+  formData.append('jobid', jobId ?? 1)
+  formData.append('dcc', X_API_KEY_B_AND_C)
+  formData.append('updates', JSON.stringify(data))
   return ({
     method: 'post',
-    headers: { 
-      'Content-Type': 'application/json'
-    },
     url: APP_END_POINT_B_AND_C + 'update_application',
-    data: JSON.stringify(formData)
+    data: formData
   })
 }
 
@@ -131,9 +126,9 @@ console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
     setOtherReason(e.target.value)
   }
 
-  const checkLink = (link) => {
-    return link.trim().match(/^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/)
-  }
+  // const checkLink = (link) => {
+  //   return link.trim().match(/^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/)
+  // }
   
   const onSubmitInvite = async () => {
     if(!checkLink(inviteLink)) {
@@ -498,6 +493,7 @@ const JobDetail = ({job, index, closeModal, updatePage}) => {
                   // value={state.age}
                   value={formik.values.status}
                   onChange={formik.handleChange}
+                  defaultValue={formik.values.status}
                   label="Job status"
                   inputProps={{
                     name: 'status',
@@ -505,9 +501,9 @@ const JobDetail = ({job, index, closeModal, updatePage}) => {
                   }}
                 >
                   {/* <option aria-label="None" value="" /> */}
-                  <option value={0}>Accepting</option>
-                  <option value={1}>Closed</option>
-                  <option value={2}>Filled</option>
+                  <option  value={0}>Accepting</option >
+                  <option  value={1}>Closed</option >
+                  <option  value={2}>Filled</option >
                 </Select>
               </FormControl>
             </Box>
@@ -582,13 +578,14 @@ const JobDetail = ({job, index, closeModal, updatePage}) => {
 const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitle}) => {
 
   const { job_id:id, jobstatus:status, link, job_posting_time:postdate, modify_date, applicants, jobtitle: title, edit, note } = item
-  const job_status  = status == 0 ? "Closed" : status == 1 ? "Accepting" : status == 2 ? "Filled" : status
+  //0:accepting 1:closed 2:filled
+  const job_status  = status == 0 ? "Accepting" : status == 1 ? "Closed" : status == 2 ? "Filled" : status
   const numOfApplicants = isTitle ? "Applicants" : (applicants ?? 0) //标题没有index
 
   return(
     <Box>
       <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center' style={style}>
-        <Box width='8%' overflow='hidden'>{isTitle ? 'Job ID' : id}</Box>
+        {/* <Box width='8%' overflow='hidden'>{isTitle ? 'Job ID' : id}</Box> */}
         <Box width='20%' overflow='hidden'>{title}</Box>
         <Box width='10%' overflow='hidden' textAlign='center'>
           {/**index === undefined 表示list 的标题栏*/}
@@ -599,7 +596,7 @@ const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitl
               onClick={() => onShowApplicants(index)} variant='contained' color='primary' style={{height:30, marginTop:10, marginBottom:10}}
             >{numOfApplicants}</Button>}
         </Box>
-        <Box width='20%' overflow='hidden' textAlign='center'>{job_status}</Box>
+        <Box width='20%' overflow='hidden' textAlign='center'>{isTitle ? "Job status" : job_status}</Box>
         <Box width='8%' >
           {isTitle && edit}
           {!isTitle && 
