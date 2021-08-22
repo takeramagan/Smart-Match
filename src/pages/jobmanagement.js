@@ -131,8 +131,10 @@ console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
   // }
   
   const onSubmitInvite = async () => {
-    if(!checkLink(inviteLink)) {
+    if(!checkLink(inviteLink) || !(checkDescrition(inviteDescrition))) {
       setInviteBlur(true)
+      setDescBlur(true)
+      console.log("false")
     }else{
 
       try{
@@ -154,28 +156,42 @@ console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
     setInviteBlur(false)
   }
 
-  const [errorLink, setErrorLink] = useState(false)
+  const [inviteDescrition, setInviteDescrition] = useState()
+  const [descBlur, setDescBlur] = useState(false)
   const onChangeLink = (e) => {
     setInviteLink(e.target.value.trim())
-    setErrorLink(!checkLink(e.target.value.trim()))
   }
+  const onChangeDescription = (e) => setInviteDescrition(e.target.value)
+  const checkDescrition = (description) => (description?.trim())
 
   return(
     <Box> 
       <Button onClick={() => setShowInvite(true)}>Invite <GroupAddIcon color="primary"/></Button>
       <Button onClick={() => setShowRejectReason(true)}>Reject <CloseIcon color="error" /></Button>
       <Modal open={showInvite} onClose={onCloseInviteModal}>
-        <Box mt={10} ml='auto' mr='auto' width="50%" >
+        <Box mt={10} ml='auto' mr='auto' width="80%" >
           <Section >
             <Box p={4}>
               {/* <InlineWidget url="https://calendly.com/176237421/interview" /> */}
               {/* <InlineWidget url="https://calendly.com/acmesales" /> */}
-              Invite: <TextField placeholder='Paste your invite link here'
+              Please generate your invite link via <a href='http://calendly.com' target='_blank'
+              >Calendly</a> , <a href='https://calendar.google.com/' target='_blank'>Google calendar</a> or other tools and paste your link below<TextField placeholder='Paste your invite link here'
                 onChange={onChangeLink} 
                 fullWidth value={inviteLink} 
                 onBlur={() => setInviteBlur(true)}
               />
-              <ErrorText visible={inviteBlur && errorLink} text='Please enter a valid invite link: http(s)://...'/>
+              <ErrorText visible={(inviteBlur && !checkLink(inviteLink))} text='Please enter a valid invite link: http(s)://...'/>
+              <TextField 
+                label="Invitation description" variant="outlined"
+                placeholder='Please enter your description about this invitation'
+                onChange={onChangeDescription} 
+                fullWidth value={inviteDescrition}
+                multiline
+                rows={2}
+                rowsMax={4} 
+                onBlur={() => setDescBlur(true)}
+              />
+              <ErrorText visible={(descBlur && !checkDescrition(inviteDescrition))} text='Description is empty'/>
               <SubmitAndCancel onSubmit={onSubmitInvite} onCancel={onCancelInvite} />
             </Box>
           </Section>
@@ -255,11 +271,11 @@ const ApplicantItem = ({applicant, isTitle, style, index, jobid}) => {
 
 }
 
-const SubmitAndCancel = ({onSubmit, onCancel}) => {
+const SubmitAndCancel = ({onSubmit, onCancel, disableSbumit}) => {
 
   return (
     <Box mt={3}>
-      <Button variant="contained" color="primary" style={{marginRight:10}} onClick={onSubmit} type="submit">Submit</Button>
+      <Button variant="contained" color="primary" disabled={disableSbumit} style={{marginRight:10}} onClick={onSubmit} type="submit">Submit</Button>
       <Button variant="contained" color="primary" onClick={onCancel}>Cancel</Button>
     </Box>
   )
