@@ -18,11 +18,13 @@ import { useRouter } from "next/router"
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import CloseIcon from '@material-ui/icons/Close';
 import { InlineWidget } from "react-calendly";
-import { RESUME_INVITE, RESUME_REJECTED } from "../constant/jobstatus"
+import { RESUME_ANALYSIS_VIEWED, RESUME_INVITE, RESUME_REJECTED, RESUME_VIEWED } from "../constant/jobstatus"
 import { APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C } from "../constant/externalURLs"
 import { v4 as uuidv4 } from 'uuid';
 import getUserId from "../untils/getUserId"
 import checkLink from "../untils/checkLink"
+import { resumeHrStatusArray } from "../constant/jobstatus"
+import { async } from "regenerator-runtime"
 
 // const useStyles = makeStyles({
 //   rejectReasonContainer: {
@@ -34,7 +36,7 @@ import checkLink from "../untils/checkLink"
 
 
 
-const Operations = ({applicantId, jobId}) => {
+const Operations = ({applicantId, jobId, onReject}) => {
   const [showRejectReason, setShowRejectReason] = useState(false)
   const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清", "长得不够帅"]
   const [rejectReasons, setRejectReasons] = useState(0) //bit indicates selected or not
@@ -49,7 +51,13 @@ const Operations = ({applicantId, jobId}) => {
   const params = useRouter().query
   const hrId = params.id ?? 1
 
-  const getOperationconfig = (data) => {
+  /**
+   * 
+   * @param {k:v} data :
+   * @param {number} application_status 0: default value 1: resume rejected
+   * @returns 
+   */
+  const getOperationconfig = (data, application_status=0) => { 
     // const formdata = new FormData
     // formdata.append('action', 'addrecord')
     // formdata.append('jobid', jobId ?? 0) //0代替
@@ -64,6 +72,8 @@ console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
   formData.append('jobid', jobId ?? 1)
   formData.append('dcc', X_API_KEY_B_AND_C)
   formData.append('updates', JSON.stringify(data))
+  application_status ?? formData.append('application_status', application_status) //0: default state 1: reject
+  // application_status !== 1 ?? formData.append('invite_description', inviteDescrition) //0: default state 1: reject
   return ({
     method: 'post',
     url: APP_END_POINT_B_AND_C + 'update_application',
@@ -101,10 +111,10 @@ console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
         const rejectReason = rejectReasonToString()
         console.log("reject reason", rejectReason)
         // const status = JSON.stringify()
-        const resp = await operatonRequest.requestHandler(getOperationconfig({action: RESUME_REJECTED, info: rejectReason}))
+        const resp = await operatonRequest.requestHandler(getOperationconfig({action: RESUME_REJECTED, info: rejectReason}, 1))
     console.log("reject = ", resp)
         if(resp.status === 'success'){
-
+          onReject()
           onCloseModal()
           console.log("reject succ")
         }else{
@@ -139,7 +149,9 @@ console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
 
       try{
         // const status = JSON.stringify({status: RESUME_INVITE, info: inviteLink.trim()})
-        await operatonRequest.requestHandler(getOperationconfig({action: RESUME_INVITE, info: inviteLink.trim()}))
+        await operatonRequest.requestHandler(getOperationconfig({action: RESUME_INVITE, info: inviteLink.trim(),
+        description: inviteDescrition
+        }))
         onCloseInviteModal()
       }catch(e){
         console.error("error while submit link")
@@ -242,28 +254,61 @@ console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
   )
 }
 
-const ApplicantItem = ({applicant, isTitle, style, index, jobid}) => {
-  const {applicant_name: name, application_time: apply_date, matching_level: match,resume, resume_report, user_id, resume_link, report}  = applicant
+const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject}) => {
+  const {applicant_name: name, application_time: apply_date, matching_level: match,resume, resume_report, user_id, resume_link, report,
+    updates, hr_id, job_id}  = applicant
+  const { action, time } = updates?.length ? updates[0] : {}
+  const { action:actionType, info, description } = action ? JSON.parse(action) : {}
+  const resumeRequest = useRequest()
+
+  const updateResumeStatus = async (status) => {
+    if(actionType >= RESUME_REJECTED) return 
+    try{
+      const formData = new FormData()
+      formData.append('userid', user_id ?? 20)
+      formData.append('hrid', hr_id)
+      formData.append('jobid', job_id ?? 1)
+      formData.append('dcc', X_API_KEY_B_AND_C)
+      formData.append('updates', JSON.stringify({action: status}))
+      const config = {
+        method: 'post',
+        url: APP_END_POINT_B_AND_C + 'update_application',
+        data: formData
+      }
+      await resumeRequest.requestHandler(config)
+    }catch(e){
+      console.log("view resume error")
+    }
+  }
+
+  const onViewResume =  () => updateResumeStatus(RESUME_VIEWED) // 1: viewed
+  const onViewReport = async () => updateResumeStatus(RESUME_ANALYSIS_VIEWED) // 2: report viewed
+
+
   return (
 
     <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center' style={style}>
-      <Box width='20%' overflow='hidden'>{name}</Box>
+      <Box width='10%' overflow='hidden'>{name}</Box>
       <Box width='15%' overflow='hidden'>{apply_date?.split('T')[0]}</Box>
-      <Box width='10%' overflow='hidden' textAlign='center'>
+      <Box width='5%' overflow='hidden' textAlign='center'>
         {isTitle && match}
         {!isTitle && `${match}%`}
       </Box>
       <Box width='10%' overflow='hidden' textAlign='center'>
         {isTitle && resume}
-        {!isTitle && <Button target='_blank' href={resume_link}><CloudDownloadIcon color="primary"/></Button>}
+        {!isTitle && <Button target='_blank' href={resume_link} onClick={onViewResume}><CloudDownloadIcon color="primary"/></Button>}
       </Box>
-      <Box width='20%' overflow='hidden' textAlign='center'>
+      <Box width='10%' overflow='hidden' textAlign='center'>
         {isTitle && resume_report}
-        {!isTitle && <Button target='_blank' href='/report'><CloudDownloadIcon color="primary"/></Button>}
+        {!isTitle && <Button target='_blank' href='/report' onClick={onViewReport}><CloudDownloadIcon color="primary"/></Button>}
       </Box>
       <Box width='25%' overflow='hidden' textAlign='center'>
         {isTitle && "Operation"}
-        {!isTitle && <Operations applicantId={user_id} jobId={jobid}/>}
+        {!isTitle && <Operations applicantId={user_id} jobId={jobid} onReject={onReject}/>}
+      </Box>
+      <Box width='25%' overflow='hidden' textAlign='center'>
+        {isTitle && "Note"}
+        {!isTitle && (`${resumeHrStatusArray[actionType]}` + (description ? `: ${description}` : ''))}
       </Box>
     </Box>
 
@@ -296,6 +341,11 @@ const  ApplicantsDetail = ({job}) => {
   const [applicantList, setApplicantList] = useState([])
   const hrid = getUserId()
   const { requestHandler } = useRequest()
+
+  const onReject = (index) => {
+    return setApplicantList([...applicantList.slice(0, index), ...applicantList.slice(index+1)])
+  }
+
   useEffect(async ()=>{
     try{
       const data = new FormData()
@@ -336,7 +386,8 @@ const  ApplicantsDetail = ({job}) => {
           applicant={{applicant_name:"Name", application_time:"Apply Date", matching_level:'Match',resume:"Resume", resume_report:"Resume Analysis"}} 
           style={{fontWeight:600}}  isTitle/>
           {(applicantList?.length === 0) && "No applicants Right now"}
-          {applicantList?.map((item, i) => <ApplicantItem applicant={item} key={i} index={i} jobid={job_id}/>)}
+          {applicantList?.map((item, i) => 
+            <ApplicantItem applicant={item} key={i} index={i} jobid={job_id} onReject={() => onReject(i)}/>)}
         </Box>
       </Section>
     </Box>

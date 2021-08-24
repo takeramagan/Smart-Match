@@ -52,7 +52,7 @@ const JobCard = ({job, feedback}) => {
           <Box display='flex' flexDirection='row' ml={4}>
             Updates:
             <Box ml={2} display='flex' flexDirection='column'>
-              {//sample
+              {/* {//sample
                 !updates.length && <> 
                   <Box>2021-07-23: Job closed</Box>
                   <Box>2021-07-10: Second round interview </Box>
@@ -60,14 +60,17 @@ const JobCard = ({job, feedback}) => {
                   <Box>2021-06-21: Viewed</Box>
                   <Box>2021-06-20: Applied</Box>
                 </>
-              }
+              } */}
               {
                 updates && updates?.map(({time, action}) => {
-                  const {action: actionType, info} = JSON.parse(action)
+                  const {action: actionType, info, description} = JSON.parse(action)
                   if(!time || actionType < 0 || actionType > resumeStatusArray.length) 
                     return null
                   else
-                    return(<Box key={time}>{time.split('T')[0]}: {resumeStatusArray[actionType] ?? actionType}</Box>)
+                    return(<Box key={time}>{time.split('T')[0]}: {resumeStatusArray[actionType] ?? actionType}
+                    {/* {info && info} */}
+                    {description&&description}
+                    </Box>)
                 })
               }
               </Box>
@@ -91,7 +94,7 @@ const CardItem = ({index, showDetail, onClick, item={}, style}) => {
   } = item
 
   const isTitle = (index === undefined)
-  const { action:applicationStatus, info} = (!isTitle && updates.length )? JSON.parse(updates[0].action) : {}
+  const { action:applicationStatus, info, description} = (!isTitle && updates.length )? JSON.parse(updates[0].action) : {}
   const feedback = (applicationStatus === RESUME_REJECTED) ? info : null
   console.log("feedback", feedback)
 
@@ -153,15 +156,17 @@ const CardItem = ({index, showDetail, onClick, item={}, style}) => {
 
       >
         <Box width='10%' overflow='hidden'>{isTitle ? "Id" : job_id ?? 0}</Box>
-        <Box width='30%' overflow='hidden'>{isTitle ? "Job title": job_link ? <a target='_blank' href={job_link}>{job_title}</a> : job_title ?? <a target='_blank' href='https://www.google.com'>Sample Company</a>}</Box>
-        <Box width='20%' overflow='hidden'>{isTitle ? 'Company': company_name ?? "Sample Company"}</Box>
+        <Box width='15%' overflow='hidden'>{isTitle ? "Job title": job_link ? <a target='_blank' href={job_link}>{job_title}</a> : job_title ?? <a target='_blank' href='https://www.google.com'>Sample Company</a>}</Box>
+        <Box width='10%' overflow='hidden'>{isTitle ? 'Company': company_name ?? "Sample Company"}</Box>
         <Box width='15%' overflow='hidden'>{isTitle ? 'Job status': getJobStatus(status ?? 0)}</Box>
         <Box width='20%' overflow='hidden'>{isTitle ? "Application status" : <ApplicantStatus text={resumeStatusArray[applicationStatus]} info={info}/>}</Box>
-        <Box width='5%' >
+        <Box width='30%' >
         {/* {  index !== undefined && <Button onClick={onClickItem}>
           {showDetail && <ExpandLessIcon/>} 
           {!showDetail && <ExpandMoreIcon/>} 
           </Button>} */}
+          {!isTitle && description}
+          {isTitle && "Info"}
         </Box>
       </Box>
       {/* {showDetail && <JobCard job={item}/>} */}
