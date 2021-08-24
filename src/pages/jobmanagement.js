@@ -300,7 +300,7 @@ const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject}) => {
       </Box>
       <Box width='10%' overflow='hidden' textAlign='center'>
         {isTitle && resume_report}
-        {!isTitle && <Button target='_blank' href='/report' onClick={onViewReport}><CloudDownloadIcon color="primary"/></Button>}
+        {!isTitle && <Button target='_blank' href={`/report?hrid=${hr_id}&jobid=${job_id}&index=${index}`} onClick={onViewReport}><CloudDownloadIcon color="primary"/></Button>}
       </Box>
       <Box width='25%' overflow='hidden' textAlign='center'>
         {isTitle && "Operation"}
