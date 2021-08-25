@@ -352,7 +352,7 @@ const  ApplicantsDetail = ({job}) => {
       data.append('hrid', hrid ?? 1); //mock data
       data.append('jobid', job_id);
       data.append('dcc', X_API_KEY_B_AND_C);
-
+console.log('hrid= ', hrid, 'jobid= ', job_id)
       const config = {
         method: 'post',
         url: APP_END_POINT_B_AND_C + ('get_all_applications'),
