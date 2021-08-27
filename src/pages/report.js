@@ -66,6 +66,7 @@ function FileDropzone (props) {
   const params = useRouter().query
   const userId = params.id
   const lang = params.lang?.toLowerCase() //get language
+  const email = params.email
 
   //add selector
   const [area, setArea] = useState('ca')
@@ -87,7 +88,7 @@ function FileDropzone (props) {
   useEffect(() => {
     if (acceptedFiles.length) {
       setLoading(true)
-      fetchReport(acceptedFiles, {id:userId, country_code:area, position}).then((res) => {
+      fetchReport(acceptedFiles, {id:userId, country_code:area, position, email}).then((res) => {
         if (res.error) {
           setError(res.error)
         } else {
