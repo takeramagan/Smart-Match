@@ -420,7 +420,7 @@ const  ApplicantsDetail = ({job}) => {
   const [applicantList, setApplicantList] = useState([])
   const hrid = getUserId()
   const { requestHandler } = useRequest()
-
+console.log('job', job)
   const onReject = (index) => {
     return setApplicantList([...applicantList.slice(0, index), ...applicantList.slice(index+1)])
   }
@@ -453,9 +453,13 @@ console.log('hrid= ', hrid, 'jobid= ', job_id)
   return (
     <Box mt={4} style={{width:'80%', marginLeft:'auto', marginRight:'auto'}}>
       <Section >
-        <Box mt={4} fontSize={h1} color={COLOR_TITLE}>
+        <Box mt={4} p={4}>
+          <Box fontSize={h1} color={COLOR_TITLE}>
             {jobtitle}
           </Box>
+        </Box>
+      </Section>
+      <Section >
         <Box p={4} mt={4}>
           <ApplicantItem 
           applicant={{applicant_name:"Name", application_time:"Apply Date", matching_level:'Match',resume:"Resume", resume_report:"Resume Analysis"}} 
