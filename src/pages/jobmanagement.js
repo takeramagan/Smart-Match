@@ -334,6 +334,85 @@ const ErrorText = ({visible, text}) => {
   )
 }
 
+const addApplicantSchema = yup.object({
+  name: yup
+    .string()
+    .required('Name is required'),
+  email: yup.string().email("Invalid email").required('Email is required'),
+  joblink: yup.string().required('Job link is required').test('match', 'Not a valid link(eg: http(s)://google.com)', function(v){
+    return checkLink(v)
+  }),
+  company: yup.string().required('Company name is required'),
+})
+const AddApplicant = ({job, onCancel}) => {
+  const submitData = ({email, name}) => {
+    console.log('email', email, name, job.job_id)
+  }
+  const formik = useFormik({
+    initialValues: {
+      name:  "",
+      email: "",
+      joblink: "",
+      company:""
+    },
+    validationSchema: addApplicantSchema,
+    onSubmit: (values) => {
+      submitData(values)
+    },
+  });
+  return(
+  <Box style={{width:360, marginLeft:'auto', marginRight:'auto'}}>
+ 
+       <Section >
+
+        <Box p={4} mt={4} fontSize={h2}>
+      <Box fontSize={h1} color={COLOR_TITLE}>
+            Add applicant detail
+          </Box>
+        <form onSubmit={formik.handleSubmit}>
+            <Box mt={2}>
+              <TextField id="name" label="Name" variant="outlined" size='small' name='name'
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
+                style={{width: 300}}/>
+            </Box>
+            <Box mt={2}>
+              <TextField id="email" label="Email" variant="outlined" size='small' name='email'
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+                style={{width: 300}}/>
+            </Box>
+            <Box mt={2}>
+              <TextField id="company" label="Company name" variant="outlined" size='small' name='company'
+                value={formik.values.company}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.company && Boolean(formik.errors.company)}
+                helperText={formik.touched.company && formik.errors.company}
+                style={{width: 300}}/>
+            </Box>
+            <Box mt={2}>
+              <TextField id="joblink" label="Job link" variant="outlined" size='small' name='joblink'
+                value={formik.values.joblink}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.joblink && Boolean(formik.errors.joblink)}
+                helperText={formik.touched.joblink && formik.errors.joblink}
+                style={{width: 300}}/>
+            </Box>
+            <SubmitAndCancel  onCancel={onCancel}/>
+          </form>
+          </Box>
+          </Section>
+  </Box>)
+}
+
 const  ApplicantsDetail = ({job}) => {
   const { job_id, status, post_date, modify_date, applicants, jobtitle } = job
   // let applicantList = applicants
@@ -372,15 +451,11 @@ console.log('hrid= ', hrid, 'jobid= ', job_id)
     }
   }, [])
   return (
-    <Box style={{width:'80%', marginLeft:'auto', marginRight:'auto'}}>
+    <Box mt={4} style={{width:'80%', marginLeft:'auto', marginRight:'auto'}}>
       <Section >
-        <Box mt={4} p={4}>
-          <Box fontSize={h1} color={COLOR_TITLE}>
+        <Box mt={4} fontSize={h1} color={COLOR_TITLE}>
             {jobtitle}
           </Box>
-        </Box>
-      </Section>
-      <Section >
         <Box p={4} mt={4}>
           <ApplicantItem 
           applicant={{applicant_name:"Name", application_time:"Apply Date", matching_level:'Match',resume:"Resume", resume_report:"Resume Analysis"}} 
@@ -642,9 +717,9 @@ const JobDetail = ({job, index, closeModal, updatePage}) => {
 }
 
 
-const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitle}) => {
+const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitle, onAddApplicant}) => {
 
-  const { job_id:id, jobstatus:status, link, job_posting_time:postdate, modify_date, applicants, jobtitle: title, edit, note } = item
+  const { job_id:id, jobstatus:status, link, job_posting_time, postdate, modify_date, applicants, jobtitle: title, edit, note } = item
   //0:accepting 1:closed 2:filled
   const job_status  = status == 0 ? "Accepting" : status == 1 ? "Closed" : status == 2 ? "Filled" : status
   const numOfApplicants = isTitle ? "Applicants" : (applicants ?? 0) //标题没有index
@@ -654,14 +729,17 @@ const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitl
       <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center' style={style}>
         {/* <Box width='8%' overflow='hidden'>{isTitle ? 'Job ID' : id}</Box> */}
         <Box width='20%' overflow='hidden'>{title}</Box>
-        <Box width='10%' overflow='hidden' textAlign='center'>
+        <Box width='15%' overflow='hidden' textAlign='center'>
           {/**index === undefined 表示list 的标题栏*/}
           {isTitle  && numOfApplicants}
           {!isTitle && 
+            <Box display='flex' flexDirection='row' width='100%' justifyContent='space-evenly'>
             <Button 
               disabled={numOfApplicants === 0}
               onClick={() => onShowApplicants(index)} variant='contained' color='primary' style={{height:30, marginTop:10, marginBottom:10}}
-            >{numOfApplicants}</Button>}
+            >{numOfApplicants}</Button>
+            <Button variant='contained' color='primary' style={{height:30, marginTop:10, marginBottom:10}} onClick={onAddApplicant}>Add</Button>
+            </Box>}
         </Box>
         <Box width='20%' overflow='hidden' textAlign='center'>{isTitle ? "Job status" : job_status}</Box>
         <Box width='8%' >
@@ -674,7 +752,7 @@ const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitl
           </Button>
           }
         </Box>
-        <Box width='10%' overflow='hidden'>{isTitle ? postdate : (postdate.split("T")[0])}</Box>
+        <Box width='10%' overflow='hidden'>{isTitle ? postdate : (job_posting_time.split("T")[0])}</Box>
         <Box width='26%' overflow='hidden' textAlign='center'>
           {note}
         </Box>
@@ -685,7 +763,7 @@ const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitl
 }
 
 const JobManagement = () => {
-  const [showItem, setShowItem] = useState(-1) //-1表示没有
+  const [showItem, setShowItem] = useState(-1) //index in Job list, -1表示没有 
   const [showJobDetail, setShowJobDetail] = useState(false)
   const [showApplicants, setShowApplicants] = useState(false)
   const hrHistory = useSelector(store => store.history)
@@ -693,10 +771,16 @@ const JobManagement = () => {
   const hrHistoryList = hrHistory.historyList
   const params = useRouter().query
   const hrId = params.id ?? 1
-
+console.log('hrid1 = ', hrId )
   const onShowJobDetail = (id) => {
     setShowItem(id)
     setShowJobDetail(true)
+  }
+
+  const [showAddApplicant, setShowAddApplicant] = useState(false)
+  const onAddApplicant = (index) => {
+    setShowAddApplicant(true)
+    setShowItem(index)
   }
 
   const showJobDetailCallback = useCallback((id) => onShowJobDetail(id),[])
@@ -711,6 +795,7 @@ const JobManagement = () => {
     setShowItem(-1);
     setShowJobDetail(false); 
     setShowApplicants(false)
+    setShowAddApplicant(false)
   }
 
   const onClose = () => { 
@@ -779,6 +864,7 @@ console.log("hr", hrHistoryList)
               item={job} 
               onShowJobDetail={showJobDetailCallback}
               onShowApplicants={showApplicantsCallback} 
+              onAddApplicant={() =>onAddApplicant(i)}
               // showDetail={showItem === i} 
               key={i}/>
           )}
@@ -789,6 +875,9 @@ console.log("hr", hrHistoryList)
         {showJobDetail && <JobDetail job={hrHistoryList[showItem]} index={showItem} closeModal={closeModal} updatePage={getData}></JobDetail>}
         {showApplicants && <ApplicantsDetail job={hrHistoryList[showItem]}></ApplicantsDetail>}
         </>
+      </Modal>
+      <Modal open={showAddApplicant} onClose={closeModal}>
+        <AddApplicant job={hrHistoryList[showItem]} onCancel={closeModal}/>
       </Modal>
     </Container>
   )
