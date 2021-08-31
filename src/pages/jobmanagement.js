@@ -868,8 +868,8 @@ console.log('hrid2= ', hrId)
 console.log("hr", hrHistoryList)
 
   useEffect(()=>{
-    getData()
-  }, [])
+    if(hrId) getData()
+  }, [hrId])
 
   return(
     <Container 
