@@ -527,11 +527,11 @@ const validationSchema = yup.object({
 });
 
 //Edit or add Job
-const JobDetail = ({job, index, closeModal, updatePage}) => {
+const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
   // let initJob = {status:0, link:"", post_date:"", applicants:[],title:"", modify_date:"", description:null, salary_start:null, salary_end:null}
   let initJob = {}
   const isNew = index === -1
-  const { job_id: jobid, hrid, status, link, post_date, modify_date, applicants, jobtitle:title, description, salarylow: salary_start, salaryhigh: salary_end, job_type, note } =  isNew ? initJob:job
+  const { job_id: jobid, status, link, post_date, modify_date, applicants, jobtitle:title, description, salarylow: salary_start, salaryhigh: salary_end, job_type, note } =  isNew ? initJob:job
   const [openConfirmDlg, setOpenConfirmDlg] = useState(false) //open confirm dialog
 
   const formik = useFormik({
@@ -910,7 +910,7 @@ console.log("hr", hrHistoryList)
       </Section>
       <Modal open={showJobDetail || showApplicants} onClose={onClose}>
         <>
-        {showJobDetail && <JobDetail job={hrHistoryList[showItem]} index={showItem} closeModal={closeModal} updatePage={getData}></JobDetail>}
+        {showJobDetail && <JobDetail job={hrHistoryList[showItem]} index={showItem} closeModal={closeModal} updatePage={getData} hrid={hrId}></JobDetail>}
         {showApplicants && <ApplicantsDetail job={hrHistoryList[showItem]}></ApplicantsDetail>}
         </>
       </Modal>
