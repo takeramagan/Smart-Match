@@ -298,8 +298,8 @@ const ApplyHistory = () => {
   // }
 
   useEffect(() => {
-    getData(false)
-  }, [])
+    if(email)getData(false)
+  }, [email])
   return(
     <Container 
       style={{ marginTop: 18}}
