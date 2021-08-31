@@ -835,7 +835,7 @@ console.log("hr", hrHistoryList)
 
   useEffect(()=>{
     getData()
-  }, [])
+  }, [hrId])
 
   return(
     <Container 
