@@ -377,7 +377,7 @@ const AddApplicant = ({job, onCancel}) => {
 
     }catch(e){
       console.log("insert error", e)
-      alert('User have applied this job, cannnot apply again')
+      alert('User has applied this job, or hasnot uploaded resume. please check the email')
     }
   }
   const formik = useFormik({
