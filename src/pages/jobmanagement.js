@@ -774,7 +774,7 @@ const JobManagement = () => {
   const currentPage = hrHistory.currentPage
   const hrHistoryList = hrHistory.historyList
   const params = useRouter().query
-  const hrId = params.id ?? 1
+  const hrId = params.id ?? 2
 console.log('hrid1 = ', hrId )
   const onShowJobDetail = (id) => {
     setShowItem(id)
