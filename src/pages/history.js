@@ -156,9 +156,9 @@ const CardItem = ({index, showDetail, onClick, item={}, style}) => {
       <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center' style={style}
 
       >
-        <Box width='10%' overflow='hidden'>{isTitle ? "Id" : job_id ?? 0}</Box>
-        <Box width='15%' overflow='hidden'>{isTitle ? "Job title": job_link ? <a target='_blank' href={job_link}>{job_title}</a> : job_title ?? <a target='_blank' href='https://www.google.com'>Sample Company</a>}</Box>
-        <Box width='10%' overflow='hidden'>{isTitle ? 'Company': company_name ?? "Sample Company"}</Box>
+        {/* <Box width='10%' overflow='hidden'>{isTitle ? "Id" : job_id ?? 0}</Box> */}
+        <Box width='20%' overflow='hidden'>{isTitle ? "Job title": job_link ? <a target='_blank' href={job_link}>{job_title}</a> : job_title ?? <a target='_blank' href='https://www.google.com'>Sample Company</a>}</Box>
+        <Box width='15%' overflow='hidden'>{isTitle ? 'Company': company_name ?? "Sample Company"}</Box>
         <Box width='15%' overflow='hidden'>{isTitle ? 'Job status': getJobStatus(status ?? 0)}</Box>
         <Box width='20%' overflow='hidden'>{isTitle ? "Application status" : <ApplicantStatus text={resumeStatusArray[applicationStatus]} info={info}/>}</Box>
         <Box width='30%' >
