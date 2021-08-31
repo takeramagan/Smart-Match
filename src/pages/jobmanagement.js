@@ -36,7 +36,7 @@ import { async } from "regenerator-runtime"
 
 
 
-const Operations = ({applicantId, jobId, onReject}) => {
+const Operations = ({applicantId, jobId, onReject, email}) => {
   const [showRejectReason, setShowRejectReason] = useState(false)
   const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清", "长得不够帅"]
   const [rejectReasons, setRejectReasons] = useState(0) //bit indicates selected or not
@@ -68,6 +68,7 @@ console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
   console.log("data", data)
   const formData = new FormData()
   formData.append('userid', applicantId ?? 20)
+  formData.append('email', email)
   formData.append('hrid', hrId)
   formData.append('jobid', jobId ?? 1)
   formData.append('dcc', X_API_KEY_B_AND_C)
@@ -255,8 +256,8 @@ console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
 }
 
 const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject}) => {
-  const {applicant_name: name, application_time: apply_date, matching_level: match,resume, resume_report, user_id, resume_link, report,
-    updates, hr_id, job_id}  = applicant
+  const {name, application_time: apply_date, matching_level: match,resume, resume_report, user_id, resume_link, report,
+    updates, hr_id, job_id, email}  = applicant
   const { action, time } = updates?.length ? updates[0] : {}
   const { action:actionType, info, description } = action ? JSON.parse(action) : {}
   const resumeRequest = useRequest()
@@ -304,11 +305,11 @@ const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject}) => {
       </Box>
       <Box width='25%' overflow='hidden' textAlign='center'>
         {isTitle && "Operation"}
-        {!isTitle && <Operations applicantId={user_id} jobId={jobid} onReject={onReject}/>}
+        {!isTitle && <Operations applicantId={user_id} jobId={jobid} onReject={onReject} email={email}/>}
       </Box>
       <Box width='25%' overflow='hidden' textAlign='center'>
         {isTitle && "Note"}
-        {!isTitle && (`${resumeHrStatusArray[actionType]}` + (description ? `: ${description}` : ''))}
+        {!isTitle && ((actionType >=0 ? `${resumeHrStatusArray[actionType]}` : '') + (description ? `: ${description}` : ''))}
       </Box>
     </Box>
 
@@ -345,8 +346,39 @@ const addApplicantSchema = yup.object({
   company: yup.string().required('Company name is required'),
 })
 const AddApplicant = ({job, onCancel}) => {
-  const submitData = ({email, name}) => {
-    console.log('email', email, name, job.job_id)
+  const { requestHandler } = useRequest()
+  const submitData = async ({email, name, joblink, company}) => {
+    console.log('email', email, name, joblink, company)
+    console.log('job', job)
+    try{
+      const data = new FormData()
+      data.append('email', email); //mock data
+      data.append('name', name); //mock data
+      data.append('jobid', job.job_id);
+      data.append('joblink', joblink);
+      data.append('hrid', job.hr_id); //mock data
+      data.append('company_name', company);
+      data.append('dcc', X_API_KEY_B_AND_C);
+ console.log(
+   {
+    email, name, jobid:job.job_id, joblink, hrid:job.hr_id, company_name:company, dcc:X_API_KEY_B_AND_C
+   }
+ )
+      const config = {
+        method: 'post',
+        url: APP_END_POINT_B_AND_C + ('insert_application'),
+        data : data
+      }
+      const result = await requestHandler(config)
+      console.log("applicant", result)
+      if(result.status === 'success') { //这里返回值 没有status code... T_T
+        onCancel()
+      }
+
+    }catch(e){
+      console.log("insert error", e)
+      alert('User have applied this job, cannnot apply again')
+    }
   }
   const formik = useFormik({
     initialValues: {
@@ -439,6 +471,7 @@ console.log('hrid= ', hrid, 'jobid= ', job_id)
       }
       const result = await requestHandler(config)
       console.log("applicant", result.applicants_info_list)
+      console.log("applicant", result)
       if(!result.status) { //这里返回值 没有status code... T_T
         // if(result.status === 'success') {
         console.log("get applicants succcess")
@@ -462,7 +495,7 @@ console.log('hrid= ', hrid, 'jobid= ', job_id)
       <Section >
         <Box p={4} mt={4}>
           <ApplicantItem 
-          applicant={{applicant_name:"Name", application_time:"Apply Date", matching_level:'Match',resume:"Resume", resume_report:"Resume Analysis"}} 
+          applicant={{name:"Name", application_time:"Apply Date", matching_level:'Match',resume:"Resume", resume_report:"Resume Analysis"}} 
           style={{fontWeight:600}}  isTitle/>
           {(applicantList?.length === 0) && "No applicants Right now"}
           {applicantList?.map((item, i) => 

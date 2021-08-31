@@ -18,6 +18,7 @@ import getUserId from "../untils/getUserId";
 import { APP_END_POINT_B_AND_C, APP_END_POINT_CUSTOMER, X_API_KEY_B_AND_C, X_API_KEY_CUSTOMER } from "../constant/externalURLs";
 import checkLink from "../untils/checkLink";
 import { blue } from "@material-ui/core/colors";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles({
   checkBtn:{
@@ -68,8 +69,8 @@ const JobCard = ({job, feedback}) => {
                     return null
                   else
                     return(<Box key={time}>{time.split('T')[0]}: {resumeStatusArray[actionType] ?? actionType}
-                    {/* {info && info} */}
-                    {description&&description}
+                    {" "}
+                    {!!description&&description}
                     </Box>)
                 })
               }
@@ -252,10 +253,13 @@ const ApplyHistory = () => {
   const dispatch = useDispatch()
 
   const {loading, requestHandler} = useRequest(true)
-  const userId = getUserId()
+  // const userId = getUserId()
+  const params = useRouter().query
+  const email = params.email
+  console.log("email history= ", email)
   const getData = async (isAppend = true) => {
     const formData = new FormData()
-    formData.append('userid', userId ?? 20)
+    formData.append('email', email ?? 'test@gmail.com')
     formData.append('dcc', X_API_KEY_CUSTOMER)
     const config = {
       method: 'post',
