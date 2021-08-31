@@ -11,6 +11,7 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import axios from "axios";
 import { useRequest } from "../hooks/useRequest";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router"
 import { hrHistoryAction } from "../slices/hrHistorySlice";
 import { resumeStatusArray, RESUME_REJECTED } from "../constant/jobstatus";
 import { InlineWidget } from "react-calendly";
@@ -252,10 +253,12 @@ const ApplyHistory = () => {
   const dispatch = useDispatch()
 
   const {loading, requestHandler} = useRequest(true)
-  const userId = getUserId()
+  // const userId = getUserId()
+  const params = useRouter().query
+  const email = params.email
   const getData = async (isAppend = true) => {
     const formData = new FormData()
-    formData.append('userid', userId ?? 20)
+    formData.append('email', email)
     formData.append('dcc', X_API_KEY_CUSTOMER)
     const config = {
       method: 'post',
@@ -294,8 +297,10 @@ const ApplyHistory = () => {
   // }
 
   useEffect(() => {
-    getData(false)
-  }, [])
+    if (!!email) {
+      getData(false) 
+    }
+  }, [email])
   return(
     <Container 
       style={{ marginTop: 18}}
