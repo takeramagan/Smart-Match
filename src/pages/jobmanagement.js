@@ -808,7 +808,7 @@ const JobManagement = () => {
   const hrHistoryList = hrHistory.historyList
   const params = useRouter().query
   const hrId = params.id ?? 1
-console.log('hrid1 = ', hrId )
+console.log('hrid1 = ', params.id, hrId )
   const onShowJobDetail = (id) => {
     setShowItem(id)
     setShowJobDetail(true)
@@ -849,6 +849,7 @@ console.log('hrid1 = ', hrId )
   const getData = async () => {
     const data = new FormData()
     data.append('dcc', X_API_KEY_B_AND_C)
+console.log('hrid2= ', hrId)
     data.append('hrid', hrId)
     const config = {
       method: 'post',
