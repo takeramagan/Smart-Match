@@ -73,7 +73,8 @@ console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
   formData.append('jobid', jobId ?? 1)
   formData.append('dcc', X_API_KEY_B_AND_C)
   formData.append('updates', JSON.stringify(data))
-  application_status ?? formData.append('application_status', application_status) //0: default state 1: reject
+  formData.append('application_status', application_status) //0: default state 1: reject
+console.log("application status= ", application_status)
   // application_status !== 1 ?? formData.append('invite_description', inviteDescrition) //0: default state 1: reject
   return ({
     method: 'post',
