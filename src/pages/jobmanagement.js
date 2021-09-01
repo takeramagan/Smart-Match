@@ -23,7 +23,7 @@ import { APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C } from "../constant/externalUR
 import { v4 as uuidv4 } from 'uuid';
 import getUserId from "../untils/getUserId"
 import checkLink from "../untils/checkLink"
-import { resumeHrStatusArray } from "../constant/jobstatus"
+import { resumeHrStatusArray, JOB_STATUS } from "../constant/jobstatus"
 import { async } from "regenerator-runtime"
 
 // const useStyles = makeStyles({
@@ -759,7 +759,7 @@ const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitl
 
   const { job_id:id, jobstatus:status, link, job_posting_time, postdate, modify_date, applicants, jobtitle: title, edit, note } = item
   //0:accepting 1:closed 2:filled
-  const job_status  = status == 0 ? "Accepting" : status == 1 ? "Closed" : status == 2 ? "Filled" : status
+  const job_status  = (status >= 0 && status < JOB_STATUS.length ) ? JOB_STATUS[status]: status
   const numOfApplicants = isTitle ? "Applicants" : (applicants ?? 0) //标题没有index
 
   return(
