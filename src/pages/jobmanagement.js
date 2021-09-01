@@ -542,8 +542,8 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
       salary_end: salary_end > 0 ? salary_end : 0,
       note: note ?? "",
       description: description ?? "",
-      jobtype: parseInt(jobtype),//0:full time 1:contract 2:part
-      status: parseInt(jobstatus),//0:accepting 1:closed 2:filled
+      jobtype: parseInt(jobtype ?? 0),//0:full time 1:contract 2:part
+      status: parseInt(jobstatus ?? 0),//0:accepting 1:closed 2:filled
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
