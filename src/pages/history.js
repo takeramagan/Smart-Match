@@ -35,7 +35,6 @@ const JobCard = ({job, feedback}) => {
   const { jobid, job_status, joblink, apply_date, jobtitle,
     job_description, company, company_logo, application_status, salary_low, salary_high, updates
   } = job
-  console.log(job)
   // const { view_date, download_date} = application_status
   return(
     <Box display='flex' flexDirection='row' color='white' bgcolor={SECTION_BLUE} p={2}
