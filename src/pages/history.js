@@ -35,6 +35,7 @@ const JobCard = ({job, feedback}) => {
   const { jobid, job_status, joblink, apply_date, jobtitle,
     job_description, company, company_logo, application_status, salary_low, salary_high, updates
   } = job
+  console.log(job)
   // const { view_date, download_date} = application_status
   return(
     <Box display='flex' flexDirection='row' color='white' bgcolor={SECTION_BLUE} p={2}
@@ -67,6 +68,11 @@ const JobCard = ({job, feedback}) => {
                   const {action: actionType, info, description} = JSON.parse(action)
                   if(!time || actionType < 0 || actionType > resumeStatusArray.length) 
                     return null
+                  else if(!!description && description.length > 20) 
+                    return(<Box key={time}>{time.split('T')[0]}: {resumeStatusArray[actionType] ?? actionType}
+                    {" "}
+                    {description.substring(0,20)+"..."}
+                    </Box>)
                   else
                     return(<Box key={time}>{time.split('T')[0]}: {resumeStatusArray[actionType] ?? actionType}
                     {" "}
@@ -249,18 +255,19 @@ const ApplyHistory = () => {
   }
 
   const { currentPage, historyList } = useSelector(store => store.history)
-  console.log("crr", currentPage, historyList)
+  // console.log("crr", currentPage, historyList)
   const dispatch = useDispatch()
 
   const {loading, requestHandler} = useRequest(true)
   // const userId = getUserId()
   const params = useRouter().query
   const email = params.email
-  console.log("email history= ", email)
+  // console.log("email history= ", email)
   const getData = async (isAppend = true) => {
     const formData = new FormData()
-    formData.append('email', email ?? 'test@gmail.com')
-    formData.append('dcc', X_API_KEY_CUSTOMER)
+    formData.append('email', 'test@gmail.com')
+    // formData.append('dcc', X_API_KEY_CUSTOMER)
+    formData.append('dcc', 'IfN8sdzMjd7H9gAfKObFc6I9y7DuFu862gov3P4N')
     const config = {
       method: 'post',
       url:  APP_END_POINT_CUSTOMER + 'get_all_applications',
@@ -268,7 +275,7 @@ const ApplyHistory = () => {
     }
 
     const data = await requestHandler(config)
-    console.log("get data", data)
+    // console.log("get data", data)
     if(data.applicants_info_list) dispatch(isAppend ? hrHistoryAction.addHistoryList(data.applicants_info_list) : hrHistoryAction.setHistoryList(data.applicants_info_list))
   }
 
