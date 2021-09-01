@@ -24,7 +24,8 @@ import { v4 as uuidv4 } from 'uuid';
 import getUserId from "../untils/getUserId"
 import checkLink from "../untils/checkLink"
 import { resumeHrStatusArray, JOB_STATUS } from "../constant/jobstatus"
-import { async } from "regenerator-runtime"
+import { toast } from 'react-toastify';
+import { toastStyle } from "../constant/constant"
 
 // const useStyles = makeStyles({
 //   rejectReasonContainer: {
@@ -121,10 +122,12 @@ console.log("application status= ", application_status)
           console.log("reject succ")
         }else{
           console.log("reject error")
+          toast.error('Network Error, please retry', toastStyle)
         }
       }catch(e){
         console.error("error while reject")
         console.error(e)
+        toast.error('Network Error, please retry', toastStyle)
       }
       console.log(otherReason)
     }
@@ -375,10 +378,9 @@ const AddApplicant = ({job, onCancel}) => {
       if(result.status === 'success') { //这里返回值 没有status code... T_T
         onCancel()
       }
-
     }catch(e){
       console.log("insert error", e)
-      alert('User has applied this job, or hasnot uploaded resume. please check the email')
+      toast.error('User has applied this job, or hasnot uploaded a resume. please check the email', toastStyle)
     }
   }
   const formik = useFormik({
