@@ -532,7 +532,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
   // let initJob = {status:0, link:"", post_date:"", applicants:[],title:"", modify_date:"", description:null, salary_start:null, salary_end:null}
   let initJob = {}
   const isNew = index === -1
-  const { job_id: jobid, status, link, post_date, modify_date, applicants, jobtitle:title, description, salarylow: salary_start, salaryhigh: salary_end, job_type, note } =  isNew ? initJob:job
+  const { job_id: jobid, jobstatus, link, post_date, modify_date, applicants, jobtitle:title, description, salarylow: salary_start, salaryhigh: salary_end, jobtype, note } =  isNew ? initJob:job
   const [openConfirmDlg, setOpenConfirmDlg] = useState(false) //open confirm dialog
 
   const formik = useFormik({
@@ -542,8 +542,8 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
       salary_end: salary_end > 0 ? salary_end : 0,
       note: note ?? "",
       description: description ?? "",
-      jobtype: (job_type >=0 && job_type <=2) ? job_type : 0,//0:full time 1:contract 2:part
-      status: parseInt(status),//0:accepting 1:closed 2:filled
+      jobtype: parseInt(jobtype),//0:full time 1:contract 2:part
+      status: parseInt(jobstatus),//0:accepting 1:closed 2:filled
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -563,7 +563,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
       data.append('salaryhigh', values.salary_end);
       data.append('company', 'microsoft');
       data.append('note', values.note);
-      data.append('hrid', hrid ?? 1); //mock data
+      data.append('hrid', hrid ); //mock data
       data.append('jobstatus', values.status);
       data.append('description', values.description);
       data.append('joblink', 'www.baidu.com');
