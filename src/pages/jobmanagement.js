@@ -381,6 +381,7 @@ const AddApplicant = ({job, onCancel}) => {
     }catch(e){
       console.log("insert error", e)
       toast.error('User has applied this job, or hasnot uploaded a resume. please check the email', toastStyle)
+      alert('User has applied this job, or hasnot uploaded a resume. please check the email')
     }
   }
   const formik = useFormik({
