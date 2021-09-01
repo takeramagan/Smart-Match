@@ -255,19 +255,18 @@ const ApplyHistory = () => {
   }
 
   const { currentPage, historyList } = useSelector(store => store.history)
-  // console.log("crr", currentPage, historyList)
+  console.log("crr", currentPage, historyList)
   const dispatch = useDispatch()
 
   const {loading, requestHandler} = useRequest(true)
   // const userId = getUserId()
   const params = useRouter().query
   const email = params.email
-  // console.log("email history= ", email)
+  console.log("email history= ", email)
   const getData = async (isAppend = true) => {
     const formData = new FormData()
-    formData.append('email', 'test@gmail.com')
-    // formData.append('dcc', X_API_KEY_CUSTOMER)
-    formData.append('dcc', 'IfN8sdzMjd7H9gAfKObFc6I9y7DuFu862gov3P4N')
+    formData.append('email', email ?? 'test@gmail.com')
+    formData.append('dcc', X_API_KEY_CUSTOMER)
     const config = {
       method: 'post',
       url:  APP_END_POINT_CUSTOMER + 'get_all_applications',
@@ -275,7 +274,7 @@ const ApplyHistory = () => {
     }
 
     const data = await requestHandler(config)
-    // console.log("get data", data)
+    console.log("get data", data)
     if(data.applicants_info_list) dispatch(isAppend ? hrHistoryAction.addHistoryList(data.applicants_info_list) : hrHistoryAction.setHistoryList(data.applicants_info_list))
   }
 
