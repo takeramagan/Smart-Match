@@ -912,7 +912,7 @@ console.log("hr", hrHistoryList)
           )}
         </Box>
       </Section>
-      <Modal open={showJobDetail || showApplicants} onClose={onClose}>
+      <Modal open={showJobDetail || showApplicants} onClose={onClose} style={{overflowY: 'scroll'}}>
         <>
         {showJobDetail && <JobDetail job={hrHistoryList[showItem]} index={showItem} closeModal={closeModal} updatePage={getData} hrid={hrId}></JobDetail>}
         {showApplicants && <ApplicantsDetail job={hrHistoryList[showItem]}></ApplicantsDetail>}
