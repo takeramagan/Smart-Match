@@ -67,6 +67,11 @@ const JobCard = ({job, feedback}) => {
                   const {action: actionType, info, description} = JSON.parse(action)
                   if(!time || actionType < 0 || actionType > resumeStatusArray.length) 
                     return null
+                  else if(!!description && description.length > 20) 
+                    return(<Box key={time}>{time.split('T')[0]}: {resumeStatusArray[actionType] ?? actionType}
+                    {" "}
+                    {description.substring(0,20)+"..."}
+                    </Box>)
                   else
                     return(<Box key={time}>{time.split('T')[0]}: {resumeStatusArray[actionType] ?? actionType}
                     {" "}
