@@ -42,7 +42,7 @@ const JobCard = ({job, feedback}) => {
       
       // mb={2}
       >
-      <img width={80} height={80} src={company_logo ?? 'defaultlogo.svg'} style={{borderRadius:15}}/>
+      <img width={80} height={80} src={company_logo ?? 'https://static.wixstatic.com/media/a3d6a4_8793d80e51cd45dab01ec9949fede6e4~mv2.png/v1/fill/w_247,h_247,al_c,lg_1,q_85/B.webp'} style={{borderRadius:15}}/>
       <Box ml={2} flexGrow={1}>
         <Box display='flex' flexDirection='row'>
           <Box>

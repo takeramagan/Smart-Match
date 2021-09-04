@@ -527,7 +527,8 @@ const validationSchema = yup.object({
   note: yup
     .string(),
   jobtype: yup.number(),
-  status: yup.number()
+  status: yup.number(),
+  job_reference_id:yup.string().required("Job Id is required")
 });
 
 //Edit or add Job
@@ -535,7 +536,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
   // let initJob = {status:0, link:"", post_date:"", applicants:[],title:"", modify_date:"", description:null, salary_start:null, salary_end:null}
   let initJob = {}
   const isNew = index === -1
-  const { job_id: jobid, jobstatus, link, post_date, modify_date, applicants, jobtitle:title, description, salarylow: salary_start, salaryhigh: salary_end, jobtype, note } =  isNew ? initJob:job
+  const { job_id: jobid, jobstatus, link, post_date, modify_date, applicants, jobtitle:title, description, salarylow: salary_start, salaryhigh: salary_end, jobtype, note, job_reference_id } =  isNew ? initJob:job
   const [openConfirmDlg, setOpenConfirmDlg] = useState(false) //open confirm dialog
 
   const formik = useFormik({
@@ -547,6 +548,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
       description: description ?? "",
       jobtype: parseInt(jobtype ?? 0),//0:full time 1:contract 2:part
       status: parseInt(jobstatus ?? 0),//0:accepting 1:closed 2:filled
+      job_reference_id: job_reference_id ?? ""
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -573,6 +575,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
       data.append('jobtype', values.jobtype);
       data.append('dcc', X_API_KEY_B_AND_C);
       data.append('jobid',isNew ? uuidv4() : jobid);
+      data.append('job_reference_id', values.job_reference_id);
       const config = {
         method: 'post',
         url: APP_END_POINT_B_AND_C + (isNew ? 'publish_job_posting' : 'update_job_posting'),
@@ -636,6 +639,15 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
         <Box p={4} mt={4} fontSize={h2}>
         <form onSubmit={formik.handleSubmit}>
             <Box >
+              <TextField id="job_reference_id" label="Job id" variant="outlined" size='small' name='job_reference_id'
+                value={formik.values.job_reference_id}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.job_reference_id && Boolean(formik.errors.job_reference_id)}
+                helperText={formik.touched.job_reference_id && formik.errors.job_reference_id}
+                style={{width: 150}}/>
+            </Box>
+            <Box mt={2}>
               <TextField id="title" label="Job title" variant="outlined" size='small' name='title'
                 value={formik.values.title}
                 onChange={formik.handleChange}
@@ -760,7 +772,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
 
 const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitle, onAddApplicant}) => {
 
-  const { job_id:id, jobstatus:status, link, job_posting_time, postdate, modify_date, applicants, jobtitle: title, edit, note } = item
+  const { job_id:id, jobstatus:status, link, job_posting_time, postdate, modify_date, applicants, jobtitle: title, edit, note, job_reference_id } = item
   //0:accepting 1:closed 2:filled
   const job_status  = (status >= 0 && status < JOB_STATUS.length ) ? JOB_STATUS[status]: status
   const numOfApplicants = isTitle ? "Applicants" : (applicants ?? 0) //标题没有index
@@ -768,7 +780,7 @@ const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitl
   return(
     <Box>
       <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center' style={style}>
-        {/* <Box width='8%' overflow='hidden'>{isTitle ? 'Job ID' : id}</Box> */}
+        <Box width='8%' overflow='hidden'>{isTitle ? 'Job ID' : job_reference_id}</Box>
         <Box width='20%' overflow='hidden'>{title}</Box>
         <Box width='15%' overflow='hidden' textAlign='center'>
           {/**index === undefined 表示list 的标题栏*/}
