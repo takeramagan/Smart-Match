@@ -39,7 +39,9 @@ import { toastStyle } from "../constant/constant"
 
 const Operations = ({applicantId, jobId, onReject, email}) => {
   const [showRejectReason, setShowRejectReason] = useState(false)
-  const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清", "长得不够帅"]
+  // const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清", "长得不够帅"]
+  const rejectReasonOptions = [ "Skills do not match", "Work experiences do not match", "Not enough project experience",
+                                "Resume structure unclear", "Not enough hands-on skills"]
   const [rejectReasons, setRejectReasons] = useState(0) //bit indicates selected or not
   const [otherReason, setOtherReason] = useState("")
   const [otherBlur, setOherBlur] = useState(false)
