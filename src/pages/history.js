@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 
 const JobCard = ({job, feedback}) => {
   const { jobid, job_status, joblink, apply_date, jobtitle,
-    job_description, company, company_logo, application_status, salary_low, salary_high, updates
+    job_description, company_name, company_logo, application_status, salary_low, salary_high, updates
   } = job
   // const { view_date, download_date} = application_status
   return(
@@ -46,7 +46,7 @@ const JobCard = ({job, feedback}) => {
       <Box ml={2} flexGrow={1}>
         <Box display='flex' flexDirection='row'>
           <Box>
-            <Box>Company: {company}</Box>
+            <Box>Company: {company_name}</Box>
             <Box>Salary: {salary_low ?  `$${salary_low} to $${salary_high}` : 'Not disclosed'}</Box>
             {/* <Box>Link: <a target='_blank' href={joblink}>Visit Job Link</a></Box> */}
           </Box>
