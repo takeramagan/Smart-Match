@@ -6,6 +6,7 @@ import { formatter } from '../../untils/currency'
 import { useTranslation } from 'react-i18next'
 import { h, h1, h2, h3, h4, h5} from '../../constant/fontsize'
 import { useState } from 'react'
+import { POPUP_BG_COLOR } from '../../constant/color'
 
 
 const Chart = ({ income }) => {
@@ -20,13 +21,22 @@ const Chart = ({ income }) => {
 
   const getNumbers = () => {
     const result = []
-    let n = income.market_low
-    const increment = Math.round((income.market_high - income.market_low) / 5)
-    while (n < income.market_high) {
-      result.push(n)
-      n = n + increment
+    const NumOfColumns = 4
+    try{
+      let n = parseInt(income.market_low) //莫名出现数字解析成字符串...
+      const high = parseInt(income.market_high)
+      const low = parseInt(income.market_low)
+      const increment = Math.round((high - low) / NumOfColumns)
+      
+      for(let i = 0; i <= NumOfColumns; i++) {
+        result.push(n)
+        n = n + increment
+      }
+      return result
+    }catch(e){
+      console.log('Unexpected error, ', e)
+      return []
     }
-    return result
   }
  
   const numbers = getNumbers()
@@ -67,33 +77,67 @@ const Chart = ({ income }) => {
     },
     legend: { bottom: 0, selectedMode: false },
     tooltip: {
+      show:true,
       trigger: 'item',
-      axisPointer: { // Use axis to trigger tooltip
-        type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
-      }
+      // axisPointer: { // Use axis to trigger tooltip
+      //   type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
+      // }
     },
     color: [theme.palette.primary.main, '#E5E5E5'],
     series: [{
-      name: t("marketvalue.Offer too low"),
+      // name: t("marketvalue.Offer too low"),
       color: '#E0E0E0',
       barGap: '-100%',
       barWidth: '50%',
       type: 'bar',
-      data: numbers.map(n => n <= income.market_mid_low ? n : undefined)
+      data: numbers.map(n => n <= income.market_mid_low ? n : undefined),
     }, {
-      name: t("marketvalue.Acceptable Offer"),
-      color: '#46EBD5',
+      // name: t("marketvalue.Acceptable Offer"),
+      color: 'rgba(96,239,255, 0.4)',
       barGap: '-100%',
       barWidth: '50%',
       type: 'bar',
       data: numbers.map(n => n > income.market_mid_low ? n : undefined)
     }, {
-      name: t("marketvalue.Most likely Offer"),
+      // name: t("marketvalue.Most likely Offer"),
       color: '#0061FF',
       barGap: '-100%',
       barWidth: '50%',
       type: 'bar',
-      data: numbers.map(n => n === mostLikelyOffer ? n : undefined)
+      data: numbers.map(n => n === mostLikelyOffer ? n : undefined),
+      tooltip: {
+        trigger: 'item',
+        axisPointer: {
+          type: 'shadow',
+        },
+       formatter: (params) => {
+        //  return (params.name + '  ' + '<b>' + params.data.toLocaleString() +'</b>' +'<br/>'+
+        //            "Your are here" + '<br/>' + 'Beat ' + ' 50%'
+        //  );
+         return (params.name + '  ' + '<b>' + params.data.toLocaleString() +'</b>' +'<br/>' + "Your are here"
+);
+       },
+      },
+      // label: {
+      //   show: true,
+      //   position: "top",
+      //   // rotate: 90,
+      //   // align: "middle",
+      //   // verticalAlign: "middle",
+      //   fontSize: 12,
+      //   //formatter: '{@pop2035} millions', //pop value as strin
+      //   // formatter: 'You are here<br />Beaten 50%',
+      //   backgroundColor: 'blue',
+      //   padding: [4, 10],
+      //   borderRadius: 3,
+      //   borderWidth: 1,
+      //   // borderColor: 'rgba(0,0,0,0.5)',
+      //   color:'white',
+      //   margin: 50,
+      //   formatter: function (params) {
+      //      return ("Your are here");
+      //   }
+      // }
     }]
   }
   return (
@@ -112,13 +156,15 @@ console.log("report ", report)
   const predictSalary = fulltime ? report.market_value_info.predicted_full_time_salary : report.market_value_info.predicted_contract_salary
   const {low, high} = predictSalary
   const { avg } = salaryInfo
-  const market_low = fulltime ? salaryInfo.low : 20
+  const market_low = fulltime ? salaryInfo.low : Math.floor(0.8*salaryInfo.low)
   const market_high = fulltime ? salaryInfo.high : salaryInfo.high
   const market_mid_low = fulltime ? salaryInfo.mid_Low : salaryInfo.mid_low
+  const ranking = fulltime ? report.market_value_info.ranking?.full_time : report.market_value_info.ranking?.contract
   // const buttonText = fulltime ? "Fulltime" : "Contract"
   // const income={market_low: salaryInfo.low, market_high: salaryInfo.high, market_mid_low:salaryInfo.mid_Low, predicted_market_value:{high, low}}
   const income={market_low, market_high, market_mid_low, predicted_market_value:{high, low}}
   const theme = useTheme()
+  const area = report.lang === 'cn' ? (report.countryCode === 'us' ? '美国' : '加拿大') : (report.countryCode === 'us' ? 'USA' : 'Canada')
   const { t } = useTranslation()
   return (
     <Section>
@@ -169,11 +215,14 @@ console.log("report ", report)
 
           <Box pt={3} fontSize={h3} fontWeight='500' lineHeight='24px' color='#373A70' width='45%'>
             {/* Compared to average pay of {formatter.format(bestMatch.fulltime.market_avg)} the same position in Toronto. */}
-            {t('marketvalue.salary average', {average: formatter(report.countryCode).format(avg)})}
+            {t('marketvalue.salary average', {average: formatter(report.countryCode).format(avg), area:area})}
           </Box>
         </Box>
 
-        <Box width='100%' mt={-5}><Chart income={income} /></Box>
+        <Box width='100%' mt={-4} mb={-8}><Chart income={income} /></Box>
+        <Box pt={3} fontSize={h3} fontWeight='500' lineHeight='24px' color='#373A70'>
+            {t('marketvalue.ranking', {ranking: ranking})}
+          </Box>
       </Box>
     </Section>
   )

@@ -1,12 +1,69 @@
 export const DK_LINK = 'https://www.dk-education.com/book-online'
-export const ENVIRONMENT = 'PRODUCTION'
-export const RESUME_ANASIS = 'https://api.metisign.com/koios/v1/market_value/' //简历分析入口
-export const RESUME_ANASIS_PRODUCTION = 'https://production-api.metisign.com/koios/v1/market_value/' //Production简历分析入口
-export const X_API_KEY_STAGING = '9G3dp8le_wmc8An6ay5lj1J5Hu9baha8em3tvzppcgasiwmc8An6ay5lKa861' //Staging API Key
-export const X_API_KEY_PRODUCTION = 'A?D(G+KbPeShVmYq3t6w9y$B&E)H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v' //Production API Key
-export const LINK_TRACK = 'https://ai.smartmatch.app/member/hytz.php' //跟踪访问信息入口
+export const DK_RESUME = 'https://www.dk-community.com/resume-modification'
+export const DK_IMPROVE = 'https://www.dk-community.com/career-planning'
+// export const DK_SERVICE = 'https://www.dk-education.com/bookings-checkout/%E7%A7%81%E4%BA%BA%E8%AE%A2%E5%88%B6%E5%92%A8%E8%AF%A2%E6%9C%8D%E5%8A%A1/book'
+
+export const LINK_TRACK = 'https://ai.smartmatch.app/member/hytz.php'  //跟踪访问信息入口
 
 export const FACEBOOK = 'https://www.facebook.com/DK-105342934694333'
 export const TWITTER = 'https://twitter.com/DK48655550'
 export const INSTAGRAM = 'https://www.instagram.com/dk_ca_dk/'
 export const LINKEDIN = 'https://www.linkedin.com/company/dkedu/'
+export const METISIGN_WEBSITE = 'https://www.metisign.com/find-job'
+
+// export const APP_END_POINT = process.env.NODE_ENV === 'production' ?  "https://production-api.metisign.com/koios/v1/market_value/" : "https://api.metisign.com/koios/v1/market_value/"
+// export const X_API_KEY = process.env.NODE_ENV === 'production' ? 'A?D(G+KbPeShVmYq3t6w9y$B&E)H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v' : '9G3dp8le_wmc8An6ay5lj1J5Hu9baha8em3tvzppcgasiwmc8An6ay5lKa861'
+export const APP_END_POINT = 
+  process.env.ENV_FLAG === 'production' ?  
+  "https://production-api.metisign.com/koios/v1/market_value/" : 
+  "https://api.metisign.com/koios/v1/market_value/"
+export const X_API_KEY = 
+  process.env.ENV_FLAG === 'production' ? 
+  'A?D(G+KbPeShVmYq3t6w9y$B&E)H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v' : 
+  '9G3dp8le_wmc8An6ay5lj1J5Hu9baha8em3tvzppcgasiwmc8An6ay5lKa861'
+console.log('envflag = ', process.env.ENV_FLAG )
+
+export const APP_END_POINT_HISTORY = 
+  process.env.ENV_FLAG === 'production' ?
+  'https://production-history-reports.metisign.com/get_history_report' :
+  'https://staging-history-reports.metisign.com/get_history_report'
+
+export const X_API_KEY_HISTORY = 
+  process.env.ENV_FLAG === 'production' ?
+  'YezwSpnUoYajNUJVNb8AV8CjBikAcUSG4107orID' : 
+  'RYHufPIBK933TCRmjfk8L2nYUDFEiW9e2i2AVy12'
+
+// export const TEST_USER_ID = process.env.ENV_FLAG === 'production' ? 0 : 1000 //自己测试用 测试环境值是1000
+
+export const APP_END_POINT_GET_HISTORY_IDS = 
+  process.env.ENV_FLAG === 'production' ?
+  'https://production-history-reports.metisign.com/get_history_report_ids' :
+  'https://staging-history-reports.metisign.com/get_history_report_ids'
+
+  export const APP_END_POINT_GET_HISTORY_BY_ID = 
+  process.env.ENV_FLAG === 'production' ?
+  'https://production-history-reports.metisign.com/get_history_report_by_id' :
+  'https://staging-history-reports.metisign.com/get_history_report_by_id'
+
+
+//For HR 
+  export const APP_END_POINT_B_AND_C =  
+  process.env.ENV_FLAG === 'production' ?
+  'https://production-business-end.metisign.com/' :
+  'https://staging-business-end.metisign.com/'
+
+  export const X_API_KEY_B_AND_C =  
+  process.env.ENV_FLAG === 'production' ?
+  '4SGJLsnYxu7kmrWxBHKkj3w2TpDzLLCs7jVqMXhy' :
+  '9dYNSaxizl3FVx2AS8X3sIAfgo7xYE81dRtuwu41'
+
+//For Customer
+export const APP_END_POINT_CUSTOMER =  
+process.env.ENV_FLAG === 'production' ?
+'https://production-customer-end.metisign.com/' :
+'https://staging-customer-end.metisign.com/'
+
+export const X_API_KEY_CUSTOMER =  
+process.env.ENV_FLAG === 'production' ?
+'Q1Ma7fU2rh3b88UgmseB68qqD1DTYET3509AjKLM' :
+'IfN8sdzMjd7H9gAfKObFc6I9y7DuFu862gov3P4N'

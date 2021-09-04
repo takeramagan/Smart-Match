@@ -31,7 +31,10 @@
   "careeradvice":{
     "title": "职业建议",
     "demo": "好好学习,天天向上",
-    "contact": "如需了解更多信息,请关注我们的公众号"
+    "contact": "如需了解更多信息,请关注我们的公众号",
+    "evaluation":"基于系统对您的简历分析，您匹配到的市场职位是<0>{{jobtitle}}</0>。",
+    "change direction":"给您匹配到的职位是<0>{{matched_job}}</0>，但由于市场迅速的更新换代，<0>{{matched_job}}</0>已过时。所以建议您转换就业方向到<0>{{suggested_job}}</0>。基于您目前的状况，建议您可以从这些方面：<0>{{suggested_job_skills}}</0>提升自己我，学习相关知识并获得更多的经验，从而成功转行到<0>{{suggested_job}}</0>。",
+    "improve":"给您匹配到的职位是<0>{{matched_job}}</0>，目前市场上该职位火爆，未来发展可期。建议您可以从这些方面：<0>{{skills_needed}}</0> 提升自我，学习更多的知识并获得更多的经验，从而晋升到职位的更高层次。"
   },
   "career_pathway":{
     "title": "学习路径",
@@ -51,20 +54,26 @@
   "data science": "大数据课程",
   "general assembly":"General Assembly",
   "front end":"前端开发",
-  "contact": "如果需要一对一专业服务定制学习课程,请点击此处联系"
+  "contact": "如果需要一对一专业服务定制学习课程? ",
+  "Click here": "点击此处."
   },
 
   "radarchart":{
     "title": "简历分析",
-    "fit job": "您非常适合职位 <0>{{jobtitle}}</0>",
-    "text": "以下是根据格式、逻辑、语言以及您的简历与职位名称的匹配程度等 4 个方面对您的简历进行评估",
+    "fit job": "您匹配到的职位是 <0>{{jobtitle}}</0>。",
+    "text": "HR/猎头主要根据格式、逻辑、匹配度(您的简历与职位的匹配程度)和语言这四个方面对您的简历进行评估。",
     "Format": "格式",
     "Language": "语言",
     "Match Level": "匹配度",
     "Logic": "逻辑",
     "Resume Analysis": "简历评估",
     "rank": "相对您的竞争者, 您在 {{joblevel}} 级别的竞争力为 {{competitiveness}}/10. 以下是您的简历评估的详细结果.",
-    "contact": "如果需要人工分析简历（资深猎头），请点击此处查看"
+    "Click here": "点击此处",
+    "contact": "获取详细简历分析和建议（资深猎头）",
+    "Language 100":"恭喜! 您的简历文字准确而有力.",
+    "Match 100": "恭喜! 您的简历职业匹配度非常好.",
+    "Format 100": "恭喜! 您的简历格式非常合理.",
+    "Logic 100": "恭喜! 您的简历逻辑非常清晰."
   },
   "matching jobs":{
     "title":"职位推荐",
@@ -78,7 +87,7 @@
   "marketvalue":{
     "title":"市场价值",
     "predicted salary": "您的评估薪水",
-    "salary average": "当前职位在多伦多的平均工资为{{average}}.",
+    "salary average": "当前职位在{{area}}的平均工资为{{average}}.",
     "from" : "起",
     "to" : "止",
     "Offer too low" : "Offer低",
@@ -89,7 +98,8 @@
     "avg": "平均值",
     "mid-high" : "中高",
     "high" : "高",
-    "per hour":" / 小时"
+    "per hour":" / 小时",
+    "ranking" :"你的预测市场价值打败了 {{ranking}}% 的人."
   },
   "contact":{
     "click me": "点我"

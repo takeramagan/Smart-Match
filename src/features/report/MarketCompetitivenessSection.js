@@ -1,13 +1,15 @@
-import { Box, Grid, Button, Typography, makeStyles, Link } from '@material-ui/core'
+import { Box, Grid, Button, Typography, makeStyles, Link, Popover } from '@material-ui/core'
 import { PercentageLabel } from '../../components/PercentageLabel'
 import { Section } from '../../components/Section'
 import ReactECharts from 'echarts-for-react'
 import { useTheme } from '@material-ui/core/styles'
 import { useTranslation, Trans } from 'react-i18next'
 import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
-import { DK_LINK } from '../../constant/externalURLs'
+import { DK_RESUME } from '../../constant/externalURLs'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { linkTrack } from '../../untils/linkTrack'
+import { useState } from 'react'
+import { POPUP_BG_COLOR } from '../../constant/color'
 
 const useStyles = makeStyles({
   ai: {
@@ -18,8 +20,17 @@ const useStyles = makeStyles({
       transform: 'rotate(360deg) scale(1.5)',
       cursor: 'pointer',
     }
-
-  }
+  },
+  clicktext: {
+    '&:hover':{
+      transition: 'all',
+      transform: 'scale(1.1)',
+      cursor: 'pointer',
+    }
+  },
+  // popover:{
+  //   borderRadius: '15px',
+  // }
 })
 
 export const RadarChart = ({ report }) => {
@@ -28,7 +39,23 @@ export const RadarChart = ({ report }) => {
   // const language = 80
   // const matchLevel = 90
   // const grammer = 100
-  const { format, language, matching : matchLevel, logic } = report.resume_marking_info
+  const { format, language, matching : matchLevel, logic,
+    format_explanation, language_explanation, profesion_match_explanation, logic_explanation
+  } = report.resume_marking_info
+  const getExplaination = (explaination) => {
+    return (report.lang === 'cn' ? (explaination.zhs ?? explaination.eng) : explaination.eng)
+    // const words = (report.lang === 'cn' ? (explaination.zhs ?? explaination.eng) : explaination.eng)
+    // const temp = words.split(' ')
+    // const ret = []
+    // for(let i = 0; i< temp.length; i+=8){
+    //   ret.push(temp.slice(i, i+10).join(" "))
+    // }
+    // return ret.join('<br />')
+  }
+  const formatExpl = getExplaination(format_explanation)
+  const langExpl = getExplaination(language_explanation)
+  const matchExpl = getExplaination(profesion_match_explanation)
+  const logicExpl = getExplaination(logic_explanation)
   const option = {
     title: {
     },
@@ -62,23 +89,101 @@ export const RadarChart = ({ report }) => {
       ]
     },
     series: [{
-      name: '预算 vs 开销（Budget vs spending）',
+      name: t('radarchart.Resume Analysis'),
       symbol: 'none',
       type: 'radar',
       areaStyle: {},
       data: [
         {
           value: [format, language, matchLevel, logic],
-          name: t('radarchart.Resume Analysis')
+          // name: t('radarchart.Resume Analysis')
+          tooltip:{
+            show:true,
+            trigger:'item',
+            textStyle:{width:200},
+            position:(point, params, dom, rect, size) => ([-10, point[1]]),
+            formatter: function(params){ 
+              return (
+              // t('radarchart.Resume Analysis') + '<br />' + 
+              t('radarchart.Format') + ':    ' + params.value[0] + '<br />' + formatExpl + '<br />' + '<br />' + 
+              t('radarchart.Logic') + ':    ' + params.value[3] + '<br />' + logicExpl + '<br />' + '<br />' + 
+              t('radarchart.Match Level') + ':    ' + params.value[2] + '<br />' + matchExpl + '<br />' + '<br />' + 
+              t('radarchart.Language') + ':    ' + params.value[1] + '<br />' + langExpl + '<br />' 
+              )          
+            },
+          }
         }
       ]
-    }]
+    }],
+
   }
+  // const [enterRadar, setEnterRadar] = useState(false)
+  // // const [radar, setRadar] = useState({enterRadar:false, anchorEl:null})
+  // const onMouseEnter = (e) => {
+  //   console.log("over", e)
+  //   setEnterRadar((v) =>  (!v ? true: v))
+  //   // e.preventDefalt()
+  //   // setRadar({...radar, enterRadar:true})
+  // }
+  // const onMouseOut = (e) => {
+  //   console.log("out")
+  //   setEnterRadar(false)
+  //   // setAnchorEl(null);
+  //   // setRadar({...radar, enterRadar:false})
+  // }
+
+    //add popover
+    // const classes=useStyles()
+    // const [anchorEl, setAnchorEl] = useState(null);
+    // const handlePopoverOpen = (event) => {
+    //   console.log('event in ', event)
+    //   setAnchorEl(event.currentTarget);
+    //   // setRadar({...radar, anchorEl: event.currentTarget})
+    //   // event.stopPropagation()
+
+    // };
+    // const handlePopoverClose = () => {
+    //   setAnchorEl(null);
+    //   // setRadar({...radar, anchorEl: null})
+    //   console.log('event out ')
+
+    // };
+    // const openPopOver = Boolean(anchorEl);
+  
   return (
-    <Box height={400}>
+    <Box height={400}
+      // onMouseEnter={handlePopoverOpen}
+      // onMouseLeave={handlePopoverClose}
+    >
       <ReactECharts
+        // onEvents={{ 'mouseover': onMouseEnter, 'mouseout' : onMouseOut}}
+        // onEvents={{ 'mouseover': handlePopoverOpen, 'mouseout' : handlePopoverClose}}
         option={option} style={{ height: '400px', width: '100%' }}
       />
+          {/* <Popover
+      id="popover"
+      open={openPopOver}
+      anchorEl={ anchorEl}
+      anchorOrigin={{
+        vertical: 20,
+        horizontal: 0,
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'left',
+      }}
+      onClose={handlePopoverClose}
+      style={{ 
+        pointerEvents: 'none', 
+      }}
+      classes={{paper:classes.popover}}
+      // disableRestoreFocus
+      disableScrollLock
+    >
+      <Box p={1} width={370} bgcolor={POPUP_BG_COLOR}>
+	hello
+      </Box>
+    </Popover> */}
     </Box>
   )
 }
@@ -87,14 +192,20 @@ export const MarketCompetitiveness = ({ report }) => {
   const theme = useTheme()
   const { t } = useTranslation()
   const jobtitle = report.market_value_info.matched_job_title
-  // const overall_level = 3
+
   const jobLevel = 'Senior'
   const competitiveness = 9
-  // const format = 70
-  // const language = 80
-  // const matchLevel = 90
-  // const grammer = 100
-  const { format, language, matching : matchLevel, logic } = report.resume_marking_info
+
+  const { format, language, matching : matchLevel, logic, 
+    format_to_improve,  language_to_improve, logic_to_improve, profession_match_to_improve} = report.resume_marking_info
+  let format_improve = report.lang === 'cn' ? format_to_improve?.zhs : format_to_improve?.eng
+  format_improve = format < 100 ? format_improve[0] : t('radarchart.Format 100')
+  let lang_improve = report.lang === 'cn' ? language_to_improve?.zhs : language_to_improve?.eng
+  lang_improve = language < 100  ? lang_improve[0] : t('radarchart.Language 100')
+  let profession_improve = report.lang === 'cn' ? profession_match_to_improve?.zhs : profession_match_to_improve?.eng
+  profession_improve = matchLevel < 100 ? profession_improve[0] : t('radarchart.Match 100')
+  let logic_improve = report.lang === 'cn' ? logic_to_improve?.zhs : logic_to_improve?.eng
+  logic_improve = logic < 100 ? logic_improve[0] : t('radarchart.Logic 100')
   const classes = useStyles()
   return (
     <Section>
@@ -126,46 +237,45 @@ export const MarketCompetitiveness = ({ report }) => {
 
           <Grid item xs={4}>
             <Box display='flex' flexDirection="column" mt={4}>
-              <PercentageLabel name={t('radarchart.Format')} value={format} />
-              <PercentageLabel name= {t('radarchart.Language')} value={language} />
-              <PercentageLabel name= {t('radarchart.Match Level')} value={matchLevel} />
-              <PercentageLabel name= {t('radarchart.Logic')} value={logic} />
+              <PercentageLabel name={t('radarchart.Format')} value={format} text={format_improve}/>
+              <PercentageLabel name= {t('radarchart.Logic')} value={logic} text={logic_improve}/>
+              <PercentageLabel name= {t('radarchart.Match Level')} value={matchLevel} text={profession_improve}/>
+              <PercentageLabel name= {t('radarchart.Language')} value={language} text={lang_improve}/>
             </Box>
           </Grid>
         </Grid>
-        {/* <Box>
-          <RadarChart report={report} />
-        </Box>
-        <Box display='flex' flexDirection="row" justifyContent='space-around' p={4}>
-          <PercentageLabel name={t('radarchart.Format')} value={report.experiences_competitiveness} />
-          <PercentageLabel name= {t('radarchart.Language')} value={report.education_competitiveness} />
-          <PercentageLabel name= {t('radarchart.Match Level')} value={report.soft_skill_competitiveness} />
-          <PercentageLabel name= {t('radarchart.Grammar')} value={report.hard_skill_competitiveness} />
-        </Box> */}
  
         <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' mt={-2} mb={-3}>
-          <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
-            {t('radarchart.contact')}
-          </Typography>
-          {/* <Box display='flex' alignItems='center'>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<AccountCircleIcon />}
-              href={DK_LINK}
-              target='_blank'
-              color='primary'
-              size='small'
-              style={{borderRadius:20, width:105 }}
-              onClick={() => {linkTrack(report.id, DK_LINK)}}
-            >
-              {t('contact.click me')}
-            </Button>
-          </Box> */}
+          {/* <a href={DK_RESUME} target="_blank" style={{textDecoration:'none'}} onClick={() => linkTrack(report.id, DK_RESUME)}>
+            <Typography color='primary' className={classes.clicktext} style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
+              <Trans
+                i18nKey="radarchart.contact"
+                components={[<b style={{color: 'red'}}>defaults</b>]}
+              />
+            </Typography>
+          </a> */}
+            <Typography color='primary' style={{fontSize:h2, fontWeight:'500', marginRight:20}}>
+              {/* <a href={DK_RESUME} target="_blank" style={{color:'#0061FF'}} onClick={() => linkTrack(report.id, DK_RESUME)}>
+                {t("radarchart.Click here")}
+              </a> */}
+              <Button href={DK_RESUME} 
+                variant='contained' 
+                color='primary' 
+                target="_blank"
+                style={{borderRadius:15, marginRight:10, height:30}}
+                onClick={() => linkTrack(report.id, DK_RESUME)}
+              >
+                  {t("radarchart.Click here")}
+              </Button>
+              <Trans
+                i18nKey="radarchart.contact"
+                components={[<b >defaults</b>]}
+              />
+            </Typography>
             <Link
-              href={DK_LINK}
+              href={DK_RESUME}
               target='_blank'
-              onClick={() => {linkTrack(report.id, DK_LINK)}}
+              onClick={() => {linkTrack(report.id, DK_RESUME)}}
             >
               <img src='ai.svg' width={80} height={100} className={classes.ai}/>
             </Link>

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Box, Button, Container, Grid, LinearProgress, Select, FormControl, InputLabel, MenuItem, Typography} from '@material-ui/core'
+import { Box, Button, Container, Grid, LinearProgress, Select, FormControl, InputLabel, MenuItem, Typography, Link} from '@material-ui/core'
 import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 
 import { Header } from '../components/Header'
@@ -15,10 +15,10 @@ import { CareerAdviceSection} from '../features/report/CareerAdviceSection'
 
 import { useDropzone } from 'react-dropzone'
 import { Section } from '../components/Section'
-import { fetchMarketValue } from '../services/market-value'
+import { fetchHistory, fetchMarketValue } from '../services/market-value'
 import DescriptionIcon from '@material-ui/icons/Description'
 import HourglassFullIcon from '@material-ui/icons/HourglassFull'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import i18n from '../i18n/config'
 import { useRouter } from 'next/router'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -27,18 +27,34 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, theme } from '@material-ui/core/styles';
 import { linkTrack } from '../untils/linkTrack';
-import { FACEBOOK, INSTAGRAM, LINKEDIN, TWITTER } from '../constant/externalURLs';
+import { APP_END_POINT_B_AND_C, APP_END_POINT_GET_HISTORY_BY_ID, APP_END_POINT_GET_HISTORY_IDS, FACEBOOK, INSTAGRAM, LINKEDIN, TWITTER, X_API_KEY_B_AND_C } from '../constant/externalURLs';
+import { useRequest } from '../hooks/useRequest';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme)=>({
   icon:{
     width: '40px',
     height: '40px',
     borderRadius: '20px',
     color:'black'
+  },
+  sidebar:{
+    // width:'185px',  
+    // minWidth:'185px',
+    [theme.breakpoints.down('sm')]: {
+      width:'0px',  
+      minWidth:'0px',
+      visibility: 'hidden'
+    },
+  },
+  navibtn_container:{
+    [theme.breakpoints.down('sm')]: {
+      width:'0px',  
+      visibility: 'hidden'
+    },
   }
-})
+}))
 
 function FileDropzone (props) {
   const { onSuccess, onError } = props
@@ -50,6 +66,7 @@ function FileDropzone (props) {
   const params = useRouter().query
   const userId = params.id
   const lang = params.lang?.toLowerCase() //get language
+  const email = params.email
 
   //add selector
   const [area, setArea] = useState('ca')
@@ -71,7 +88,7 @@ function FileDropzone (props) {
   useEffect(() => {
     if (acceptedFiles.length) {
       setLoading(true)
-      fetchReport(acceptedFiles, {id:userId, country_code:area, position}).then((res) => {
+      fetchReport(acceptedFiles, {id:userId, country_code:area, position, email}).then((res) => {
         if (res.error) {
           setError(res.error)
         } else {
@@ -232,6 +249,21 @@ const fetchReport = (files, params) => {
   return fetchMarketValue(files[0], params)
 }
 
+const NaviButtons = () =>{
+  
+const { t } = useTranslation()
+return(
+  <>
+    <Link href='#career_advice'>{t('careeradvice.title')}</Link>
+    <Link href='#market_value'>{t('marketvalue.title')}</Link>
+    <Link href='#market_competitiveness'>{t('radarchart.title')}</Link>
+    <Link href='#match_jobs'>{t('matching jobs.title')}</Link>
+    <Link href='#career_pathway'>{t("career_pathway.title")}</Link>
+    <Link href='#course_section'>{t("course.title")}</Link>
+  </>
+  )
+}
+
 const SocialMedia = ({onTrack}) => {
   const { t } = useTranslation()
   const classes = useStyles()
@@ -264,20 +296,83 @@ const SocialMedia = ({onTrack}) => {
 
 const mock = { market_value_result: [{ matched_job_title: 'Data Scientist', hard_skills_needed_to_improve: ['java', 'project management', 'azure', 'spark', 'r', 'c/c++', 'tableau', 'data engineering'], hard_skill_competitiveness: 88, contract: { market_high: 150, market_low: 42, market_avg: 132, market_mid_low: 85, market_mid_high: 142, predicted_market_value: { high: 135, low: 128 } }, fulltime: { market_high: 170000, market_low: 60000, market_avg: 149600, market_mid_low: 100000, market_mid_high: 160000, predicted_market_value: { high: 150000, low: 140000 } }, projected_career_path: [{ title: 'Senior Data Scientist', market_avg_salary: { fulltime: 153000, contract: 135 }, type: 'Technical' }] }, { matched_job_title: 'Software Engineer', hard_skills_needed_to_improve: ['angular', 'java', 'nosql', 'matlab', 'azure', 'aws', 'c/c++', '.net', 'c++', 'linux', 'react', 'kubernetes', 'c#', 'scala', 'javascript'], hard_skill_competitiveness: 81, contract: { market_high: 100, market_low: 30, market_avg: 81, market_mid_low: 54, market_mid_high: 91, predicted_market_value: { high: 83, low: 78 } }, fulltime: { market_high: 175000, market_low: 56000, market_avg: 141750, market_mid_low: 93000, market_mid_high: 157500, predicted_market_value: { high: 140000, low: 130000 } }, projected_career_path: [{ title: 'Senior Software Engineer', market_avg_salary: { fulltime: 157000, contract: 90 }, type: 'Technical' }] }, { matched_job_title: 'Data Engineer', hard_skills_needed_to_improve: ['data engineering', 'spark', 'aws'], hard_skill_competitiveness: 94, contract: { market_high: 150, market_low: 40, market_avg: 141, market_mid_low: 88, market_mid_high: 147, predicted_market_value: { high: 145, low: 136 } }, fulltime: { market_high: 150000, market_low: 58000, market_avg: 141000, market_mid_low: 94000, market_mid_high: 145000, predicted_market_value: { high: 140000, low: 130000 } }, projected_career_path: [{ title: 'Senior Data Engineer', market_avg_salary: { fulltime: 135000, contract: 135 }, type: 'Technical' }] }], recommended_jobs: [{ job_title: 'Major Projects Data Scientist', job_link: 'https://ca.indeed.com/rc/clk?jk=24159a27f99d1fc4&fccid=f1582c464db8553b&vjs=3', full_time: { salary_range: 'Not Disclosed' }, matched_percentage: 93 }, { job_title: 'Software Engineer Intern (Machine Learning Platform Team - Spring/Summer 2021)', job_link: 'https://ca.indeed.com/rc/clk?jk=ab19da37a974a116&fccid=b8ce556031512ca3&vjs=3', full_time: { salary_range: 'Not Disclosed' }, matched_percentage: 92 }, { job_title: 'Intermediate Machine Learning Engineer', job_link: 'https://ca.indeed.com/rc/clk?jk=14941f7276e243c4&fccid=4512634d9e7338a8&vjs=3', full_time: { salary_range: 'Not Disclosed' }, matched_percentage: 90 }, { job_title: 'Senior Data Scientist/Manager', job_link: 'https://ca.indeed.com/rc/clk?jk=f3689c6e47361dfd&fccid=799362a2faa3b40a&vjs=3', full_time: { salary_range: 'Not Disclosed' }, matched_percentage: 88 }, { job_title: 'Data Architect, Technology Solutions', job_link: 'https://ca.indeed.com/rc/clk?jk=994396db9dbf862b&fccid=b8ee7f714bcca05b&vjs=3', full_time: { salary_range: 'Not Disclosed' }, matched_percentage: 88 }], overall_competitiveness: 8, overall_job_level: 'Senior', experiences_competitiveness: 100, education_competitiveness: 100, soft_skill_competitiveness: 33, soft_skills_needed_to_improve: ['creative', 'communication', 'problem solving', 'time management', 'resourceful', 'adaptive'], hard_skill_competitiveness: 88, hard_skills_needed_to_improve: ['java', 'project management', 'azure', 'spark', 'r', 'c/c++', 'tableau', 'data engineering'], education_levels_needed_to_improve: [] }
 export default function Home () {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [report, setReport] = useState(null)
   const { t } = useTranslation()
   const [viewHistory, setViewHistory] = useState(false)
   const [selectedPathIndex, setSelectedPathIndex] = useState(0)
+  const [historyList, setHistoryList] = useState(null)
+  const [loadingHistory, setLoadingHistory] = useState(true)
+  const [errorHistory, setErrorHistory] = useState(null)
+  // const naviWindth = report?.lang === 'cn' ? 90: 185
+  // const naviMinWindth = report?.lang === 'cn' ? 90: 185
 
+  const classes = useStyles()
+  // useEffect(() => {
+  //   const timeOut = setTimeout(() => {
+  //     setLoading(false)
+  //   }, 3000)
+  //   return () => { if(timeOut) clearTimeout(timeOut)}
+  // }, [])
+
+  const params = useRouter().query
+  const userId = params.hrid
+  const lang = params.lang?.toLowerCase() //get language
+  const jobid = params.jobid
+  const index = params.index
+  // const countryCode = params.countrycode ?? 'ca'
+// console.log('reportid', report_id)
+console.log(params.hrid,params.jobid, index )
+const {requestHandler} = useRequest()
+const getReportFromParams = async() => {
+  try{
+    console.log('get')
+    const data = new FormData()
+    data.append('hrid', userId); //mock data
+    data.append('jobid', jobid);
+    data.append('dcc', X_API_KEY_B_AND_C);
+
+    const config = {
+      method: 'post',
+      url: APP_END_POINT_B_AND_C + ('get_all_applications'),
+      data : data
+    }
+    const result = await requestHandler(config)
+    console.log("applicant", result.applicants_info_list)
+    if(!result.status) { //这里返回值 没有status code... T_T
+      // if(result.status === 'success') {
+      console.log("get applicants succcess")
+      console.log(result.applicants_info_list)
+      const applicant = result.applicants_info_list.sort((a, b)=> (b.matching_level - a.matching_level))[index]
+      setReport({...applicant.report, id:userId, lang})
+    }else{
+      console.log("get applicants error")
+    }
+  }catch(e){
+    console.log("error get applicants")
+  }
+}
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false)
-    }, 3000)
-  }, [])
+    if(jobid) getReportFromParams()
+  }, [jobid])
 
+console.log("userid=", userId)
   const onTrackLink = (url) => {
     report ? linkTrack(report.id, url) : null
+  }
+
+  const getHistory = () => {
+  // console.log("get history")
+    setLoadingHistory(true)
+    setErrorHistory(false)
+    // fetchHistory({id: userId}).then(
+    fetchHistory({id: userId, url: APP_END_POINT_GET_HISTORY_IDS}).then(
+        histories => {
+// console.log("history= ", histories)
+          setHistoryList(histories)
+          setLoadingHistory(false)
+        }
+    ).catch(setErrorHistory)
   }
   
   if (!report) {
@@ -289,12 +384,19 @@ export default function Home () {
             {t('report.demo')}
           </Button> */}
 
-          {/* <Button variant='contained' color='primary' disableElevation onClick={() => setViewHistory(!viewHistory)} style={{marginLeft:20}}>
+          <Button variant='contained' color='primary' disableElevation 
+            onClick={() => {setViewHistory(!viewHistory); getHistory()}} 
+            style={{marginLeft:20}}>
             {viewHistory ? t('report.hideHistory') : t('report.history')}
-          </Button> */}
+          </Button>
+          <Button variant='contained' color='primary' disableElevation 
+            href='/history'
+            style={{marginLeft:20}}>
+            View applied jobs
+          </Button>
         </Box>
-        <SwipeableDrawer anchor="right" open={viewHistory} onClose={() => setViewHistory(false)} onOpen={()=>{}}>
-          <HistoryList/>
+        <SwipeableDrawer anchor="right" open={viewHistory} onClose={() => {setViewHistory(false)}} onOpen={()=>{}}>
+          <HistoryList setReport={setReport} loading={loadingHistory} error={errorHistory} historyList={historyList}/>
         </SwipeableDrawer>
       </Box>
     )
@@ -322,7 +424,18 @@ export default function Home () {
         </Box> */}
 
 
+<Box display='flex' flexDirection='row' >
 
+  {/* <Box className={classes['sidebar']}>
+      <Section 
+        style={{padding:'30px 10px 30px 10px', top: 18, borderRadius:5, position:'sticky', width: naviWindth, minWidth: naviMinWindth}} 
+        className={classes['navibtn_container']}>
+            <Box  display='flex' flexDirection='column'>
+                <NaviButtons/>
+            </Box>
+      </Section>
+
+  </Box> */}
 
       <Container style={{ marginTop: 18, position:"relative"}}>
 
@@ -334,7 +447,13 @@ export default function Home () {
                   {t("report.report_title")}
                 </Box>
                 <Box fontSize={h3} lineHeight='21px' color='rgba(87, 91, 166, 1)'>
-                  {t("report.report_text")}
+                  {/* {t("report.report_text")} */}
+                  {/* {report.lang === 'cn' ? report.career_path_info.evaluation.zhs : report.career_path_info.evaluation.eng} */}
+                  <Trans
+                    i18nKey={"careeradvice.evaluation"}
+                    values={{ jobtitle: report.career_path_info.career_paths.name}}
+                    components={[<b>defaults</b>]}
+                  />
                 </Box>
                 
             </Box>
@@ -363,11 +482,11 @@ export default function Home () {
 
         {/* <Grid container spacing={4} style={{position:'absolute', top:120}}> */}
         <Grid container spacing={4} >
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <div id='career_advice'>
               <CareerAdviceSection report={report} />
             </div>
-          </Grid>
+          </Grid> */}
           <Grid item md={6} xs={12}>
             <div id='market_value'>
               <MarketValueSection report={report} />
@@ -383,7 +502,7 @@ export default function Home () {
           </div>
           </Grid>
 
-          <Grid item lg={7} md={12}>
+          <Grid item lg={12} md={12}>
             <div id='career_pathway'>
               <CareerPathwaySection 
                 report={report} 
@@ -393,13 +512,14 @@ export default function Home () {
             </div>
           </Grid>
 
-          <Grid item md={12} lg={5}>
+          <Grid item md={12} lg={12}>
             <div id='course_section'>
               <CourseSection report={report} selectedPathIndex={selectedPathIndex}/>
             </div>
           </Grid>
         </Grid>
       </Container>
+</Box>
     </>
   )
 }

@@ -14,17 +14,20 @@ export function MatchingJobsSection ({ report }) {
   // const [seeWebsiteMore, setSeeWebsiteMore] = useState(true)
   // const [seeRecruiterMore, setSeeRecruiterMore] = useState(false)
 
-  const recruiterJobs = report.job_matching_info.result.slice(0, 6) 
+  // const recruiterJobs = report.job_matching_info.result.slice(0, 6) 
   const recruiterJobsPerPage = 3
-  const NumOfRecruiterPage = Math.ceil(recruiterJobs.length / recruiterJobsPerPage)
+  const recruiterJobs = report.job_matching_results.metisign_job_matching_info
+  
+  const NumOfRecruiterPage = recruiterJobs?.length ? Math.floor(recruiterJobs.length / recruiterJobsPerPage) : 0
   const recruiterPages = []
   for(let i=0; i<NumOfRecruiterPage; i++){
     recruiterPages.push(recruiterJobs.slice(i*recruiterJobsPerPage, (i+1)*recruiterJobsPerPage))
   }
 
-  const websiteJobs = report.job_matching_info.result
+  // const websiteJobs = report.job_matching_info.result
+  const websiteJobs = report.job_matching_results.job_matching_info
   const websiteJobsPerPage = 5
-  const NumOfWebsitePage = Math.ceil(websiteJobs.length / websiteJobsPerPage)
+  const NumOfWebsitePage = websiteJobs?.length ? Math.floor(websiteJobs.length / websiteJobsPerPage) : 0
   const websitePages = []
   for(let i=0; i<NumOfWebsitePage; i++){
     websitePages.push(websiteJobs.slice(i*websiteJobsPerPage, (i+1)*websiteJobsPerPage))
@@ -55,7 +58,7 @@ export function MatchingJobsSection ({ report }) {
           >
             {recruiterPages.map((jobList, index) => 
             <div key={index}>{
-              jobList.map((job, i) => <MatchJob key={i} job={job} onClick={onApply}/>)
+              jobList.map((job, i) => <MatchJob key={i} job={job} onClick={onApply} metisign/>)
               }
             </div>)}
           </Carousel>
