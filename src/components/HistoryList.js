@@ -34,6 +34,7 @@ const HistoryDisplay = ( {dataList, setReport, loading, error} ) =>{
 
   const params = useRouter().query
   const userId = params.id
+  const email = params.email
   const lang = params.lang?.toLowerCase() //get language
   const [loadingHistory, setLoadingHistory] = useState(false)
   const [errorFetching, setErrorFetching]  = useState(null)
@@ -45,7 +46,7 @@ const HistoryDisplay = ( {dataList, setReport, loading, error} ) =>{
   const fetchHistoryByID = (report_id, countryCode) => {
     setLoadingHistory(true)
     setErrorFetching(null)
-    fetchHistory({id: userId, url: APP_END_POINT_GET_HISTORY_BY_ID, report_id})
+    fetchHistory({email: email, url: APP_END_POINT_GET_HISTORY_BY_ID, report_id})
     .then(report =>{
       console.log(report_id, report);
       setReport({...report[0].report_data, id:userId, countryCode: countryCode.toLowerCase(), lang})

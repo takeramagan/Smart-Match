@@ -320,6 +320,7 @@ export default function Home () {
   const lang = params.lang?.toLowerCase() //get language
   const jobid = params.jobid
   const index = params.index
+  const email = params.email
   // const countryCode = params.countrycode ?? 'ca'
 // console.log('reportid', report_id)
 console.log(params.hrid,params.jobid, index )
@@ -357,6 +358,7 @@ const getReportFromParams = async() => {
   }, [jobid])
 
 console.log("userid=", userId)
+console.log("email=", email)
   const onTrackLink = (url) => {
     report ? linkTrack(report.id, url) : null
   }
@@ -366,7 +368,7 @@ console.log("userid=", userId)
     setLoadingHistory(true)
     setErrorHistory(false)
     // fetchHistory({id: userId}).then(
-    fetchHistory({id: userId, url: APP_END_POINT_GET_HISTORY_IDS}).then(
+    fetchHistory({email: email, url: APP_END_POINT_GET_HISTORY_IDS}).then(
         histories => {
 // console.log("history= ", histories)
           setHistoryList(histories)
