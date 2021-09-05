@@ -2,10 +2,14 @@ import { Box, Button, Chip, Link, Grid, Typography, makeStyles } from '@material
 import { Section } from '../../components/Section'
 import { useTranslation } from 'react-i18next'
 import { h1, h2, h3, h4, h5} from '../../constant/fontsize'
-import { DK_LINK, DK_IMPROVE } from '../../constant/externalURLs'
+import { DK_LINK, DK_IMPROVE, APP_END_POINT_B_AND_C, APP_END_POINT_CUSTOMER_REPORT_ACCURACY, X_API_KEY_B_AND_C, X_API_KEY_HISTORY } from '../../constant/externalURLs'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { linkTrack } from '../../untils/linkTrack'
 import { CareerAdviceSection } from './CareerAdviceSection'
+import Rating from '@material-ui/lab/Rating';
+import { useState } from 'react'
+import { useRequest } from '../../hooks/useRequest'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles({
   ai: {
@@ -221,6 +225,32 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
 export function CourseSection ({ report, selectedPathIndex }) {
   const { t } = useTranslation()
   const classes = useStyles()
+  const [rating, setRating] = useState({rated: false, value: 3})
+  const params = useRouter().query
+  const {hrid, jobid, email } = params
+  const { requestHandler } = useRequest()
+
+  const submitRating = async (value) =>{
+    const endPoint = (hrid && jobid) ? (APP_END_POINT_B_AND_C + 'report_accuracy'): APP_END_POINT_CUSTOMER_REPORT_ACCURACY
+    const dcc = (hrid && jobid) ? X_API_KEY_B_AND_C : X_API_KEY_HISTORY
+    try{
+      const data = new FormData()
+      data.append('email', email); 
+      data.append('dcc', dcc); 
+      data.append('report_accuracy_rating', value); 
+      hrid && data.append('hrid', hrid); 
+      jobid && data.append('jobid', jobid); 
+      const config = {
+        method: 'post',
+        url: endPoint,
+        data : data
+      }
+      const result = await requestHandler(config)
+      console.log("rating= ", result)
+    }catch(e){
+    }
+  }
+
   return (
     <Section >
       <Box p={4} mb={4}>
@@ -266,6 +296,19 @@ export function CourseSection ({ report, selectedPathIndex }) {
               <img src='ai.svg' width={80} height={100} className={classes.ai}/>
             </Link>
           {/* </Box> */}
+  
+        </Box>
+        <Box>
+        <Typography color='primary'>Rate the accuracy of this report</Typography>
+        <Rating
+          name="simple-controlled"
+          disabled={rating.rated}
+          value={rating.value}
+          onChange={(event, newValue) => {
+            setRating({rated: true, value: newValue});
+            submitRating(newValue)
+          }}
+        />
         </Box>
       </Box>
 

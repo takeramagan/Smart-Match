@@ -28,6 +28,11 @@ export const APP_END_POINT_HISTORY =
   'https://production-history-reports.metisign.com/get_history_report' :
   'https://staging-history-reports.metisign.com/get_history_report'
 
+  export const APP_END_POINT_CUSTOMER_REPORT_ACCURACY = 
+  process.env.ENV_FLAG === 'production' ?
+  'https://production-history-reports.metisign.com/report_accuracy' :
+  'https://staging-history-reports.metisign.com/report_accuracy'
+
 export const X_API_KEY_HISTORY = 
   process.env.ENV_FLAG === 'production' ?
   'YezwSpnUoYajNUJVNb8AV8CjBikAcUSG4107orID' : 

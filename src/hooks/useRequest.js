@@ -25,7 +25,7 @@ export const useRequest = (initLoading = false, func=axios) => {
       const result = await func(...rest)
       const data = checkStatus(result)
       setLoading(false)
-      console.log("data= ", data)
+      // console.log("data= ", data)
       return Promise.resolve(data)
     }catch(e){
       setLoading(false)
