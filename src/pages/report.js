@@ -391,11 +391,11 @@ console.log("email=", email)
             style={{marginLeft:20}}>
             {viewHistory ? t('report.hideHistory') : t('report.history')}
           </Button>
-          <Button variant='contained' color='primary' disableElevation 
+          {/* <Button variant='contained' color='primary' disableElevation 
             href='/history'
             style={{marginLeft:20}}>
             View applied jobs
-          </Button>
+          </Button> */}
         </Box>
         <SwipeableDrawer anchor="right" open={viewHistory} onClose={() => {setViewHistory(false)}} onOpen={()=>{}}>
           <HistoryList setReport={setReport} loading={loadingHistory} error={errorHistory} historyList={historyList}/>
