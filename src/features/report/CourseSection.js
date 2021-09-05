@@ -128,16 +128,20 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
   const suggestedCourses = report.career_path_info.career_paths.path[selectedPathIndex]?.how_to_improve?.suggested_courses[0]
   // const courseLogo = Object.entries(suggestedCourses)[1][1]
   const courseLogo = suggestedCourses.logo ?? 'https://static.wixstatic.com/media/d44c9e_b34eb8491f984802b8961715fdf76082~mv2.png/v1/fill/w_96,h_60,al_c,q_85,usm_0.66_1.00_0.01/DK-Logo.webp'
-  const courseName = Object.entries(suggestedCourses)[0][0]
-  const courseLink = Object.entries(suggestedCourses)[0][1]
+  // const courseName = Object.entries(suggestedCourses)[0][0]
+  // const courseLink = Object.entries(suggestedCourses)[0][1]
+  const courseName = suggestedCourses.coursename
+  const courseLink = suggestedCourses.courselink
   console.log("course", courseLogo, courseName, courseLink)
   const suggestedCertificates = report.career_path_info.career_paths.path[selectedPathIndex]?.how_to_improve?.required_certificates[0]
 
   console.log("course", certLogo, suggestedCertificates)
   //const certLogo = Object.entries(suggestedCertificates)[1][1]
   const certLogo = suggestedCertificates.logo ?? 'Amazon.svg'
-  const certName = Object.entries(suggestedCertificates)[0][0]
-  const certLink = Object.entries(suggestedCertificates)[0][1]
+  // const certName = Object.entries(suggestedCertificates)[0][0]
+  // const certLink = Object.entries(suggestedCertificates)[0][1]
+  const certName = suggestedCertificates.certname
+  const certLink = suggestedCertificates.certlink
   return (
     <Box py={2} display='flex' justifyContent='space-between' flexDirection="column">
       <Box width='100%' display='flex' justifyContent='space-between'>
