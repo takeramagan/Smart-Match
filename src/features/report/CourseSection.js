@@ -223,9 +223,10 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
 }
 
 export function CourseSection ({ report, selectedPathIndex }) {
+  const defaultValue = 3
   const { t } = useTranslation()
   const classes = useStyles()
-  const [rating, setRating] = useState({rated: false, value: 3})
+  const [rating, setRating] = useState({rated: false, value: defaultValue})
   const params = useRouter().query
   const {hrid, jobid, email } = params
   const { requestHandler } = useRequest()
@@ -304,7 +305,9 @@ export function CourseSection ({ report, selectedPathIndex }) {
           name="simple-controlled"
           disabled={rating.rated}
           value={rating.value}
-          onChange={(event, newValue) => {
+          onChange={(event, value) => {
+            const newValue = value ?? defaultValue
+            // console.log("rating value= ", newValue )
             setRating({rated: true, value: newValue});
             submitRating(newValue)
           }}
