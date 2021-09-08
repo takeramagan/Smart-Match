@@ -287,6 +287,9 @@ export function CourseSection({report, selectedPathIndex}) {
         },
     })(Rating);
 
+
+    // create new custom style rating (with transparent stars just like if its disabled)
+    // use the disable style rating when its already rated, otherwise use normal rating
     const CustomRating = () => {
         if(!rating.rated){
             return <Rating
