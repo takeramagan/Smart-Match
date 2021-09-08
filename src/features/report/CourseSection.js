@@ -14,6 +14,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {linkTrack} from '../../untils/linkTrack'
 import {CareerAdviceSection} from './CareerAdviceSection'
 import Rating from '@material-ui/lab/Rating';
+import { withStyles } from '@material-ui/core/styles';
 import {useState} from 'react'
 import {useRequest} from '../../hooks/useRequest'
 import {useRouter} from 'next/router'
@@ -275,6 +276,39 @@ export function CourseSection({report, selectedPathIndex}) {
         }
     }
 
+    const DisabledStyleRating = withStyles({
+        root: {
+            height: 48,
+            color: '#ffb400',
+            opacity: 0.5,
+        },
+        label: {
+            textTransform: 'capitalize',
+        },
+    })(Rating);
+
+    const CustomRating = () => {
+        if(!rating.rated){
+            return <Rating
+                name="simple-controlled"
+                value={rating.value}
+                onChange={(event, value) => {
+                    const newValue = value ?? defaultValue;
+                    setRating({rated: true, value: newValue});
+                    submitRating(newValue)
+                }}
+            />;
+        }
+
+        return <DisabledStyleRating name="simple-controlled"
+                                    value={rating.value}
+                                    onChange={(event, value) => {
+                                        const newValue = value ?? defaultValue;
+                                        setRating({rated: true, value: newValue});
+                                        submitRating(newValue);
+                                    }}/>
+    }
+
     return (
         <Section>
             <Box p={4} mb={4}>
@@ -328,17 +362,8 @@ export function CourseSection({report, selectedPathIndex}) {
                 <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
                     <div>
                         <Typography color='primary'>Rate the accuracy of this report</Typography>
-                        <Rating
-                            name="simple-controlled"
-                            disabled={rating.rated}
-                            value={rating.value}
-                            onChange={(event, value) => {
-                                const newValue = value ?? defaultValue
-                                // console.log("rating value= ", newValue )
-                                setRating({rated: true, value: newValue});
-                                submitRating(newValue)
-                            }}
-                        /></div>
+                        <CustomRating></CustomRating>
+                        </div>
 
                     { /* Rated Msg Section */}
                     <CheckIfMarked></CheckIfMarked>
