@@ -325,29 +325,23 @@ export function CourseSection({report, selectedPathIndex}) {
                 </Box>
 
                 {/* Rate Section */}
-                <Box>
-                    <Grid container spacing={3}>
+                <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
+                    <div>
+                        <Typography color='primary'>Rate the accuracy of this report</Typography>
+                        <Rating
+                            name="simple-controlled"
+                            disabled={rating.rated}
+                            value={rating.value}
+                            onChange={(event, value) => {
+                                const newValue = value ?? defaultValue
+                                // console.log("rating value= ", newValue )
+                                setRating({rated: true, value: newValue});
+                                submitRating(newValue)
+                            }}
+                        /></div>
 
-                        <Grid item md={5} xs={12}>
-                            <Typography color='primary'>Rate the accuracy of this report</Typography>
-                            <Rating
-                                name="simple-controlled"
-                                disabled={rating.rated}
-                                value={rating.value}
-                                onChange={(event, value) => {
-                                    const newValue = value ?? defaultValue
-                                    // console.log("rating value= ", newValue )
-                                    setRating({rated: true, value: newValue});
-                                    submitRating(newValue)
-                                }}
-                            />
-                        </Grid>
-
-                        { /* Rated Msg Section */ }
-                        <Grid item md={5} xs={12}>
-                            <CheckIfMarked></CheckIfMarked>
-                        </Grid>
-                    </Grid>
+                    { /* Rated Msg Section */}
+                    <CheckIfMarked></CheckIfMarked>
                 </Box>
             </Box>
 

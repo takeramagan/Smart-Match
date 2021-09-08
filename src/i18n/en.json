@@ -100,7 +100,7 @@
     "ranking": "Your predicted market value is ranked around {{ranking}}% of the market."
   },
   "rating": {
-    "rated_msg": "Thank you for your review! Your rating has been submitted, if you would like to change, refresh and rate again!"
+    "rated_msg": "Thank you, your review has been submitted! To update your review, refresh and rate again."
   },
   "contact": {
     "click me": "Click Me"
