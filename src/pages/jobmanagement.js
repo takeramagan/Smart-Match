@@ -351,7 +351,7 @@ const addApplicantSchema = yup.object({
   }),
   company: yup.string().required('Company name is required'),
 })
-const AddApplicant = ({job, onCancel}) => {
+const AddApplicant = ({job, onCancel, refreshPage}) => {
   const { requestHandler } = useRequest()
   const submitData = async ({email, name, joblink, company}) => {
     console.log('email', email, name, joblink, company)
@@ -379,11 +379,12 @@ const AddApplicant = ({job, onCancel}) => {
       console.log("applicant", result)
       if(result.status === 'success') { //这里返回值 没有status code... T_T
         onCancel()
+        refreshPage()
       }
     }catch(e){
       console.log("insert error", e)
-      toast.error('User has applied this job, or hasnot uploaded a resume. please check the email', toastStyle)
-      alert('User has applied this job, or hasnot uploaded a resume. please check the email')
+      toast.error('User has applied this job, or has not uploaded a resume. please check the email', toastStyle)
+      // alert('User has applied this job, or hasnot uploaded a resume. please check the email')
     }
   }
   const formik = useFormik({
@@ -933,7 +934,7 @@ console.log("hr", hrHistoryList)
         </>
       </Modal>
       <Modal open={showAddApplicant} onClose={closeModal}>
-        <AddApplicant job={hrHistoryList[showItem]} onCancel={closeModal}/>
+        <AddApplicant job={hrHistoryList[showItem]} onCancel={closeModal} refreshPage={getData}/>
       </Modal>
     </Container>
   )
