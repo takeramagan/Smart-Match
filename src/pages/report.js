@@ -326,6 +326,7 @@ export default function Home () {
 console.log(params.hrid,params.jobid, index )
 const {requestHandler} = useRequest()
 const getReportFromParams = async() => {
+  setLoading(true)
   try{
     console.log('get')
     const data = new FormData()
@@ -352,6 +353,8 @@ const getReportFromParams = async() => {
   }catch(e){
     console.log("error get applicants")
   }
+  setLoading(false)
+
 }
   useEffect(() => {
     if(jobid) getReportFromParams()
@@ -375,6 +378,19 @@ console.log("email=", email)
           setLoadingHistory(false)
         }
     ).catch(setErrorHistory)
+  }
+
+  if (loading) {
+    return (
+      <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' height='80vh'>
+        <Box fontSize='64px' fontWeight='600' color='#49648A'>
+        {t('report.loading')}
+        </Box>
+        <Box width='600px' m={8}>
+          <LinearProgress />
+        </Box>
+      </Box>
+    )
   }
   
   if (!report) {
@@ -400,19 +416,6 @@ console.log("email=", email)
         <SwipeableDrawer anchor="right" open={viewHistory} onClose={() => {setViewHistory(false)}} onOpen={()=>{}}>
           <HistoryList setReport={setReport} loading={loadingHistory} error={errorHistory} historyList={historyList}/>
         </SwipeableDrawer>
-      </Box>
-    )
-  }
-
-  if (loading) {
-    return (
-      <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' height='80vh'>
-        <Box fontSize='64px' fontWeight='600' color='#49648A'>
-        {t('report.loading')}
-        </Box>
-        <Box width='600px' m={8}>
-          <LinearProgress />
-        </Box>
       </Box>
     )
   }
