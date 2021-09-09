@@ -37,7 +37,7 @@ import { toastStyle } from "../constant/constant"
 
 
 
-const Operations = ({applicantId, jobId, onReject, email}) => {
+const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
   const [showRejectReason, setShowRejectReason] = useState(false)
   // const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清", "长得不够帅"]
   const rejectReasonOptions = [ "Skills do not match", "Work experiences do not match", "Not enough project experience",
@@ -160,6 +160,7 @@ console.log("application status= ", application_status)
         description: inviteDescrition
         }))
         onCloseInviteModal()
+        refreshPage()
       }catch(e){
         console.error("error while submit link")
       }
@@ -261,7 +262,7 @@ console.log("application status= ", application_status)
   )
 }
 
-const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject}) => {
+const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject, refreshPage}) => {
   const {name, application_time: apply_date, matching_level: match,resume, resume_report, user_id, resume_link, report,
     updates, hr_id, job_id, email}  = applicant
   const { action, time } = updates?.length ? updates[0] : {}
@@ -311,7 +312,7 @@ const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject}) => {
       </Box>
       <Box width='25%' overflow='hidden' textAlign='center'>
         {isTitle && "Operation"}
-        {!isTitle && <Operations applicantId={user_id} jobId={jobid} onReject={onReject} email={email}/>}
+        {!isTitle && <Operations applicantId={user_id} jobId={jobid} onReject={onReject} email={email} refreshPage={refreshPage}/>}
       </Box>
       <Box width='25%' overflow='hidden' textAlign='center'>
         {isTitle && "Note"}
@@ -464,7 +465,7 @@ console.log('job', job)
     return setApplicantList([...applicantList.slice(0, index), ...applicantList.slice(index+1)])
   }
 
-  useEffect(async ()=>{
+  const getApplicants = async () => {
     try{
       const data = new FormData()
       data.append('hrid', hrid ?? 1); //mock data
@@ -489,7 +490,8 @@ console.log('hrid= ', hrid, 'jobid= ', job_id)
     }catch(e){
       console.log("error get applicants")
     }
-  }, [])
+  }
+  useEffect(getApplicants, [])
   return (
     <Box mt={4} style={{width:'80%', marginLeft:'auto', marginRight:'auto'}}>
       <Section >
@@ -506,7 +508,7 @@ console.log('hrid= ', hrid, 'jobid= ', job_id)
           style={{fontWeight:600}}  isTitle/>
           {(applicantList?.length === 0) && "No applicants Right now"}
           {applicantList?.map((item, i) => 
-            <ApplicantItem applicant={item} key={i} index={i} jobid={job_id} onReject={() => onReject(i)}/>)}
+            <ApplicantItem applicant={item} key={i} index={i} jobid={job_id} onReject={() => onReject(i)} refreshPage={getApplicants}/>)}
         </Box>
       </Section>
     </Box>
