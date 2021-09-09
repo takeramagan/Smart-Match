@@ -24,7 +24,7 @@ import { v4 as uuidv4 } from 'uuid';
 import getUserId from "../untils/getUserId"
 import checkLink from "../untils/checkLink"
 import { resumeHrStatusArray, JOB_STATUS } from "../constant/jobstatus"
-import { toast } from 'react-toastify';
+import { toast} from 'react-toastify';
 import { toastStyle } from "../constant/constant"
 
 // const useStyles = makeStyles({

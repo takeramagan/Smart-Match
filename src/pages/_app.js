@@ -7,6 +7,8 @@ import theme from '../theme'
 import "../i18n/config"
 import { Provider } from 'react-redux'
 import { store } from '../store/store'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify'
 
 export default function MyApp (props) {
   const { Component, pageProps } = props
@@ -32,6 +34,7 @@ export default function MyApp (props) {
          <Component {...pageProps} />
         </Provider>
       </ThemeProvider>
+      <ToastContainer/>
     </>
   )
 }
