@@ -1,82 +1,80 @@
 {
-  "index":{
+  "index": {
     "title": "Smart Match Web Application",
     "welcome": "Welcome to ",
     "enter": "Enter",
     "footer": "More features are coming soon.."
   },
-  "report":{
-    "analyzing_title":"Analyzing...",
-    "upload_title":"Upload Resume",
-    "analyzing_text":"Smart Match is analysing your resume...",
-    "upload_text":"Upload your latest resume to reveal your potential matching jobs and market value",
-    "dragable_title":"Drop the files here ...",
-    "drag_title":"Drag & drop some files here, or click to select files",
-    "drag_text":"File should be docx, doc, odt or pdf. Max 10MB",
-    "demo":"SEE DEMO REPORT",
-    "loading":"Loading the report",
-    "error":"Smart Match is not able to analysis your resume",
-    "error_retry":"Please try again",
-    "report_title":"Evaluation",
+  "report": {
+    "analyzing_title": "Analyzing...",
+    "upload_title": "Upload Resume",
+    "analyzing_text": "Smart Match is analysing your resume...",
+    "upload_text": "Upload your latest resume to reveal your potential matching jobs and market value",
+    "dragable_title": "Drop the files here ...",
+    "drag_title": "Drag & drop some files here, or click to select files",
+    "drag_text": "File should be docx, doc, odt or pdf. Max 10MB",
+    "demo": "SEE DEMO REPORT",
+    "loading": "Loading the report",
+    "error": "Smart Match is not able to analysis your resume",
+    "error_retry": "Please try again",
+    "report_title": "Evaluation",
     "report_text": "Your current job market position based on your resume",
-    "history": "View History", 
+    "history": "View History",
     "hideHistory": "Hide History",
     "history_title": "History"
   },
-  "sidebar":{
+  "sidebar": {
     "homepage": "Homepage",
     "reportpage": "Report Page",
     "back": "Re-upload"
   },
-  "careeradvice":{
+  "careeradvice": {
     "title": "Career Advice",
     "demo": "Good good study, day day up",
     "contact": "To obtain more infomation, please follow us on social media",
-    "evaluation":"According to the resume analysis, the profession your qualifications match is <0>{{jobtitle}}</0>.",
-    "change direction":"The profession your qualifications match is <0>{{matched_job}}</0>. However, this position is experiencing rapid replacement in the current market conditions. Market statistics show that in order to stay ahead of the game, it is recommended that your career is shifted towards the direction of <0>{{suggested_job}}</0>. To get started with this transition, explore the following modules to learn how you can succeed as a <0>{{suggested_job}}</0> : <0>{{suggested_job_skills}}</0>.",
-    "improve":"The profession your qualifications match is <0>{{matched_job}}</0>. This position is currently popular in the market with good job prospects in the future. To further enhance your career opportunities, here are some areas of improvement: <0>{{skills_needed}}</0>. Expanding your knowledge and gaining more experience in these areas will increase your chances of obtaining higher level positions in your professional field."
+    "evaluation": "According to the resume analysis, the profession your qualifications match is <0>{{jobtitle}}</0>.",
+    "change direction": "The profession your qualifications match is <0>{{matched_job}}</0>. However, this position is experiencing rapid replacement in the current market conditions. Market statistics show that in order to stay ahead of the game, it is recommended that your career is shifted towards the direction of <0>{{suggested_job}}</0>. To get started with this transition, explore the following modules to learn how you can succeed as a <0>{{suggested_job}}</0> : <0>{{suggested_job_skills}}</0>.",
+    "improve": "The profession your qualifications match is <0>{{matched_job}}</0>. This position is currently popular in the market with good job prospects in the future. To further enhance your career opportunities, here are some areas of improvement: <0>{{skills_needed}}</0>. Expanding your knowledge and gaining more experience in these areas will increase your chances of obtaining higher level positions in your professional field."
   },
-  "career_pathway":{
+  "career_pathway": {
     "title": "Your Personalized Career Path",
     "contact": "Above is based on your resume analysis, if you need one-to-one professional service to obtain customized learning path, please click here to contact"
   },
-  "course":{
+  "course": {
     "title": "How to Improve",
     "education": "Education",
     "softskill": "Soft Skill",
     "hardskill": "Hard Skill"
   },
-  
-"suggest":{
-  "certifacate": "Suggested Certification",
-  "course": "Suggested Course",
-  "brain station": "BrainStation",
-  "data science": "Data Science Course",
-  "general assembly":"General Assembly",
-  "front end":"Front-end Development",
-  "contact": "Want 1-1 professional advice to get customized learning courses? ",
-  "Click here": "Click here."
+  "suggest": {
+    "certifacate": "Suggested Certification",
+    "course": "Suggested Course",
+    "brain station": "BrainStation",
+    "data science": "Data Science Course",
+    "general assembly": "General Assembly",
+    "front end": "Front-end Development",
+    "contact": "Want 1-1 professional advice to get customized learning courses? ",
+    "Click here": "Click here."
   },
-
-  "radarchart":{
-    "title":"Result from Resume Analysis",
+  "radarchart": {
+    "title": "Result from Resume Analysis",
     "fit job": "The profession your qualifications match is <0>{{jobtitle}}</0>",
     "text": "HR/Recruiter evaluates resumes in 4 key aspects: Formatting, Logic, Profession Match (how much your resume matches the job position), Language Ability",
     "Format": "Format",
     "Language": "Language",
     "Match Level": "Profession Match",
-    "Logic":"Logic",
-    "Resume Analysis":"Resume Analysis",
-    "rank":"You are ranked {{joblevel}} level {{competitiveness}}/10 compared to your competitors. Below are your detailed category of your resume analysis.",
+    "Logic": "Logic",
+    "Resume Analysis": "Resume Analysis",
+    "rank": "You are ranked {{joblevel}} level {{competitiveness}}/10 compared to your competitors. Below are your detailed category of your resume analysis.",
     "Click here": "Click here",
     "contact": " for a detailed analysis from an expert Senior Recruiter.",
-    "Language 100":"Congratulations! The language used in your resume is strong, clear, and concise.",
+    "Language 100": "Congratulations! The language used in your resume is strong, clear, and concise.",
     "Match 100": "Congratulations! Your resume shows you are a great match for your profession.",
     "Format 100": "Congratulations! The format of your resume is clear and easy to follow.",
     "Logic 100": "Congratulations! Your resume is logical and everything is in the correct order."
   },
-  "matching jobs":{
-    "title":"Matching Jobs",
+  "matching jobs": {
+    "title": "Matching Jobs",
     "text": "Apply now to jobs best matched for you.",
     "View More": "View More",
     "apply": "Apply",
@@ -84,24 +82,27 @@
     "recruiter": "Apply directly with MetiSign",
     "salary": "Salary: "
   },
-  "marketvalue":{
-    "title":"Market Value",
-     "predicted salary": "Your Estimated Salary",
+  "marketvalue": {
+    "title": "Market Value",
+    "predicted salary": "Your Estimated Salary",
     "salary average": "The Average Salary for this position is {{average}} in {{area}}.",
-    "from" : "From",
-    "to" : "To",
-    "Offer too low" : "Low offer",
-    "Acceptable Offer" : "Acceptable Offer",
-    "Most likely Offer" : "Most likely Offer",
-    "low" : "low",
-    "mid-low" : "mid-low",
+    "from": "From",
+    "to": "To",
+    "Offer too low": "Low offer",
+    "Acceptable Offer": "Acceptable Offer",
+    "Most likely Offer": "Most likely Offer",
+    "low": "low",
+    "mid-low": "mid-low",
     "avg": "avg",
-    "mid-high" : "mid-high",
-    "high" : "high",
-    "per hour":" / hour",
-    "ranking" :"Your predicted market value is ranked around {{ranking}}% of the market."
+    "mid-high": "mid-high",
+    "high": "high",
+    "per hour": " / hour",
+    "ranking": "Your predicted market value is ranked around {{ranking}}% of the market."
   },
-  "contact":{
+  "rating": {
+    "rated_msg": "Thank you, your review has been submitted! To update your review, click and rate again."
+  },
+  "contact": {
     "click me": "Click Me"
   }
 }

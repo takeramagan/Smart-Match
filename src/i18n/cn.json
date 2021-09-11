@@ -1,64 +1,62 @@
 {
-  "index":{
+  "index": {
     "title": "Smart Match Web Application",
     "welcome": "欢迎来到 ",
     "enter": "打开新世界",
     "footer": "更多特性 敬请期待.."
   },
-  "report":{
-    "analyzing_title":"评估中...",
-    "upload_title":"上传简历",
-    "analyzing_text":"Smart Match 正在评估你的简历...",
-    "upload_text":"上传最新简历，开启您的职业评估之旅",
-    "dragable_title":"拖拽文件到此处 ...",
-    "drag_title":"拖拽文件到此处, 或者直接点击来选择文件",
-    "drag_text":"支持文件格式 docx, doc, odt or pdf. 文件最大为 10MB",
-    "demo":"查看演示报告",
-    "loading":"报告加载中",
-    "error":"Smart Match 无法评估您的简历",
-    "error_retry":"请重试",
-    "report_title":"评估结果",
+  "report": {
+    "analyzing_title": "评估中...",
+    "upload_title": "上传简历",
+    "analyzing_text": "Smart Match 正在评估你的简历...",
+    "upload_text": "上传最新简历，开启您的职业评估之旅",
+    "dragable_title": "拖拽文件到此处 ...",
+    "drag_title": "拖拽文件到此处, 或者直接点击来选择文件",
+    "drag_text": "支持文件格式 docx, doc, odt or pdf. 文件最大为 10MB",
+    "demo": "查看演示报告",
+    "loading": "报告加载中",
+    "error": "Smart Match 无法评估您的简历",
+    "error_retry": "请重试",
+    "report_title": "评估结果",
     "report_text": "基于您的简历分析得到您的当前市场职位情况",
     "history": "查看历史",
     "hideHistory": "隐藏历史",
     "history_title": "历史记录"
   },
-  "sidebar":{
+  "sidebar": {
     "homepage": "首页",
     "reportpage": "评估页面",
     "back": "重新上传"
   },
-  "careeradvice":{
+  "careeradvice": {
     "title": "职业建议",
     "demo": "好好学习,天天向上",
     "contact": "如需了解更多信息,请关注我们的公众号",
-    "evaluation":"基于系统对您的简历分析，您匹配到的市场职位是<0>{{jobtitle}}</0>。",
-    "change direction":"给您匹配到的职位是<0>{{matched_job}}</0>，但由于市场迅速的更新换代，<0>{{matched_job}}</0>已过时。所以建议您转换就业方向到<0>{{suggested_job}}</0>。基于您目前的状况，建议您可以从这些方面：<0>{{suggested_job_skills}}</0>提升自己我，学习相关知识并获得更多的经验，从而成功转行到<0>{{suggested_job}}</0>。",
-    "improve":"给您匹配到的职位是<0>{{matched_job}}</0>，目前市场上该职位火爆，未来发展可期。建议您可以从这些方面：<0>{{skills_needed}}</0> 提升自我，学习更多的知识并获得更多的经验，从而晋升到职位的更高层次。"
+    "evaluation": "基于系统对您的简历分析，您匹配到的市场职位是<0>{{jobtitle}}</0>。",
+    "change direction": "给您匹配到的职位是<0>{{matched_job}}</0>，但由于市场迅速的更新换代，<0>{{matched_job}}</0>已过时。所以建议您转换就业方向到<0>{{suggested_job}}</0>。基于您目前的状况，建议您可以从这些方面：<0>{{suggested_job_skills}}</0>提升自己我，学习相关知识并获得更多的经验，从而成功转行到<0>{{suggested_job}}</0>。",
+    "improve": "给您匹配到的职位是<0>{{matched_job}}</0>，目前市场上该职位火爆，未来发展可期。建议您可以从这些方面：<0>{{skills_needed}}</0> 提升自我，学习更多的知识并获得更多的经验，从而晋升到职位的更高层次。"
   },
-  "career_pathway":{
+  "career_pathway": {
     "title": "学习路径",
     "contact": "以上是根据您的简历分析得到, 如果需要一对一专业服务定制学习路径,请点击此处联系"
   },
-  "course":{
+  "course": {
     "title": "提升自我",
     "education": "教育",
     "softskill": "软技能",
     "hardskill": "硬技能"
   },
-  
-"suggest":{
-  "certifacate": "推荐认证",
-  "course": "推荐课程",
-  "brain station": "BrainStation",
-  "data science": "大数据课程",
-  "general assembly":"General Assembly",
-  "front end":"前端开发",
-  "contact": "如果需要一对一专业服务定制学习课程? ",
-  "Click here": "点击此处."
+  "suggest": {
+    "certifacate": "推荐认证",
+    "course": "推荐课程",
+    "brain station": "BrainStation",
+    "data science": "大数据课程",
+    "general assembly": "General Assembly",
+    "front end": "前端开发",
+    "contact": "如果需要一对一专业服务定制学习课程? ",
+    "Click here": "点击此处."
   },
-
-  "radarchart":{
+  "radarchart": {
     "title": "简历分析",
     "fit job": "您匹配到的职位是 <0>{{jobtitle}}</0>。",
     "text": "HR/猎头主要根据格式、逻辑、匹配度(您的简历与职位的匹配程度)和语言这四个方面对您的简历进行评估。",
@@ -70,13 +68,13 @@
     "rank": "相对您的竞争者, 您在 {{joblevel}} 级别的竞争力为 {{competitiveness}}/10. 以下是您的简历评估的详细结果.",
     "Click here": "点击此处",
     "contact": "获取详细简历分析和建议（资深猎头）",
-    "Language 100":"恭喜! 您的简历文字准确而有力.",
+    "Language 100": "恭喜! 您的简历文字准确而有力.",
     "Match 100": "恭喜! 您的简历职业匹配度非常好.",
     "Format 100": "恭喜! 您的简历格式非常合理.",
     "Logic 100": "恭喜! 您的简历逻辑非常清晰."
   },
-  "matching jobs":{
-    "title":"职位推荐",
+  "matching jobs": {
+    "title": "职位推荐",
     "text": "以下是和您最匹配的工作, 您可以立即申请. 百分比表示您的的匹配度.",
     "View More": "查看更多",
     "apply": "申请",
@@ -84,24 +82,27 @@
     "recruiter": "公司直聘",
     "salary": "薪资: "
   },
-  "marketvalue":{
-    "title":"市场价值",
+  "marketvalue": {
+    "title": "市场价值",
     "predicted salary": "您的评估薪水",
     "salary average": "当前职位在{{area}}的平均工资为{{average}}.",
-    "from" : "起",
-    "to" : "止",
-    "Offer too low" : "Offer低",
-    "Acceptable Offer" : "可接受Offer",
-    "Most likely Offer" : "合理Offer",
-    "low" : "低",
-    "mid-low" : "中低",
+    "from": "起",
+    "to": "止",
+    "Offer too low": "Offer低",
+    "Acceptable Offer": "可接受Offer",
+    "Most likely Offer": "合理Offer",
+    "low": "低",
+    "mid-low": "中低",
     "avg": "平均值",
-    "mid-high" : "中高",
-    "high" : "高",
-    "per hour":" / 小时",
-    "ranking" :"你的预测市场价值打败了 {{ranking}}% 的人."
+    "mid-high": "中高",
+    "high": "高",
+    "per hour": " / 小时",
+    "ranking": "你的预测市场价值打败了 {{ranking}}% 的人."
   },
-  "contact":{
+  "rating": {
+    "rated_msg": "感谢您的评价！您的评价已经上传，再次点击将改变其评分。"
+  },
+  "contact": {
     "click me": "点我"
   }
 }
