@@ -125,7 +125,7 @@ const Aaaaa = ({selected, left: v}) => {
                     <stop offset='0.114583' stopColor='#f2f2f2'/>
                     <stop offset='0.401042' stopColor='#f2f2f2'/>
                     <stop offset='0.635417' stopColor='#f2f2f2'/>
-                    <stop offset='1' stopColor='#0099cc'/>
+                    <stop offset='1' stopColor='#f2f2f2'/>
                 </linearGradient>
             </defs>
         </svg>
