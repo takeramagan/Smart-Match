@@ -1,12 +1,17 @@
-import { Box, Button } from '@material-ui/core'
-import { Section } from '../../components/Section'
-import ReactECharts from 'echarts-for-react'
+import { useEffect, useState } from 'react'
+
+import { Box, Button  } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles'
-import { formatter } from '../../untils/currency'
+
 import { useTranslation } from 'react-i18next'
-import { h, h1, h2, h3, h4, h5} from '../../constant/fontsize'
-import { useState } from 'react'
+
+import { Section } from '../../components/Section'
+import { formatter } from '../../untils/currency'
+import { h, h1, h2, h3, h4, h5 } from '../../constant/fontsize'
+
+import ReactECharts from 'echarts-for-react'
 import { POPUP_BG_COLOR } from '../../constant/color'
+import { MenuButton } from '../../components/CommonReusable/MenuButton';
 
 
 const Chart = ({ income }) => {
@@ -22,37 +27,37 @@ const Chart = ({ income }) => {
   const getNumbers = () => {
     const result = []
     const NumOfColumns = 4
-    try{
+    try {
       let n = parseInt(income.market_low) //莫名出现数字解析成字符串...
       const high = parseInt(income.market_high)
       const low = parseInt(income.market_low)
       const increment = Math.round((high - low) / NumOfColumns)
-      
-      for(let i = 0; i <= NumOfColumns; i++) {
+
+      for (let i = 0; i <= NumOfColumns; i++) {
         result.push(n)
         n = n + increment
       }
       return result
-    }catch(e){
+    } catch (e) {
       console.log('Unexpected error, ', e)
       return []
     }
   }
- 
+
   const numbers = getNumbers()
   const mostLikelyOffers = numbers.filter(n => income.predicted_market_value.high >= n && income.predicted_market_value.low <= n)
   let mostLikelyOffer
-  if(mostLikelyOffers.length){ //找到多个
+  if (mostLikelyOffers.length) { //找到多个
     mostLikelyOffer = mostLikelyOffers[0]
-  }else if(income.predicted_market_value.low > numbers[numbers.length - 1]){
+  } else if (income.predicted_market_value.low > numbers[numbers.length - 1]) {
     mostLikelyOffer = numbers[numbers.length - 1]
-  }else if(income.predicted_market_value.high < numbers[0]){
+  } else if (income.predicted_market_value.high < numbers[0]) {
     mostLikelyOffer = numbers[0]
-  }else{ 
-  //剩下的情况是 所有的number都是处在 [income.predicted_market_value.low, income.predicted_market_value.high] 区间之外了,
-  //选择第一个比 income.predicted_market_value.high大的数字
-    for(var i in numbers){
-      if(numbers[i] > income.predicted_market_value.high){
+  } else {
+    //剩下的情况是 所有的number都是处在 [income.predicted_market_value.low, income.predicted_market_value.high] 区间之外了,
+    //选择第一个比 income.predicted_market_value.high大的数字
+    for (var i in numbers) {
+      if (numbers[i] > income.predicted_market_value.high) {
         mostLikelyOffer = numbers[i]
         break
       }
@@ -66,18 +71,18 @@ const Chart = ({ income }) => {
     xAxis: {
       type: 'category',
       data: [t("marketvalue.low"), //t("marketvalue.low"), 
-            t("marketvalue.mid-low"), //t("marketvalue.mid-low"), t("marketvalue.mid-low"), 
-            t("marketvalue.avg"), //t("marketvalue.avg"), t("marketvalue.avg"), t("marketvalue.avg"), 
-            t("marketvalue.mid-high"), //t("marketvalue.mid-high"), 
-            t("marketvalue.high"), //t("marketvalue.high")
-          ]
+      t("marketvalue.mid-low"), //t("marketvalue.mid-low"), t("marketvalue.mid-low"), 
+      t("marketvalue.avg"), //t("marketvalue.avg"), t("marketvalue.avg"), t("marketvalue.avg"), 
+      t("marketvalue.mid-high"), //t("marketvalue.mid-high"), 
+      t("marketvalue.high"), //t("marketvalue.high")
+      ]
     },
     yAxis: {
       type: 'value'
     },
     legend: { bottom: 0, selectedMode: false },
     tooltip: {
-      show:true,
+      show: true,
       trigger: 'item',
       // axisPointer: { // Use axis to trigger tooltip
       //   type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
@@ -110,13 +115,13 @@ const Chart = ({ income }) => {
         axisPointer: {
           type: 'shadow',
         },
-       formatter: (params) => {
-        //  return (params.name + '  ' + '<b>' + params.data.toLocaleString() +'</b>' +'<br/>'+
-        //            "Your are here" + '<br/>' + 'Beat ' + ' 50%'
-        //  );
-         return (params.name + '  ' + '<b>' + params.data.toLocaleString() +'</b>' +'<br/>' + "Your are here"
-);
-       },
+        formatter: (params) => {
+          //  return (params.name + '  ' + '<b>' + params.data.toLocaleString() +'</b>' +'<br/>'+
+          //            "Your are here" + '<br/>' + 'Beat ' + ' 50%'
+          //  );
+          return (params.name + '  ' + '<b>' + params.data.toLocaleString() + '</b>' + '<br/>' + "Your are here"
+          );
+        },
       },
       // label: {
       //   show: true,
@@ -149,23 +154,39 @@ const Chart = ({ income }) => {
   )
 }
 
-export function MarketValueSection ({ report }) {
-console.log("report ", report)
+export function MarketValueSection({ report }) {
+  // console.log("report ", report)
   const [fulltime, setFulltime] = useState(true)
+
   const salaryInfo = fulltime ? report.market_value_info.full_time_market_info : report.market_value_info.contract_market_info
   const predictSalary = fulltime ? report.market_value_info.predicted_full_time_salary : report.market_value_info.predicted_contract_salary
-  const {low, high} = predictSalary
+  const { low, high } = predictSalary
   const { avg } = salaryInfo
-  const market_low = fulltime ? salaryInfo.low : Math.floor(0.8*salaryInfo.low)
+  const market_low = fulltime ? salaryInfo.low : Math.floor(0.8 * salaryInfo.low)
   const market_high = fulltime ? salaryInfo.high : salaryInfo.high
   const market_mid_low = fulltime ? salaryInfo.mid_Low : salaryInfo.mid_low
   const ranking = fulltime ? report.market_value_info.ranking?.full_time : report.market_value_info.ranking?.contract
   // const buttonText = fulltime ? "Fulltime" : "Contract"
   // const income={market_low: salaryInfo.low, market_high: salaryInfo.high, market_mid_low:salaryInfo.mid_Low, predicted_market_value:{high, low}}
-  const income={market_low, market_high, market_mid_low, predicted_market_value:{high, low}}
+  const income = { market_low, market_high, market_mid_low, predicted_market_value: { high, low } }
+
   const theme = useTheme()
   const area = report.lang === 'cn' ? (report.countryCode === 'us' ? '美国' : '加拿大') : (report.countryCode === 'us' ? 'USA' : 'Canada')
   const { t } = useTranslation()
+
+  // function retrived response from child component "MenuButton" and set full-time /part-time status
+  const [employeeSelectedType, setEmployeeSelectedType] = useState(0);
+
+  useEffect(()=>{
+    if (employeeSelectedType===0){
+      setFulltime(true);
+    }
+    else if (employeeSelectedType===1){
+      setFulltime(false);
+    }
+    // console.log("received from parent: ", employeeSelectedType);
+  }, [employeeSelectedType]);
+
   return (
     <Section>
       <Box p={4} mb={4} position='relative'>
@@ -174,55 +195,59 @@ console.log("report ", report)
           {t('marketvalue.title')}
         </Box>
         <Box position='absolute' right={30} top={30}>
-          <Button        
+
+          <MenuButton setSelected={setEmployeeSelectedType} options={["Fulltime", "Contract"]}/>
+
+          {/* <Button
             variant="contained"
             color="primary"
             disabled={!fulltime}
             size='small'
-            style={{borderRadius:20 }}
+            style={{ borderRadius: 20 }}
             onClick={() => setFulltime(false)}
           >
             Fulltime
           </Button>
-          <Button        
+
+          <Button
             variant="contained"
             color="primary"
             disabled={fulltime}
             size='small'
-            style={{borderRadius:20, marginLeft:10 }}
+            style={{ borderRadius: 20, marginLeft: 10 }}
             onClick={() => setFulltime(true)}
           >
             Contract
-          </Button>
+          </Button> */}
         </Box>
         <Box display='flex' justifyContent='space-between'>
 
           <Box color='#373A70' fontWeight='500' width='195px' textAlign='right'>
             <Box fontSize={h2}>
-            {t('marketvalue.predicted salary')}
+              {t('marketvalue.predicted salary')}
             </Box>
             <Box my={1}>
-              <Box display='inline-block' mr={1} style={{ fontSize: {h5}, width: '30px', textAlign: 'right' }}>{t('marketvalue.from')}</Box>
+              <Box display='inline-block' mr={1} style={{ fontSize: { h5 }, width: '30px', textAlign: 'right' }}>{t('marketvalue.from')}</Box>
               <Box display='inline-block' fontSize={h} color={theme.palette.primary.main}>{formatter(report.countryCode).format(low)}</Box>
-              {!fulltime && <Box display='inline-block' mr={1} style={{ fontSize: {h5} }}>{t('marketvalue.per hour')}</Box>}
+              {!fulltime && <Box display='inline-block' mr={1} style={{ fontSize: { h5 } }}>{t('marketvalue.per hour')}</Box>}
             </Box>
             <Box my={1}>
-              <Box display='inline-block' mr={1} style={{ fontSize: {h5}, width: '30px', textAlign: 'right' }}>{t('marketvalue.to')}</Box>
+              <Box display='inline-block' mr={1} style={{ fontSize: { h5 }, width: '30px', textAlign: 'right' }}>{t('marketvalue.to')}</Box>
               <Box display='inline-block' fontSize={h} color={theme.palette.primary.main}>{formatter(report.countryCode).format(high)}</Box>
-              {!fulltime && <Box display='inline-block' mr={1} style={{ fontSize: {h5} }}>{t('marketvalue.per hour')}</Box>}
+              {!fulltime && <Box display='inline-block' mr={1} style={{ fontSize: { h5 } }}>{t('marketvalue.per hour')}</Box>}
             </Box>
           </Box>
 
           <Box pt={3} fontSize={h3} fontWeight='500' lineHeight='24px' color='#373A70' width='45%'>
             {/* Compared to average pay of {formatter.format(bestMatch.fulltime.market_avg)} the same position in Toronto. */}
-            {t('marketvalue.salary average', {average: formatter(report.countryCode).format(avg), area:area})}
+            {t('marketvalue.salary average', { average: formatter(report.countryCode).format(avg), area: area })}
           </Box>
         </Box>
 
         <Box width='100%' mt={-4} mb={-8}><Chart income={income} /></Box>
         <Box pt={3} fontSize={h3} fontWeight='500' lineHeight='24px' color='#373A70'>
-            {t('marketvalue.ranking', {ranking: ranking})}
-          </Box>
+          {t('marketvalue.ranking', { ranking: ranking })}
+        </Box>
       </Box>
     </Section>
   )
