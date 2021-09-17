@@ -42,14 +42,15 @@ const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
     // const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清", "长得不够帅"]
     const rejectReasonOptions = ["Skills do not match", "Work experiences do not match", "Not enough project experience",
         "Resume structure unclear", "Not enough hands-on skills"]
-    const [rejectReasons, setRejectReasons] = useState(0) //bit indicates selected or not
-    const [otherReason, setOtherReason] = useState("")
-    const [otherBlur, setOherBlur] = useState(false)
-    const [inviteLink, setInviteLink] = useState("")
-    const [inviteBlur, setInviteBlur] = useState(false)
+    const [rejectReasons, setRejectReasons] = useState(0); //bit indicates selected or not
+    const [otherReason, setOtherReason] = useState("");
+    const [otherBlur, setOherBlur] = useState(false);
+    const [inviteLink, setInviteLink] = useState("");
+    const [inviteBlur, setInviteBlur] = useState(false);
     // const styles = useStyles()
 
-    const [showInvite, setShowInvite] = useState(false)
+    const [showInvite, setShowInvite] = useState(false);
+
     const operatonRequest = useRequest()
     const params = useRouter().query
     const hrId = params.id ?? 1
@@ -78,7 +79,7 @@ const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
         formData.append('updates', JSON.stringify(data))
         formData.append('application_status', application_status) //0: default state 1: reject
         console.log("application status= ", application_status)
-        // application_status !== 1 ?? formData.append('invite_description', inviteDescrition) //0: default state 1: reject
+        // application_status !== 1 ?? formData.append('invite_description', inviteDescription) //0: default state 1: reject
         return ({
             method: 'post',
             url: APP_END_POINT_B_AND_C + 'update_application',
@@ -153,7 +154,7 @@ const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
     // }
 
     const onSubmitInvite = async () => {
-        if (!checkLink(inviteLink) || !(checkDescrition(inviteDescrition))) {
+        if (!checkLink(inviteLink) || !(checkDescription(inviteDescription))) {
             setInviteBlur(true)
             setDescBlur(true)
             console.log("false")
@@ -163,7 +164,7 @@ const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
                 // const status = JSON.stringify({status: RESUME_INVITE, info: inviteLink.trim()})
                 await operatonRequest.requestHandler(getOperationconfig({
                     action: RESUME_INVITE, info: inviteLink.trim(),
-                    description: inviteDescrition
+                    description: inviteDescription
                 }))
                 onCloseInviteModal()
                 refreshPage()
@@ -182,13 +183,13 @@ const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
         setInviteBlur(false)
     }
 
-    const [inviteDescrition, setInviteDescrition] = useState()
+    const [inviteDescription, setInviteDescription] = useState()
     const [descBlur, setDescBlur] = useState(false)
     const onChangeLink = (e) => {
         setInviteLink(e.target.value.trim())
     }
-    const onChangeDescription = (e) => setInviteDescrition(e.target.value)
-    const checkDescrition = (description) => (description?.trim())
+    const onChangeDescription = (e) => setInviteDescription(e.target.value)
+    const checkDescription = (description) => (description?.trim())
 
     return (
         <Box>
@@ -213,13 +214,13 @@ const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
                                 label="Invitation description" variant="outlined"
                                 placeholder='Please enter your description about this invitation'
                                 onChange={onChangeDescription}
-                                fullWidth value={inviteDescrition}
+                                fullWidth value={inviteDescription}
                                 multiline
                                 rows={2}
                                 rowsMax={4}
                                 onBlur={() => setDescBlur(true)}
                             />
-                            <ErrorText visible={(descBlur && !checkDescrition(inviteDescrition))}
+                            <ErrorText visible={(descBlur && !checkDescription(inviteDescription))}
                                        text='Description is empty'/>
                             <SubmitAndCancel onSubmit={onSubmitInvite} onCancel={onCancelInvite}/>
                         </Box>
@@ -593,9 +594,23 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
         validationSchema: validationSchema,
         onSubmit: (values) => {
             console.log(values);
-            submitData(values)
+            submitData(values).then();
         },
     });
+
+    // salary unit state listener
+    const [salaryUnitState, setSalaryUnitState] = useState(
+        formik.initialValues.jobtype == 1 ? 'per Hour' : 'per Year');
+
+    const jobTypeChange = (v) => {
+        setSalaryUnit(v.target.value);
+    }
+
+    // get the salary unit display str
+    const setSalaryUnit = (v) => {
+        setSalaryUnitState(v === '1' ? 'per Hour' : 'per Year');
+        return salaryUnitState;
+    };
 
     const {requestHandler} = useRequest();
     const submitData = async (values) => {
@@ -621,7 +636,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
                 method: 'post',
                 url: APP_END_POINT_B_AND_C + (isNew ? 'publish_job_posting' : 'update_job_posting'),
                 data: data
-            }
+            };
             console.log(config);
             const result = await requestHandler(config);
 
@@ -637,14 +652,14 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
         } catch (e) {
             console.log("error submit");
         }
-    }
+    };
 
     const equals = (init, cur) => {
         for (const [k, v] of Object.entries(init)) {
             if (v != cur[k]) return false
         }
         return true
-    }
+    };
 
     const onClickCancel = () => {
         if (equals(formik.initialValues, formik.values)) {
@@ -655,19 +670,19 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
             //open confirm dialog
             setOpenConfirmDlg(true)
         }
-    }
+    };
 
     const onCloseDlg = () => {
         setOpenConfirmDlg(false)
-    }
-
-    const handleChange = (event) => {
-        const name = event.target.name;
-        // setState({
-        //   ...state,
-        //   [name]: event.target.value,
-        // });
     };
+
+    // const handleChange = (event) => {
+    //     const name = event.target.name;
+    //     // setState({
+    //     //   ...state,
+    //     //   [name]: event.target.value,
+    //     // });
+    // };
 
     return (
         <Box style={{width: '80%', marginLeft: 'auto', marginRight: 'auto'}}>
@@ -708,9 +723,11 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
                                     style={{height: 40}}
                                     native
                                     variant="outlined"
-                                    // value={state.age}
                                     value={formik.values.jobtype}
-                                    onChange={formik.handleChange}
+                                    onChange={e => {
+                                        formik.handleChange(e);
+                                        jobTypeChange(e);
+                                    }}
                                     label="Job type"
                                     inputProps={{
                                         name: 'jobtype',
@@ -747,7 +764,8 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
                             </FormControl>
                         </Box>
                         <Box mt={2}>
-                            Salary:
+                             <span style={{marginRight: 10}}>Salary:
+                            </span>
                             <Select
                                 style={{height: 40}}
                                 native
@@ -779,6 +797,8 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
                                        error={formik.touched.salary_end && Boolean(formik.errors.salary_end)}
                                        helperText={formik.touched.salary_end && formik.errors.salary_end}
                             />
+                            <span style={{width: 100, marginLeft: 10}}>{salaryUnitState}
+                            </span>
                         </Box>
                         <Box mt={2}>
                             <TextField id="note" label="Job Note" variant="outlined" rowsMax={5} rows={2} fullWidth
@@ -832,7 +852,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
             </Dialog>
         </Box>
     )
-}
+};
 
 
 const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitle, onAddApplicant}) => {
