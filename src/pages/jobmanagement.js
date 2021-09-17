@@ -574,7 +574,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
         job_id: jobid, jobstatus, link, post_date, modify_date,
         applicants, jobtitle: title, description,
         salarylow: salary_start, salaryhigh: salary_end,
-        jobtype, note, job_reference_id, country_code
+        jobtype, note, job_reference_id, currency
     } = isNew ? initJob : job;
     const [openConfirmDlg, setOpenConfirmDlg] = useState(false); //open confirm dialog
 
@@ -588,7 +588,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
             jobtype: parseInt(jobtype ?? 0),//0:full time 1:contract 2:part
             status: parseInt(jobstatus ?? 0),//0:accepting 1:closed 2:filled
             job_reference_id: job_reference_id ?? "",
-            country_code: country_code ?? "ca"
+            currency: currency ?? "CAD"
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -616,7 +616,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
             data.append('dcc', X_API_KEY_B_AND_C);
             data.append('jobid', isNew ? uuidv4() : jobid);
             data.append('job_reference_id', values.job_reference_id);
-            data.append('country_code', values.country_code);
+            data.append('currency', values.currency);
             const config = {
                 method: 'post',
                 url: APP_END_POINT_B_AND_C + (isNew ? 'publish_job_posting' : 'update_job_posting'),
@@ -753,16 +753,16 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
                                 native
                                 variant="outlined"
                                 // value={state.age}
-                                value={formik.values.country_code}
+                                value={formik.values.currency}
                                 onChange={formik.handleChange}
-                                defaultValue={formik.values.country_code}
+                                defaultValue={formik.values.currency}
                                 inputProps={{
-                                    name: 'country_code',
-                                    id: 'country_code',
+                                    name: 'currency',
+                                    id: 'currency',
                                 }}
                             >
-                                <option value={'us'}>$USD</option>
-                                <option value={'ca'}>$CAD</option>
+                                <option value={'USD'}>$USD</option>
+                                <option value={'CAD'}>$CAD</option>
                             </Select>
                             <TextField id="salary_start" label="From" variant="outlined" size='small' type='number'
                                        value={formik.values.salary_start}
@@ -839,19 +839,20 @@ const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitl
 
     const {
         job_id: id, jobstatus: status, link, job_posting_time, postdate, modify_date, applicants, jobtitle: title,
-        edit, note, job_reference_id, country_code,
+        edit, note, job_reference_id, currency,
     } = item;
     //0:accepting 1:closed 2:filled
     const job_status = (status >= 0 && status < JOB_STATUS.length) ? JOB_STATUS[status] : status;
     const numOfApplicants = isTitle ? "Applicants" : (applicants ?? 0); //标题没有index
+    const getCountryNameOrCurrency = currency === 'Country' ?
+        currency : (currency === 'USD' ? 'USA' : 'CA');
 
     return (
         <Box>
             <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center'
                  justifyContent='center' style={style}>
                 <Box width='8%' overflow='hidden'>{isTitle ? 'Job ID' : job_reference_id}</Box>
-                <Box width='10%' overflow='hidden'>{country_code === 'Country' ?
-                    country_code : (country_code === 'us' ? 'USA' : 'CA')}</Box>
+                <Box width='10%' overflow='hidden'>{getCountryNameOrCurrency}</Box>
                 <Box width='20%' overflow='hidden'>{title}</Box>
                 <Box width='15%' overflow='hidden' textAlign='center'>
                     {/**index === undefined 表示list 的标题栏*/}
@@ -992,7 +993,7 @@ const JobManagement = () => {
                             postdate: "Post Date",
                             edit: "Edit Job",
                             note: "Note",
-                            country_code: "Country"
+                            currency: "Country"
                         }}
                         style={{fontWeight: 600}} key={-1} isTitle/>
                     {hrHistoryList.length === 0 && "No application history"}
