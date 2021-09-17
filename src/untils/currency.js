@@ -20,15 +20,16 @@
 //   return newFormat
 // }
 export const formatter = (countryCode) => {
-  const currency = countryCode === 'us' ? 'USD' : 'CAD'
-  const format =  new Intl.NumberFormat('en-US', {
-    maximumFractionDigits: 0,
-    minimumFractionDigits: 0
-  })
-  //给美元符号$ 增加USD :显示效果为USD$
-  const newFormat = {...format, format: (num) => (
-    (countryCode === 'us' ? 'USD$' : 'CAD$') + (num ? format.format(num) : 'N.A')
-    )}
-  return newFormat
+    const currency = countryCode === 'us' ? 'USD' : 'CAD'
+    const format = new Intl.NumberFormat('en-US', {
+        maximumFractionDigits: 0,
+        minimumFractionDigits: 0
+    })
+    //给美元符号$ 增加USD :显示效果为USD$
+    return {
+        ...format, format: (num) => (
+            (countryCode === 'us' ? 'USD$' : 'CAD$') + (num ? format.format(num) : 'N.A')
+        )
+    }
 }
 
