@@ -72,3 +72,15 @@ export const X_API_KEY_CUSTOMER =
 process.env.ENV_FLAG === 'production' ?
 'Q1Ma7fU2rh3b88UgmseB68qqD1DTYET3509AjKLM' :
 'IfN8sdzMjd7H9gAfKObFc6I9y7DuFu862gov3P4N'
+
+
+/* EndPoint for report issue with link*/
+// report expired link
+export const APP_END_POINT_CUSTOMER_REPORT_LINK = process.env.ENV_FLAG === 'production' ?
+"https://production-report-expired-job-link.metisign.com/report_expired_jobs":
+"https://staging-report-expired-job-link.metisign.com/report_expired_jobs"
+
+// API key for report expired link
+export const X_API_KEY_REPORT_LINK = process.env.ENV_FLAG === 'production' ?
+"V6pht5zU2T22B1dGzcx52aN0vJftqEfexGxbO3G0":
+"1z3k9DrxPg1smPrnyfsMm24Wp0dCNrD467dh2gII"

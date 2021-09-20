@@ -44,11 +44,11 @@ export default function DialogWithSelections(props) {
 
   const reportLinkRequest = useRequest()
 
-  const reportLinkIssue = async ({ api, api_key, link, }) => {
+  const reportLinkIssue = async ({ api, api_key, link}) => {
     try {
       // attach form data
       const formData = new FormData()
-      formData.append('Reported link', link);
+      formData.append('job_link', link);
       formData.append('dcc', api_key);
 
       const config = {

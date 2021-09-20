@@ -2,11 +2,14 @@ import { Box, Link, LinearProgress, Typography, Button, Popover } from '@materia
 import { makeStyles } from '@material-ui/core/styles'
 import { useTranslation } from 'react-i18next'
 import { h, h1, h2, h3, h4, h5 } from '../constant/fontsize'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { METISIGN_WEBSITE } from '../constant/externalURLs'
 import { POPUP_BG_COLOR } from '../constant/color'
 
-import DialogWithSelections from "../components/CommonReusable/DialogWithSelections";
+import { APP_END_POINT_CUSTOMER_REPORT_LINK, X_API_KEY_REPORT_LINK } from '../constant/externalURLs';
+import { useRequest } from '../hooks/useRequest';
+
+//import DialogWithSelections from "../components/CommonReusable/DialogWithSelections";
 
 const useStyles = makeStyles({
   root: {
@@ -54,7 +57,7 @@ export function LinearProgressWithLabel(props) {
   )
 }
 
-export function MatchJob({ job, onClick, metisign }) {
+export function MatchJob({ job, onClick, metisign}) {
   const { t } = useTranslation()
   const { job_title, job_company, job_link, job_location, job_logo, job_rating, job_summary, job_type, matched_percentage, job_salary,
     /** 以下几个metisign only */
@@ -77,16 +80,70 @@ export function MatchJob({ job, onClick, metisign }) {
   };
   const openPopOver = Boolean(anchorEl);
 
-  //add report problem link dialog
-  const [showReportLinkDialog, setshowReportLinkDialog] = useState(false);
-  const [reportSubmit, setreportSubmit] = useState(false);
-  const reportLinkProblemOptions = ["Link Expired", "Broken link"];
-  const [linkFeedback, setLinkFeedback] = useState("");
+  //add report problem link function
+  const { requestHandler } = useRequest()
+  const [reportButtonText, setreportButtonText] = useState(t('matching jobs.Report This Link'));
+  const [disableReportBtn, setdisableReportBtn] = useState(false);
+  const [expiredLinkList, setexpiredLinkList] = useState([]);
+
+  // fetch data from local storage when loading the component
+  useEffect(() => {
+    // console.log("data from local storage", window.localStorage.getItem('expired_links'));
+    if (window.localStorage.getItem('expired_links')){
+      setexpiredLinkList(JSON.parse(window.localStorage.getItem('expired_links')));
+    }
+  }, []);
+  //  disable button if current link in expiredLinkList
+  useEffect(() => {
+    if (expiredLinkList?.indexOf(link)!==-1){
+      setreportButtonText(t('matching jobs.reported'));
+      setdisableReportBtn(true);
+    }
+  }, [expiredLinkList]);
+
+  const submitExpiredLink = async (link) => {
+    const endPoint = APP_END_POINT_CUSTOMER_REPORT_LINK;
+    const dcc = X_API_KEY_REPORT_LINK;
+    try {
+      const data = new FormData();
+      data.append('job_link', link);
+      data.append('dcc', dcc);
+      const config = {
+        method: 'post',
+        url: endPoint,
+        data: data
+      }
+      const result = await requestHandler(config)
+      console.log(result);
+      setreportButtonText(t('matching jobs.reported'));
+      setdisableReportBtn(true);
+      persistReportStateInLocalStorage();
+
+    } catch (e) {
+      console.log("Error with report error link", e);
+    }
+  }
+
   const handleReportErrorLink = () => {
-    console.log("test", link);
-    console.log("clicked");
-    setshowReportLinkDialog(true);
-    setreportSubmit(true);
+    submitExpiredLink(link);
+  }
+
+  // persist state of reported link in local storage
+  const persistReportStateInLocalStorage = () =>{
+    // console.log("Initial: ", expiredLinkList);
+    if (expiredLinkList){
+      expiredLinkList.push(link);
+      setexpiredLinkList(expiredLinkList);
+    }
+    else{
+      setexpiredLinkList([].push(link));
+    }
+    // console.log("After: ", expiredLinkList);
+
+    // write changes to local storage
+    // console.log("write to local storage: ", JSON.stringify(expiredLinkList));
+    window.localStorage.setItem('expired_links', JSON.stringify(expiredLinkList));
+    console.log("data from local storage", window.localStorage.getItem('expired_links'));
   }
 
   return (
@@ -148,25 +205,26 @@ export function MatchJob({ job, onClick, metisign }) {
 
           {/* button for report Expired link
               If job_id exist, means metisign jobs no need for report*/}
-          {!job_id &&
-            <Button
+          {!job_id && <Button
               target="_blank"
               onClick={handleReportErrorLink}
               style={{
                 fontWeight: '500', border: '1px solid white', borderRadius: 15, height: 30, width: 130
               }}
-              disabled={reportSubmit}
+              disabled={disableReportBtn}
             >
-              {t('matching jobs.Report This Link')}
-            </Button>}
-          {showReportLinkDialog ?
+              {reportButtonText}
+            </Button>
+          }
+          {/* {showReportLinkDialog ?
             <DialogWithSelections
               userRelatedData={{
-                api: "test",
-                api_key: "",
-                reportLink: link
+                api: APP_END_POINT_CUSTOMER_REPORT_LINK,
+                api_key: X_API_KEY_REPORT_LINK,
+                reportLink: link,
+
               }}
-              InputDialogOptions={reportLinkProblemOptions} /> : null}
+              InputDialogOptions={reportLinkProblemOptions} /> : null} */}
         </Box>
       </Box>
       <Popover
