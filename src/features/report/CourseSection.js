@@ -1,4 +1,4 @@
-import {Box, Button, Chip, Link, Grid, Typography, makeStyles} from '@material-ui/core'
+import {Box, Button, Chip, Link, Grid, Typography, makeStyles, TextField} from '@material-ui/core'
 import {Section} from '../../components/Section'
 import {useTranslation} from 'react-i18next'
 import {h1, h2, h3, h4, h5} from '../../constant/fontsize'
@@ -14,10 +14,11 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {linkTrack} from '../../untils/linkTrack'
 import {CareerAdviceSection} from './CareerAdviceSection'
 import Rating from '@material-ui/lab/Rating';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import {useState} from 'react'
 import {useRequest} from '../../hooks/useRequest'
 import {useRouter} from 'next/router'
+import {useFormik} from "formik";
 
 const useStyles = makeStyles({
     ai: {
@@ -233,19 +234,19 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
 }
 
 export function CourseSection({report, selectedPathIndex}) {
-    const defaultValue = 3
-    const {t} = useTranslation()
-    const classes = useStyles()
-    const [rating, setRating] = useState({rated: false, value: defaultValue})
-    const params = useRouter().query
-    const {hrid, jobid, email} = params
-    const {requestHandler} = useRequest()
+    const defaultValue = 3;
+    const {t} = useTranslation();
+    const classes = useStyles();
+    const [rating, setRating] = useState({rated: false, value: defaultValue});
+    const params = useRouter().query;
+    const {hrid, jobid, email} = params;
+    const {requestHandler} = useRequest();
 
     const submitRating = async (value) => {
-        const endPoint = (hrid && jobid) ? (APP_END_POINT_B_AND_C + 'report_accuracy') : APP_END_POINT_CUSTOMER_REPORT_ACCURACY
-        const dcc = (hrid && jobid) ? X_API_KEY_B_AND_C : X_API_KEY_HISTORY
+        const endPoint = (hrid && jobid) ? (APP_END_POINT_B_AND_C + 'report_accuracy') : APP_END_POINT_CUSTOMER_REPORT_ACCURACY;
+        const dcc = (hrid && jobid) ? X_API_KEY_B_AND_C : X_API_KEY_HISTORY;
         try {
-            const data = new FormData()
+            const data = new FormData();
             data.append('email', email);
             data.append('dcc', dcc);
             data.append('report_accuracy_rating', value);
@@ -255,9 +256,9 @@ export function CourseSection({report, selectedPathIndex}) {
                 method: 'post',
                 url: endPoint,
                 data: data
-            }
-            const result = await requestHandler(config)
-            console.log("rating= ", result)
+            };
+            const result = await requestHandler(config);
+            console.log("rating= ", result);
 
             // check and update if marked status
             checkIfMarked();
@@ -287,18 +288,23 @@ export function CourseSection({report, selectedPathIndex}) {
         },
     })(Rating);
 
+    // comment form
+    const formik = useFormik({
+        initialValues: {
+            comment: ""
+        }
+    });
 
     // create new custom style rating (with transparent stars just like if its disabled)
     // use the disable style rating when its already rated, otherwise use normal rating
     const CustomRating = () => {
-        if(!rating.rated){
+        if (!rating.rated) {
             return <Rating
                 name="simple-controlled"
                 value={rating.value}
                 onChange={(event, value) => {
                     const newValue = value ?? defaultValue;
                     setRating({rated: true, value: newValue});
-                    submitRating(newValue)
                 }}
             />;
         }
@@ -361,15 +367,41 @@ export function CourseSection({report, selectedPathIndex}) {
                     {/* </Box> */}
                 </Box>
 
-                {/* Rate Section */}
+                {/* =================== Rate Section ================= */}
+                {/* mark in stars */}
                 <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
                     <div>
                         <Typography color='primary'>Rate the accuracy of this report</Typography>
                         <CustomRating></CustomRating>
-                        </div>
-
+                    </div>
                     { /* Rated Msg Section */}
                     <CheckIfMarked></CheckIfMarked>
+                </Box>
+
+                {/* comment section */}
+                <Box style={{marginTop: 10, marginBottom: 10}}>
+                    <Typography color='primary'>
+                        Help us improve by leaving your comments and suggestions below: </Typography>
+                    <TextField id="comment" size='small' name='comment'
+                               fullWidth variant="outlined" rowsMax={15} rows={5}
+                               multiline
+                               value={formik.values.comment}
+                               onChange={formik.handleChange}
+                               helperText={formik.touched.comment && formik.errors.comment}
+                               onBlur={formik.handleBlur}
+                               placeholder="Your comment."/>
+                </Box>
+
+                {/* submit button */}
+                <Box style={{marginTop: 10, marginBottom: 10, textAlign: 'right'}}>
+                    <Button variant='contained'
+                            color='primary'
+                            target="_blank"
+                            style={{borderRadius: 15, marginLeft: 10, height: 30}}
+                            onClick={() => submitRating(formik)}
+                    >
+                        {t("rating.submit_button")}
+                    </Button>
                 </Box>
             </Box>
 

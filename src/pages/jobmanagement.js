@@ -415,7 +415,8 @@ const AddApplicant = ({job, onCancel, refreshPage}) => {
         initialValues: {
             name: "",
             email: "",
-            resume: ""
+            joblink: "",
+            company: ""
         },
         validationSchema: addApplicantSchema,
         onSubmit: (values) => {
@@ -938,16 +939,16 @@ const JobManagement = () => {
     const showApplicantsCallback = useCallback((id) => onShowApplicants(id), []);
 
     const onShowApplicants = (id) => {
-        setShowItem(id)
+        setShowItem(id);
         setShowApplicants(true)
-    }
+    };
 
     const closeModal = () => {
         setShowItem(-1);
         setShowJobDetail(false);
         setShowApplicants(false);
         setShowAddApplicant(false);
-    }
+    };
 
     const onClose = () => {
         if (showJobDetail) { //在jobmodal 里面自己控制关闭
