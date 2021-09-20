@@ -2,31 +2,31 @@ import {
     Container, Box, Button, Modal, TextField, Select, FormControl, InputLabel,
     Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText, Chip, makeStyles, MenuItem
 } from "@material-ui/core"
-import { Section } from "../components/Section"
-import { h, h1, h2 } from '../constant/fontsize'
+import {Section} from "../components/Section"
+import {h, h1, h2} from '../constant/fontsize'
 import mockdata from '../constant/mockReleasedJobs.json'
-import { useCallback, useEffect, useState } from 'react'
+import {useCallback, useEffect, useState} from 'react'
 // import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { COLOR_TITLE } from "../constant/color"
+import {COLOR_TITLE} from "../constant/color"
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import EditIcon from '@material-ui/icons/Edit';
 import * as yup from 'yup';
-import { useFormik } from 'formik';
-import { useDispatch, useSelector } from "react-redux"
-import { checkStatus, useRequest } from "../hooks/useRequest"
-import { hrHistoryAction } from "../slices/hrHistorySlice"
-import { useRouter } from "next/router"
+import {useFormik} from 'formik';
+import {useDispatch, useSelector} from "react-redux"
+import {checkStatus, useRequest} from "../hooks/useRequest"
+import {hrHistoryAction} from "../slices/hrHistorySlice"
+import {useRouter} from "next/router"
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import CloseIcon from '@material-ui/icons/Close';
-import { RESUME_ANALYSIS_VIEWED, RESUME_INVITE, RESUME_REJECTED, RESUME_VIEWED } from "../constant/jobstatus"
-import { APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C } from "../constant/externalURLs"
-import { v4 as uuidv4 } from 'uuid';
+import {RESUME_ANALYSIS_VIEWED, RESUME_INVITE, RESUME_REJECTED, RESUME_VIEWED} from "../constant/jobstatus"
+import {APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C} from "../constant/externalURLs"
+import {v4 as uuidv4} from 'uuid';
 import getUserId from "../untils/getUserId"
 import checkLink from "../untils/checkLink"
-import { resumeHrStatusArray, JOB_STATUS } from "../constant/jobstatus"
-import { toast } from 'react-toastify';
-import { toastStyle } from "../constant/constant"
+import {resumeHrStatusArray, JOB_STATUS} from "../constant/jobstatus"
+import {toast} from 'react-toastify';
+import {toastStyle} from "../constant/constant"
 
 // const useStyles = makeStyles({
 //   rejectReasonContainer: {
@@ -37,11 +37,11 @@ import { toastStyle } from "../constant/constant"
 // })
 
 
-const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
-    const [showRejectReason, setShowRejectReason] = useState(false)
-    // const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清", "长得不够帅"]
+const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
+    const [showRejectReason, setShowRejectReason] = useState(false);
+    // const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清", "长得不够帅"];
     const rejectReasonOptions = ["Skills do not match", "Work experiences do not match", "Not enough project experience",
-        "Resume structure unclear", "Not enough hands-on skills"]
+        "Resume structure unclear", "Not enough hands-on skills"];
     const [rejectReasons, setRejectReasons] = useState(0); //bit indicates selected or not
     const [otherReason, setOtherReason] = useState("");
     const [otherBlur, setOherBlur] = useState(false);
@@ -51,9 +51,9 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
 
     const [showInvite, setShowInvite] = useState(false);
 
-    const operatonRequest = useRequest()
-    const params = useRouter().query
-    const hrId = params.id ?? 1
+    const operationRequest = useRequest();
+    const params = useRouter().query;
+    const hrId = params.id ?? 1;
 
     /**
      *
@@ -88,10 +88,10 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
     }
 
     const rejectReasonToString = () => {
-        let reason = []
+        let reason = [];
         for (let i = 0; i < rejectReasonOptions.length; i++) {
             if (rejectReasons & (1 << i)) {
-                reason = [...reason, rejectReasonOptions[i]]
+                reason = [...reason, rejectReasonOptions[i]];
                 console.log(reason)
 
             }
@@ -112,28 +112,27 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
         if (!checkReasons()) {
             setOherBlur(true)
         } else {
-
             try {
-                const rejectReason = rejectReasonToString()
-                console.log("reject reason", rejectReason)
+                const rejectReason = rejectReasonToString();
+                console.log("reject reason", rejectReason);
                 // const status = JSON.stringify()
-                const resp = await operatonRequest.requestHandler(getOperationconfig({
+                const resp = await operationRequest.requestHandler(getOperationconfig({
                     action: RESUME_REJECTED,
                     info: rejectReason
-                }, 1))
-                console.log("reject = ", resp)
+                }, 1));
+                console.log("reject = ", resp);
                 if (resp.status === 'success') {
-                    onReject()
-                    onCloseModal()
-                    console.log("reject succ")
+                    onReject();
+                    onCloseModal();
+                    console.log("reject succ");
                 } else {
-                    console.log("reject error")
-                    toast.error('Network Error, please retry', toastStyle)
+                    console.log("reject error");
+                    toast.error('Network Error, please retry', toastStyle);
                 }
             } catch (e) {
-                console.error("error while reject")
-                console.error(e)
-                toast.error('Network Error, please retry', toastStyle)
+                console.error("error while reject");
+                console.error(e);
+                toast.error('Network Error, please retry', toastStyle);
             }
             console.log(otherReason)
         }
@@ -162,7 +161,7 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
 
             try {
                 // const status = JSON.stringify({status: RESUME_INVITE, info: inviteLink.trim()})
-                await operatonRequest.requestHandler(getOperationconfig({
+                await operationRequest.requestHandler(getOperationconfig({
                     action: RESUME_INVITE, info: inviteLink.trim(),
                     description: inviteDescription
                 }))
@@ -193,8 +192,8 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
 
     return (
         <Box>
-            <Button onClick={() => setShowInvite(true)}>Invite <GroupAddIcon color="primary" /></Button>
-            <Button onClick={() => setShowRejectReason(true)}>Reject <CloseIcon color="error" /></Button>
+            <Button onClick={() => setShowInvite(true)}>Invite <GroupAddIcon color="primary"/></Button>
+            <Button onClick={() => setShowRejectReason(true)}>Reject <CloseIcon color="error"/></Button>
             <Modal open={showInvite} onClose={onCloseInviteModal}>
                 <Box mt={10} ml='auto' mr='auto' width="80%">
                     <Section>
@@ -202,14 +201,14 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
                             {/* <InlineWidget url="https://calendly.com/176237421/interview" /> */}
                             {/* <InlineWidget url="https://calendly.com/acmesales" /> */}
                             Please generate your invite link via <a href='http://calendly.com' target='_blank'
-                            >Calendly</a> , <a href='https://calendar.google.com/' target='_blank'>Google calendar</a> or
+                        >Calendly</a> , <a href='https://calendar.google.com/' target='_blank'>Google calendar</a> or
                             other tools and paste your link below<TextField placeholder='Paste your invite link here'
-                                onChange={onChangeLink}
-                                fullWidth value={inviteLink}
-                                onBlur={() => setInviteBlur(true)}
-                            />
+                                                                            onChange={onChangeLink}
+                                                                            fullWidth value={inviteLink}
+                                                                            onBlur={() => setInviteBlur(true)}
+                        />
                             <ErrorText visible={(inviteBlur && !checkLink(inviteLink))}
-                                text='Please enter a valid invite link: http(s)://...' />
+                                       text='Please enter a valid invite link: http(s)://...'/>
                             <TextField
                                 label="Invitation description" variant="outlined"
                                 placeholder='Please enter your description about this invitation'
@@ -221,8 +220,8 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
                                 onBlur={() => setDescBlur(true)}
                             />
                             <ErrorText visible={(descBlur && !checkDescription(inviteDescription))}
-                                text='Description is empty' />
-                            <SubmitAndCancel onSubmit={onSubmitInvite} onCancel={onCancelInvite} />
+                                       text='Description is empty'/>
+                            <SubmitAndCancel onSubmit={onSubmitInvite} onCancel={onCancelInvite}/>
                         </Box>
                     </Section>
                 </Box>
@@ -232,20 +231,20 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
                     <Section>
                         <Box p={4}>
                             <Box fontSize={h2} color={COLOR_TITLE}>Choose the reason</Box>
-                            <Box mt={2} display='flex' flexWrap="wrap" style={{ maxWidth: '100%' }}>
+                            <Box mt={2} display='flex' flexWrap="wrap" style={{maxWidth: '100%'}}>
                                 {rejectReasonOptions.map((v, i) =>
                                     <Chip
                                         clickable
                                         onClick={() => onSelectReason(i)}
                                         key={v}
                                         label={v} style={{
-                                            marginRight: 18,
-                                            color: (rejectReasons >> i & 1) ? '#ffffff' : 'black',
-                                            backgroundColor: (rejectReasons >> i & 1) ? COLOR_TITLE : '#ffffff',
-                                            filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.28))',
-                                            margin: '8px 4px',
-                                            overflowAnchor: "auto",
-                                        }}
+                                        marginRight: 18,
+                                        color: (rejectReasons >> i & 1) ? '#ffffff' : 'black',
+                                        backgroundColor: (rejectReasons >> i & 1) ? COLOR_TITLE : '#ffffff',
+                                        filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.28))',
+                                        margin: '8px 4px',
+                                        overflowAnchor: "auto",
+                                    }}
                                     />
                                 )}
 
@@ -253,16 +252,16 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
                             <Box display='flex' alignItems='center'>
                                 Other:
                                 <TextField fullWidth id='otherreason'
-                                    value={otherReason}
-                                    onChange={onOtherReason}
-                                    onBlur={() => setOherBlur(true)}
+                                           value={otherReason}
+                                           onChange={onOtherReason}
+                                           onBlur={() => setOherBlur(true)}
                                 ></TextField>
                             </Box>
-                            <ErrorText visible={otherBlur && !checkReasons()} text='Please choose or enter a reason' />
+                            <ErrorText visible={otherBlur && !checkReasons()} text='Please choose or enter a reason'/>
                             {/* <Box display='flex' alignItems='center' color="red" mt={2}>
                 {otherBlur && !checkReasons() && 'Please choose or enter a reason'}
               </Box> */}
-                            <SubmitAndCancel onSubmit={onSubmit} onCancel={onCloseModal} />
+                            <SubmitAndCancel onSubmit={onSubmit} onCancel={onCloseModal}/>
                         </Box>
                     </Section>
                 </Box>
@@ -271,13 +270,13 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
     )
 }
 
-const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refreshPage }) => {
+const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject, refreshPage}) => {
     const {
         name, application_time: apply_date, matching_level: match, resume, resume_report, user_id, resume_link, report,
         updates, hr_id, job_id, email
     } = applicant
-    const { action, time } = updates?.length ? updates[0] : {}
-    const { action: actionType, info, description } = action ? JSON.parse(action) : {}
+    const {action, time} = updates?.length ? updates[0] : {}
+    const {action: actionType, info, description} = action ? JSON.parse(action) : {}
     const resumeRequest = useRequest()
 
     const updateResumeStatus = async (status) => {
@@ -288,7 +287,7 @@ const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refr
             formData.append('hrid', hr_id)
             formData.append('jobid', job_id ?? 1)
             formData.append('dcc', X_API_KEY_B_AND_C)
-            formData.append('updates', JSON.stringify({ action: status }))
+            formData.append('updates', JSON.stringify({action: status}))
             const config = {
                 method: 'post',
                 url: APP_END_POINT_B_AND_C + 'update_application',
@@ -307,7 +306,7 @@ const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refr
     return (
 
         <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center'
-            style={style}>
+             style={style}>
             <Box width='10%' overflow='hidden'>{name}</Box>
             <Box width='15%' overflow='hidden'>{apply_date?.split('T')[0]}</Box>
             <Box width='5%' overflow='hidden' textAlign='center'>
@@ -317,18 +316,18 @@ const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refr
             <Box width='10%' overflow='hidden' textAlign='center'>
                 {isTitle && resume}
                 {!isTitle && <Button target='_blank' href={resume_link} onClick={onViewResume}><CloudDownloadIcon
-                    color="primary" /></Button>}
+                    color="primary"/></Button>}
             </Box>
             <Box width='10%' overflow='hidden' textAlign='center'>
                 {isTitle && resume_report}
                 {!isTitle &&
-                    <Button target='_blank' href={`/report?hrid=${hr_id}&jobid=${job_id}&index=${index}&email=${email}`}
-                        onClick={onViewReport}><CloudDownloadIcon color="primary" /></Button>}
+                <Button target='_blank' href={`/report?hrid=${hr_id}&jobid=${job_id}&index=${index}&email=${email}`}
+                        onClick={onViewReport}><CloudDownloadIcon color="primary"/></Button>}
             </Box>
             <Box width='25%' overflow='hidden' textAlign='center'>
                 {isTitle && "Operation"}
                 {!isTitle && <Operations applicantId={user_id} jobId={jobid} onReject={onReject} email={email}
-                    refreshPage={refreshPage} />}
+                                         refreshPage={refreshPage}/>}
             </Box>
             <Box width='25%' overflow='hidden' textAlign='center'>
                 {isTitle && "Note"}
@@ -340,17 +339,17 @@ const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refr
 
 }
 
-const SubmitAndCancel = ({ onSubmit, onCancel, disableSbumit }) => {
+const SubmitAndCancel = ({onSubmit, onCancel, disableSbumit}) => {
     return (
         <Box mt={3}>
-            <Button variant="contained" color="primary" disabled={disableSbumit} style={{ marginRight: 10 }}
-                onClick={onSubmit} type="submit">Submit</Button>
+            <Button variant="contained" color="primary" disabled={disableSbumit} style={{marginRight: 10}}
+                    onClick={onSubmit} type="submit">Submit</Button>
             <Button variant="contained" color="primary" onClick={onCancel}>Cancel</Button>
         </Box>
     )
 };
 
-const ErrorText = ({ visible, text }) => {
+const ErrorText = ({visible, text}) => {
     return (
         <Box display='flex' alignItems='center' color="red" mt={2}>
             {visible && text}
@@ -369,9 +368,10 @@ const addApplicantSchema = yup.object({
     company: yup.string().required('Company name is required'),
 })
 
-const AddApplicant = ({ job, onCancel, refreshPage }) => {
-    const { requestHandler } = useRequest();
-    const submitData = async ({ email, name, joblink, company }) => {
+const AddApplicant = ({job, onCancel, refreshPage}) => {
+    const {requestHandler} = useRequest();
+    // console.log(job);
+    const submitData = async ({email, name, joblink, company}) => {
         console.log('email', email, name, joblink, company);
         console.log('job', job);
         try {
@@ -424,7 +424,7 @@ const AddApplicant = ({ job, onCancel, refreshPage }) => {
         },
     });
     return (
-        <Box style={{ width: 360, marginLeft: 'auto', marginRight: 'auto' }}>
+        <Box style={{width: 360, marginLeft: 'auto', marginRight: 'auto'}}>
 
             <Section>
 
@@ -435,77 +435,77 @@ const AddApplicant = ({ job, onCancel, refreshPage }) => {
                     <form onSubmit={formik.handleSubmit}>
                         <Box mt={2}>
                             <TextField id="name" label="Name" variant="outlined" size='small' name='name'
-                                value={formik.values.name}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.name && Boolean(formik.errors.name)}
-                                helperText={formik.touched.name && formik.errors.name}
-                                style={{ width: 300 }} />
+                                       value={formik.values.name}
+                                       onChange={formik.handleChange}
+                                       onBlur={formik.handleBlur}
+                                       error={formik.touched.name && Boolean(formik.errors.name)}
+                                       helperText={formik.touched.name && formik.errors.name}
+                                       style={{width: 300}}/>
                         </Box>
                         <Box mt={2}>
                             <TextField id="email" label="Email" variant="outlined" size='small' name='email'
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.email && Boolean(formik.errors.email)}
-                                helperText={formik.touched.email && formik.errors.email}
-                                style={{ width: 300 }} />
+                                       value={formik.values.email}
+                                       onChange={formik.handleChange}
+                                       onBlur={formik.handleBlur}
+                                       error={formik.touched.email && Boolean(formik.errors.email)}
+                                       helperText={formik.touched.email && formik.errors.email}
+                                       style={{width: 300}}/>
                         </Box>
                         <Box mt={2}>
                             <TextField id="company" label="Company name" variant="outlined" size='small' name='company'
-                                value={formik.values.company}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.company && Boolean(formik.errors.company)}
-                                helperText={formik.touched.company && formik.errors.company}
-                                style={{ width: 300 }} />
+                                       value={formik.values.company}
+                                       onChange={formik.handleChange}
+                                       onBlur={formik.handleBlur}
+                                       error={formik.touched.company && Boolean(formik.errors.company)}
+                                       helperText={formik.touched.company && formik.errors.company}
+                                       style={{width: 300}}/>
                         </Box>
                         <Box mt={2}>
                             <TextField id="joblink" label="Job link" variant="outlined" size='small' name='joblink'
-                                value={formik.values.joblink}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.joblink && Boolean(formik.errors.joblink)}
-                                helperText={formik.touched.joblink && formik.errors.joblink}
-                                style={{ width: 300 }} />
+                                       value={formik.values.joblink}
+                                       onChange={formik.handleChange}
+                                       onBlur={formik.handleBlur}
+                                       error={formik.touched.joblink && Boolean(formik.errors.joblink)}
+                                       helperText={formik.touched.joblink && formik.errors.joblink}
+                                       style={{width: 300}}/>
                         </Box>
-                        <SubmitAndCancel onCancel={onCancel} />
+                        <SubmitAndCancel onCancel={onCancel}/>
                     </form>
                 </Box>
             </Section>
         </Box>)
 }
 
-const ApplicantsDetail = ({ job }) => {
-    const { job_id, status, post_date, modify_date, applicants, jobtitle } = job
+const ApplicantsDetail = ({job}) => {
+    const {job_id, status, post_date, modify_date, applicants, jobtitle} = job;
     // let applicantList = applicants
     // if(typeof(applicants) !== "object") applicantList = []
-    const [applicantList, setApplicantList] = useState([])
-    const hrid = getUserId()
-    const { requestHandler } = useRequest()
-    console.log('job', job)
+    const [applicantList, setApplicantList] = useState([]);
+    const hrid = getUserId();
+    const {requestHandler} = useRequest();
+    console.log('job', job);
     const onReject = (index) => {
         return setApplicantList([...applicantList.slice(0, index), ...applicantList.slice(index + 1)])
     }
 
     const getApplicants = async () => {
         try {
-            const data = new FormData()
+            const data = new FormData();
             data.append('hrid', hrid ?? 1); //mock data
             data.append('jobid', job_id);
             data.append('dcc', X_API_KEY_B_AND_C);
-            console.log('hrid= ', hrid, 'jobid= ', job_id)
+            console.log('hrid= ', hrid, 'jobid= ', job_id);
             const config = {
                 method: 'post',
                 url: APP_END_POINT_B_AND_C + ('get_all_applications'),
                 data: data
-            }
-            const result = await requestHandler(config)
-            console.log("applicant", result.applicants_info_list)
-            console.log("applicant", result)
+            };
+            const result = await requestHandler(config);
+            console.log("applicant", result.applicants_info_list);
+            console.log("applicant", result);
             if (!result.status) { //这里返回值 没有status code... T_T
                 // if(result.status === 'success') {
-                console.log("get applicants succcess")
+                console.log("get applicants succcess");
                 setApplicantList(result.applicants_info_list.sort((a, b) => (b.matching_level - a.matching_level)))
             } else {
                 console.log("get applicants error")
@@ -513,10 +513,10 @@ const ApplicantsDetail = ({ job }) => {
         } catch (e) {
             console.log("error get applicants")
         }
-    }
-    useEffect(getApplicants, [])
+    };
+    useEffect(getApplicants, []);
     return (
-        <Box mt={4} style={{ width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
+        <Box mt={4} style={{width: '80%', marginLeft: 'auto', marginRight: 'auto'}}>
             <Section>
                 <Box mt={4} p={4}>
                     <Box fontSize={h1} color={COLOR_TITLE}>
@@ -534,11 +534,11 @@ const ApplicantsDetail = ({ job }) => {
                             resume: "Resume",
                             resume_report: "Resume Analysis"
                         }}
-                        style={{ fontWeight: 600 }} isTitle />
+                        style={{fontWeight: 600}} isTitle/>
                     {(applicantList?.length === 0) && "No applicants Right now"}
                     {applicantList?.map((item, i) =>
                         <ApplicantItem applicant={item} key={i} index={i} jobid={job_id} onReject={() => onReject(i)}
-                            refreshPage={getApplicants} />)}
+                                       refreshPage={getApplicants}/>)}
                 </Box>
             </Section>
         </Box>
@@ -567,7 +567,7 @@ const validationSchema = yup.object({
 });
 
 //Edit or add Job
-const JobDetail = ({ job, index, closeModal, updatePage, hrid }) => {
+const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
     // let initJob = {status:0, link:"", post_date:"", applicants:[],title:"", modify_date:"", description:null, salary_start:null, salary_end:null}
     let initJob = {};
     const isNew = index === -1;
@@ -612,7 +612,7 @@ const JobDetail = ({ job, index, closeModal, updatePage, hrid }) => {
         return salaryUnitState;
     };
 
-    const { requestHandler } = useRequest();
+    const {requestHandler} = useRequest();
     const submitData = async (values) => {
         try {
             const data = new FormData();
@@ -685,7 +685,7 @@ const JobDetail = ({ job, index, closeModal, updatePage, hrid }) => {
     // };
 
     return (
-        <Box style={{ width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
+        <Box style={{width: '80%', marginLeft: 'auto', marginRight: 'auto'}}>
             <Section>
                 <Box mt={4} p={4}>
                     <Box fontSize={h1} color={COLOR_TITLE}>
@@ -698,29 +698,29 @@ const JobDetail = ({ job, index, closeModal, updatePage, hrid }) => {
                     <form onSubmit={formik.handleSubmit}>
                         <Box>
                             <TextField id="job_reference_id" label="Job id" variant="outlined" size='small'
-                                name='job_reference_id'
-                                value={formik.values.job_reference_id}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.job_reference_id && Boolean(formik.errors.job_reference_id)}
-                                helperText={formik.touched.job_reference_id && formik.errors.job_reference_id}
-                                style={{ width: 150 }} />
+                                       name='job_reference_id'
+                                       value={formik.values.job_reference_id}
+                                       onChange={formik.handleChange}
+                                       onBlur={formik.handleBlur}
+                                       error={formik.touched.job_reference_id && Boolean(formik.errors.job_reference_id)}
+                                       helperText={formik.touched.job_reference_id && formik.errors.job_reference_id}
+                                       style={{width: 150}}/>
                         </Box>
                         <Box mt={2}>
                             <TextField id="title" label="Job title" variant="outlined" size='small' name='title'
-                                value={formik.values.title}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.title && Boolean(formik.errors.title)}
-                                helperText={formik.touched.title && formik.errors.title}
-                                style={{ width: 300 }} />
+                                       value={formik.values.title}
+                                       onChange={formik.handleChange}
+                                       onBlur={formik.handleBlur}
+                                       error={formik.touched.title && Boolean(formik.errors.title)}
+                                       helperText={formik.touched.title && formik.errors.title}
+                                       style={{width: 300}}/>
                         </Box>
 
                         <Box mt={2}>
                             <FormControl variant="outlined">
                                 <InputLabel htmlFor="jobtype">Job type</InputLabel>
                                 <Select
-                                    style={{ height: 40 }}
+                                    style={{height: 40}}
                                     native
                                     variant="outlined"
                                     value={formik.values.jobtype}
@@ -740,10 +740,10 @@ const JobDetail = ({ job, index, closeModal, updatePage, hrid }) => {
                                     <option value={2}>Part-time</option>
                                 </Select>
                             </FormControl>
-                            <FormControl variant="outlined" style={{ marginLeft: 10 }}>
+                            <FormControl variant="outlined" style={{marginLeft: 10}}>
                                 <InputLabel htmlFor="status">Job Status</InputLabel>
                                 <Select
-                                    style={{ height: 40 }}
+                                    style={{height: 40}}
                                     native
                                     variant="outlined"
                                     // value={state.age}
@@ -764,10 +764,10 @@ const JobDetail = ({ job, index, closeModal, updatePage, hrid }) => {
                             </FormControl>
                         </Box>
                         <Box mt={2}>
-                            <span style={{ marginRight: 10 }}>Salary:
+                            <span style={{marginRight: 10}}>Salary:
                             </span>
                             <Select
-                                style={{ height: 40 }}
+                                style={{height: 40}}
                                 native
                                 variant="outlined"
                                 // value={state.age}
@@ -783,43 +783,43 @@ const JobDetail = ({ job, index, closeModal, updatePage, hrid }) => {
                                 <option value={'CAD'}>$CAD</option>
                             </Select>
                             <TextField id="salary_start" label="From" variant="outlined" size='small' type='number'
-                                value={formik.values.salary_start}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.salary_start && Boolean(formik.errors.salary_start)}
-                                helperText={formik.touched.salary_start && formik.errors.salary_start}
-                                style={{ width: 100, marginRight: 10, marginLeft: 10 }} />
+                                       value={formik.values.salary_start}
+                                       onChange={formik.handleChange}
+                                       onBlur={formik.handleBlur}
+                                       error={formik.touched.salary_start && Boolean(formik.errors.salary_start)}
+                                       helperText={formik.touched.salary_start && formik.errors.salary_start}
+                                       style={{width: 100, marginRight: 10, marginLeft: 10}}/>
                             <TextField id="salary_end" label="To" variant="outlined" size='small' type='number'
-                                style={{ width: 100 }}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.salary_end}
-                                onChange={formik.handleChange}
-                                error={formik.touched.salary_end && Boolean(formik.errors.salary_end)}
-                                helperText={formik.touched.salary_end && formik.errors.salary_end}
+                                       style={{width: 100}}
+                                       onBlur={formik.handleBlur}
+                                       value={formik.values.salary_end}
+                                       onChange={formik.handleChange}
+                                       error={formik.touched.salary_end && Boolean(formik.errors.salary_end)}
+                                       helperText={formik.touched.salary_end && formik.errors.salary_end}
                             />
-                            <span style={{ width: 100, marginLeft: 10 }}>{salaryUnitState}
+                            <span style={{width: 100, marginLeft: 10}}>{salaryUnitState}
                             </span>
                         </Box>
                         <Box mt={2}>
                             <TextField id="note" label="Job Note" variant="outlined" rowsMax={5} rows={2} fullWidth
-                                multiline
-                                value={formik.values.note}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
+                                       multiline
+                                       value={formik.values.note}
+                                       onChange={formik.handleChange}
+                                       onBlur={formik.handleBlur}
                             />
                         </Box>
                         <Box mt={2}>
                             <TextField id="description" label="Job Description" variant="outlined" rowsMax={15} rows={5}
-                                fullWidth
-                                multiline
-                                value={formik.values.description}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.description && Boolean(formik.errors.description)}
-                                helperText={formik.touched.description && formik.errors.description}
+                                       fullWidth
+                                       multiline
+                                       value={formik.values.description}
+                                       onChange={formik.handleChange}
+                                       onBlur={formik.handleBlur}
+                                       error={formik.touched.description && Boolean(formik.errors.description)}
+                                       helperText={formik.touched.description && formik.errors.description}
                             />
                         </Box>
-                        <SubmitAndCancel onCancel={onClickCancel} />
+                        <SubmitAndCancel onCancel={onClickCancel}/>
                         {/* <Box mt={3}>
               <Button variant="contained" color="primary" style={{marginRight:10}} type="submit">Submit</Button>
               <Button variant="contained" color="primary" onClick={onClickCancel}>Cancel</Button>
@@ -855,8 +855,7 @@ const JobDetail = ({ job, index, closeModal, updatePage, hrid }) => {
 };
 
 
-const CardItem = ({ index, onShowJobDetail, onShowApplicants, item, style, isTitle, onAddApplicant }) => {
-
+const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitle, onAddApplicant}) => {
     const {
         job_id: id, jobstatus: status, link, job_posting_time, postdate, modify_date, applicants, jobtitle: title,
         edit, note, job_reference_id, currency,
@@ -870,34 +869,39 @@ const CardItem = ({ index, onShowJobDetail, onShowApplicants, item, style, isTit
     return (
         <Box>
             <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center'
-                justifyContent='center' style={style}>
+                 justifyContent='center' style={style}>
                 <Box width='8%' overflow='hidden'>{isTitle ? 'Job ID' : job_reference_id}</Box>
                 <Box width='10%' overflow='hidden'>{getCountryNameOrCurrency}</Box>
-                <Box width='20%' overflow='hidden'>{title}</Box>
+                <Box width='20%' overflow='hidden'>
+                    {isTitle ? 'Job Title' : <Button
+                        onClick={onAddApplicant} variant='contained' color='primary'
+                        style={{height: 30, marginTop: 10, marginBottom: 10}}
+                    >{title}</Button>}
+                </Box>
                 <Box width='15%' overflow='hidden' textAlign='center'>
                     {/**index === undefined 表示list 的标题栏*/}
                     {isTitle && numOfApplicants}
                     {!isTitle &&
-                        <Box display='flex' flexDirection='row' width='100%' justifyContent='space-evenly'>
-                            <Button
-                                disabled={numOfApplicants === 0}
-                                onClick={() => onShowApplicants(index)} variant='contained' color='primary'
-                                style={{ height: 30, marginTop: 10, marginBottom: 10 }}
-                            >{numOfApplicants}</Button>
-                            <Button variant='contained' color='primary'
-                                style={{ height: 30, marginTop: 10, marginBottom: 10 }}
+                    <Box display='flex' flexDirection='row' width='100%' justifyContent='space-evenly'>
+                        <Button
+                            disabled={numOfApplicants === 0}
+                            onClick={() => onShowApplicants(index)} variant='contained' color='primary'
+                            style={{height: 30, marginTop: 10, marginBottom: 10}}
+                        >{numOfApplicants}</Button>
+                        <Button variant='contained' color='primary'
+                                style={{height: 30, marginTop: 10, marginBottom: 10}}
                                 onClick={onAddApplicant}>Add</Button>
-                        </Box>}
+                    </Box>}
                 </Box>
                 <Box width='20%' overflow='hidden' textAlign='center'>{isTitle ? "Job status" : job_status}</Box>
                 <Box width='8%'>
                     {isTitle && edit}
                     {!isTitle &&
-                        <Button onClick={() => onShowJobDetail(index)}>
-                            {/* {showDetail && <ExpandLessIcon/>}
+                    <Button onClick={() => onShowJobDetail(index)}>
+                        {/* {showDetail && <ExpandLessIcon/>}
             {!showDetail && <ExpandMoreIcon/>}  */}
-                            <EditIcon color='primary' />
-                        </Button>
+                        <EditIcon color='primary'/>
+                    </Button>
                     }
                 </Box>
                 <Box width='10%' overflow='hidden'>{isTitle ? postdate : (job_posting_time.split("T")[0])}</Box>
@@ -911,7 +915,7 @@ const CardItem = ({ index, onShowJobDetail, onShowApplicants, item, style, isTit
 }
 
 const JobManagement = () => {
-    const [showItem, setShowItem] = useState(-1) //index in Job list, -1表示没有
+    const [showItem, setShowItem] = useState(-1); //index in Job list, -1表示没有
     const [showJobDetail, setShowJobDetail] = useState(false);
     const [showApplicants, setShowApplicants] = useState(false);
     const hrHistory = useSelector(store => store.history);
@@ -925,7 +929,7 @@ const JobManagement = () => {
         setShowJobDetail(true);
     };
 
-    const [showAddApplicant, setShowAddApplicant] = useState(false)
+    const [showAddApplicant, setShowAddApplicant] = useState(false);
     const onAddApplicant = (index) => {
         setShowAddApplicant(true);
         setShowItem(index);
@@ -974,17 +978,17 @@ const JobManagement = () => {
         } catch (e) {
             console.error("error happen while fetching posted jobs", e)
         }
-    }
+    };
 
-    console.log("hr", hrHistoryList)
+    console.log("hr", hrHistoryList);
 
     useEffect(() => {
         if (hrId) getData()
-    }, [hrId])
+    }, [hrId]);
 
     return (
         <Container
-            style={{ marginTop: 18 }}
+            style={{marginTop: 18}}
         >
             <Section>
                 <Box p={4}>
@@ -997,7 +1001,7 @@ const JobManagement = () => {
                         </Box>
                         <Button onClick={() => {
                             onShowJobDetail(-1)
-                        }} color='primary' variant='contained' style={{ borderRadius: 20 }}>Post Job</Button>
+                        }} color='primary' variant='contained' style={{borderRadius: 20}}>Post Job</Button>
                     </Box>
                 </Box>
 
@@ -1015,7 +1019,7 @@ const JobManagement = () => {
                             note: "Note",
                             currency: "Country"
                         }}
-                        style={{ fontWeight: 600 }} key={-1} isTitle />
+                        style={{fontWeight: 600}} key={-1} isTitle/>
                     {hrHistoryList.length === 0 && "No application history"}
                     {hrHistoryList.map((job, i) =>
                         <CardItem
@@ -1025,19 +1029,19 @@ const JobManagement = () => {
                             onShowApplicants={showApplicantsCallback}
                             onAddApplicant={() => onAddApplicant(i)}
                             // showDetail={showItem === i}
-                            key={i} />
+                            key={i}/>
                     )}
                 </Box>
             </Section>
-            <Modal open={showJobDetail || showApplicants} onClose={onClose} style={{ overflowY: 'scroll' }}>
+            <Modal open={showJobDetail || showApplicants} onClose={onClose} style={{overflowY: 'scroll'}}>
                 <>
                     {showJobDetail && <JobDetail job={hrHistoryList[showItem]} index={showItem} closeModal={closeModal}
-                        updatePage={getData} hrid={hrId}></JobDetail>}
+                                                 updatePage={getData} hrid={hrId}></JobDetail>}
                     {showApplicants && <ApplicantsDetail job={hrHistoryList[showItem]}></ApplicantsDetail>}
                 </>
             </Modal>
             <Modal open={showAddApplicant} onClose={closeModal}>
-                <AddApplicant job={hrHistoryList[showItem]} onCancel={closeModal} refreshPage={getData} />
+                <AddApplicant job={hrHistoryList[showItem]} onCancel={closeModal} refreshPage={getData}/>
             </Modal>
         </Container>
     )
