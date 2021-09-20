@@ -415,8 +415,7 @@ const AddApplicant = ({job, onCancel, refreshPage}) => {
         initialValues: {
             name: "",
             email: "",
-            joblink: "",
-            company: ""
+            resume: ""
         },
         validationSchema: addApplicantSchema,
         onSubmit: (values) => {
