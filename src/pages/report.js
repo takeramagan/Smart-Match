@@ -420,7 +420,7 @@ export default function Home() {
                 color="primary"
                 startIcon={<ArrowBackOutlinedIcon />}
                 onClick={() => setReport(null)}
-                style={{ borderRadius: 20, minWidth: 140, height: 40 }}
+                style={{ minWidth: 140, height: 40 }}
               >
                 {t('sidebar.back')}
               </Button>

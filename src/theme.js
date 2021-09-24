@@ -3,6 +3,13 @@ import { red } from '@material-ui/core/colors'
 
 // Create a theme instance.
 const theme = createMuiTheme({
+  overrides: {
+    MuiButton: {
+      root: {
+        borderRadius: 20,
+      }, 
+    }, 
+  }, 
   typography: {
     fontFamily: [
       'Poppins',
