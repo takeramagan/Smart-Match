@@ -75,7 +75,7 @@ function FileDropzone(props) {
   const email = params.email
 
   // add loading ads time in second
-  const adsLoadingTime = 5;
+  const adsLoadingTime = 3;
 
   //add selector
   const [area, setArea] = useState('ca')
