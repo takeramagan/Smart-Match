@@ -1,15 +1,15 @@
 import { Box, CircularProgress, Typography, Popover, makeStyles } from '@material-ui/core'
-import {h4} from '../constant/fontsize'
+import { h4 } from '../constant/fontsize'
 import { useState } from 'react'
 import { POPUP_BG_COLOR } from '../constant/color'
 
 const useStyles = makeStyles({
-  popover:{
+  popover: {
     borderRadius: '15px',
   }
 })
 
-export function CircularProgressWithLabel (props) {
+export function CircularProgressWithLabel(props) {
   return (
     <Box position='relative' display='inline-flex'>
       <Box position='absolute' top={2} left={2}>
@@ -26,9 +26,8 @@ export function CircularProgressWithLabel (props) {
         alignItems='center'
         justifyContent='center'
       >
-        <Typography component='div' style={{ color: '#0061FF', fontSize: h4 }}>{`${Math.round(
-          props.value
-        )}%`}
+        <Typography component='div' style={{ color: '#0061FF', fontSize: h4 }}>
+          {`${Math.round(props.value)}%`}
         </Typography>
       </Box>
     </Box>
@@ -36,51 +35,51 @@ export function CircularProgressWithLabel (props) {
 }
 
 export const PercentageLabel = ({ name, value, text }) => {
-    //add popover
-    const [anchorEl, setAnchorEl] = useState(null);
-    const handlePopoverOpen = (event) => {
-      if(text) setAnchorEl(event.currentTarget);
-    };
-    const handlePopoverClose = () => {
-      setAnchorEl(null);
-    };
-    const openPopOver = Boolean(anchorEl);
-    const classes = useStyles()
+  //add popover
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handlePopoverOpen = (event) => {
+    if (text) setAnchorEl(event.currentTarget);
+  };
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+  const openPopOver = Boolean(anchorEl);
+  const classes = useStyles()
   return (
-    <Box p={1} 
+    <Box p={1}
       textAlign='center'
-      onMouseLeave={handlePopoverClose} 
-      onMouseEnter={handlePopoverOpen} 
+      onMouseLeave={handlePopoverClose}
+      onMouseEnter={handlePopoverOpen}
     >
-      <CircularProgressWithLabel value={value} size='50px' />
+      <CircularProgressWithLabel size='50px' value={Number(value)} />
       <Box m={0} color='#0061FF'>
         {name}
       </Box>
       <Popover
-    id="popover"
-      open={openPopOver}
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'left',
-      }}
-      onClose={handlePopoverClose}
-      style={{ 
-        pointerEvents: 'none', 
-      }}
-      classes={{paper:classes.popover}}
-      disableRestoreFocus
-      disableScrollLock
-    >
-      {/* {Object.entries(job).map(([key, value]) => <Typography key={key}>{key} : {value.toString()}</Typography>)} */}
-      <Box p={1} width={300} minHeight={50} bgcolor={POPUP_BG_COLOR}>
-        {text && <Typography>{name}: {text}</Typography>}
-      </Box>
-    </Popover>
+        id="popover"
+        open={openPopOver}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        onClose={handlePopoverClose}
+        style={{
+          pointerEvents: 'none',
+        }}
+        classes={{ paper: classes.popover }}
+        disableRestoreFocus
+        disableScrollLock
+      >
+        {/* {Object.entries(job).map(([key, value]) => <Typography key={key}>{key} : {value.toString()}</Typography>)} */}
+        <Box p={1} width={300} minHeight={50} bgcolor={POPUP_BG_COLOR}>
+          {text && <Typography>{name}: {text}</Typography>}
+        </Box>
+      </Popover>
     </Box>
   )
 }
