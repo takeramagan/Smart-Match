@@ -286,6 +286,7 @@ const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject, refre
     const {action: actionType, info, description} = action ? JSON.parse(action) : {};
     const resumeRequest = useRequest();
 
+
     const updateResumeStatus = async (status) => {
         if (actionType >= RESUME_REJECTED) return;
         try {
@@ -295,6 +296,7 @@ const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject, refre
             formData.append('jobid', job_id ?? 1);
             formData.append('dcc', X_API_KEY_B_AND_C);
             formData.append('updates', JSON.stringify({action: status}));
+
             const config = {
                 method: 'post',
                 url: APP_END_POINT_B_AND_C + 'update_application',
@@ -382,6 +384,7 @@ const checkApplicantSchema = yup.object({
 const AddApplicant = ({job, onCancel, refreshPage}) => {
     const {requestHandler} = useRequest();
     // console.log(job);
+
     const submitData = async ({email, name, joblink, company}) => {
         console.log('email', email, name, joblink, company);
         console.log('job', job);
@@ -720,7 +723,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
 
     // salary unit state listener
     const [salaryUnitState, setSalaryUnitState] = useState(
-        formik.initialValues.jobtype == 1 ? 'per Hour' : 'per Year');
+        (formik.initialValues.jobtype == 0) ? 'per Year' : 'per Hour');
 
     const jobTypeChange = (v) => {
         setSalaryUnit(v.target.value);
@@ -728,7 +731,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
 
     // get the salary unit display str
     const setSalaryUnit = (v) => {
-        setSalaryUnitState(v === '1' ? 'per Hour' : 'per Year');
+        setSalaryUnitState(v === '0' ? 'per Year' : 'per Hour');
         return salaryUnitState;
     };
 
@@ -1177,6 +1180,7 @@ const JobManagement = () => {
             </Modal>
             <Modal open={showCheckApplicantForm} onClose={closeModal}>
                 <CheckApplicant onCancel={closeModal} refreshPage={getData}/>
+
             </Modal>
         </Container>
     )
