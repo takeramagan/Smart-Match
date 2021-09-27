@@ -27,6 +27,9 @@ import checkLink from "../untils/checkLink"
 import {resumeHrStatusArray, JOB_STATUS} from "../constant/jobstatus"
 import {toast} from 'react-toastify';
 import {toastStyle} from "../constant/constant"
+import {useDropzone} from "react-dropzone";
+import DescriptionIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import {useTranslation} from "react-i18next";
 
 // const useStyles = makeStyles({
 //   rejectReasonContainer: {
@@ -36,12 +39,16 @@ import {toastStyle} from "../constant/constant"
 //   },
 // })
 
+const ApplicantResumeCheck = () => {
+    const [showAddApplicantRes, setShowAddApplicantRes] = useState(false);
+}
+
 
 const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
-    const [showRejectReason, setShowRejectReason] = useState(false)
-    // const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清", "长得不够帅"]
+    const [showRejectReason, setShowRejectReason] = useState(false);
+    // const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清", "长得不够帅"];
     const rejectReasonOptions = ["Skills do not match", "Work experiences do not match", "Not enough project experience",
-        "Resume structure unclear", "Not enough hands-on skills"]
+        "Resume structure unclear", "Not enough hands-on skills"];
     const [rejectReasons, setRejectReasons] = useState(0); //bit indicates selected or not
     const [otherReason, setOtherReason] = useState("");
     const [otherBlur, setOherBlur] = useState(false);
@@ -51,9 +58,9 @@ const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
 
     const [showInvite, setShowInvite] = useState(false);
 
-    const operatonRequest = useRequest()
-    const params = useRouter().query
-    const hrId = params.id ?? 1
+    const operationRequest = useRequest();
+    const params = useRouter().query;
+    const hrId = params.id ?? 1;
 
     /**
      *
@@ -67,87 +74,86 @@ const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
         // formdata.append('jobid', jobId ?? 0) //0代替
         // formdata.append('hrid', hrId ?? 0)
         // formdata.append('hyid', applicantId ?? 0) //0 代替
-        console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId)
+        console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId);
         // Object.entries(data).forEach(([k,v]) =>{console.log(k, v); formdata.append(k, v)})
-        console.log("data", data)
-        const formData = new FormData()
-        formData.append('userid', applicantId ?? 20)
-        formData.append('email', email)
-        formData.append('hrid', hrId)
-        formData.append('jobid', jobId ?? 1)
-        formData.append('dcc', X_API_KEY_B_AND_C)
-        formData.append('updates', JSON.stringify(data))
-        formData.append('application_status', application_status) //0: default state 1: reject
-        console.log("application status= ", application_status)
+        console.log("data", data);
+        const formData = new FormData();
+        formData.append('userid', applicantId ?? 20);
+        formData.append('email', email);
+        formData.append('hrid', hrId);
+        formData.append('jobid', jobId ?? 1);
+        formData.append('dcc', X_API_KEY_B_AND_C);
+        formData.append('updates', JSON.stringify(data));
+        formData.append('application_status', application_status); //0: default state 1: reject
+        console.log("application status= ", application_status);
         // application_status !== 1 ?? formData.append('invite_description', inviteDescription) //0: default state 1: reject
         return ({
             method: 'post',
             url: APP_END_POINT_B_AND_C + 'update_application',
             data: formData
-        })
-    }
+        });
+    };
 
     const rejectReasonToString = () => {
-        let reason = []
+        let reason = [];
         for (let i = 0; i < rejectReasonOptions.length; i++) {
             if (rejectReasons & (1 << i)) {
-                reason = [...reason, rejectReasonOptions[i]]
+                reason = [...reason, rejectReasonOptions[i]];
                 console.log(reason)
 
             }
         }
 
-        if (otherReason) reason = [...reason, otherReason]
+        if (otherReason) reason = [...reason, otherReason];
         return reason.join(" ")
-    }
+    };
 
     const onCloseModal = () => {
-        setShowRejectReason(false)
-        setOherBlur(false)
-    }
+        setShowRejectReason(false);
+        setOherBlur(false);
+    };
 
-    const checkReasons = () => (otherReason.trim() || rejectReasons)
+    const checkReasons = () => (otherReason.trim() || rejectReasons);
 
     const onSubmit = async () => {
         if (!checkReasons()) {
             setOherBlur(true)
         } else {
-
             try {
-                const rejectReason = rejectReasonToString()
-                console.log("reject reason", rejectReason)
+                const rejectReason = rejectReasonToString();
+                console.log("reject reason", rejectReason);
                 // const status = JSON.stringify()
-                const resp = await operatonRequest.requestHandler(getOperationconfig({
+                const resp = await operationRequest.requestHandler(getOperationconfig({
                     action: RESUME_REJECTED,
                     info: rejectReason
-                }, 1))
-                console.log("reject = ", resp)
+                }, 1));
+                console.log("reject = ", resp);
                 if (resp.status === 'success') {
-                    onReject()
-                    onCloseModal()
-                    console.log("reject succ")
+                    onReject();
+                    onCloseModal();
+                    console.log("reject succ");
                 } else {
-                    console.log("reject error")
-                    toast.error('Network Error, please retry', toastStyle)
+                    console.log("reject error");
+                    toast.error('Network Error, please retry', toastStyle);
                 }
             } catch (e) {
-                console.error("error while reject")
-                console.error(e)
-                toast.error('Network Error, please retry', toastStyle)
+                console.error("error while reject");
+                console.error(e);
+                toast.error('Network Error, please retry', toastStyle);
             }
             console.log(otherReason)
         }
-    }
+    };
 
     const onSelectReason = (i) => {
         setRejectReasons(v => {
             return (v ^ (1 << i))
         }) //对应该位取反
-    }
+    };
 
     const onOtherReason = (e) => {
         setOtherReason(e.target.value)
-    }
+    };
 
     // const checkLink = (link) => {
     //   return link.trim().match(/^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/)
@@ -155,41 +161,41 @@ const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
 
     const onSubmitInvite = async () => {
         if (!checkLink(inviteLink) || !(checkDescription(inviteDescription))) {
-            setInviteBlur(true)
-            setDescBlur(true)
+            setInviteBlur(true);
+            setDescBlur(true);
             console.log("false")
         } else {
 
             try {
                 // const status = JSON.stringify({status: RESUME_INVITE, info: inviteLink.trim()})
-                await operatonRequest.requestHandler(getOperationconfig({
+                await operationRequest.requestHandler(getOperationconfig({
                     action: RESUME_INVITE, info: inviteLink.trim(),
                     description: inviteDescription
-                }))
-                onCloseInviteModal()
+                }));
+                onCloseInviteModal();
                 refreshPage()
             } catch (e) {
                 console.error("error while submit link")
             }
         }
-    }
+    };
 
     const onCancelInvite = () => {
-        onCloseInviteModal()
-    }
+        onCloseInviteModal();
+    };
 
     const onCloseInviteModal = () => {
-        setShowInvite(false)
-        setInviteBlur(false)
-    }
+        setShowInvite(false);
+        setInviteBlur(false);
+    };
 
-    const [inviteDescription, setInviteDescription] = useState()
-    const [descBlur, setDescBlur] = useState(false)
+    const [inviteDescription, setInviteDescription] = useState();
+    const [descBlur, setDescBlur] = useState(false);
     const onChangeLink = (e) => {
-        setInviteLink(e.target.value.trim())
-    }
-    const onChangeDescription = (e) => setInviteDescription(e.target.value)
-    const checkDescription = (description) => (description?.trim())
+        setInviteLink(e.target.value.trim());
+    };
+    const onChangeDescription = (e) => setInviteDescription(e.target.value);
+    const checkDescription = (description) => (description?.trim());
 
     return (
         <Box>
@@ -269,43 +275,44 @@ const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
             </Modal>
         </Box>
     )
-}
+};
 
 const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject, refreshPage}) => {
     const {
         name, application_time: apply_date, matching_level: match, resume, resume_report, user_id, resume_link, report,
         updates, hr_id, job_id, email
-    } = applicant
-    const {action, time} = updates?.length ? updates[0] : {}
-    const {action: actionType, info, description} = action ? JSON.parse(action) : {}
-    const resumeRequest = useRequest()
+    } = applicant;
+    const {action, time} = updates?.length ? updates[0] : {};
+    const {action: actionType, info, description} = action ? JSON.parse(action) : {};
+    const resumeRequest = useRequest();
+
 
     const updateResumeStatus = async (status) => {
-        if (actionType >= RESUME_REJECTED) return
+        if (actionType >= RESUME_REJECTED) return;
         try {
-            const formData = new FormData()
-            formData.append('userid', user_id ?? 20)
-            formData.append('hrid', hr_id)
-            formData.append('jobid', job_id ?? 1)
-            formData.append('dcc', X_API_KEY_B_AND_C)
-            formData.append('updates', JSON.stringify({action: status}))
+            const formData = new FormData();
+            formData.append('userid', user_id ?? 20);
+            formData.append('hrid', hr_id);
+            formData.append('jobid', job_id ?? 1);
+            formData.append('dcc', X_API_KEY_B_AND_C);
+            formData.append('updates', JSON.stringify({action: status}));
+
             const config = {
                 method: 'post',
                 url: APP_END_POINT_B_AND_C + 'update_application',
                 data: formData
-            }
+            };
             await resumeRequest.requestHandler(config)
         } catch (e) {
             console.log("view resume error")
         }
-    }
+    };
 
-    const onViewResume = () => updateResumeStatus(RESUME_VIEWED) // 1: viewed
-    const onViewReport = async () => updateResumeStatus(RESUME_ANALYSIS_VIEWED) // 2: report viewed
+    const onViewResume = () => updateResumeStatus(RESUME_VIEWED); // 1: viewed
+    const onViewReport = async () => updateResumeStatus(RESUME_ANALYSIS_VIEWED); // 2: report viewed
 
 
     return (
-
         <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center'
              style={style}>
             <Box width='10%' overflow='hidden'>{name}</Box>
@@ -356,7 +363,7 @@ const ErrorText = ({visible, text}) => {
             {visible && text}
         </Box>
     )
-}
+};
 
 const addApplicantSchema = yup.object({
     name: yup
@@ -367,10 +374,17 @@ const addApplicantSchema = yup.object({
         return checkLink(v)
     }),
     company: yup.string().required('Company name is required'),
-})
+});
+
+const checkApplicantSchema = yup.object({
+    email: yup.string().email("Invalid email").required('Email is required'),
+    resume_file: yup.string().required('Applicant resume is required')
+});
 
 const AddApplicant = ({job, onCancel, refreshPage}) => {
     const {requestHandler} = useRequest();
+    // console.log(job);
+
     const submitData = async ({email, name, joblink, company}) => {
         console.log('email', email, name, joblink, company);
         console.log('job', job);
@@ -393,12 +407,12 @@ const AddApplicant = ({job, onCancel, refreshPage}) => {
                     company_name: company,
                     dcc: X_API_KEY_B_AND_C
                 }
-            )
+            );
             const config = {
                 method: 'post',
                 url: APP_END_POINT_B_AND_C + ('insert_application'),
                 data: data
-            }
+            };
             const result = await requestHandler(config);
             console.log("applicant", result);
             if (result.status === 'success') { //这里返回值 没有status code... T_T
@@ -474,38 +488,148 @@ const AddApplicant = ({job, onCancel, refreshPage}) => {
                 </Box>
             </Section>
         </Box>)
-}
+};
+
+const CheckApplicant = ({onCancel}) => {
+    const {t} = useTranslation();
+    const {requestHandler} = useRequest();
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+            resume_file: ""
+        },
+        validationSchema: checkApplicantSchema
+    });
+    const submitData = async () => {
+        const email = formik.values.email;
+        const resume_file = formik.values.resume_file;
+        console.log('in-data: ', {email, resume_file});
+        try {
+            const data = new FormData();
+            data.append('email', email); //mock data
+            data.append('resume_file', resume_file); //mock data
+            data.append('dcc', X_API_KEY_B_AND_C);
+            console.log(
+                {
+                    email,
+                    dcc: X_API_KEY_B_AND_C
+                }
+            );
+            const config = {
+                method: 'post',
+                url: APP_END_POINT_B_AND_C + ('check_application'),
+                data: data
+            };
+            // const result = await requestHandler(config);
+            // console.log("applicant", result);
+            // if (result.status === 'success') {
+            //     onCancel();
+            // }
+        } catch (e) {
+            console.log("insert error", e);
+            toast.error('Add applicant resume failed: ' + e.toString(), toastStyle)
+            // alert('User has applied this job, or hasnot uploaded a resume. please check the email')
+        }
+    };
+
+    const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone({
+        maxFiles: 1
+    });
+
+    useEffect(() => {
+        if (acceptedFiles.length) {
+            formik.values.resume_file = acceptedFiles;
+        }
+    }, [acceptedFiles]);
+
+
+    return (
+        <Box style={{width: 360, marginLeft: 'auto', marginRight: 'auto'}}>
+            <Section>
+
+                <Box p={4} mt={4} fontSize={h2}>
+                    <Box fontSize={h1} color={COLOR_TITLE}>
+                        Applicant Assessment
+                    </Box>
+                    <form onSubmit={formik.handleSubmit}>
+                        <Box mt={2}>
+                            <TextField id="email" label="Email" variant="outlined" size='small' name='email'
+                                       value={formik.values.email}
+                                       onChange={formik.handleChange}
+                                       onBlur={formik.handleBlur}
+                                       error={formik.touched.email && Boolean(formik.errors.email)}
+                                       helperText={formik.touched.email && formik.errors.email}
+                                       style={{width: 300}}/>
+                        </Box>
+                        <Box mt={2}  {...getRootProps({className: 'dropzone'})}>
+                            <input {...getInputProps()} />
+                            <Box
+                                height={300}
+                                width={300}
+                                borderRadius='24px'
+                                py={6} style={{
+                                backgroundColor: isDragActive ? '#F5F6FB' : 'white',
+                                borderWidth: '2px',
+                                borderColor: isDragActive ? 'rgba(0, 97, 255, 1)' : '#eeeeee',
+                                borderStyle: 'dashed',
+                                margin: '15px auto',
+                                padding: '20px'
+                            }}
+                            >
+                                {
+                                    isDragActive
+                                        ? <p>{t("report.dragable_title")}</p>
+                                        : <p>{t("report.drag_title")}</p>
+                                }
+                                {
+                                    (formik.values.resume_file && formik.values.resume_file.length > 0) ?
+                                        <div><strong>{formik.values.resume_file[0].name}</strong></div> :
+                                        <div></div>
+                                }
+
+                                <p style={{color: 'rgba(201, 201, 201, 1)'}}>{t("report.drag_text")}</p>
+                                <Box mt={4}>
+                                    <DescriptionIcon style={{color: 'rgba(70, 235, 213, 1)', fontSize: 90}}/>
+                                </Box>
+                            </Box>
+                        </Box>
+                        <SubmitAndCancel onSubmit={submitData} onCancel={onCancel}/>
+                    </form>
+                </Box>
+            </Section>
+        </Box>)
+};
 
 const ApplicantsDetail = ({job}) => {
-    const {job_id, status, post_date, modify_date, applicants, jobtitle} = job
+    const {job_id, status, post_date, modify_date, applicants, jobtitle} = job;
     // let applicantList = applicants
     // if(typeof(applicants) !== "object") applicantList = []
-    const [applicantList, setApplicantList] = useState([])
-    const hrid = getUserId()
-    const {requestHandler} = useRequest()
-    console.log('job', job)
+    const [applicantList, setApplicantList] = useState([]);
+    const hrid = getUserId();
+    const {requestHandler} = useRequest();
+    console.log('job', job);
     const onReject = (index) => {
         return setApplicantList([...applicantList.slice(0, index), ...applicantList.slice(index + 1)])
-    }
+    };
 
     const getApplicants = async () => {
         try {
-            const data = new FormData()
+            const data = new FormData();
             data.append('hrid', hrid ?? 1); //mock data
             data.append('jobid', job_id);
             data.append('dcc', X_API_KEY_B_AND_C);
-            console.log('hrid= ', hrid, 'jobid= ', job_id)
+            console.log('hrid= ', hrid, 'jobid= ', job_id);
             const config = {
                 method: 'post',
                 url: APP_END_POINT_B_AND_C + ('get_all_applications'),
                 data: data
-            }
-            const result = await requestHandler(config)
-            console.log("applicant", result.applicants_info_list)
-            console.log("applicant", result)
+            };
+            const result = await requestHandler(config);
+            console.log("applicant", result.applicants_info_list);
+            console.log("applicant", result);
             if (!result.status) { //这里返回值 没有status code... T_T
                 // if(result.status === 'success') {
-                console.log("get applicants succcess")
+                console.log("get applicants succcess");
                 setApplicantList(result.applicants_info_list.sort((a, b) => (b.matching_level - a.matching_level)))
             } else {
                 console.log("get applicants error")
@@ -513,8 +637,8 @@ const ApplicantsDetail = ({job}) => {
         } catch (e) {
             console.log("error get applicants")
         }
-    }
-    useEffect(getApplicants, [])
+    };
+    useEffect(getApplicants, []);
     return (
         <Box mt={4} style={{width: '80%', marginLeft: 'auto', marginRight: 'auto'}}>
             <Section>
@@ -543,8 +667,7 @@ const ApplicantsDetail = ({job}) => {
             </Section>
         </Box>
     )
-}
-
+};
 
 const validationSchema = yup.object({
     title: yup
@@ -854,9 +977,11 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
     )
 };
 
-
-const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitle, onAddApplicant}) => {
-
+const CardItem = ({
+                      index, onShowJobDetail, onShowApplicants, item,
+                      style, isTitle, onAddApplicant,
+                      onCheckApplicants
+                  }) => {
     const {
         job_id: id, jobstatus: status, link, job_posting_time, postdate, modify_date, applicants, jobtitle: title,
         edit, note, job_reference_id, currency,
@@ -873,7 +998,12 @@ const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitl
                  justifyContent='center' style={style}>
                 <Box width='8%' overflow='hidden'>{isTitle ? 'Job ID' : job_reference_id}</Box>
                 <Box width='10%' overflow='hidden'>{getCountryNameOrCurrency}</Box>
-                <Box width='20%' overflow='hidden'>{title}</Box>
+                <Box width='20%' overflow='hidden'>
+                    {isTitle ? 'Job Title' : <Button
+                        onClick={onCheckApplicants} variant='contained' color='primary'
+                        style={{height: 30, marginTop: 10, marginBottom: 10}}
+                    >{title}</Button>}
+                </Box>
                 <Box width='15%' overflow='hidden' textAlign='center'>
                     {/**index === undefined 表示list 的标题栏*/}
                     {isTitle && numOfApplicants}
@@ -908,10 +1038,10 @@ const CardItem = ({index, onShowJobDetail, onShowApplicants, item, style, isTitl
             {/* {showDetail && <JobCard job={item}/>} */}
         </Box>
     )
-}
+};
 
 const JobManagement = () => {
-    const [showItem, setShowItem] = useState(-1) //index in Job list, -1表示没有
+    const [showItem, setShowItem] = useState(-1); //index in Job list, -1表示没有
     const [showJobDetail, setShowJobDetail] = useState(false);
     const [showApplicants, setShowApplicants] = useState(false);
     const hrHistory = useSelector(store => store.history);
@@ -925,7 +1055,13 @@ const JobManagement = () => {
         setShowJobDetail(true);
     };
 
-    const [showAddApplicant, setShowAddApplicant] = useState(false)
+    const [showCheckApplicantForm, setShowCheckApplicantForm] = useState(false);
+    // open the form window, so the hr will upload applicant resume and enter applicant email
+    const onCheckApplicants = () => {
+        setShowCheckApplicantForm(true);
+    };
+
+    const [showAddApplicant, setShowAddApplicant] = useState(false);
     const onAddApplicant = (index) => {
         setShowAddApplicant(true);
         setShowItem(index);
@@ -933,18 +1069,20 @@ const JobManagement = () => {
 
     const showJobDetailCallback = useCallback((id) => onShowJobDetail(id), []);
     const showApplicantsCallback = useCallback((id) => onShowApplicants(id), []);
+    const checkApplicantsCallback = useCallback(() => onCheckApplicants(), []);
 
     const onShowApplicants = (id) => {
-        setShowItem(id)
-        setShowApplicants(true)
-    }
+        setShowItem(id);
+        setShowApplicants(true);
+    };
 
     const closeModal = () => {
         setShowItem(-1);
         setShowJobDetail(false);
         setShowApplicants(false);
         setShowAddApplicant(false);
-    }
+        setShowCheckApplicantForm(false);
+    };
 
     const onClose = () => {
         if (showJobDetail) { //在jobmodal 里面自己控制关闭
@@ -974,13 +1112,13 @@ const JobManagement = () => {
         } catch (e) {
             console.error("error happen while fetching posted jobs", e)
         }
-    }
+    };
 
-    console.log("hr", hrHistoryList)
+    console.log("hr", hrHistoryList);
 
     useEffect(() => {
         if (hrId) getData()
-    }, [hrId])
+    }, [hrId]);
 
     return (
         <Container
@@ -1022,6 +1160,7 @@ const JobManagement = () => {
                             index={i}
                             item={job}
                             onShowJobDetail={showJobDetailCallback}
+                            onCheckApplicants={checkApplicantsCallback}
                             onShowApplicants={showApplicantsCallback}
                             onAddApplicant={() => onAddApplicant(i)}
                             // showDetail={showItem === i}
@@ -1039,8 +1178,12 @@ const JobManagement = () => {
             <Modal open={showAddApplicant} onClose={closeModal}>
                 <AddApplicant job={hrHistoryList[showItem]} onCancel={closeModal} refreshPage={getData}/>
             </Modal>
+            <Modal open={showCheckApplicantForm} onClose={closeModal}>
+                <CheckApplicant onCancel={closeModal} refreshPage={getData}/>
+
+            </Modal>
         </Container>
     )
-}
+};
 
 export default JobManagement

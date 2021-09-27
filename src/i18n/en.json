@@ -102,7 +102,11 @@
     "ranking": "Your predicted market value is ranked around {{ranking}}% of the market."
   },
   "rating": {
-    "rated_msg": "Thank you, your review has been submitted! To update your review, click and rate again."
+    "rated_msg": "Thank you, your review has been submitted! To update your review, rate, comment, please submit again.",
+    "failed_msg": "Sorry, the rating cannot be done due to the following reason: ",
+    "submit_button": "Submit",
+    "cancel_button": "Cancel",
+    "request_rate_button": "Rate Report"
   },
   "contact": {
     "click me": "Click Me"

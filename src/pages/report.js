@@ -206,7 +206,6 @@ const fetchReport = (files, params) => {
 }
 
 const NaviButtons = () => {
-
   const { t } = useTranslation()
   return (
     <>

@@ -1,7 +1,7 @@
-import { Box, Button, Chip, Link, Grid, Typography, makeStyles } from '@material-ui/core'
-import { Section } from '../../components/Section'
-import { useTranslation } from 'react-i18next'
-import { h1, h2, h3, h4, h5 } from '../../constant/fontsize'
+import {Box, Button, Chip, Link, Grid, Typography, makeStyles, TextField, Modal, Container} from '@material-ui/core'
+import {Section} from '../../components/Section'
+import {useTranslation} from 'react-i18next'
+import {h1, h2, h3, h4, h5} from '../../constant/fontsize'
 import {
     DK_LINK,
     DK_IMPROVE,
@@ -14,10 +14,13 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { linkTrack } from '../../untils/linkTrack'
 import { CareerAdviceSection } from './CareerAdviceSection'
 import Rating from '@material-ui/lab/Rating';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useFormik } from "formik";
 import { withStyles } from '@material-ui/core/styles';
-import { useState } from 'react'
 import { useRequest } from '../../hooks/useRequest'
-import { useRouter } from 'next/router'
+import { COLOR_TITLE } from "../../constant/color";
+import DescriptionIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 const useStyles = makeStyles({
     ai: {
@@ -37,7 +40,7 @@ const useStyles = makeStyles({
             cursor: 'pointer',
         }
     }
-})
+});
 const EducationSection = ({ report, selectedPathIndex }) => {
     const { t } = useTranslation()
     const requiredSkills = report.career_path_info.career_paths.path[selectedPathIndex]?.how_to_improve?.required_skills
@@ -70,7 +73,7 @@ const EducationSection = ({ report, selectedPathIndex }) => {
             </Box>
         </Box>
     )
-}
+};
 
 const SoftSkillSection = ({ report }) => {
     const { t } = useTranslation()
@@ -101,7 +104,7 @@ const SoftSkillSection = ({ report }) => {
             </Box>
         </Box>
     )
-}
+};
 
 const HardSkillSection = ({ report }) => {
     const { t } = useTranslation()
@@ -133,7 +136,8 @@ const HardSkillSection = ({ report }) => {
 
         </Box>
     )
-}
+};
+
 
 const SuggestedCourse = ({ report, selectedPathIndex }) => {
     const { t } = useTranslation()
@@ -141,6 +145,7 @@ const SuggestedCourse = ({ report, selectedPathIndex }) => {
     // const courseLogo = Object.entries(suggestedCourses)[1][1]
     // const courseName = Object.entries(suggestedCourses)[0][0]
     // const courseLink = Object.entries(suggestedCourses)[0][1]
+
     const courseLogo = suggestedCourses.logo ?? 'https://static.wixstatic.com/media/d44c9e_b34eb8491f984802b8961715fdf76082~mv2.png/v1/fill/w_96,h_60,al_c,q_85,usm_0.66_1.00_0.01/DK-Logo.webp'
     const courseName = suggestedCourses.coursename
     const courseLink = suggestedCourses.courselink
@@ -228,51 +233,45 @@ const SuggestedCourse = ({ report, selectedPathIndex }) => {
             </Box>
         </Box>
     )
-}
+};
 
-export function CourseSection({ report, selectedPathIndex }) {
-    const defaultValue = 3
-    const { t } = useTranslation()
-    const classes = useStyles()
-    const [rating, setRating] = useState({ rated: false, value: defaultValue })
-    const params = useRouter().query
-    const { hrid, jobid, email } = params
-    const { requestHandler } = useRequest()
-
-    const submitRating = async (value) => {
-        const endPoint = (hrid && jobid) ? (APP_END_POINT_B_AND_C + 'report_accuracy') : APP_END_POINT_CUSTOMER_REPORT_ACCURACY
-        const dcc = (hrid && jobid) ? X_API_KEY_B_AND_C : X_API_KEY_HISTORY
+const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, defaultValue}) => {
+    const {t} = useTranslation();
+    const submitRating = async () => {
+        console.log('submit attempt');
+        const endPoint = (hrid && jobid) ? (APP_END_POINT_B_AND_C + 'report_accuracy') : APP_END_POINT_CUSTOMER_REPORT_ACCURACY;
+        const dcc = (hrid && jobid) ? X_API_KEY_B_AND_C : X_API_KEY_HISTORY;
         try {
-            const data = new FormData()
+            formik.values.rated = true;
+            const data = new FormData();
             data.append('email', email);
             data.append('dcc', dcc);
-            data.append('report_accuracy_rating', value);
+            data.append('report_accuracy_rating', formik.values.rate);
+            data.append('comments', formik.values.comments);
             hrid && data.append('hrid', hrid);
             jobid && data.append('jobid', jobid);
             const config = {
                 method: 'post',
                 url: endPoint,
                 data: data
-            }
-            const result = await requestHandler(config)
-            console.log("rating= ", result)
-
-            // check and update if marked status
-            checkIfMarked();
+            };
+            const result = await requestHandler(config);
+            console.log("rating= ", result);
+            alert(t("rating.rated_msg"));
+            onCancel();
         } catch (e) {
+            alert(t("rating.failed_msg") + e.toString());
+            onCancel();
         }
-    }
-
+    };
     const CheckIfMarked = () => {
         // check if it's rated, if it rated, display msg
-        if (rating.rated) {
-            console.log('Display reviewed msg');
+        if (formik.values && formik.values.rated) {
             return <h4>{t("rating.rated_msg")}</h4>;
         } else {
-            console.log('Not marked yet');
             return "";
         }
-    }
+    };
 
     const DisabledStyleRating = withStyles({
         root: {
@@ -285,33 +284,157 @@ export function CourseSection({ report, selectedPathIndex }) {
         },
     })(Rating);
 
+    const [rating, setRating] = useState({rated: false, value: defaultValue});
 
     // create new custom style rating (with transparent stars just like if its disabled)
     // use the disable style rating when its already rated, otherwise use normal rating
     const CustomRating = () => {
-        if (!rating.rated) {
+        if (!formik.values || !formik.values.rated) {
             return <Rating
                 name="simple-controlled"
                 value={rating.value}
                 onChange={(event, value) => {
-                    const newValue = value ?? defaultValue;
-                    setRating({ rated: true, value: newValue });
-                    submitRating(newValue)
+                    formik.values.rate = value ?? defaultValue;
+                    setRating({rated: true, value: formik.values.rate});
                 }}
             />;
         }
 
         return <DisabledStyleRating name="simple-controlled"
-            value={rating.value}
-            onChange={(event, value) => {
-                const newValue = value ?? defaultValue;
-                setRating({ rated: true, value: newValue });
-                submitRating(newValue);
-            }} />
-    }
+                                    value={rating.value}
+                                    onChange={(event, value) => {
+                                        const newValue = value ?? defaultValue;
+                                        setRating({rated: true, value: newValue});
+                                    }}/>
+    };
 
     return (
-        <Section>
+        <Box style={{
+            width: 650, marginLeft: 'auto', marginRight: 'auto',
+            marginTop: 200
+        }}>
+            <Section style={{padding: 20}}>
+                {/* mark in stars */}
+                <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
+                    <div>
+                        <Typography color='primary'>Rate the accuracy of this report</Typography>
+                        <CustomRating></CustomRating>
+                    </div>
+                    { /* Rated Msg Section */}
+                    <CheckIfMarked></CheckIfMarked>
+                </Box>
+
+                {/* comment section */}
+                <Box style={{marginTop: 10, marginBottom: 10}}>
+                    <Typography color='primary'>
+                        Help us improve by leaving your comments and suggestions below: </Typography>
+                    <TextField id="comments" size='small' name='comments'
+                               fullWidth variant="outlined" rowsMax={15} rows={5}
+                               multiline
+                               style={{
+                                   opacity: (formik.values && formik.values.rated ?
+                                       0.5 : 1)
+                               }}
+                               value={formik.values.comments}
+                               onChange={formik.handleChange}
+                               helperText={formik.touched.comments && formik.errors.comments}
+                               onBlur={formik.handleBlur}
+                               placeholder="Your comments."/>
+                </Box>
+
+                {/* submit and cancel button */}
+                <Box style={{marginTop: 10, marginBottom: 10, textAlign: 'right'}}>
+                    <Button variant='contained'
+                            color='primary'
+                            target="_blank"
+                            style={{
+                                borderRadius: 15, marginLeft: 10, height: 30,
+                            }}
+                            onClick={onCancel}
+                    >
+                        {t("rating.cancel_button")}
+                    </Button>
+                    <Button variant='contained'
+                            color='primary'
+                            disabled={formik.errors.required}
+                            target="_blank"
+                            style={{
+                                borderRadius: 15, marginLeft: 10, height: 30,
+                            }}
+                            onClick={() => submitRating(formik)}
+                    >
+                        {t("rating.submit_button")}
+                    </Button>
+                </Box>
+            </Section></Box>
+    );
+};
+
+export function CourseSection({report, selectedPathIndex}) {
+    const {t} = useTranslation();
+    const defaultValue = 3;
+    const classes = useStyles();
+    const [showRateForm, setShowRateForm] = useState(false);
+    useEffect(() => {
+        function watchScroll() {
+            window.addEventListener("scroll", handleScroll);
+        }
+
+        watchScroll();
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    });
+
+    const handleScroll = () => {
+        if (!refuseRate && !formik.values.rated &&
+            (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+            setShowRateForm(true);
+        }
+    };
+
+    const closeModal = () => {
+        console.log(formik.errors.required);
+        setRefuseRate(true);
+        setShowRateForm(false);
+    };
+
+    const params = useRouter().query;
+    const {hrid, jobid, email} = params;
+    const {requestHandler} = useRequest();
+
+    // comment form
+    const formik = useFormik({
+        initialValues: {
+            comments: "",
+            rate: 3,
+            rated: false
+        }
+    });
+
+    const [refuseRate, setRefuseRate] = useState(formik.values && formik.values.rated);
+
+    // rate form request button
+    const RateRequestButton = () => {
+        if (!refuseRate) {
+            return "";
+        } else {
+            return <Button variant='contained'
+                           color='primary'
+                           target="_blank"
+                           style={{
+                               borderRadius: 15, marginLeft: 10, height: 30,
+                           }}
+                           onClick={() => (setShowRateForm(true))}
+            >
+                {t("rating.request_rate_button")}
+            </Button>;
+        }
+    };
+
+    return (
+        <Section
+            style={{marginTop: 18}}>
             <Box p={4} mb={4}>
                 <CareerAdviceSection report={report} />
                 {/* <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
@@ -359,18 +482,17 @@ export function CourseSection({ report, selectedPathIndex }) {
                     {/* </Box> */}
                 </Box>
 
-                {/* Rate Section */}
-                <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
-                    <div>
-                        <Typography color='primary'>Rate the accuracy of this report</Typography>
-                        <CustomRating></CustomRating>
-                    </div>
-
-                    { /* Rated Msg Section */}
-                    <CheckIfMarked></CheckIfMarked>
-                </Box>
+                {/* =================== Rate Section ================= */}
+                <Modal open={showRateForm}>
+                    <RateForm onCancel={closeModal} formik={formik}
+                              hrid={hrid} jobid={jobid}
+                              email={email}
+                              requestHandler={requestHandler}
+                              defaultValue={defaultValue}
+                    />
+                </Modal>
+                <RateRequestButton></RateRequestButton>
             </Box>
-
         </Section>
     )
 }
