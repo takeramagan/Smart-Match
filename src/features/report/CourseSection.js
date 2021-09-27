@@ -1,4 +1,4 @@
-import {Box, Button, Chip, Link, Grid, Typography, makeStyles, TextField} from '@material-ui/core'
+import {Box, Button, Chip, Link, Grid, Typography, makeStyles, TextField, Modal, Container} from '@material-ui/core'
 import {Section} from '../../components/Section'
 import {useTranslation} from 'react-i18next'
 import {h1, h2, h3, h4, h5} from '../../constant/fontsize'
@@ -15,10 +15,12 @@ import {linkTrack} from '../../untils/linkTrack'
 import {CareerAdviceSection} from './CareerAdviceSection'
 import Rating from '@material-ui/lab/Rating';
 import {withStyles} from '@material-ui/core/styles';
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {useRequest} from '../../hooks/useRequest'
 import {useRouter} from 'next/router'
 import {useFormik} from "formik";
+import {COLOR_TITLE} from "../../constant/color";
+import DescriptionIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 const useStyles = makeStyles({
     ai: {
@@ -234,25 +236,10 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
     )
 };
 
-export function CourseSection({report, selectedPathIndex}) {
-    const defaultValue = 3;
+const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, defaultValue}) => {
     const {t} = useTranslation();
-    const classes = useStyles();
-    const [rating, setRating] = useState({rated: false, value: defaultValue});
-    const params = useRouter().query;
-    const {hrid, jobid, email} = params;
-    const {requestHandler} = useRequest();
-
-    // comment form
-    const formik = useFormik({
-        initialValues: {
-            comments: "",
-            rate: 3,
-            rated: false
-        }
-    });
-
     const submitRating = async () => {
+        console.log('submit attempt');
         const endPoint = (hrid && jobid) ? (APP_END_POINT_B_AND_C + 'report_accuracy') : APP_END_POINT_CUSTOMER_REPORT_ACCURACY;
         const dcc = (hrid && jobid) ? X_API_KEY_B_AND_C : X_API_KEY_HISTORY;
         try {
@@ -271,10 +258,13 @@ export function CourseSection({report, selectedPathIndex}) {
             };
             const result = await requestHandler(config);
             console.log("rating= ", result);
+            alert(t("rating.rated_msg"));
+            onCancel();
         } catch (e) {
+            alert(t("rating.failed_msg") + e.toString());
+            onCancel();
         }
     };
-
     const CheckIfMarked = () => {
         // check if it's rated, if it rated, display msg
         if (formik.values && formik.values.rated) {
@@ -294,6 +284,8 @@ export function CourseSection({report, selectedPathIndex}) {
             textTransform: 'capitalize',
         },
     })(Rating);
+
+    const [rating, setRating] = useState({rated: false, value: defaultValue});
 
     // create new custom style rating (with transparent stars just like if its disabled)
     // use the disable style rating when its already rated, otherwise use normal rating
@@ -315,10 +307,135 @@ export function CourseSection({report, selectedPathIndex}) {
                                         const newValue = value ?? defaultValue;
                                         setRating({rated: true, value: newValue});
                                     }}/>
-    }
+    };
 
     return (
-        <Section>
+        <Box style={{
+            width: 650, marginLeft: 'auto', marginRight: 'auto',
+            marginTop: 200
+        }}>
+            <Section style={{padding: 20}}>
+                {/* mark in stars */}
+                <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
+                    <div>
+                        <Typography color='primary'>Rate the accuracy of this report</Typography>
+                        <CustomRating></CustomRating>
+                    </div>
+                    { /* Rated Msg Section */}
+                    <CheckIfMarked></CheckIfMarked>
+                </Box>
+
+                {/* comment section */}
+                <Box style={{marginTop: 10, marginBottom: 10}}>
+                    <Typography color='primary'>
+                        Help us improve by leaving your comments and suggestions below: </Typography>
+                    <TextField id="comments" size='small' name='comments'
+                               fullWidth variant="outlined" rowsMax={15} rows={5}
+                               multiline
+                               style={{
+                                   opacity: (formik.values && formik.values.rated ?
+                                       0.5 : 1)
+                               }}
+                               value={formik.values.comments}
+                               onChange={formik.handleChange}
+                               helperText={formik.touched.comments && formik.errors.comments}
+                               onBlur={formik.handleBlur}
+                               placeholder="Your comments."/>
+                </Box>
+
+                {/* submit and cancel button */}
+                <Box style={{marginTop: 10, marginBottom: 10, textAlign: 'right'}}>
+                    <Button variant='contained'
+                            color='primary'
+                            target="_blank"
+                            style={{
+                                borderRadius: 15, marginLeft: 10, height: 30,
+                            }}
+                            onClick={onCancel}
+                    >
+                        {t("rating.cancel_button")}
+                    </Button>
+                    <Button variant='contained'
+                            color='primary'
+                            disabled={formik.errors.required}
+                            target="_blank"
+                            style={{
+                                borderRadius: 15, marginLeft: 10, height: 30,
+                            }}
+                            onClick={() => submitRating(formik)}
+                    >
+                        {t("rating.submit_button")}
+                    </Button>
+                </Box>
+            </Section></Box>
+    );
+};
+
+export function CourseSection({report, selectedPathIndex}) {
+    const {t} = useTranslation();
+    const defaultValue = 3;
+    const classes = useStyles();
+    const [showRateForm, setShowRateForm] = useState(false);
+    useEffect(() => {
+        function watchScroll() {
+            window.addEventListener("scroll", handleScroll);
+        }
+
+        watchScroll();
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    });
+
+    const handleScroll = () => {
+        if (!refuseRate && !formik.values.rated &&
+            (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+            setShowRateForm(true);
+        }
+    };
+
+    const closeModal = () => {
+        console.log(formik.errors.required);
+        setRefuseRate(true);
+        setShowRateForm(false);
+    };
+
+    const params = useRouter().query;
+    const {hrid, jobid, email} = params;
+    const {requestHandler} = useRequest();
+
+    // comment form
+    const formik = useFormik({
+        initialValues: {
+            comments: "",
+            rate: 3,
+            rated: false
+        }
+    });
+
+    const [refuseRate, setRefuseRate] = useState(formik.values && formik.values.rated);
+
+    // rate form request button
+    const RateRequestButton = () => {
+        if (!refuseRate) {
+            return "";
+        } else {
+            return <Button variant='contained'
+                           color='primary'
+                           target="_blank"
+                           style={{
+                               borderRadius: 15, marginLeft: 10, height: 30,
+                           }}
+                           onClick={() => (setShowRateForm(true))}
+            >
+                {t("rating.request_rate_button")}
+            </Button>;
+        }
+    };
+
+    return (
+        <Section
+            style={{marginTop: 18}}>
             <Box p={4} mb={4}>
                 <CareerAdviceSection report={report}/>
                 {/* <Box fontSize={h1} mb={2} fontWeight='500' color='#024CC3'>
@@ -367,50 +484,16 @@ export function CourseSection({report, selectedPathIndex}) {
                 </Box>
 
                 {/* =================== Rate Section ================= */}
-                {/* mark in stars */}
-                <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
-                    <div>
-                        <Typography color='primary'>Rate the accuracy of this report</Typography>
-                        <CustomRating></CustomRating>
-                    </div>
-                    { /* Rated Msg Section */}
-                    <CheckIfMarked></CheckIfMarked>
-                </Box>
-
-                {/* comment section */}
-                <Box style={{marginTop: 10, marginBottom: 10}}>
-                    <Typography color='primary'>
-                        Help us improve by leaving your comments and suggestions below: </Typography>
-                    <TextField id="comments" size='small' name='comments'
-                               fullWidth variant="outlined" rowsMax={15} rows={5}
-                               multiline
-                               style={{
-                                   opacity: (formik.values && formik.values.rated ?
-                                       0.5 : 1)
-                               }}
-                               value={formik.values.comments}
-                               onChange={formik.handleChange}
-                               helperText={formik.touched.comments && formik.errors.comments}
-                               onBlur={formik.handleBlur}
-                               placeholder="Your comments."/>
-                </Box>
-
-                {/* submit button */}
-                <Box style={{marginTop: 10, marginBottom: 10, textAlign: 'right'}}>
-                    <Button variant='contained'
-                            color='primary'
-                            target="_blank"
-                            style={{
-                                borderRadius: 15, marginLeft: 10, height: 30,
-                                opacity: (formik.values && formik.values.rated) ? 0.5 : 1
-                            }}
-                            onClick={() => submitRating(formik)}
-                    >
-                        {t("rating.submit_button")}
-                    </Button>
-                </Box>
+                <Modal open={showRateForm}>
+                    <RateForm onCancel={closeModal} formik={formik}
+                              hrid={hrid} jobid={jobid}
+                              email={email}
+                              requestHandler={requestHandler}
+                              defaultValue={defaultValue}
+                    />
+                </Modal>
+                <RateRequestButton></RateRequestButton>
             </Box>
-
         </Section>
     )
 }
