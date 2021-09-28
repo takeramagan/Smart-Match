@@ -493,9 +493,7 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
     const formik = useFormik({
         initialValues: {
             email: "",
-            resume_file: "",
-            country_code: country_code,
-            job_description: job_description
+            resume_file: ""
         },
         validationSchema: checkApplicantSchema
     });
@@ -504,9 +502,14 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
         try {
             const data = new FormData();
             data.append('email', formik.values.email);
-            data.append('country_code', formik.values.country_code);
-            data.append('job_description', formik.values.job_description);
+            data.append('country_code', country_code);
+            data.append('job_description', job_description);
             data.append('resume_file', formik.values.resume_file);
+            console.log(formik.values.email);
+            console.log(country_code);
+            console.log(job_description);
+            console.log(formik.values.resume_file);
+
             const headers = {
                 'x-api-key': X_API_KEY_JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK
             };
@@ -516,14 +519,16 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
                 data: data,
                 headers
             };
-            console.log(config);
             const result = await requestHandler(config);
             console.log("check applicant", result);
             if (result.status === 'success') {
                 onCancel();
+            } else {
+                toast.error('Check applicant resume failed ' +
+                    'with unknown reason, please try again later.', toastStyle);
             }
         } catch (e) {
-            toast.error('Add applicant resume failed: ' + e.toString(), toastStyle);
+            toast.error('Check applicant resume failed: ' + e.toString(), toastStyle);
             // alert('User has applied this job, or hasn't uploaded a resume. please check the email')
         }
     };
@@ -547,32 +552,6 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
                         Applicant Assessment
                     </Box>
                     <form onSubmit={formik.handleSubmit}>
-                        <Box mt={2}>
-                            <TextField id="email" variant="outlined" size='small' name='email'
-                                       value={formik.values.email}
-                                       onChange={formik.handleChange}
-                                       onBlur={formik.handleBlur}
-                                       error={formik.touched.email && Boolean(formik.errors.email)}
-                                       helperText={formik.touched.email && formik.errors.email}
-                                       style={{width: 300}}/>
-                        </Box>
-                        <Box mt={2}>
-                            <span style={{marginRight: 10}}>Country:</span>
-                            <Select
-                                id="country_code" variant="outlined" size='small' name='country_code'
-                                value={formik.values.country_code}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.country_code && Boolean(formik.errors.country_code)}
-                                helperText={formik.touched.country_code && formik.errors.country_code}
-                                style={{width: 300}}
-                                native
-                                defaultValue={formik.values.currency}
-                            >
-                                <option value={'ca'}>Canada</option>
-                                <option value={'us'}>USA</option>
-                            </Select>
-                        </Box>
                         <Box mt={2}>
                             <TextField id="email" variant="outlined" size='small' name='email'
                                        value={formik.values.email}
@@ -1004,7 +983,7 @@ const CardItem = ({
                   }) => {
     const {
         job_id: id, jobstatus: status, link, job_posting_time, postdate, modify_date, applicants, jobtitle: title,
-        edit, note, job_reference_id, currency,
+        edit, note, job_reference_id, currency, description
     } = item;
     //0:accepting 1:closed 2:filled
     const job_status = (status >= 0 && status < JOB_STATUS.length) ? JOB_STATUS[status] : status;
@@ -1020,7 +999,7 @@ const CardItem = ({
                 <Box width='10%' overflow='hidden'>{getCountryNameOrCurrency}</Box>
                 <Box width='20%' overflow='hidden'>
                     {isTitle ? 'Job Title' : <Button
-                        onClick={onCheckApplicants} variant='contained' color='primary'
+                        onClick={()=>onCheckApplicants(currency, description)} variant='contained' color='primary'
                         style={{height: 30, marginTop: 10, marginBottom: 10}}
                     >{title}</Button>}
                 </Box>
@@ -1064,6 +1043,8 @@ const JobManagement = () => {
     const [showItem, setShowItem] = useState(-1); //index in Job list, -1表示没有
     const [showJobDetail, setShowJobDetail] = useState(false);
     const [showApplicants, setShowApplicants] = useState(false);
+    const [selectedJobCountry, setSelectedJobCountry] = useState('ca');
+    const [selectedJobDescription, setSelectedJobDescription] = useState('');
     const hrHistory = useSelector(store => store.history);
     const currentPage = hrHistory.currentPage;
     const hrHistoryList = hrHistory.historyList;
@@ -1077,7 +1058,14 @@ const JobManagement = () => {
 
     const [showCheckApplicantForm, setShowCheckApplicantForm] = useState(false);
     // open the form window, so the hr will upload applicant resume and enter applicant email
-    const onCheckApplicants = () => {
+    const onCheckApplicants = (currency, description) => {
+        console.log(`description ${description}`);
+        setSelectedJobDescription(description);
+        if (currency === 'usd') {
+            setSelectedJobCountry('us');
+        } else {
+            setSelectedJobCountry('ca');
+        }
         setShowCheckApplicantForm(true);
     };
 
@@ -1089,7 +1077,8 @@ const JobManagement = () => {
 
     const showJobDetailCallback = useCallback((id) => onShowJobDetail(id), []);
     const showApplicantsCallback = useCallback((id) => onShowApplicants(id), []);
-    const checkApplicantsCallback = useCallback(() => onCheckApplicants(), []);
+    const checkApplicantsCallback = useCallback((currency, description) =>
+        onCheckApplicants(currency, description), []);
 
     const onShowApplicants = (id) => {
         setShowItem(id);
@@ -1144,6 +1133,11 @@ const JobManagement = () => {
         <Container
             style={{marginTop: 18}}
         >
+            {/* test only button*/}
+            {/*<Button onClick={() => {*/}
+            {/*    getData()*/}
+            {/*}} color='primary' variant='contained' style={{borderRadius: 20}}>Fetch Job</Button>*/}
+
             <Section>
                 <Box p={4}>
                     <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
@@ -1199,7 +1193,10 @@ const JobManagement = () => {
                 <AddApplicant job={hrHistoryList[showItem]} onCancel={closeModal} refreshPage={getData}/>
             </Modal>
             <Modal open={showCheckApplicantForm} onClose={closeModal}>
-                <CheckApplicant onCancel={closeModal} refreshPage={getData}/>
+                <CheckApplicant onCancel={closeModal} refreshPage={getData}
+                                country_code={selectedJobCountry}
+                                job_description={selectedJobDescription}
+                />
             </Modal>
         </Container>
     )
