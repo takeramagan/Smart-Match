@@ -103,7 +103,10 @@
   },
   "rating": {
     "rated_msg": "感谢您的评价！您的评价已经上传，再次评分、评价并提交将改变其评分。",
-    "submit_button": "提交"
+    "failed_msg": "抱歉, 由于以下原因评分暂时无法提交: ",
+    "submit_button": "提交",
+    "cancel_button": "取消",
+    "request_rate_button": "评价此报告"
   },
   "contact": {
     "click me": "点我"

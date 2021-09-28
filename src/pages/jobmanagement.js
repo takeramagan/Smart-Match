@@ -744,7 +744,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
 
     // salary unit state listener
     const [salaryUnitState, setSalaryUnitState] = useState(
-        formik.initialValues.jobtype == 1 ? 'per Hour' : 'per Year');
+        (formik.initialValues.jobtype == 0) ? 'per Year' : 'per Hour');
 
     const jobTypeChange = (v) => {
         setSalaryUnit(v.target.value);
@@ -752,7 +752,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
 
     // get the salary unit display str
     const setSalaryUnit = (v) => {
-        setSalaryUnitState(v === '1' ? 'per Hour' : 'per Year');
+        setSalaryUnitState(v === '0' ? 'per Year' : 'per Hour');
         return salaryUnitState;
     };
 
@@ -1205,4 +1205,4 @@ const JobManagement = () => {
     )
 };
 
-export default JobManagement
+export default JobManagement;
