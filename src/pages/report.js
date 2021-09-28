@@ -110,6 +110,7 @@ function FileDropzone(props) {
         }
       }).catch(setError)
     }
+    
   }, [acceptedFiles])
 
   if (error) {
