@@ -47,33 +47,6 @@ export function MatchingJobsSection({ report }) {
           {t('matching jobs.text')}
         </Box>
         <Divider style={{ backgroundColor: 'white' }} />
-        <Box fontSize={h3} mt={2} mb={2}>
-          {t('matching jobs.recruiter')}
-          <Carousel
-            animation='slide'
-            interval={10000}
-            navButtonsAlwaysInvisible
-          >
-            {recruiterPages.map((jobList, index) =>
-              <div key={index}>{
-                jobList.map((job, i) => <MatchJob key={i} job={job} onClick={onApply} metisign />)
-              }
-              </div>)}
-          </Carousel>
-          {/* {!seeRecruiterMore && (
-            <Box textAlign='center'>
-              <Button fullWidth style={{ color: 'white' }} onClick={() => setSeeRecruiterMore(true)}>
-                <Box lineHeight='14px'>
-                  <ExpandMoreIcon />
-                  <Box fontSize={h3}>
-                    {t('matching jobs.View More')}
-                  </Box>
-                </Box>
-              </Button>
-            </Box>
-          )} */}
-        </Box>
-        <Divider style={{ backgroundColor: 'white' }} />
         <Box fontSize={h3} mt={2}>
           {t('matching jobs.website')}
           <Carousel
@@ -90,6 +63,33 @@ export function MatchingJobsSection({ report }) {
           {/* {!seeWebsiteMore && (
             <Box textAlign='center'>
               <Button fullWidth style={{ color: 'white' }} onClick={() => setSeeWebsiteMore(true)}>
+                <Box lineHeight='14px'>
+                  <ExpandMoreIcon />
+                  <Box fontSize={h3}>
+                    {t('matching jobs.View More')}
+                  </Box>
+                </Box>
+              </Button>
+            </Box>
+          )} */}
+        </Box>
+        <Divider style={{ backgroundColor: 'white' }} />
+        <Box fontSize={h3} mt={2} mb={2}>
+          {t('matching jobs.recruiter')}
+          <Carousel
+            animation='slide'
+            interval={10000}
+            navButtonsAlwaysInvisible
+          >
+            {recruiterPages.map((jobList, index) =>
+              <div key={index}>{
+                jobList.map((job, i) => <MatchJob key={i} job={job} onClick={onApply} metisign />)
+              }
+              </div>)}
+          </Carousel>
+          {/* {!seeRecruiterMore && (
+            <Box textAlign='center'>
+              <Button fullWidth style={{ color: 'white' }} onClick={() => setSeeRecruiterMore(true)}>
                 <Box lineHeight='14px'>
                   <ExpandMoreIcon />
                   <Box fontSize={h3}>

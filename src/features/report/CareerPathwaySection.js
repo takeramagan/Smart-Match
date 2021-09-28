@@ -274,9 +274,7 @@ export function CareerPathwaySection({report, selectedPathIndex, setSelectedPath
 //   {projected_career_path:[{type:'1', title:'hello2', market_avg_salary:{fulltime:100}}, {type:'1', title:'hello5', market_avg_salary:{fulltime:100}}]},
 //   {projected_career_path:[{type:'1', title:'hello3', market_avg_salary:{fulltime:100}}, {type:'1', title:'hello6', market_avg_salary:{fulltime:100}}]},
 //   {projected_career_path:[{type:'1', title:'hello2', market_avg_salary:{fulltime:100}}]},
-
 //   {projected_career_path:[{type:'1', title:'hello3', market_avg_salary:{fulltime:100}}]},
-
 // ]
     const numOfPaths = market_value_result.length
     const [pathPosition, setPathPosition] = useState(numOfPaths === 1 ? 1 : 0) //0: 高亮第一条path  1: 高亮中间path  2:高亮最下面path
