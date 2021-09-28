@@ -389,6 +389,7 @@ export function CourseSection({report, selectedPathIndex}) {
     const handleScroll = () => {
         if (!refuseRate && !formik.values.rated &&
             (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+            setRefuseRate(true);
             setTimeout(
                 () => setShowRateForm(true),
                 10000);
