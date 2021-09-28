@@ -21,7 +21,8 @@
     "report_text": "基于您的简历分析得到您的当前市场职位情况",
     "history": "查看历史",
     "hideHistory": "隐藏历史",
-    "history_title": "历史记录"
+    "history_title": "历史记录",
+    "protected_statement": "*你的简历受到我们保护"
   },
   "sidebar": {
     "homepage": "首页",
