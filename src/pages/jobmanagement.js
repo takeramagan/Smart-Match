@@ -20,7 +20,11 @@ import {useRouter} from "next/router"
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import CloseIcon from '@material-ui/icons/Close';
 import {RESUME_ANALYSIS_VIEWED, RESUME_INVITE, RESUME_REJECTED, RESUME_VIEWED} from "../constant/jobstatus"
-import {APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C} from "../constant/externalURLs"
+import {
+    APP_END_POINT_B_AND_C,
+    JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK,
+    X_API_KEY_B_AND_C, X_API_KEY_JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK
+} from "../constant/externalURLs"
 import {v4 as uuidv4} from 'uuid';
 import getUserId from "../untils/getUserId"
 import checkLink from "../untils/checkLink"
@@ -38,10 +42,6 @@ import {useTranslation} from "react-i18next";
 //     }
 //   },
 // })
-
-const ApplicantResumeCheck = () => {
-    const [showAddApplicantRes, setShowAddApplicantRes] = useState(false);
-}
 
 
 const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
@@ -487,45 +487,44 @@ const AddApplicant = ({job, onCancel, refreshPage}) => {
         </Box>)
 };
 
-const CheckApplicant = ({onCancel}) => {
+const CheckApplicant = ({onCancel, country_code, job_description}) => {
     const {t} = useTranslation();
     const {requestHandler} = useRequest();
     const formik = useFormik({
         initialValues: {
             email: "",
-            resume_file: ""
+            resume_file: "",
+            country_code: country_code,
+            job_description: job_description
         },
         validationSchema: checkApplicantSchema
     });
+
     const submitData = async () => {
-        const email = formik.values.email;
-        const resume_file = formik.values.resume_file;
-        console.log('in-data: ', {email, resume_file});
         try {
             const data = new FormData();
-            data.append('email', email); //mock data
-            data.append('resume_file', resume_file); //mock data
-            data.append('dcc', X_API_KEY_B_AND_C);
-            console.log(
-                {
-                    email,
-                    dcc: X_API_KEY_B_AND_C
-                }
-            );
+            data.append('email', formik.values.email);
+            data.append('country_code', formik.values.country_code);
+            data.append('job_description', formik.values.job_description);
+            data.append('resume_file', formik.values.resume_file);
+            const headers = {
+                'x-api-key': X_API_KEY_JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK
+            };
             const config = {
                 method: 'post',
-                url: APP_END_POINT_B_AND_C + ('check_application'),
-                data: data
+                url: JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK,
+                data: data,
+                headers
             };
-            // const result = await requestHandler(config);
-            // console.log("applicant", result);
-            // if (result.status === 'success') {
-            //     onCancel();
-            // }
+            console.log(config);
+            const result = await requestHandler(config);
+            console.log("check applicant", result);
+            if (result.status === 'success') {
+                onCancel();
+            }
         } catch (e) {
-            console.log("insert error", e);
-            toast.error('Add applicant resume failed: ' + e.toString(), toastStyle)
-            // alert('User has applied this job, or hasnot uploaded a resume. please check the email')
+            toast.error('Add applicant resume failed: ' + e.toString(), toastStyle);
+            // alert('User has applied this job, or hasn't uploaded a resume. please check the email')
         }
     };
 
@@ -543,14 +542,39 @@ const CheckApplicant = ({onCancel}) => {
     return (
         <Box style={{width: 360, marginLeft: 'auto', marginRight: 'auto'}}>
             <Section>
-
                 <Box p={4} mt={4} fontSize={h2}>
                     <Box fontSize={h1} color={COLOR_TITLE}>
                         Applicant Assessment
                     </Box>
                     <form onSubmit={formik.handleSubmit}>
                         <Box mt={2}>
-                            <TextField id="email" label="Email" variant="outlined" size='small' name='email'
+                            <TextField id="email" variant="outlined" size='small' name='email'
+                                       value={formik.values.email}
+                                       onChange={formik.handleChange}
+                                       onBlur={formik.handleBlur}
+                                       error={formik.touched.email && Boolean(formik.errors.email)}
+                                       helperText={formik.touched.email && formik.errors.email}
+                                       style={{width: 300}}/>
+                        </Box>
+                        <Box mt={2}>
+                            <span style={{marginRight: 10}}>Country:</span>
+                            <Select
+                                id="country_code" variant="outlined" size='small' name='country_code'
+                                value={formik.values.country_code}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.country_code && Boolean(formik.errors.country_code)}
+                                helperText={formik.touched.country_code && formik.errors.country_code}
+                                style={{width: 300}}
+                                native
+                                defaultValue={formik.values.currency}
+                            >
+                                <option value={'ca'}>Canada</option>
+                                <option value={'us'}>USA</option>
+                            </Select>
+                        </Box>
+                        <Box mt={2}>
+                            <TextField id="email" variant="outlined" size='small' name='email'
                                        value={formik.values.email}
                                        onChange={formik.handleChange}
                                        onBlur={formik.handleBlur}
@@ -724,7 +748,7 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
 
     const jobTypeChange = (v) => {
         setSalaryUnit(v.target.value);
-    }
+    };
 
     // get the salary unit display str
     const setSalaryUnit = (v) => {
@@ -759,18 +783,17 @@ const JobDetail = ({job, index, closeModal, updatePage, hrid}) => {
             };
             console.log(config);
             const result = await requestHandler(config);
-
-
             console.log("submit result", result);
             if (result.status === 'success') {
                 console.log("Submit success");
                 updatePage();
                 closeModal();
             } else {
-                console.log("data error submit");
+                toast.error('Oops, something went wrong, the job cannot be set, please try again later.', toastStyle);
             }
         } catch (e) {
-            console.log("error submit");
+            toast.error('Oops, something went wrong, the job cannot be set: '
+                + e.toString(), toastStyle);
         }
     };
 
@@ -1083,11 +1106,11 @@ const JobManagement = () => {
 
     const onClose = () => {
         if (showJobDetail) { //在jobmodal 里面自己控制关闭
-            console.log(showJobDetail)
+            console.log(showJobDetail);
         } else {
-            closeModal()
+            closeModal();
         }
-    }
+    };
 
     //fetch data
     const dispatch = useDispatch();
