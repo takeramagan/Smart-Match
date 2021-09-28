@@ -52,7 +52,7 @@ const HistoryDisplay = ({dataList, setReport, loading, error}) => {
                     ...report[0].report_data,
                     id: userId, countryCode: countryCode.toLowerCase(),
                     lang, report_accuracy_rating: report[0].report_accuracy_rating,
-                    comment: report[0].comment
+                    comments: report[0].comments
                 };
                 console.log('check report: ', newReport);
                 setReport(newReport);

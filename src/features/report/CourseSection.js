@@ -410,7 +410,7 @@ export function CourseSection({report, selectedPathIndex}) {
     // comment form
     const formik = useFormik({
         initialValues: {
-            comments: report.report_accuracy_rating ? report.report_accuracy_rating : "",
+            comments: report.comments ? report.comments : "",
             rate: report.report_accuracy_rating ? report.report_accuracy_rating : 3,
             rated: !!report.report_accuracy_rating
         }
