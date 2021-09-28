@@ -277,13 +277,14 @@ export const MarketCompetitiveness = ({ report }) => {
                 components={[<b >defaults</b>]}
               />
             </Typography>
-            <Link
+            <img src='ai.svg' width={80} height={100} className={classes.ai}/>
+            {/* <Link
               href={DK_RESUME}
               target='_blank'
               onClick={() => {linkTrack(report.id, DK_RESUME)}}
             >
               <img src='ai.svg' width={80} height={100} className={classes.ai}/>
-            </Link>
+            </Link> */}
         </Box>
       </Box>
     </Section>
