@@ -372,7 +372,8 @@ const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, default
 
 export function CourseSection({report, selectedPathIndex}) {
     const {t} = useTranslation();
-    const defaultValue = 3;
+    const defaultValue = report.report_accuracy_rating ?
+        report.report_accuracy_rating : 3;
     const classes = useStyles();
     const [showRateForm, setShowRateForm] = useState(false);
     useEffect(() => {
@@ -409,9 +410,9 @@ export function CourseSection({report, selectedPathIndex}) {
     // comment form
     const formik = useFormik({
         initialValues: {
-            comments: "",
-            rate: 3,
-            rated: false
+            comments: report.report_accuracy_rating ? report.report_accuracy_rating : "",
+            rate: report.report_accuracy_rating ? report.report_accuracy_rating : 3,
+            rated: !!report.report_accuracy_rating
         }
     });
 
