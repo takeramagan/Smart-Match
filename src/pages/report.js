@@ -176,7 +176,8 @@ function FileDropzone(props) {
                   borderWidth: '2px',
                   borderColor: isDragActive ? 'rgba(0, 97, 255, 1)' : '#eeeeee',
                   borderStyle: 'dashed',
-                  margin: '60px auto 16px'
+                  margin: '60px auto 16px',
+                  position: "relative"
                 }}
               >
                 {
@@ -188,6 +189,7 @@ function FileDropzone(props) {
                 <Box mt={4}>
                   <DescriptionIcon style={{ color: 'rgba(70, 235, 213, 1)', fontSize: 90 }} />
                 </Box>
+                <p style={{ fontSize:"11px", position: "absolute", bottom: "8px", margin:"auto", left: "0", right:"0", textAlign:"center"}}>{t("report.protected_statement")}</p>
               </Box>
             )}
           </Box>
