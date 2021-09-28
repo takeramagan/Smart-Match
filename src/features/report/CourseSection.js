@@ -470,7 +470,8 @@ export function CourseSection({report, selectedPathIndex}) {
                             {t("radarchart.Click here")}
                         </Button>
                     </Typography>
-                    <Link
+                    <img src='ai.svg' width={80} height={100} className={classes.ai} />
+                    {/* <Link
                         href={DK_IMPROVE}
                         target='_blank'
                         onClick={() => {
@@ -478,7 +479,7 @@ export function CourseSection({report, selectedPathIndex}) {
                         }}
                     >
                         <img src='ai.svg' width={80} height={100} className={classes.ai} />
-                    </Link>
+                    </Link> */}
                     {/* </Box> */}
                 </Box>
 

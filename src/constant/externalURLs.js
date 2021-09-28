@@ -1,7 +1,9 @@
 export const DK_LINK = 'https://www.dk-education.com/book-online'
-export const DK_RESUME = 'https://www.dk-community.com/resume-modification'
-export const DK_IMPROVE = 'https://www.dk-community.com/career-planning'
+export const DK_RESUME ='https://www.dk-community.com/resumeservice';
+export const DK_IMPROVE = 'https://www.dk-community.com/careerpathservice';
+//export const DK_IMPROVE = 'https://www.dk-community.com/career-planning'
 // export const DK_SERVICE = 'https://www.dk-education.com/bookings-checkout/%E7%A7%81%E4%BA%BA%E8%AE%A2%E5%88%B6%E5%92%A8%E8%AF%A2%E6%9C%8D%E5%8A%A1/book'
+//export const DK_RESUME = 'https://www.dk-community.com/resume-modification'
 
 export const LINK_TRACK = 'https://ai.smartmatch.app/member/hytz.php'  //跟踪访问信息入口
 
