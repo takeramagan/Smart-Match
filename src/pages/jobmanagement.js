@@ -34,6 +34,7 @@ import {toastStyle} from "../constant/constant"
 import {useDropzone} from "react-dropzone";
 import DescriptionIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import {useTranslation} from "react-i18next";
+import BusinessReport from "./businessReport";
 
 // const useStyles = makeStyles({
 //   rejectReasonContainer: {
@@ -345,10 +346,10 @@ const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject, refre
 
 }
 
-const SubmitAndCancel = ({onSubmit, onCancel, disableSbumit}) => {
+const SubmitAndCancel = ({onSubmit, onCancel, disableSbumit: disableSubmit}) => {
     return (
         <Box mt={3}>
-            <Button variant="contained" color="primary" disabled={disableSbumit} style={{marginRight: 10}}
+            <Button variant="contained" color="primary" disabled={disableSubmit} style={{marginRight: 10}}
                     onClick={onSubmit} type="submit">Submit</Button>
             <Button variant="contained" color="primary" onClick={onCancel}>Cancel</Button>
         </Box>
@@ -521,8 +522,10 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
             };
             const result = await requestHandler(config);
             console.log("check applicant", result);
-            if (result.status === 'success') {
-                onCancel();
+            if (result.report) {
+                return (
+                    <BusinessReport presetReport={result.report}/>
+                );
             } else {
                 toast.error('Check applicant resume failed ' +
                     'with unknown reason, please try again later.', toastStyle);
@@ -999,7 +1002,7 @@ const CardItem = ({
                 <Box width='10%' overflow='hidden'>{getCountryNameOrCurrency}</Box>
                 <Box width='20%' overflow='hidden'>
                     {isTitle ? 'Job Title' : <Button
-                        onClick={()=>onCheckApplicants(currency, description)} variant='contained' color='primary'
+                        onClick={() => onCheckApplicants(currency, description)} variant='contained' color='primary'
                         style={{height: 30, marginTop: 10, marginBottom: 10}}
                     >{title}</Button>}
                 </Box>
@@ -1101,6 +1104,20 @@ const JobManagement = () => {
         }
     };
 
+    const TestOnlyButton = () => {
+        if (process.env.ENV_FLAG !== 'production') {
+            return (
+                <Box>
+                    <Button onClick={() => {
+                        getData().then()
+                    }} color='primary' variant='contained' style={{borderRadius: 20}}>Fetch Job</Button>
+                </Box>
+            );
+        } else {
+            return "";
+        }
+    };
+
     //fetch data
     const dispatch = useDispatch();
     const getHrHistory = useRequest();
@@ -1133,11 +1150,8 @@ const JobManagement = () => {
         <Container
             style={{marginTop: 18}}
         >
-            {/* test only button*/}
-            {/*<Button onClick={() => {*/}
-            {/*    getData()*/}
-            {/*}} color='primary' variant='contained' style={{borderRadius: 20}}>Fetch Job</Button>*/}
-
+            {/*test only button*/}
+            <TestOnlyButton></TestOnlyButton>
             <Section>
                 <Box p={4}>
                     <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
