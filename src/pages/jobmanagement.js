@@ -328,7 +328,7 @@ const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject, refre
             <Box width='10%' overflow='hidden' textAlign='center'>
                 {isTitle && resume_report}
                 {!isTitle &&
-                <Button target='_blank' href={`/report?hrid=${hr_id}&jobid=${job_id}&index=${index}&email=${email}`}
+                <Button target='_blank' href={`/businessReport?hrid=${hr_id}&jobid=${job_id}&index=${index}&email=${email}`}
                         onClick={onViewReport}><CloudDownloadIcon color="primary"/></Button>}
             </Box>
             <Box width='25%' overflow='hidden' textAlign='center'>
@@ -341,10 +341,8 @@ const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject, refre
                 {!isTitle && ((actionType >= 0 ? `${resumeHrStatusArray[actionType]}` : '') + (description ? `: ${description}` : ''))}
             </Box>
         </Box>
-
     )
-
-}
+};
 
 const SubmitAndCancel = ({onSubmit, onCancel, disableSbumit: disableSubmit}) => {
     return (
@@ -632,8 +630,9 @@ const ApplicantsDetail = ({job}) => {
             console.log("applicant", result);
             if (!result.status) { //这里返回值 没有status code... T_T
                 // if(result.status === 'success') {
-                console.log("get applicants succcess");
-                setApplicantList(result.applicants_info_list.sort((a, b) => (b.matching_level - a.matching_level)))
+                console.log("get applicants success");
+                setApplicantList(result.applicants_info_list.sort((a, b) =>
+                    (b.matching_level - a.matching_level)));
             } else {
                 console.log("get applicants error")
             }
