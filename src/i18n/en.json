@@ -67,6 +67,11 @@
     "softskill": "Soft Skill",
     "hardskill": "Hard Skill"
   },
+  "jobmanagement_check_applicant": {
+    "assessApplicantFormTitle": "Applicant Assessment",
+    "email": "Email",
+    "resume": "Resume"
+  },
   "suggest": {
     "certifacate": "Suggested Certification",
     "course": "Suggested Course",

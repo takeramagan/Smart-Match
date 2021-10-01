@@ -67,6 +67,11 @@
     "softskill": "软技能",
     "hardskill": "硬技能"
   },
+  "jobmanagement_check_applicant": {
+    "assessApplicantFormTitle": "申请者查询",
+    "email": "邮箱",
+    "resume":"简历"
+  },
   "suggest": {
     "certifacate": "推荐认证",
     "course": "推荐课程",

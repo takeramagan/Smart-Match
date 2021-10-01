@@ -72,14 +72,14 @@ export const X_API_KEY_B_AND_C =
 
 export const JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK =
     process.env.ENV_FLAG === 'production' ?
-        'https://production-api.metisign.com/koios/v1/market_value/' :
-        'https://api.metisign.com/koios/v1/market_value/';
+        'https://production-api.metisign.com/koios/v1/business_pre_assessment/' :
+        'https://api.metisign.com/koios/v1/business_pre_assessment/';
 
 
 export const X_API_KEY_JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK =
     process.env.ENV_FLAG === 'production' ?
-        '4SGJLsnYxu7kmrWxBHKkj3w2TpDzLLCs7jVqMXhy' :
-        '9dYNSaxizl3FVx2AS8X3sIAfgo7xYE81dRtuwu41';
+        'A?D(G+KbPeShVmYq3t6w9y$B&E)H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v' :
+        '9G3dp8le_wmc8An6ay5lj1J5Hu9baha8em3tvzppcgasiwmc8An6ay5lKa861';
 
 //For Customer
 export const APP_END_POINT_CUSTOMER =

@@ -328,7 +328,8 @@ const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject, refre
             <Box width='10%' overflow='hidden' textAlign='center'>
                 {isTitle && resume_report}
                 {!isTitle &&
-                <Button target='_blank' href={`/businessReport?hrid=${hr_id}&jobid=${job_id}&index=${index}&email=${email}`}
+                <Button target='_blank'
+                        href={`/businessReport?hrid=${hr_id}&jobid=${job_id}&index=${index}&email=${email}`}
                         onClick={onViewReport}><CloudDownloadIcon color="primary"/></Button>}
             </Box>
             <Box width='25%' overflow='hidden' textAlign='center'>
@@ -504,23 +505,17 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
             data.append('country_code', country_code);
             data.append('job_description', job_description);
             data.append('resume_file', formik.values.resume_file);
-            console.log(formik.values.email);
-            console.log(country_code);
-            console.log(job_description);
-            console.log(formik.values.resume_file);
-
-            const headers = {
-                'x-api-key': X_API_KEY_JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK
-            };
+            data.append('dcc', X_API_KEY_JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK);
             const config = {
                 method: 'post',
                 url: JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK,
                 data: data,
-                headers
             };
+
             const result = await requestHandler(config);
             console.log("check applicant", result);
             if (result.report) {
+                console.log(result);
                 return (
                     <BusinessReport presetReport={result.report}/>
                 );
@@ -550,10 +545,13 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
             <Section>
                 <Box p={4} mt={4} fontSize={h2}>
                     <Box fontSize={h1} color={COLOR_TITLE}>
-                        Applicant Assessment
+                        {t('jobmanagement_check_applicant.assessApplicantFormTitle')}
                     </Box>
+
                     <form onSubmit={formik.handleSubmit}>
                         <Box mt={2}>
+                            <span>
+                        {t('jobmanagement_check_applicant.email')}</span>
                             <TextField id="email" variant="outlined" size='small' name='email'
                                        value={formik.values.email}
                                        onChange={formik.handleChange}
@@ -563,6 +561,7 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
                                        style={{width: 300}}/>
                         </Box>
                         <Box mt={2}  {...getRootProps({className: 'dropzone'})}>
+                            <span>{t('jobmanagement_check_applicant.resume')}</span>
                             <input {...getInputProps()} />
                             <Box
                                 height={300}
