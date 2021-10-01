@@ -554,7 +554,7 @@ export default function Home() {
                 </Box>
               </Box>
               {/* Temp security fix: verify if contains hrid, no button display*/}
-              {params.hrid === null ? <Button
+              {(params.hrid === undefined) && <Button
                 variant="contained"
                 color="primary"
                 startIcon={<ArrowBackOutlinedIcon />}
@@ -562,7 +562,7 @@ export default function Home() {
                 style={{ minWidth: 140, height: 40 }}
               >
                 {t('sidebar.back')}
-              </Button> : null
+              </Button>
               }
 
             </Box>
