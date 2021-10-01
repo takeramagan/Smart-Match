@@ -210,7 +210,7 @@ function FileDropzone(props) {
                 <Box mt={4}>
                   <DescriptionIcon style={{ color: 'rgba(70, 235, 213, 1)', fontSize: 90 }} />
                 </Box>
-                <p style={{ fontSize:"11px", position: "absolute", bottom: "8px", margin:"auto", left: "0", right:"0", textAlign:"center"}}>{t("report.protected_statement")}</p>
+                <p style={{ fontSize: "11px", position: "absolute", bottom: "8px", margin: "auto", left: "0", right: "0", textAlign: "center" }}>{t("report.protected_statement")}</p>
               </Box>
             )}
           </Box>
@@ -413,7 +413,7 @@ export default function Home() {
 
   // const countryCode = params.countrycode ?? 'ca'
   // console.log('reportid', report_id)
-  console.log(params.hrid, params.jobid, index);
+  console.log("HRID, Jobid, idx: ", params.hrid, params.jobid, index);
   const { requestHandler } = useRequest();
   const getReportFromParams = async () => {
     setLoading(true);
@@ -552,9 +552,9 @@ export default function Home() {
                     components={[<b>defaults</b>]}
                   />
                 </Box>
-
               </Box>
-              <Button
+              {/* Temp security fix: verify if contains hrid, no button display*/}
+              {params.hrid === null ? <Button
                 variant="contained"
                 color="primary"
                 startIcon={<ArrowBackOutlinedIcon />}
@@ -562,7 +562,9 @@ export default function Home() {
                 style={{ minWidth: 140, height: 40 }}
               >
                 {t('sidebar.back')}
-              </Button>
+              </Button> : null
+              }
+
             </Box>
 
             {/* <Box position='absolute' ml='auto' mr='auto' top={0} left={0} right={0} textAlign='center'>
