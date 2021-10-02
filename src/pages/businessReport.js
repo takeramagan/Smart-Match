@@ -29,8 +29,8 @@ import {Sidebar} from '../components/Sidebar';
 import {Section} from '../components/Section';
 import {HistoryList} from '../components/HistoryList';
 // import custom feature components
-import {MarketCompetitiveness} from '../features/report/MarketCompetitivenessSection';
-import {CourseSection} from '../features/report/CourseSection';
+import {BusinessMarketCompetitiveness} from '../features/report/MarketCompetitivenessSection';
+import {BusinessCourseSection, CourseSection} from '../features/report/CourseSection';
 import {LoadingPage} from "../features/report/LoadingWhenUpload";
 // import other library
 import {useRouter} from 'next/router';
@@ -65,7 +65,35 @@ export default function BusinessReport({presetReport}) {
     if (presetReport) {
         presetReport.hrCheck = true;
     }
-    const [report, setReport] = useState(presetReport);
+    const [report, setReport] = useState(() => {
+        if (!presetReport) {
+            // use dummy report
+            return ({
+                "job_title": "Test job title",
+                "applicant_name": "Owen",
+                "matched_percentage": "96",
+                "resume_evaluation": {
+                    "skills": {
+                        "reason": "This candidate has most of the required skills.",
+                        "marking": "96"
+                    },
+                    "industry": {
+                        "reason": "This candidate matches the industry perfectly.",
+                        "marking": "100"
+                    },
+                    "education_experience": {
+                        "reason": "The qualifications of this candidate's education background exceeds the requirements of this job.",
+                        "marking": "70"
+                    },
+                    "work_experience": {
+                        "reason": "This candidate is senior.",
+                        "marking": "95"
+                    }
+                }
+            });
+        }
+        return presetReport
+    });
     const [reportAccuracyRating, setReportAccuracyRate] = useState(0);
 
     // todo: test only data
@@ -134,51 +162,6 @@ export default function BusinessReport({presetReport}) {
         )
     }
 
-    if (!report) {
-        // return [
-        //     {
-        //         source: '/breport',
-        //         destination: '/jobmanagement',
-        //         permanent: true
-        //     },
-        // ];
-        return (
-            <Box textAlign='center'>
-                <FileDropzone onSuccess={data => {
-                    data.hrCheck = true;
-                    setReport(data)
-                }}/>
-                <Box mb={8}>
-                    {/* <Button variant='contained' color='primary' disableElevation onClick={() => setReport(mock)}>
-            {t('report.demo')}
-          </Button> */}
-
-                    <Button variant='contained' color='primary' disableElevation
-                            onClick={() => {
-                                setViewHistory(!viewHistory);
-                                getHistory()
-                            }}
-                            style={{marginLeft: 20}}>
-                        {viewHistory ? t('report.hideHistory') : t('report.history')}
-                    </Button>
-                    {/* <Button variant='contained' color='primary' disableElevation
-            href='/history'
-            style={{marginLeft:20}}>
-            View applied jobs
-          </Button> */}
-                </Box>
-                <SwipeableDrawer anchor="right" open={viewHistory} onClose={() => {
-                    setViewHistory(false)
-                }} onOpen={() => {
-                }}>
-                    <HistoryList setReport={setReport} loading={loadingHistory} error={errorHistory}
-                                 historyList={historyList}/>
-                </SwipeableDrawer>
-            </Box>
-        );
-    } else {
-    }
-
     return (
         <>
             <Box display='flex' flexDirection='row'>
@@ -194,9 +177,9 @@ export default function BusinessReport({presetReport}) {
                                     <Trans
                                         i18nKey={"b_careeradvice.evaluation"}
                                         values={{
-                                            applicantName: "Bob",
-                                            matchPercentage: "80",
-                                            jobtitle: report.career_path_info.career_paths.name
+                                            applicantName: report.applicant_name,
+                                            matchPercentage: report.matched_percentage,
+                                            jobtitle: report.job_title
                                         }}
                                         components={[<b>defaults</b>]}
                                     />
@@ -218,14 +201,14 @@ export default function BusinessReport({presetReport}) {
                     <Grid container spacing={4}>
                         <Grid item md={12} xs={12}>
                             <div id='market_competitiveness'>
-                                <MarketCompetitiveness report={report}/>
+                                <BusinessMarketCompetitiveness report={report}/>
                             </div>
                         </Grid>
 
                         <Grid item md={12} lg={12}>
                             <div id='course_section'>
-                                <CourseSection report={report} selectedPathIndex={selectedPathIndex}
-                                               report_accuracy_rating={reportAccuracyRating}
+                                <BusinessCourseSection report={report}
+                                                       report_accuracy_rating={reportAccuracyRating}
                                 />
                             </div>
                         </Grid>
@@ -241,144 +224,144 @@ const fetchReport = (files, params) => {
     return fetchMarketValue(files[0], params)
 };
 
-function FileDropzone(props) {
-    const {onSuccess, onError} = props;
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone({
-        maxFiles: 1
-    });
-    const params = useRouter().query;
-    const userId = params.id;
-    const lang = params.lang?.toLowerCase(); //get language
-    const email = params.email;
-
-    // add loading ads time in second
-    const adsLoadingTime = 3;
-
-    //add selector
-    const [area, setArea] = useState('ca');
-    const handleAreaChange = (event) => {
-        setArea(event.target.value)
-    }
-
-    const [position, setPosition] = useState('');
-    const handlePositionChange = (event) => {
-        setPosition(event.target.value)
-    };
-
-    const {t} = useTranslation();
-    useEffect(() => {
-        if (lang && ['en', 'cn'].includes(lang)) {
-            i18n.changeLanguage(lang)
-        }
-    }, [lang]);
-    useEffect(() => {
-        if (acceptedFiles.length) {
-            setLoading(true);
-            fetchReport(acceptedFiles, {
-                hrCheck: true, id: userId,
-                country_code: area, position, email
-            }).then((res) => {
-                if (res.error) {
-                    setError(res.error);
-                } else {
-                    // manually reserve 5 second to display ads
-                    let timerFunc = setTimeout(() => {
-                        setLoading(false);
-                        onSuccess({...res, id: userId, countryCode: area.toLowerCase(), lang});
-                    }, adsLoadingTime * 1000);
-                    console.log("Loading test: ", loading);
-                }
-            }).catch(setError);
-        }
-    }, [acceptedFiles]);
-
-    if (error) {
-        return (
-            <Box
-                p={4} mb={4} borderRadius='24px' width={800} margin='40px auto 16px' style={{}}
-            >
-                <Section>
-                    <Box style={{borderRadius: '24px'}} p={8} {...getRootProps({className: 'dropzone'})}>
-                        <Box pt={4} style={{color: 'rgba(0, 97, 255, 1)', fontSize: '48px', fontWeight: '500'}}>
-                            Sorry
-                        </Box>
-                        <Box my={2} style={{color: 'rgba(55, 58, 112, 1)'}}>
-                            {t("report.error")}
-                        </Box>
-                        <pre style={{color: '#FE654F', margin: '64px 0'}}>
-              Error <br/>{error || error.message}
-            </pre>
-                        <Box mt={24}>
-                            <Button variant='contained' color='secondary' disableElevation
-                                    onClick={() => window.location.reload()}>{t("report.error_retry")}</Button>
-                        </Box>
-                    </Box>
-                </Section>
-            </Box>
-        )
-    }
-
-    return (
-        <Box p={4} mb={4} borderRadius='24px' width={800} margin='40px auto 16px' style={{}}>
-            <Section>
-                {!loading && (
-                    <Box style={{borderRadius: '24px'}} p={8} {...getRootProps({className: 'dropzone'})}>
-                        {/**<======Area and position select start */}
-                        <Box pt={2} onClick={e => e.stopPropagation()}>
-                            <FormControl style={{width: 100, backgroundColor: 'white', marginRight: 20}}>
-                                <InputLabel id="area">Area</InputLabel>
-                                <Select
-                                    value={area}
-                                    onChange={handleAreaChange}
-                                >
-                                    {/* <MenuItem value='cn'>China</MenuItem> */}
-                                    <MenuItem value='ca'>Canada</MenuItem>
-                                    <MenuItem value='us'>USA</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Box>
-                        {/**<======Area and position select end */}
-                        <input {...getInputProps()} />
-
-                        {!loading && (
-                            <Box style={{color: 'rgba(0, 97, 255, 1)', fontSize: '24px', fontWeight: '500'}}>
-                                {t("report.upload_text")}
-                            </Box>
-                        )}
-                        {!loading && (
-                            <Box
-                                height={300}
-                                width={500}
-                                borderRadius='24px'
-                                py={6} style={{
-                                backgroundColor: isDragActive ? '#F5F6FB' : 'white',
-                                borderWidth: '2px',
-                                borderColor: isDragActive ? 'rgba(0, 97, 255, 1)' : '#eeeeee',
-                                borderStyle: 'dashed',
-                                margin: '60px auto 16px'
-                            }}
-                            >
-                                {
-                                    isDragActive
-                                        ? <p>{t("report.dragable_title")}</p>
-                                        : <p>{t("report.drag_title")}</p>
-                                }
-                                <p style={{color: 'rgba(201, 201, 201, 1)'}}>{t("report.drag_text")}</p>
-                                <Box mt={4}>
-                                    <DescriptionIcon style={{color: 'rgba(70, 235, 213, 1)', fontSize: 90}}/>
-                                </Box>
-                            </Box>
-                        )}
-                    </Box>
-                )}
-                {loading && <LoadingPage
-                    title={t("report.analyzing_title")}
-                    content={t("report.analyzing_text")}
-                    loadingTime={adsLoadingTime}
-                />}
-            </Section>
-        </Box>
-    )
-}
+// function FileDropzone(props) {
+//     const {onSuccess, onError} = props;
+//     const [loading, setLoading] = useState(false);
+//     const [error, setError] = useState(null);
+//     const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone({
+//         maxFiles: 1
+//     });
+//     const params = useRouter().query;
+//     const userId = params.id;
+//     const lang = params.lang?.toLowerCase(); //get language
+//     const email = params.email;
+//
+//     // add loading ads time in second
+//     const adsLoadingTime = 3;
+//
+//     //add selector
+//     const [area, setArea] = useState('ca');
+//     const handleAreaChange = (event) => {
+//         setArea(event.target.value)
+//     }
+//
+//     const [position, setPosition] = useState('');
+//     const handlePositionChange = (event) => {
+//         setPosition(event.target.value)
+//     };
+//
+//     const {t} = useTranslation();
+//     useEffect(() => {
+//         if (lang && ['en', 'cn'].includes(lang)) {
+//             i18n.changeLanguage(lang)
+//         }
+//     }, [lang]);
+//     useEffect(() => {
+//         if (acceptedFiles.length) {
+//             setLoading(true);
+//             fetchReport(acceptedFiles, {
+//                 hrCheck: true, id: userId,
+//                 country_code: area, position, email
+//             }).then((res) => {
+//                 if (res.error) {
+//                     setError(res.error);
+//                 } else {
+//                     // manually reserve 5 second to display ads
+//                     let timerFunc = setTimeout(() => {
+//                         setLoading(false);
+//                         onSuccess({...res, id: userId, countryCode: area.toLowerCase(), lang});
+//                     }, adsLoadingTime * 1000);
+//                     console.log("Loading test: ", loading);
+//                 }
+//             }).catch(setError);
+//         }
+//     }, [acceptedFiles]);
+//
+//     if (error) {
+//         return (
+//             <Box
+//                 p={4} mb={4} borderRadius='24px' width={800} margin='40px auto 16px' style={{}}
+//             >
+//                 <Section>
+//                     <Box style={{borderRadius: '24px'}} p={8} {...getRootProps({className: 'dropzone'})}>
+//                         <Box pt={4} style={{color: 'rgba(0, 97, 255, 1)', fontSize: '48px', fontWeight: '500'}}>
+//                             Sorry
+//                         </Box>
+//                         <Box my={2} style={{color: 'rgba(55, 58, 112, 1)'}}>
+//                             {t("report.error")}
+//                         </Box>
+//                         <pre style={{color: '#FE654F', margin: '64px 0'}}>
+//               Error <br/>{error || error.message}
+//             </pre>
+//                         <Box mt={24}>
+//                             <Button variant='contained' color='secondary' disableElevation
+//                                     onClick={() => window.location.reload()}>{t("report.error_retry")}</Button>
+//                         </Box>
+//                     </Box>
+//                 </Section>
+//             </Box>
+//         )
+//     }
+//
+//     return (
+//         <Box p={4} mb={4} borderRadius='24px' width={800} margin='40px auto 16px' style={{}}>
+//             <Section>
+//                 {!loading && (
+//                     <Box style={{borderRadius: '24px'}} p={8} {...getRootProps({className: 'dropzone'})}>
+//                         {/**<======Area and position select start */}
+//                         <Box pt={2} onClick={e => e.stopPropagation()}>
+//                             <FormControl style={{width: 100, backgroundColor: 'white', marginRight: 20}}>
+//                                 <InputLabel id="area">Area</InputLabel>
+//                                 <Select
+//                                     value={area}
+//                                     onChange={handleAreaChange}
+//                                 >
+//                                     {/* <MenuItem value='cn'>China</MenuItem> */}
+//                                     <MenuItem value='ca'>Canada</MenuItem>
+//                                     <MenuItem value='us'>USA</MenuItem>
+//                                 </Select>
+//                             </FormControl>
+//                         </Box>
+//                         {/**<======Area and position select end */}
+//                         <input {...getInputProps()} />
+//
+//                         {!loading && (
+//                             <Box style={{color: 'rgba(0, 97, 255, 1)', fontSize: '24px', fontWeight: '500'}}>
+//                                 {t("report.upload_text")}
+//                             </Box>
+//                         )}
+//                         {!loading && (
+//                             <Box
+//                                 height={300}
+//                                 width={500}
+//                                 borderRadius='24px'
+//                                 py={6} style={{
+//                                 backgroundColor: isDragActive ? '#F5F6FB' : 'white',
+//                                 borderWidth: '2px',
+//                                 borderColor: isDragActive ? 'rgba(0, 97, 255, 1)' : '#eeeeee',
+//                                 borderStyle: 'dashed',
+//                                 margin: '60px auto 16px'
+//                             }}
+//                             >
+//                                 {
+//                                     isDragActive
+//                                         ? <p>{t("report.dragable_title")}</p>
+//                                         : <p>{t("report.drag_title")}</p>
+//                                 }
+//                                 <p style={{color: 'rgba(201, 201, 201, 1)'}}>{t("report.drag_text")}</p>
+//                                 <Box mt={4}>
+//                                     <DescriptionIcon style={{color: 'rgba(70, 235, 213, 1)', fontSize: 90}}/>
+//                                 </Box>
+//                             </Box>
+//                         )}
+//                     </Box>
+//                 )}
+//                 {loading && <LoadingPage
+//                     title={t("report.analyzing_title")}
+//                     content={t("report.analyzing_text")}
+//                     loadingTime={adsLoadingTime}
+//                 />}
+//             </Section>
+//         </Box>
+//     )
+// }
