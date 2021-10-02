@@ -390,6 +390,7 @@ const CheckApplicant = ({ onCancel, country_code, job_description }) => {
         },
         validationSchema: checkApplicantSchema
     });
+    const router = useRouter();
 
     const submitData = async () => {
         try {
@@ -405,19 +406,23 @@ const CheckApplicant = ({ onCancel, country_code, job_description }) => {
                 data: data,
             };
 
-            const result = await requestHandler(config);
-            console.log("check applicant", result);
-            if (result.report) {
-                console.log(result);
-                return (
-                    <BusinessReport presetReport={result.report} />
-                );
-            } else {
-                toast.error('Check applicant resume failed ' +
-                    'with unknown reason, please try again later.', toastStyle);
-            }
+            // const result = await requestHandler(config);
+            // console.log("check applicant", result);
+            // if (result.report) {
+            //     console.log(result);
+            //     return (
+            //         <BusinessReport presetReport={result.report} />
+            //     );
+            // } else {
+                // toast.error('Check applicant resume failed ' +
+                //     'with unknown reason, please try again later.', toastStyle);
+            // }
+            // nav and use dummy data
+            router.push('./businessReport').then();
         } catch (e) {
-            toast.error('Check applicant resume failed: ' + e.toString(), toastStyle);
+            router.push('./businessReport').then();
+            // nav and use dummy data
+            // toast.error('Check applicant resume failed: ' + e.toString(), toastStyle);
             // alert('User has applied this job, or hasn't uploaded a resume. please check the email')
         }
     };
