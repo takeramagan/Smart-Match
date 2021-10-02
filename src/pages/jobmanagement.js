@@ -561,23 +561,6 @@ const CheckApplicant = ({ onCancel, country_code, job_description }) => {
                                 helperText={formik.touched.email && formik.errors.email}
                                 style={{ width: 300 }} />
                         </Box>
-                        <Box mt={2}>
-                            <span style={{ marginRight: 10 }}>Country:</span>
-                            <Select
-                                id="country_code" variant="outlined" size='small' name='country_code'
-                                value={formik.values.country_code}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.country_code && Boolean(formik.errors.country_code)}
-                                helperText={formik.touched.country_code && formik.errors.country_code}
-                                style={{ width: 300 }}
-                                native
-                                defaultValue={formik.values.currency}
-                            >
-                                <option value={'ca'}>Canada</option>
-                                <option value={'us'}>USA</option>
-                            </Select>
-                        </Box>
                         <Box mt={2}  {...getRootProps({className: 'dropzone'})}>
                             <span>{t('jobmanagement_check_applicant.resume')}</span>
                             <input {...getInputProps()} />
