@@ -24,6 +24,23 @@
     "history_title": "历史记录",
     "protected_statement": "*你的简历受到我们保护"
   },
+  "b_report": {
+    "analyzing_title": "评估中...",
+    "upload_title": "上传简历",
+    "analyzing_text": "Smart Match 正在评估申请者的简历...",
+    "upload_text": "上传申请者简历，开启职业评估之旅",
+    "dragable_title": "拖拽文件到此处 ...",
+    "drag_title": "拖拽文件到此处, 或者直接点击来选择文件",
+    "drag_text": "支持文件格式 docx, doc, odt or pdf. 文件最大为 10MB",
+    "demo": "查看演示报告",
+    "loading": "报告加载中",
+    "error": "Smart Match 无法评估申请者的简历",
+    "error_retry": "请重试",
+    "report_title": "评估结果",
+    "history": "查看历史",
+    "hideHistory": "隐藏历史",
+    "history_title": "历史记录"
+  },
   "sidebar": {
     "homepage": "首页",
     "reportpage": "评估页面",
@@ -37,6 +54,10 @@
     "change direction": "给您匹配到的职位是<0>{{matched_job}}</0>，但由于市场迅速的更新换代，<0>{{matched_job}}</0>已过时。所以建议您转换就业方向到<0>{{suggested_job}}</0>。基于您目前的状况，建议您可以从这些方面：<0>{{suggested_job_skills}}</0>提升自己我，学习相关知识并获得更多的经验，从而成功转行到<0>{{suggested_job}}</0>。",
     "improve": "给您匹配到的职位是<0>{{matched_job}}</0>，目前市场上该职位火爆，未来发展可期。建议您可以从这些方面：<0>{{skills_needed}}</0> 提升自我，学习更多的知识并获得更多的经验，从而晋升到职位的更高层次。"
   },
+  "b_careeradvice": {
+    "contact": "如需了解更多信息,请关注我们的公众号",
+    "evaluation": "基于SmartMatch系统的分析， <0>{{applicantName}}</0>与<0>{{jobtitle}}</0>的匹配值为<0>{{matchPercentage}}</0>。"
+  },
   "career_pathway": {
     "title": "学习路径",
     "contact": "以上是根据您的简历分析得到, 如果需要一对一专业服务定制学习路径,请点击此处联系"
@@ -46,6 +67,11 @@
     "education": "教育",
     "softskill": "软技能",
     "hardskill": "硬技能"
+  },
+  "jobmanagement_check_applicant": {
+    "assessApplicantFormTitle": "申请者查询",
+    "email": "邮箱",
+    "resume":"简历"
   },
   "suggest": {
     "certifacate": "推荐认证",
@@ -73,6 +99,16 @@
     "Match 100": "恭喜! 您的简历职业匹配度非常好.",
     "Format 100": "恭喜! 您的简历格式非常合理.",
     "Logic 100": "恭喜! 您的简历逻辑非常清晰."
+  },
+  "b_radarchart": {
+    "title": "简历评估",
+    "fit job": "SmartMatch系统基于申请者简历的工作经验，技能，教育以及技术方向判断其是否符合此工作描述。",
+    "workExperience": "工作经验",
+    "skills": "技能",
+    "education": "教育",
+    "industry": "专业领域",
+    "contact": "联系我们",
+    "contact_description": "想要与申请者面试或者给我们软件反馈吗？请联系我们！"
   },
   "matching jobs": {
     "title": "职位推荐",

@@ -33,7 +33,8 @@ import { toast } from 'react-toastify';
 import { toastStyle } from "../constant/constant"
 import { useDropzone } from "react-dropzone";
 import DescriptionIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
+import BusinessReport from "./businessReport";
 
 // const useStyles = makeStyles({
 //   rejectReasonContainer: {
@@ -327,8 +328,9 @@ const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refr
             <Box width='10%' overflow='hidden' textAlign='center'>
                 {isTitle && resume_report}
                 {!isTitle &&
-                    <Button target='_blank' href={`/report?hrid=${hr_id}&jobid=${job_id}&index=${index}&email=${email}`}
-                        onClick={onViewReport}><CloudDownloadIcon color="primary" /></Button>}
+                <Button target='_blank'
+                        href={`/businessReport?hrid=${hr_id}&jobid=${job_id}&index=${index}&email=${email}`}
+                        onClick={onViewReport}><CloudDownloadIcon color="primary"/></Button>}
             </Box>
             <Box width='25%' overflow='hidden' textAlign='center'>
                 {isTitle && "Operation"}
@@ -340,16 +342,15 @@ const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refr
                 {!isTitle && ((actionType >= 0 ? `${resumeHrStatusArray[actionType]}` : '') + (description ? `: ${description}` : ''))}
             </Box>
         </Box>
-
     )
+};
 
-}
-
-const SubmitAndCancel = ({ onSubmit, onCancel, disableSbumit }) => {
+const SubmitAndCancel = ({onSubmit, onCancel, disableSubmit: disableSubmit}) => {
     return (
         <Box mt={3}>
-            <Button variant="contained" color="primary" disabled={disableSbumit} style={{ marginRight: 10 }}
-                onClick={onSubmit} type="submit">Submit</Button>
+            <Button variant="contained" color="primary" disabled={disableSubmit} style={{marginRight: 10}}
+                    onClick={onSubmit} type="submit">Submit</Button>
+
             <Button variant="contained" color="primary" onClick={onCancel}>Cancel</Button>
         </Box>
     )
@@ -505,24 +506,20 @@ const CheckApplicant = ({ onCancel, country_code, job_description }) => {
             data.append('country_code', country_code);
             data.append('job_description', job_description);
             data.append('resume_file', formik.values.resume_file);
-            console.log(formik.values.email);
-            console.log(country_code);
-            console.log(job_description);
-            console.log(formik.values.resume_file);
-
-            const headers = {
-                'x-api-key': X_API_KEY_JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK
-            };
+            data.append('dcc', X_API_KEY_JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK);
             const config = {
                 method: 'post',
                 url: JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK,
                 data: data,
-                headers
             };
+
             const result = await requestHandler(config);
             console.log("check applicant", result);
-            if (result.status === 'success') {
-                onCancel();
+            if (result.report) {
+                console.log(result);
+                return (
+                    <BusinessReport presetReport={result.report}/>
+                );
             } else {
                 toast.error('Check applicant resume failed ' +
                     'with unknown reason, please try again later.', toastStyle);
@@ -549,10 +546,13 @@ const CheckApplicant = ({ onCancel, country_code, job_description }) => {
             <Section>
                 <Box p={4} mt={4} fontSize={h2}>
                     <Box fontSize={h1} color={COLOR_TITLE}>
-                        Applicant Assessment
+                        {t('jobmanagement_check_applicant.assessApplicantFormTitle')}
                     </Box>
+
                     <form onSubmit={formik.handleSubmit}>
                         <Box mt={2}>
+                            <span>
+                        {t('jobmanagement_check_applicant.email')}</span>
                             <TextField id="email" variant="outlined" size='small' name='email'
                                 value={formik.values.email}
                                 onChange={formik.handleChange}
@@ -561,33 +561,8 @@ const CheckApplicant = ({ onCancel, country_code, job_description }) => {
                                 helperText={formik.touched.email && formik.errors.email}
                                 style={{ width: 300 }} />
                         </Box>
-                        <Box mt={2}>
-                            <span style={{ marginRight: 10 }}>Country:</span>
-                            <Select
-                                id="country_code" variant="outlined" size='small' name='country_code'
-                                value={formik.values.country_code}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.country_code && Boolean(formik.errors.country_code)}
-                                helperText={formik.touched.country_code && formik.errors.country_code}
-                                style={{ width: 300 }}
-                                native
-                                defaultValue={formik.values.currency}
-                            >
-                                <option value={'ca'}>Canada</option>
-                                <option value={'us'}>USA</option>
-                            </Select>
-                        </Box>
-                        <Box mt={2}>
-                            <TextField id="email" variant="outlined" size='small' name='email'
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.email && Boolean(formik.errors.email)}
-                                helperText={formik.touched.email && formik.errors.email}
-                                style={{ width: 300 }} />
-                        </Box>
-                        <Box mt={2}  {...getRootProps({ className: 'dropzone' })}>
+                        <Box mt={2}  {...getRootProps({className: 'dropzone'})}>
+                            <span>{t('jobmanagement_check_applicant.resume')}</span>
                             <input {...getInputProps()} />
                             <Box
                                 height={300}
@@ -655,8 +630,9 @@ const ApplicantsDetail = ({ job }) => {
             console.log("applicant", result);
             if (!result.status) { //这里返回值 没有status code... T_T
                 // if(result.status === 'success') {
-                console.log("get applicants succcess");
-                setApplicantList(result.applicants_info_list.sort((a, b) => (b.matching_level - a.matching_level)))
+                console.log("get applicants success");
+                setApplicantList(result.applicants_info_list.sort((a, b) =>
+                    (b.matching_level - a.matching_level)));
             } else {
                 console.log("get applicants error")
             }
@@ -1025,8 +1001,8 @@ const CardItem = ({
                 <Box width='10%' overflow='hidden'>{getCountryNameOrCurrency}</Box>
                 <Box width='20%' overflow='hidden'>
                     {isTitle ? 'Job Title' : <Button
-                        onClick={onCheckApplicants} variant='contained' color='primary'
-                        style={{ height: 30, marginTop: 10, marginBottom: 10 }}
+                        onClick={() => onCheckApplicants(currency, description)} variant='contained' color='primary'
+                        style={{height: 30, marginTop: 10, marginBottom: 10}}
                     >{title}</Button>}
                 </Box>
                 <Box width='15%' overflow='hidden' textAlign='center'>
@@ -1127,6 +1103,20 @@ const JobManagement = () => {
         }
     };
 
+    const TestOnlyButton = () => {
+        if (process.env.ENV_FLAG !== 'production') {
+            return (
+                <Box>
+                    <Button onClick={() => {
+                        getData().then()
+                    }} color='primary' variant='contained' style={{borderRadius: 20}}>Fetch Job</Button>
+                </Box>
+            );
+        } else {
+            return "";
+        }
+    };
+
     //fetch data
     const dispatch = useDispatch();
     const getHrHistory = useRequest();
@@ -1159,11 +1149,8 @@ const JobManagement = () => {
         <Container
             style={{ marginTop: 18 }}
         >
-            {/* test only button*/}
-            {/*<Button onClick={() => {*/}
-            {/*    getData()*/}
-            {/*}} color='primary' variant='contained' style={{borderRadius: 20}}>Fetch Job</Button>*/}
-
+            {/*test only button*/}
+            <TestOnlyButton></TestOnlyButton>
             <Section>
                 <Box p={4}>
                     <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>

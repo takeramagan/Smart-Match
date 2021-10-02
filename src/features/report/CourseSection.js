@@ -8,7 +8,7 @@ import {
     APP_END_POINT_B_AND_C,
     APP_END_POINT_CUSTOMER_REPORT_ACCURACY,
     X_API_KEY_B_AND_C,
-    X_API_KEY_HISTORY
+    X_API_KEY_HISTORY, DK_CONTACT_US
 } from '../../constant/externalURLs'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {linkTrack} from '../../untils/linkTrack'
@@ -436,6 +436,55 @@ export function CourseSection({report, selectedPathIndex}) {
         }
     };
 
+    if (!!report.hrCheck) {
+        return (
+            <Section
+                style={{marginTop: 18}}>
+                <Box display={'flex'} flexDirection={'row'}>
+                    <Box p={4} mb={4}>
+                        <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
+                            <Typography color='primary' style={{fontSize: h2, fontWeight: '500', marginRight: 20}}>
+                                <Button
+                                    variant='contained'
+                                    color='primary'
+                                    target="_blank"
+                                    style={{
+                                        borderRadius: 15, marginLeft: 10,
+                                        marginRight: 20, marginBottom: 10,
+                                        height: 30
+                                    }}
+                                    onClick={() => {
+                                        window.open('mailto:' + DK_CONTACT_US);
+                                    }}
+                                >
+                                    {t("b_radarchart.contact")}
+                                </Button>
+                                <span color={'#004AAD'}>{t("b_radarchart.contact_description")}</span>
+                            </Typography>
+                        </Box>
+
+                        {/* =================== Rate Section ================= */}
+                        <Modal open={showRateForm}>
+                            <RateForm onCancel={closeModal} formik={formik}
+                                      hrid={hrid} jobid={jobid}
+                                      email={email}
+                                      requestHandler={requestHandler}
+                                      defaultValue={defaultValue}
+                            />
+                        </Modal>
+                        <Box display={'flex'} style={{justifyContent: 'center'}}>
+                            <RateRequestButton></RateRequestButton>
+                        </Box>
+                    </Box>
+                    <img src='ai.svg' width={80} height={100} style={{
+                        marginTop: 35,
+                        marginRight: 35
+                    }}/>
+                </Box>
+            </Section>
+        );
+    }
+
     return (
         <Section
             style={{marginTop: 18}}>
@@ -474,7 +523,7 @@ export function CourseSection({report, selectedPathIndex}) {
                             {t("radarchart.Click here")}
                         </Button>
                     </Typography>
-                    <img src='ai.svg' width={80} height={100} className={classes.ai} />
+                    <img src='ai.svg' width={80} height={100} className={classes.ai}/>
                     {/* <Link
                         href={DK_IMPROVE}
                         target='_blank'
@@ -499,5 +548,5 @@ export function CourseSection({report, selectedPathIndex}) {
                 <RateRequestButton></RateRequestButton>
             </Box>
         </Section>
-    )
+    );
 }

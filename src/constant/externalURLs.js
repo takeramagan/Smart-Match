@@ -1,6 +1,7 @@
-export const DK_LINK = 'https://www.dk-education.com/book-online'
-export const DK_RESUME ='https://www.dk-community.com/resumeservice';
+export const DK_LINK = 'https://www.dk-education.com/book-online';
+export const DK_RESUME = 'https://www.dk-community.com/resumeservice';
 export const DK_IMPROVE = 'https://www.dk-community.com/careerpathservice';
+export const DK_CONTACT_US = 'andy@dk.com';
 //export const DK_IMPROVE = 'https://www.dk-community.com/career-planning'
 // export const DK_SERVICE = 'https://www.dk-education.com/bookings-checkout/%E7%A7%81%E4%BA%BA%E8%AE%A2%E5%88%B6%E5%92%A8%E8%AF%A2%E6%9C%8D%E5%8A%A1/book'
 //export const DK_RESUME = 'https://www.dk-community.com/resume-modification'
@@ -71,14 +72,14 @@ export const X_API_KEY_B_AND_C =
 
 export const JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK =
     process.env.ENV_FLAG === 'production' ?
-        'https://production-api.metisign.com/koios/v1/market_value/' :
-        'https://api.metisign.com/koios/v1/market_value/';
+        'https://production-api.metisign.com/koios/v1/business_pre_assessment/' :
+        'https://api.metisign.com/koios/v1/business_pre_assessment/';
 
 
 export const X_API_KEY_JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK =
     process.env.ENV_FLAG === 'production' ?
-        '4SGJLsnYxu7kmrWxBHKkj3w2TpDzLLCs7jVqMXhy' :
-        '9dYNSaxizl3FVx2AS8X3sIAfgo7xYE81dRtuwu41';
+        'A?D(G+KbPeShVmYq3t6w9y$B&E)H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v' :
+        '9G3dp8le_wmc8An6ay5lj1J5Hu9baha8em3tvzppcgasiwmc8An6ay5lKa861';
 
 //For Customer
 export const APP_END_POINT_CUSTOMER =
