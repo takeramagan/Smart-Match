@@ -1206,7 +1206,7 @@ const JobManagement = () => {
                 <AddApplicant job={hrHistoryList[showItem]} onCancel={closeModal} refreshPage={getData} />
             </Modal>
             <Modal open={showCheckApplicantForm} onClose={closeModal}>
-                <CheckApplicant onCancel={closeModal} refreshPage={getData} />
+                <CheckApplicant  country_code={selectedJobCountry} job_description={selectedJobDescription} onCancel={closeModal} refreshPage={getData} />
             </Modal>
         </Container>
     )
