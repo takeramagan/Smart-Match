@@ -21,7 +21,8 @@
     "report_text": "Your current job market position based on your resume",
     "history": "View History",
     "hideHistory": "Hide History",
-    "history_title": "History"
+    "history_title": "History",
+    "protected_statement": "*Your resume will be protected and will not be used for commercial profit."
   },
   "b_report": {
     "analyzing_title": "Analyzing...",
