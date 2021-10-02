@@ -1,14 +1,14 @@
 import {
     Container, Box, Button, Modal, TextField, Select, FormControl, InputLabel,
     Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText, Chip, makeStyles, MenuItem
-} from "@material-ui/core"
+} from "@material-ui/core";
 import { Section } from "../components/Section"
 import { h, h1, h2 } from '../constant/fontsize'
 import mockdata from '../constant/mockReleasedJobs.json'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react';
 // import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { COLOR_TITLE } from "../constant/color"
+import { COLOR_TITLE } from "../constant/color";
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import EditIcon from '@material-ui/icons/Edit';
 import * as yup from 'yup';
@@ -32,9 +32,13 @@ import { resumeHrStatusArray, JOB_STATUS } from "../constant/jobstatus"
 import { toast } from 'react-toastify';
 import { toastStyle } from "../constant/constant"
 import { useDropzone } from "react-dropzone";
+import { AddApplicant } from "../features/jobmanagement/AddApplicant";
 import DescriptionIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import {useTranslation} from "react-i18next";
 import BusinessReport from "./businessReport";
+
+// import reusable components
+import { SubmitAndCancel } from "../components/CommonReusable/SubmitAndCancel";
 
 // const useStyles = makeStyles({
 //   rejectReasonContainer: {
@@ -47,7 +51,7 @@ import BusinessReport from "./businessReport";
 
 const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
     const [showRejectReason, setShowRejectReason] = useState(false);
-    // const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清", "长得不够帅"];
+    // const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清"];
     const rejectReasonOptions = ["Skills do not match", "Work experiences do not match", "Not enough project experience",
         "Resume structure unclear", "Not enough hands-on skills"];
     const [rejectReasons, setRejectReasons] = useState(0); //bit indicates selected or not
@@ -156,10 +160,6 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
         setOtherReason(e.target.value)
     };
 
-    // const checkLink = (link) => {
-    //   return link.trim().match(/^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/)
-    // }
-
     const onSubmitInvite = async () => {
         if (!checkLink(inviteLink) || !(checkDescription(inviteDescription))) {
             setInviteBlur(true);
@@ -208,9 +208,11 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
                         <Box p={4}>
                             {/* <InlineWidget url="https://calendly.com/176237421/interview" /> */}
                             {/* <InlineWidget url="https://calendly.com/acmesales" /> */}
-                            Please generate your invite link via <a href='http://calendly.com' target='_blank'
-                            >Calendly</a> , <a href='https://calendar.google.com/' target='_blank'>Google calendar</a> or
-                            other tools and paste your link below<TextField placeholder='Paste your invite link here'
+                            Please generate your invite link via
+                            <a href='http://calendly.com' target='_blank'>Calendly</a>,
+                            <a href='https://calendar.google.com/' target='_blank'>Google calendar</a> or
+                            other tools and paste your link below
+                            <TextField placeholder='Paste your invite link here'
                                 onChange={onChangeLink}
                                 fullWidth value={inviteLink}
                                 onBlur={() => setInviteBlur(true)}
@@ -345,16 +347,6 @@ const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refr
     )
 };
 
-const SubmitAndCancel = ({onSubmit, onCancel, disableSubmit: disableSubmit}) => {
-    return (
-        <Box mt={3}>
-            <Button variant="contained" color="primary" disabled={disableSubmit} style={{marginRight: 10}}
-                    onClick={onSubmit} type="submit">Submit</Button>
-
-            <Button variant="contained" color="primary" onClick={onCancel}>Cancel</Button>
-        </Box>
-    )
-};
 
 const ErrorText = ({ visible, text }) => {
     return (
@@ -364,129 +356,10 @@ const ErrorText = ({ visible, text }) => {
     )
 };
 
-const addApplicantSchema = yup.object({
-    name: yup
-        .string()
-        .required('Name is required'),
-    email: yup.string().email("Invalid email").required('Email is required'),
-    joblink: yup.string().required('Job link is required').test('match', 'Not a valid link(eg: http(s)://google.com)', function (v) {
-        return checkLink(v)
-    }),
-    company: yup.string().required('Company name is required'),
-});
-
 const checkApplicantSchema = yup.object({
     email: yup.string().email("Invalid email").required('Email is required'),
     resume_file: yup.string().required('Applicant resume is required')
 });
-
-const AddApplicant = ({ job, onCancel, refreshPage }) => {
-    const { requestHandler } = useRequest();
-    // console.log(job);
-    const submitData = async ({ email, name, joblink, company }) => {
-        console.log('email', email, name, joblink, company);
-        console.log('job', job);
-        try {
-            const data = new FormData();
-            data.append('email', email); //mock data
-            data.append('name', name); //mock data
-            data.append('jobid', job.job_id);
-            data.append('joblink', joblink);
-            data.append('hrid', job.hr_id); //mock data
-            data.append('company_name', company);
-            data.append('dcc', X_API_KEY_B_AND_C);
-            console.log(
-                {
-                    email,
-                    name,
-                    jobid: job.job_id,
-                    joblink,
-                    hrid: job.hr_id,
-                    company_name: company,
-                    dcc: X_API_KEY_B_AND_C
-                }
-            );
-            const config = {
-                method: 'post',
-                url: APP_END_POINT_B_AND_C + ('insert_application'),
-                data: data
-            };
-            const result = await requestHandler(config);
-            console.log("applicant", result);
-            if (result.status === 'success') { //这里返回值 没有status code... T_T
-                onCancel();
-                refreshPage();
-            }
-        } catch (e) {
-            console.log("insert error", e);
-            toast.error('User has applied this job, or has not uploaded a resume. please check the email', toastStyle)
-            // alert('User has applied this job, or hasnot uploaded a resume. please check the email')
-        }
-    };
-    const formik = useFormik({
-        initialValues: {
-            name: "",
-            email: "",
-            joblink: "",
-            company: ""
-        },
-        validationSchema: addApplicantSchema,
-        onSubmit: (values) => {
-            submitData(values)
-        },
-    });
-    return (
-        <Box style={{ width: 360, marginLeft: 'auto', marginRight: 'auto' }}>
-
-            <Section>
-
-                <Box p={4} mt={4} fontSize={h2}>
-                    <Box fontSize={h1} color={COLOR_TITLE}>
-                        Add applicant detail
-                    </Box>
-                    <form onSubmit={formik.handleSubmit}>
-                        <Box mt={2}>
-                            <TextField id="name" label="Name" variant="outlined" size='small' name='name'
-                                value={formik.values.name}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.name && Boolean(formik.errors.name)}
-                                helperText={formik.touched.name && formik.errors.name}
-                                style={{ width: 300 }} />
-                        </Box>
-                        <Box mt={2}>
-                            <TextField id="email" label="Email" variant="outlined" size='small' name='email'
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.email && Boolean(formik.errors.email)}
-                                helperText={formik.touched.email && formik.errors.email}
-                                style={{ width: 300 }} />
-                        </Box>
-                        <Box mt={2}>
-                            <TextField id="company" label="Company name" variant="outlined" size='small' name='company'
-                                value={formik.values.company}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.company && Boolean(formik.errors.company)}
-                                helperText={formik.touched.company && formik.errors.company}
-                                style={{ width: 300 }} />
-                        </Box>
-                        <Box mt={2}>
-                            <TextField id="joblink" label="Job link" variant="outlined" size='small' name='joblink'
-                                value={formik.values.joblink}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.joblink && Boolean(formik.errors.joblink)}
-                                helperText={formik.touched.joblink && formik.errors.joblink}
-                                style={{ width: 300 }} />
-                        </Box>
-                        <SubmitAndCancel onCancel={onCancel} />
-                    </form>
-                </Box>
-            </Section>
-        </Box>)
-};
 
 const CheckApplicant = ({ onCancel, country_code, job_description }) => {
     const { t } = useTranslation();
@@ -788,11 +661,11 @@ const JobDetail = ({ job, index, closeModal, updatePage, hrid }) => {
     const onClickCancel = () => {
         if (equals(formik.initialValues, formik.values)) {
             console.log("close ");
-            closeModal()
+            closeModal();
         } else {
             console.log("not equal ");
             //open confirm dialog
-            setOpenConfirmDlg(true)
+            setOpenConfirmDlg(true);
         }
     };
 
@@ -944,10 +817,6 @@ const JobDetail = ({ job, index, closeModal, updatePage, hrid }) => {
                             />
                         </Box>
                         <SubmitAndCancel onCancel={onClickCancel} />
-                        {/* <Box mt={3}>
-              <Button variant="contained" color="primary" style={{marginRight:10}} type="submit">Submit</Button>
-              <Button variant="contained" color="primary" onClick={onClickCancel}>Cancel</Button>
-            </Box> */}
                     </form>
                 </Box>
             </Section>
@@ -1052,7 +921,7 @@ const JobManagement = () => {
     const hrHistoryList = hrHistory.historyList;
     const params = useRouter().query;
     const hrId = params.id;
-    console.log('hrid1 = ', params.id);
+    console.log('Initial hrid1 = ', params.id);
     const onShowJobDetail = (id) => {
         setShowItem(id);
         setShowJobDetail(true);
@@ -1120,11 +989,12 @@ const JobManagement = () => {
     //fetch data
     const dispatch = useDispatch();
     const getHrHistory = useRequest();
+
     const getData = async () => {
         const data = new FormData();
         data.append('dcc', X_API_KEY_B_AND_C);
-        console.log('hrid2= ', hrId);
         data.append('hrid', hrId);
+        console.log('hrid when fetch data = ', hrId);
         const config = {
             method: 'post',
             url: APP_END_POINT_B_AND_C + 'get_all_job_postings',
@@ -1133,16 +1003,21 @@ const JobManagement = () => {
         try {
             const data = await getHrHistory.requestHandler(config);
             console.log("get data", data.job_postings);
-            if (data.job_postings) dispatch(hrHistoryAction.setHistoryList(data.job_postings));
+            if (data.job_postings) {
+                dispatch(hrHistoryAction.setHistoryList(data.job_postings));
+            }
         } catch (e) {
             console.error("error happen while fetching posted jobs", e)
         }
     };
 
-    console.log("hr", hrHistoryList);
+    console.log("hr posted list: ", hrHistoryList);
 
     useEffect(() => {
-        if (hrId) getData()
+        console.log("reached: ", hrId);
+        if (hrId) {
+            getData();
+        }
     }, [hrId]);
 
     return (
