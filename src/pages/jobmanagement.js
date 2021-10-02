@@ -1,44 +1,63 @@
-import {
-    Container, Box, Button, Modal, TextField, Select, FormControl, InputLabel,
-    Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText, Chip, makeStyles, MenuItem
-} from "@material-ui/core";
-import { Section } from "../components/Section"
-import { h, h1, h2 } from '../constant/fontsize'
-import mockdata from '../constant/mockReleasedJobs.json'
+// import react hook
 import { useCallback, useEffect, useState } from 'react';
-// import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { COLOR_TITLE } from "../constant/color";
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
-import EditIcon from '@material-ui/icons/Edit';
-import * as yup from 'yup';
+/* import libs */
+// import form handle lib
 import { useFormik } from 'formik';
-import { useDispatch, useSelector } from "react-redux"
-import { checkStatus, useRequest } from "../hooks/useRequest"
-import { hrHistoryAction } from "../slices/hrHistorySlice"
-import { useRouter } from "next/router"
+// import validation libs
+import * as yup from 'yup';
+// import functional lib dropzone
+import { useDropzone } from "react-dropzone";
+// import react-redux
+import { useDispatch, useSelector } from "react-redux";
+// import mui components
+import { Container, Box, Button, Modal, TextField, Chip, makeStyles, MenuItem } from "@material-ui/core";
+
+// import custom style
+import { Section } from "../components/Section";
+import { h, h1, h2 } from '../constant/fontsize';
+import { COLOR_TITLE } from "../constant/color";
+// import axios custom hook
+import { useRequest } from "../hooks/useRequest";
+
+//
+import { hrHistoryAction } from "../slices/hrHistorySlice";
+
+// import incons
+import DescriptionIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import CloseIcon from '@material-ui/icons/Close';
-import { RESUME_ANALYSIS_VIEWED, RESUME_INVITE, RESUME_REJECTED, RESUME_VIEWED } from "../constant/jobstatus"
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+
+/* import constants */
+// 
+import { RESUME_ANALYSIS_VIEWED, RESUME_INVITE, RESUME_REJECTED, RESUME_VIEWED } from "../constant/jobstatus";
+// import API 
 import {
     APP_END_POINT_B_AND_C,
     JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK,
     X_API_KEY_B_AND_C, X_API_KEY_JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK
-} from "../constant/externalURLs"
-import { v4 as uuidv4 } from 'uuid';
-import getUserId from "../untils/getUserId"
-import checkLink from "../untils/checkLink"
-import { resumeHrStatusArray, JOB_STATUS } from "../constant/jobstatus"
+} from "../constant/externalURLs";
+
+import getUserId from "../untils/getUserId";
+import checkLink from "../untils/checkLink";
+import { resumeHrStatusArray } from "../constant/jobstatus";
 import { toast } from 'react-toastify';
-import { toastStyle } from "../constant/constant"
-import { useDropzone } from "react-dropzone";
-import { AddApplicant } from "../features/jobmanagement/AddApplicant";
-import DescriptionIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import {useTranslation} from "react-i18next";
+import { toastStyle } from "../constant/constant";
+
+import { useTranslation } from "react-i18next";
 import BusinessReport from "./businessReport";
+import { useRouter } from "next/router";
 
 // import reusable components
 import { SubmitAndCancel } from "../components/CommonReusable/SubmitAndCancel";
+
+// import feature components
+import { AddApplicant } from "../features/jobmanagement/AddApplicant";
+import { CardItem } from "../features/jobmanagement/CardItem";
+import { JobDetail } from "../features/jobmanagement/AddOrEditJob";
+
+// import test related
+import mockdata from '../constant/mockReleasedJobs.json';
 
 // const useStyles = makeStyles({
 //   rejectReasonContainer: {
@@ -330,9 +349,9 @@ const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refr
             <Box width='10%' overflow='hidden' textAlign='center'>
                 {isTitle && resume_report}
                 {!isTitle &&
-                <Button target='_blank'
+                    <Button target='_blank'
                         href={`/businessReport?hrid=${hr_id}&jobid=${job_id}&index=${index}&email=${email}`}
-                        onClick={onViewReport}><CloudDownloadIcon color="primary"/></Button>}
+                        onClick={onViewReport}><CloudDownloadIcon color="primary" /></Button>}
             </Box>
             <Box width='25%' overflow='hidden' textAlign='center'>
                 {isTitle && "Operation"}
@@ -391,7 +410,7 @@ const CheckApplicant = ({ onCancel, country_code, job_description }) => {
             if (result.report) {
                 console.log(result);
                 return (
-                    <BusinessReport presetReport={result.report}/>
+                    <BusinessReport presetReport={result.report} />
                 );
             } else {
                 toast.error('Check applicant resume failed ' +
@@ -425,7 +444,7 @@ const CheckApplicant = ({ onCancel, country_code, job_description }) => {
                     <form onSubmit={formik.handleSubmit}>
                         <Box mt={2}>
                             <span>
-                        {t('jobmanagement_check_applicant.email')}</span>
+                                {t('jobmanagement_check_applicant.email')}</span>
                             <TextField id="email" variant="outlined" size='small' name='email'
                                 value={formik.values.email}
                                 onChange={formik.handleChange}
@@ -434,7 +453,7 @@ const CheckApplicant = ({ onCancel, country_code, job_description }) => {
                                 helperText={formik.touched.email && formik.errors.email}
                                 style={{ width: 300 }} />
                         </Box>
-                        <Box mt={2}  {...getRootProps({className: 'dropzone'})}>
+                        <Box mt={2}  {...getRootProps({ className: 'dropzone' })}>
                             <span>{t('jobmanagement_check_applicant.resume')}</span>
                             <input {...getInputProps()} />
                             <Box
@@ -544,372 +563,6 @@ const ApplicantsDetail = ({ job }) => {
     )
 };
 
-const validationSchema = yup.object({
-    title: yup
-        .string()
-        .required('Job title is required'),
-    salary_start: yup
-        .number().integer("Integer only").moreThan(0, "Should > 0")
-        .required("Required"),
-    salary_end: yup
-        .number().integer("Integer only").min(yup.ref('salary_start'), "To >= From")
-        .required("Required"),
-    description: yup
-        .string()
-        .required('Job description is required'),
-    note: yup
-        .string(),
-    jobtype: yup.number(),
-    status: yup.number(),
-    job_reference_id: yup.string().required("Job Id is required")
-});
-
-//Edit or add Job
-const JobDetail = ({ job, index, closeModal, updatePage, hrid }) => {
-    // let initJob = {status:0, link:"", post_date:"", applicants:[],title:"", modify_date:"", description:null, salary_start:null, salary_end:null}
-    let initJob = {};
-    const isNew = index === -1;
-    const {
-        job_id: jobid, jobstatus, link, post_date, modify_date,
-        applicants, jobtitle: title, description,
-        salarylow: salary_start, salaryhigh: salary_end,
-        jobtype, note, job_reference_id, currency
-    } = isNew ? initJob : job;
-    const [openConfirmDlg, setOpenConfirmDlg] = useState(false); //open confirm dialog
-
-    const formik = useFormik({
-        initialValues: {
-            title: title ?? "",
-            salary_start: salary_start > 0 ? salary_start : 0,
-            salary_end: salary_end > 0 ? salary_end : 0,
-            note: note ?? "",
-            description: description ?? "",
-            jobtype: parseInt(jobtype ?? 0),//0:full time 1:contract 2:part
-            status: parseInt(jobstatus ?? 0),//0:accepting 1:closed 2:filled
-            job_reference_id: job_reference_id ?? "",
-            currency: currency ?? "CAD"
-        },
-        validationSchema: validationSchema,
-        onSubmit: (values) => {
-            console.log(values);
-            submitData(values).then();
-        },
-    });
-
-    // salary unit state listener
-    const [salaryUnitState, setSalaryUnitState] = useState(
-        (formik.initialValues.jobtype == 0) ? 'per Year' : 'per Hour');
-
-    const jobTypeChange = (v) => {
-        setSalaryUnit(v.target.value);
-    };
-
-    // get the salary unit display str
-    const setSalaryUnit = (v) => {
-        setSalaryUnitState(v === '0' ? 'per Year' : 'per Hour');
-        return salaryUnitState;
-    };
-
-    const { requestHandler } = useRequest();
-    const submitData = async (values) => {
-        try {
-            const data = new FormData();
-            // data.append('action', isNew ? 'addjob' : 'editjob');
-            // if(!isNew) data.append('jobid', jobid )
-            data.append('jobtitle', values.title);
-            data.append('salarylow', values.salary_start);
-            data.append('salaryhigh', values.salary_end);
-            data.append('company', 'microsoft');
-            data.append('note', values.note);
-            data.append('hrid', hrid); //mock data
-            data.append('jobstatus', values.status);
-            data.append('description', values.description);
-            data.append('joblink', 'www.baidu.com');
-            data.append('jobtype', values.jobtype);
-            data.append('dcc', X_API_KEY_B_AND_C);
-            data.append('jobid', isNew ? uuidv4() : jobid);
-            data.append('job_reference_id', values.job_reference_id);
-            data.append('currency', values.currency);
-            const config = {
-                method: 'post',
-                url: APP_END_POINT_B_AND_C + (isNew ? 'publish_job_posting' : 'update_job_posting'),
-                data: data
-            };
-            console.log(config);
-            const result = await requestHandler(config);
-            console.log("submit result", result);
-            if (result.status === 'success') {
-                console.log("Submit success");
-                updatePage();
-                closeModal();
-            } else {
-                toast.error('Oops, something went wrong, the job cannot be set, please try again later.', toastStyle);
-            }
-        } catch (e) {
-            toast.error('Oops, something went wrong, the job cannot be set: '
-                + e.toString(), toastStyle);
-        }
-    };
-
-    const equals = (init, cur) => {
-        for (const [k, v] of Object.entries(init)) {
-            if (v != cur[k]) return false
-        }
-        return true
-    };
-
-    const onClickCancel = () => {
-        if (equals(formik.initialValues, formik.values)) {
-            console.log("close ");
-            closeModal();
-        } else {
-            console.log("not equal ");
-            //open confirm dialog
-            setOpenConfirmDlg(true);
-        }
-    };
-
-    const onCloseDlg = () => {
-        setOpenConfirmDlg(false)
-    };
-
-    // const handleChange = (event) => {
-    //     const name = event.target.name;
-    //     // setState({
-    //     //   ...state,
-    //     //   [name]: event.target.value,
-    //     // });
-    // };
-
-    return (
-        <Box style={{ width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
-            <Section>
-                <Box mt={4} p={4}>
-                    <Box fontSize={h1} color={COLOR_TITLE}>
-                        {isNew ? "Post New Job" : "Edit Job"}
-                    </Box>
-                </Box>
-            </Section>
-            <Section>
-                <Box p={4} mt={4} fontSize={h2}>
-                    <form onSubmit={formik.handleSubmit}>
-                        <Box>
-                            <TextField id="job_reference_id" label="Job id" variant="outlined" size='small'
-                                name='job_reference_id'
-                                value={formik.values.job_reference_id}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.job_reference_id && Boolean(formik.errors.job_reference_id)}
-                                helperText={formik.touched.job_reference_id && formik.errors.job_reference_id}
-                                style={{ width: 150 }} />
-                        </Box>
-                        <Box mt={2}>
-                            <TextField id="title" label="Job title" variant="outlined" size='small' name='title'
-                                value={formik.values.title}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.title && Boolean(formik.errors.title)}
-                                helperText={formik.touched.title && formik.errors.title}
-                                style={{ width: 300 }} />
-                        </Box>
-
-                        <Box mt={2}>
-                            <FormControl variant="outlined">
-                                <InputLabel htmlFor="jobtype">Job type</InputLabel>
-                                <Select
-                                    style={{ height: 40 }}
-                                    native
-                                    variant="outlined"
-                                    value={formik.values.jobtype}
-                                    onChange={e => {
-                                        formik.handleChange(e);
-                                        jobTypeChange(e);
-                                    }}
-                                    label="Job type"
-                                    inputProps={{
-                                        name: 'jobtype',
-                                        id: 'jobtype',
-                                    }}
-                                >
-                                    {/* <option aria-label="None" value="" /> */}
-                                    <option value={0}>Fulltime</option>
-                                    <option value={1}>Contract</option>
-                                    <option value={2}>Part-time</option>
-                                </Select>
-                            </FormControl>
-                            <FormControl variant="outlined" style={{ marginLeft: 10 }}>
-                                <InputLabel htmlFor="status">Job Status</InputLabel>
-                                <Select
-                                    style={{ height: 40 }}
-                                    native
-                                    variant="outlined"
-                                    // value={state.age}
-                                    value={formik.values.status}
-                                    onChange={formik.handleChange}
-                                    defaultValue={formik.values.status}
-                                    label="Job status"
-                                    inputProps={{
-                                        name: 'status',
-                                        id: 'status',
-                                    }}
-                                >
-                                    {/* <option aria-label="None" value="" /> */}
-                                    <option value={0}>Accepting</option>
-                                    <option value={1}>Closed</option>
-                                    <option value={2}>Filled</option>
-                                </Select>
-                            </FormControl>
-                        </Box>
-                        <Box mt={2}>
-                            <span style={{ marginRight: 10 }}>Salary:
-                            </span>
-                            <Select
-                                style={{ height: 40 }}
-                                native
-                                variant="outlined"
-                                // value={state.age}
-                                value={formik.values.currency}
-                                onChange={formik.handleChange}
-                                defaultValue={formik.values.currency}
-                                inputProps={{
-                                    name: 'currency',
-                                    id: 'currency',
-                                }}
-                            >
-                                <option value={'USD'}>$USD</option>
-                                <option value={'CAD'}>$CAD</option>
-                            </Select>
-                            <TextField id="salary_start" label="From" variant="outlined" size='small' type='number'
-                                value={formik.values.salary_start}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.salary_start && Boolean(formik.errors.salary_start)}
-                                helperText={formik.touched.salary_start && formik.errors.salary_start}
-                                style={{ width: 100, marginRight: 10, marginLeft: 10 }} />
-                            <TextField id="salary_end" label="To" variant="outlined" size='small' type='number'
-                                style={{ width: 100 }}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.salary_end}
-                                onChange={formik.handleChange}
-                                error={formik.touched.salary_end && Boolean(formik.errors.salary_end)}
-                                helperText={formik.touched.salary_end && formik.errors.salary_end}
-                            />
-                            <span style={{ width: 100, marginLeft: 10 }}>{salaryUnitState}
-                            </span>
-                        </Box>
-                        <Box mt={2}>
-                            <TextField id="note" label="Job Note" variant="outlined" rowsMax={5} rows={2} fullWidth
-                                multiline
-                                value={formik.values.note}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                            />
-                        </Box>
-                        <Box mt={2}>
-                            <TextField id="description" label="Job Description" variant="outlined" rowsMax={15} rows={5}
-                                fullWidth
-                                multiline
-                                value={formik.values.description}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.description && Boolean(formik.errors.description)}
-                                helperText={formik.touched.description && formik.errors.description}
-                            />
-                        </Box>
-                        <SubmitAndCancel onCancel={onClickCancel} />
-                    </form>
-                </Box>
-            </Section>
-
-            <Dialog
-                open={openConfirmDlg}
-                onClose={onCloseDlg}
-            >
-                <DialogTitle>{"Confirm"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Discard modification?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={onCloseDlg} color="primary">
-                        Disagree
-                    </Button>
-                    <Button onClick={() => {
-                        onCloseDlg();
-                        closeModal()
-                    }} color="primary" autoFocus>
-                        Agree
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </Box>
-    )
-};
-
-const CardItem = ({
-    index, onShowJobDetail, onShowApplicants, item,
-    style, isTitle, onAddApplicant,
-    onCheckApplicants
-}) => {
-    const {
-        job_id: id, jobstatus: status, link, job_posting_time, postdate, modify_date, applicants, jobtitle: title,
-        edit, note, job_reference_id, currency, description
-    } = item;
-    //0:accepting 1:closed 2:filled
-    const job_status = (status >= 0 && status < JOB_STATUS.length) ? JOB_STATUS[status] : status;
-    const numOfApplicants = isTitle ? "Applicants" : (applicants ?? 0); //标题没有index
-    const getCountryNameOrCurrency = currency === 'Country' ?
-        currency : (currency === 'USD' ? 'USA' : 'CA');
-
-    return (
-        <Box>
-            <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center'
-                justifyContent='center' style={style}>
-                <Box width='8%' overflow='hidden'>{isTitle ? 'Job ID' : job_reference_id}</Box>
-                <Box width='10%' overflow='hidden'>{getCountryNameOrCurrency}</Box>
-                <Box width='20%' overflow='hidden'>
-                    {isTitle ? 'Job Title' : <Button
-                        onClick={() => onCheckApplicants(currency, description)} variant='contained' color='primary'
-                        style={{height: 30, marginTop: 10, marginBottom: 10}}
-                    >{title}</Button>}
-                </Box>
-                <Box width='15%' overflow='hidden' textAlign='center'>
-                    {/**index === undefined 表示list 的标题栏*/}
-                    {isTitle && numOfApplicants}
-                    {!isTitle &&
-                        <Box display='flex' flexDirection='row' width='100%' justifyContent='space-evenly'>
-                            <Button
-                                disabled={numOfApplicants === 0}
-                                onClick={() => onShowApplicants(index)} variant='contained' color='primary'
-                                style={{ height: 30, marginTop: 10, marginBottom: 10 }}
-                            >{numOfApplicants}</Button>
-                            <Button variant='contained' color='primary'
-                                style={{ height: 30, marginTop: 10, marginBottom: 10 }}
-                                onClick={onAddApplicant}>Add</Button>
-                        </Box>}
-                </Box>
-                <Box width='20%' overflow='hidden' textAlign='center'>{isTitle ? "Job status" : job_status}</Box>
-                <Box width='8%'>
-                    {isTitle && edit}
-                    {!isTitle &&
-                        <Button onClick={() => onShowJobDetail(index)}>
-                            {/* {showDetail && <ExpandLessIcon/>}
-            {!showDetail && <ExpandMoreIcon/>}  */}
-                            <EditIcon color='primary' />
-                        </Button>
-                    }
-                </Box>
-                <Box width='10%' overflow='hidden'>{isTitle ? postdate : (job_posting_time.split("T")[0])}</Box>
-                <Box width='26%' overflow='hidden' textAlign='center'>
-                    {note}
-                </Box>
-            </Box>
-            {/* {showDetail && <JobCard job={item}/>} */}
-        </Box>
-    )
-};
-
 const JobManagement = () => {
     const [showItem, setShowItem] = useState(-1); //index in Job list, -1表示没有
     const [showJobDetail, setShowJobDetail] = useState(false);
@@ -978,7 +631,7 @@ const JobManagement = () => {
                 <Box>
                     <Button onClick={() => {
                         getData().then()
-                    }} color='primary' variant='contained' style={{borderRadius: 20}}>Fetch Job</Button>
+                    }} color='primary' variant='contained' style={{ borderRadius: 20 }}>Fetch Job</Button>
                 </Box>
             );
         } else {
@@ -1026,6 +679,7 @@ const JobManagement = () => {
         >
             {/*test only button*/}
             <TestOnlyButton></TestOnlyButton>
+            {/* */}
             <Section>
                 <Box p={4}>
                     <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>

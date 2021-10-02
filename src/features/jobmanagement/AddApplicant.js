@@ -15,21 +15,51 @@ import { COLOR_TITLE } from "../../constant/color";
 import { h1, h2 } from '../../constant/fontsize';
 import { APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C } from "../../constant/externalURLs";
 
+// toast notification
+import { toast } from 'react-toastify';
+import { toastStyle } from "../../constant/constant";
+
 //
 import checkLink from "../../untils/checkLink";
+import { useEffect } from "react";
 
 export const AddApplicant = ({ job, onCancel, refreshPage }) => {
-    console.log("Job: ", job);
-    console.log("OnCancel: ", onCancel);
-    console.log("RefreshPage: ", refreshPage);
+
+    useEffect(()=>{
+        console.log("Job: ", job);
+        console.log("OnCancel: ", onCancel);
+        console.log("RefreshPage: ", refreshPage);
+    }, []);
+
     const { requestHandler } = useRequest();
+
+    const transformLink =(value, originalValue)=>{
+        // 1. verify if input link contains http/https
+        if (value.indexOf("http://") == 0 || value.indexOf("https://") == 0) {
+            return value;
+        }
+        // 2. if no http/https, add to begin
+        else{
+            const headerHttp = "http://";
+            const headerHttps = "https://";
+            const localUrl = headerHttps+value;
+            // const result = await fetch(localUrl, { method: 'HEAD' });
+            // if (result.ok){
+            //     return localUrl;
+            // }
+            // else{
+            //     return headerHttp+value;
+            // }
+            return localUrl;
+        }
+    }
 
     const addApplicantSchema = yup.object({
         name: yup
             .string()
             .required('Name is required'),
         email: yup.string().email("Invalid email").required('Email is required'),
-        joblink: yup.string().required('Job link is required').test('match', 'Not a valid link(eg: http(s)://google.com)', function (v) {
+        joblink: yup.string().required('Job link is required').transform(transformLink).test('match', 'Not a valid link(eg: http(s)://google.com)', function (v) {
             return checkLink(v)
         }),
         company: yup.string().required('Company name is required'),
