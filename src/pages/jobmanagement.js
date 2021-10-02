@@ -350,7 +350,7 @@ const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refr
                 {isTitle && resume_report}
                 {!isTitle &&
                     <Button target='_blank'
-                        href={`/businessReport?hrid=${hr_id}&jobid=${job_id}&index=${index}&email=${email}`}
+                        href={`/report?hrid=${hr_id}&jobid=${job_id}&index=${index}&email=${email}`}
                         onClick={onViewReport}><CloudDownloadIcon color="primary" /></Button>}
             </Box>
             <Box width='25%' overflow='hidden' textAlign='center'>
@@ -683,7 +683,7 @@ const JobManagement = () => {
             style={{ marginTop: 18 }}
         >
             {/*test only button*/}
-            <TestOnlyButton></TestOnlyButton>
+            {/*<TestOnlyButton></TestOnlyButton>*/}
             {/* */}
             <Section>
                 <Box p={4}>
