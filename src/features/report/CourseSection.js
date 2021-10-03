@@ -587,9 +587,9 @@ export function BusinessCourseSection({report}) {
                                     window.open('mailto:' + DK_CONTACT_US);
                                 }}
                             >
-                                {t("b_radarchart.contact")}
+                                {t("radarchart.contact")}
                             </Button>
-                            <span color={'#004AAD'}>{t("b_radarchart.contact_description")}</span>
+                            <span color={'#004AAD'}>{t("radarchart.contact_description")}</span>
                         </Typography>
                     </Box>
 

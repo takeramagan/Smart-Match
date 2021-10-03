@@ -28,7 +28,15 @@ export function LinearWithValueLabel(props) {
     useEffect(() => {
         const timer = setInterval(() => {
             // always set loading progress into 100 if it exceed 100 
-            setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + ((1/props.loadingTime)*100)));
+            setProgress((prevProgress) => {
+                prevProgress = prevProgress + ((1 / props.loadingTime) * 100);
+                if (prevProgress>=100){
+                    return 100;
+                }
+                else{
+                    return prevProgress;
+                }
+            });
         }, 1000);
         return () => {
             clearInterval(timer);
@@ -37,7 +45,7 @@ export function LinearWithValueLabel(props) {
 
     return (
         <Box sx={{ width: '100%' }}>
-            <LinearProgressWithLabel value={(progress)} maxValue={100} />
+            <LinearProgressWithLabel value={(progress)} />
         </Box>
     );
 }
