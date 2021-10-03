@@ -19,6 +19,7 @@ export const METISIGN_WEBSITE = 'https://www.metisign.com/find-job'
 export const APP_END_POINT =
     process.env.ENV_FLAG === 'production' ?
         "https://production-api.metisign.com/koios/v1/market_value/" :
+        //"https://api.metisign.com/koios/v1/market_value/"
         "https://staging-api.smartmatch.app/koios/v1/market_value/"
 export const X_API_KEY =
     process.env.ENV_FLAG === 'production' ?

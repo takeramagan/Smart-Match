@@ -1,21 +1,20 @@
 /* global fetch, FormData */
 
-import { X_API_KEY, APP_END_POINT, APP_END_POINT_HISTORY, X_API_KEY_HISTORY} from '../constant/externalURLs'
+import { X_API_KEY, APP_END_POINT, APP_END_POINT_HISTORY, X_API_KEY_HISTORY } from '../constant/externalURLs';
+
 export const fetchMarketValue = (file, params) => {
-  const url = APP_END_POINT
-  const x_api_key = X_API_KEY
+  console.log("env = ", process.env.NODE_ENV)
 
-console.log("env = ", process.env.NODE_ENV)
+  const myHeaders = new Headers();
+  // myHeaders.append('x-api-key', x_api_key);
+  // myHeaders.append('DNT', '1');
 
-  const myHeaders = new Headers()
-  myHeaders.append('x-api-key', x_api_key)
-  myHeaders.append('DNT', '1')
-
-  const formdata = new FormData()
-  formdata.append('resume_file', file, file.name)
+  const formdata = new FormData();
+  formdata.append('dcc', X_API_KEY);
+  formdata.append('resume_file', file, file.name);
 
   Object.entries(params).forEach(([key, value]) => formdata.append(key, value))
-  
+
   const requestOptions = {
     method: 'POST',
     headers: myHeaders,
@@ -23,7 +22,7 @@ console.log("env = ", process.env.NODE_ENV)
     redirect: 'follow'
   }
 
-  return fetch(url, requestOptions).then(checkStatus)
+  return fetch(APP_END_POINT, requestOptions).then(checkStatus)
 }
 
 export const checkStatus = (response) => {
@@ -40,13 +39,12 @@ export const checkStatus = (response) => {
   }
 }
 
-export const fetchHistory = ({email, url=APP_END_POINT_HISTORY, report_id}) => {
+export const fetchHistory = ({ email, url = APP_END_POINT_HISTORY, report_id }) => {
   // const url = APP_END_POINT_HISTORY
   const x_api_key = X_API_KEY_HISTORY
 
+  const myHeaders = new Headers();
 
-  const myHeaders = new Headers()
- 
   // myHeaders.append('x-api-key', x_api_key)
   // myHeaders.append('X-Api-Key', x_api_key)
   // myHeaders.append('Authorization', x_api_key)
@@ -58,9 +56,9 @@ export const fetchHistory = ({email, url=APP_END_POINT_HISTORY, report_id}) => {
   formdata.append('dcc', x_api_key)
   report_id && formdata.append('report_id', report_id)
 
- 
+
   // Object.entries(params).forEach(([key, value]) => formdata.append(key, value))
-  
+
   const requestOptions = {
     method: 'POST',
     headers: myHeaders,
