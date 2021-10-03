@@ -34,38 +34,33 @@ import {BusinessCourseSection, CourseSection} from '../features/report/CourseSec
 import {LoadingPage} from "../features/report/LoadingWhenUpload";
 // import other library
 import {useRouter} from 'next/router';
-import {useDropzone} from 'react-dropzone';
 // import API related
 import {useRequest} from '../hooks/useRequest';
 import {
     APP_END_POINT_B_AND_C,
-    APP_END_POINT_GET_HISTORY_BY_ID,
     APP_END_POINT_GET_HISTORY_IDS,
-    FACEBOOK,
-    INSTAGRAM,
-    LINKEDIN,
-    TWITTER,
     X_API_KEY_B_AND_C
 } from '../constant/externalURLs';
-import {fetchHistory, fetchMarketValue} from '../services/market-value';
 // import icons
 import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
-import DescriptionIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 export default function BusinessReport({presetReport}) {
     const {t} = useTranslation();
-    const [selectedPathIndex, setSelectedPathIndex] = useState(0);
     const params = useRouter().query;
     const userId = params.hrid;
     const lang = params.lang?.toLowerCase(); //get language
     const jobid = params.jobid;
     const index = params.index;
     const email = params.email;
-    const [loading, setLoading] = useState(!!jobid);
+    const [loading, setLoading] = useState(true);
+    const adsLoadingTime = 3;
     if (presetReport) {
         presetReport.hrCheck = true;
     }
     const [report, setReport] = useState(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, adsLoadingTime * 1000);
         if (!presetReport) {
             // use dummy report
             return ({
@@ -95,25 +90,6 @@ export default function BusinessReport({presetReport}) {
         return presetReport
     });
     const [reportAccuracyRating, setReportAccuracyRate] = useState(0);
-
-    // todo: test only data
-    const [viewHistory, setViewHistory] = useState(false);
-    const [loadingHistory, setLoadingHistory] = useState(true);
-    const [errorHistory, setErrorHistory] = useState(null);
-    const [historyList, setHistoryList] = useState(null);
-    const getHistory = () => {
-        setLoadingHistory(true);
-        setErrorHistory(false);
-        // fetchHistory({id: userId}).then(
-        fetchHistory({email: email, url: APP_END_POINT_GET_HISTORY_IDS}).then(
-            histories => {
-                setHistoryList(histories);
-                console.log(historyList);
-                setLoadingHistory(false);
-            }
-        ).catch(setErrorHistory)
-    };
-
     const {requestHandler} = useRequest();
     const getReportFromParams = async () => {
         setLoading(true);
@@ -151,15 +127,16 @@ export default function BusinessReport({presetReport}) {
 
     if (loading) {
         return (
-            <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' height='80vh'>
-                <Box fontSize='64px' fontWeight='600' color='#49648A'>
-                    {t('report.loading')}
-                </Box>
-                <Box width='600px' m={8}>
-                    <LinearProgress/>
-                </Box>
+            <Box p={4} mb={4} borderRadius='24px' width={800} margin='40px auto 16px' style={{}}>
+                <Section>
+                    <LoadingPage
+                        title={t("report.analyzing_title")}
+                        content={t("report.analyzing_text")}
+                        loadingTime={adsLoadingTime}
+                    />
+                </Section>
             </Box>
-        )
+        );
     }
 
     return (
