@@ -1,5 +1,5 @@
-// import reack hook
-import {useCallback, useEffect, useState} from 'react';
+// import react hook
+import {useEffect, useState} from 'react';
 // import language related
 import i18n from '../i18n/config';
 import {Trans, useTranslation} from 'react-i18next';
@@ -8,29 +8,15 @@ import {
     Box,
     Button,
     Container,
-    Grid,
-    LinearProgress,
-    Select,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Typography,
-    Link,
-    SwipeableDrawer
-} from '@material-ui/core'
-import {makeStyles, theme} from '@material-ui/core/styles';
+    Grid
+} from '@material-ui/core';
 // import custom style setting
-import {h, h2, h3} from '../constant/fontsize';
-// import custom feature functions
-import {linkTrack} from '../untils/linkTrack';
+import {h, h3} from '../constant/fontsize';
 // import layout components
-import {Header} from '../components/Header';
-import {Sidebar} from '../components/Sidebar';
 import {Section} from '../components/Section';
-import {HistoryList} from '../components/HistoryList';
 // import custom feature components
 import {BusinessMarketCompetitiveness} from '../features/report/MarketCompetitivenessSection';
-import {BusinessCourseSection, CourseSection} from '../features/report/CourseSection';
+import {BusinessCourseSection} from '../features/businessReport/BusinessCourseSection';
 import {LoadingPage} from "../features/report/LoadingWhenUpload";
 // import other library
 import {useRouter} from 'next/router';
@@ -90,41 +76,6 @@ export default function BusinessReport({presetReport}) {
         return presetReport
     });
     const [reportAccuracyRating, setReportAccuracyRate] = useState(0);
-    const {requestHandler} = useRequest();
-    const getReportFromParams = async () => {
-        setLoading(true);
-        try {
-            const data = new FormData();
-            data.append('hrid', userId); //mock data
-            data.append('jobid', jobid);
-            data.append('dcc', X_API_KEY_B_AND_C);
-
-            const config = {
-                method: 'post',
-                url: APP_END_POINT_B_AND_C + ('get_all_applications'),
-                data: data
-            };
-            const result = await requestHandler(config);
-            console.log("applicant", result.applicants_info_list);
-            if (!result.status) {
-                console.log("get applicants succcess");
-                console.log(result.applicants_info_list);
-                const applicant = result.applicants_info_list
-                    .sort((a, b) => (b.matching_level - a.matching_level))[index];
-                setReport({...applicant.report, id: userId, lang, hrCheck: true});
-                console.log('report print', report);
-            } else {
-                console.log("get applicants error");
-            }
-        } catch (e) {
-            console.log("error get applicants");
-        }
-        setLoading(false);
-    };
-    useEffect(() => {
-        if (jobid) getReportFromParams().then();
-    }, [jobid]);
-
     if (loading) {
         return (
             <Box p={4} mb={4} borderRadius='24px' width={800} margin='40px auto 16px' style={{}}>

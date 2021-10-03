@@ -480,7 +480,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
         return (
             <Box fontSize={h2} fontWeight='500' color='#000000'>
                 <Trans
-                    i18nKey="radarchart.fit job"
+                    i18nKey="b_radarchart.fit job"
                     values={{jobtitle: jobTitle}}
                     components={[<b>defaults</b>]}
                 />
@@ -494,7 +494,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                 <Box display='flex' flexDirection="column">
                     <Box display='flex' flexDirection="row">
                         <Box width={100}>
-                            <PercentageLabel name={t('radarchart.workExperience')}
+                            <PercentageLabel name={t('b_radarchart.workExperience')}
                                              value={work_experience.marking}
                                              text={format_improve} mt={6}/></Box>
                         <Box style={{
@@ -507,7 +507,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                     </Box>
                     <Box display='flex' flexDirection="row">
                         <Box width={100}>
-                            <PercentageLabel name={t('radarchart.skills')} value={skills.marking}
+                            <PercentageLabel name={t('b_radarchart.skills')} value={skills.marking}
                                              text={logic_improve} mt={6}/></Box>
                         <Box style={{
                             color: '#373b6c',
@@ -519,7 +519,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                     </Box>
                     <Box display='flex' flexDirection="row">
                         <Box width={100}>
-                            <PercentageLabel name={t('radarchart.education')}
+                            <PercentageLabel name={t('b_radarchart.education')}
                                              value={education_experience.marking} mt={6} width={100}
                                              text={profession_improve}/></Box>
                         <Box style={{
@@ -532,7 +532,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                     </Box>
                     <Box display='flex' flexDirection="row">
                         <Box width={100}>
-                            <PercentageLabel name={t('radarchart.industry')}
+                            <PercentageLabel name={t('b_radarchart.industry')}
                                              value={industry.marking}
                                              text={lang_improve} mt={6} width={100}/></Box>
                         <Box style={{
@@ -551,7 +551,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
         <Section>
             <Box p={4}>
                 <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
-                    {t('radarchart.title')}
+                    {t('b_radarchart.title')}
                 </Box>
                 <FitJobSection></FitJobSection>
                 <Grid container>
