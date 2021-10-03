@@ -15,7 +15,7 @@ import {h, h3} from '../constant/fontsize';
 // import layout components
 import {Section} from '../components/Section';
 // import custom feature components
-import {BusinessMarketCompetitiveness} from '../features/report/MarketCompetitivenessSection';
+import {BusinessMarketCompetitiveness} from "../features/businessReport/BusinessMarketCompetitivenessSection";
 import {BusinessCourseSection} from '../features/businessReport/BusinessCourseSection';
 import {LoadingPage} from "../features/report/LoadingWhenUpload";
 // import other library
