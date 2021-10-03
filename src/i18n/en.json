@@ -44,7 +44,8 @@
   "sidebar": {
     "homepage": "Homepage",
     "reportpage": "Report Page",
-    "back": "Re-upload"
+    "back": "Re-upload",
+    "back2": "Back"
   },
   "careeradvice": {
     "title": "Career Advice",

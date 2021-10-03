@@ -32,12 +32,7 @@ import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 
 export default function BusinessReport({presetReport}) {
     const {t} = useTranslation();
-    const params = useRouter().query;
-    const userId = params.hrid;
-    const lang = params.lang?.toLowerCase(); //get language
-    const jobid = params.jobid;
-    const index = params.index;
-    const email = params.email;
+    const router = useRouter();
     const [loading, setLoading] = useState(true);
     const adsLoadingTime = 3;
     if (presetReport) {
@@ -118,10 +113,10 @@ export default function BusinessReport({presetReport}) {
                                 variant="contained"
                                 color="primary"
                                 startIcon={<ArrowBackOutlinedIcon/>}
-                                onClick={() => setReport(null)}
+                                onClick={() => router.push('/jobmanagement')}
                                 style={{minWidth: 140, height: 40}}
                             >
-                                {t('sidebar.back')}
+                                {t('sidebar.back2')}
                             </Button>
                         </Box>
                     </Section>

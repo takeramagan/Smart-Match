@@ -44,7 +44,8 @@
   "sidebar": {
     "homepage": "首页",
     "reportpage": "评估页面",
-    "back": "重新上传"
+    "back": "重新上传",
+    "back2": "返回"
   },
   "careeradvice": {
     "title": "职业建议",
