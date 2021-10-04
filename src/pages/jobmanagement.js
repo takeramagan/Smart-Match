@@ -400,12 +400,7 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
             const config = {
                 method: 'post',
                 url: JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK,
-                data: data,
-                headers: {
-                    'accept':'*/*',
-                    'accept-language': 'zh-CN,zh;q=0.9',
-                    'content-type': 'multipart/form-data;',
-                }
+                data: data
             };
 
             const result = await requestHandler(config);
