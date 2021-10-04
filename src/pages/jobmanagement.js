@@ -395,10 +395,8 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
             data.append('job_description', job_description);
             data.append('resume_file', formik.values.resume_file);
             data.append('dcc', X_API_KEY_JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK);
-            console.log(data.append);
-            console.log(formik.values.resume_file);
             const config = {
-                method: 'post',
+                method: 'POST',
                 url: JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK,
                 data: data
             };
