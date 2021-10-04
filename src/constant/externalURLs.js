@@ -73,8 +73,8 @@ export const X_API_KEY_B_AND_C =
 
 export const JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK =
     process.env.ENV_FLAG === 'production' ?
-        'https://production-api.metisign.com/koios/v1/business_pre_assessment/' :
-        'https://api.metisign.com/koios/v1/business_pre_assessment/';
+        'https://production-api.smartmatch.app/koios/v1/business_pre_assessment/' :
+        'https://staging-api.smartmatch.app/koios/v1/market_value';
 
 
 export const X_API_KEY_JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK =
