@@ -82,12 +82,12 @@ export const BusinessMarketCompetitiveness = ({report}) => {
         skills, industry, education_experience, work_experience
     } = report.resume_evaluation;
 
-    let format_improve = skills.reason;
-    let lang_improve = industry.reason;
-    let profession_improve = education_experience.reason;
-    let logic_improve = work_experience.reason;
-    console.log(format_improve, lang_improve,
-        profession_improve, logic_improve);
+    let skills_improve = skills.reason;
+    let industry_improve = industry.reason;
+    let education_improve = education_experience.reason;
+    let experience_improve = work_experience.reason;
+    console.log(skills_improve, industry_improve,
+        education_improve, experience_improve);
 
     const FitJobSection = () => {
         return (
@@ -109,52 +109,52 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                         <Box width={100}>
                             <PercentageLabel name={t('b_radarchart.workExperience')}
                                              value={work_experience.marking}
-                                             text={format_improve} mt={6}/></Box>
+                                             text={experience_improve} mt={6}/></Box>
                         <Box style={{
                             color: '#373b6c',
                             maxWidth: 450,
                             marginTop: 10,
                             display: 'flex',
                             alignItems: 'center'
-                        }}>{format_improve}</Box>
+                        }}>{experience_improve}</Box>
                     </Box>
                     <Box display='flex' flexDirection="row">
                         <Box width={100}>
                             <PercentageLabel name={t('b_radarchart.skills')} value={skills.marking}
-                                             text={logic_improve} mt={6}/></Box>
+                                             text={skills_improve} mt={6}/></Box>
                         <Box style={{
                             color: '#373b6c',
                             maxWidth: 450,
                             marginTop: 10,
                             display: 'flex',
                             alignItems: 'center'
-                        }}>{logic_improve}</Box>
+                        }}>{skills_improve}</Box>
                     </Box>
                     <Box display='flex' flexDirection="row">
                         <Box width={100}>
                             <PercentageLabel name={t('b_radarchart.education')}
                                              value={education_experience.marking} mt={6} width={100}
-                                             text={profession_improve}/></Box>
+                                             text={education_improve}/></Box>
                         <Box style={{
                             color: '#373b6c',
                             maxWidth: 450,
                             marginTop: 10,
                             display: 'flex',
                             alignItems: 'center'
-                        }}>{profession_improve}</Box>
+                        }}>{education_improve}</Box>
                     </Box>
                     <Box display='flex' flexDirection="row">
                         <Box width={100}>
                             <PercentageLabel name={t('b_radarchart.industry')}
                                              value={industry.marking}
-                                             text={lang_improve} mt={6} width={100}/></Box>
+                                             text={industry_improve} mt={6} width={100}/></Box>
                         <Box style={{
                             color: '#373b6c',
                             maxWidth: 450,
                             marginTop: 10,
                             display: 'flex',
                             alignItems: 'center'
-                        }}>{lang_improve}</Box>
+                        }}>{industry_improve}</Box>
                     </Box>
                 </Box>
             </Grid>);

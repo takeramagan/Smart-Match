@@ -402,17 +402,18 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
                 url: JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK,
                 data: data,
                 headers: {
+                    'accept':'*/*',
                     'accept-language': 'zh-CN,zh;q=0.9',
-                    'content-type': 'multipart/form-data; boundary=----WebKitFormBoundaryaLZZtFufdeShfMAu',
+                    'content-type': 'multipart/form-data;',
                 }
             };
 
             const result = await requestHandler(config);
             console.log("check applicant", result);
-            if (result.report) {
+            if (result) {
                 console.log(result);
                 window.localStorage.setItem('hrCheckReportBasedOnJob',
-                    JSON.stringify(result.report));
+                    JSON.stringify(result));
                 setTimeout(() => {
                     setLoading(false);
                 }, adsLoadingTime * 1000);
@@ -436,7 +437,7 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
 
     useEffect(() => {
         if (acceptedFiles.length) {
-            formik.values.resume_file = acceptedFiles;
+            formik.values.resume_file = acceptedFiles[0];
         }
     }, [acceptedFiles]);
 
@@ -496,8 +497,8 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
                                         : <p>{t("report.drag_title")}</p>
                                 }
                                 {
-                                    (formik.values.resume_file && formik.values.resume_file.length > 0) ?
-                                        <div><strong>{formik.values.resume_file[0].name}</strong></div> :
+                                    (formik.values.resume_file) ?
+                                        <div><strong>{formik.values.resume_file.name}</strong></div> :
                                         <div></div>
                                 }
 
