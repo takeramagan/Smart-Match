@@ -395,10 +395,16 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
             data.append('job_description', job_description);
             data.append('resume_file', formik.values.resume_file);
             data.append('dcc', X_API_KEY_JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK);
+            console.log(data.append);
+            console.log(formik.values.resume_file);
             const config = {
                 method: 'post',
                 url: JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK,
                 data: data,
+                headers: {
+                    'accept-language': 'zh-CN,zh;q=0.9',
+                    'content-type': 'multipart/form-data; boundary=----WebKitFormBoundaryaLZZtFufdeShfMAu',
+                }
             };
 
             const result = await requestHandler(config);
@@ -447,7 +453,7 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
             </Box>
         );
     }
-    
+
     return (
         <Box style={{width: 360, marginLeft: 'auto', marginRight: 'auto'}}>
             <Section>
