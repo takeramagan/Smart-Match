@@ -38,8 +38,11 @@ export default function BusinessReport({presetReport}) {
     }
     const [report, setReport] = useState(() => {
         if (!presetReport) {
-            presetReport = window.localStorage.getItem('hrCheckReportBasedOnJob');
-            if(!!presetReport) return JSON.parse(presetReport);
+
+            if (typeof window !== 'undefined') {
+                presetReport = window.localStorage.getItem('hrCheckReportBasedOnJob');
+                if(!!presetReport) return JSON.parse(presetReport);
+            }
 
             // both preset and local storage report cannot be found,
             // use dummy report than
