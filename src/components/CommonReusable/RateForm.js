@@ -11,17 +11,6 @@ import {useState} from "react";
 import {Box, Button, TextField, Typography} from "@material-ui/core";
 import {Section} from "../Section";
 
-const DisabledStyleRating = () => withStyles({
-    root: {
-        height: 48,
-        color: '#ffb400',
-        opacity: 0.5,
-    },
-    label: {
-        textTransform: 'capitalize',
-    },
-})(Rating);
-
 export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, defaultValue}) => {
     const {t} = useTranslation();
     const submitRating = async () => {
@@ -64,25 +53,17 @@ export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, 
 
     // create new custom style rating (with transparent stars just like if its disabled)
     // use the disable style rating when its already rated, otherwise use normal rating
-    const CustomRating = () => {
-        if (!formik.values || !formik.values.rated) {
-            return <Rating
-                name="simple-controlled"
-                value={rating.value}
-                onChange={(event, value) => {
-                    formik.values.rate = value ?? defaultValue;
-                    setRating({rated: true, value: formik.values.rate});
-                }}
-            />;
-        }
-
-        return <DisabledStyleRating name="simple-controlled"
-                                    value={rating.value}
-                                    onChange={(event, value) => {
-                                        const newValue = value ?? defaultValue;
-                                        setRating({rated: true, value: newValue});
-                                    }}/>
-    };
+    // const CustomRating = () => {
+    //     if (!formik.values || !formik.values.rated) {
+    //     }
+    //
+    //     return <DisabledStyleRating name="simple-controlled"
+    //                                 value={rating.value}
+    //                                 onChange={(event, value) => {
+    //                                     const newValue = value ?? defaultValue;
+    //                                     setRating({rated: true, value: newValue});
+    //                                 }}/>
+    // };
 
     return (
         <Box style={{
@@ -94,7 +75,14 @@ export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, 
                 <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
                     <div>
                         <Typography color='primary'>Rate the accuracy of this report</Typography>
-                        <CustomRating></CustomRating>
+                        <Rating
+                        name="simple-controlled"
+                        value={rating.value}
+                        onChange={(event, value) => {
+                            formik.values.rate = value ?? defaultValue;
+                            setRating({rated: true, value: formik.values.rate});
+                        }}
+                    />;
                     </div>
                     { /* Rated Msg Section */}
                     <CheckIfMarked></CheckIfMarked>

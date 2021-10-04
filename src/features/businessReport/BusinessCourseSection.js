@@ -58,7 +58,7 @@ export function BusinessCourseSection({report}) {
         }
     });
 
-    const [refuseRate, setRefuseRate] = useState(formik.values && formik.values.rated);
+    const [refuseRate, setRefuseRate] = useState(!!formik.values && !!formik.values.rated);
 
     // rate form request button
     const RateRequestButton = () => {
