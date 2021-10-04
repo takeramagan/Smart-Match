@@ -398,10 +398,7 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
             const config = {
                 method: 'POST',
                 url: JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK,
-                data: data,
-                headers:{
-                    'Content-Type': 'multipart/form-data;'
-                }
+                data: data
             };
 
             const result = await requestHandler(config);
