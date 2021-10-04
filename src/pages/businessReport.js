@@ -33,17 +33,16 @@ import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 export default function BusinessReport({presetReport}) {
     const {t} = useTranslation();
     const router = useRouter();
-    const [loading, setLoading] = useState(true);
-    const adsLoadingTime = 3;
     if (presetReport) {
         presetReport.hrCheck = true;
     }
     const [report, setReport] = useState(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, adsLoadingTime * 1000);
         if (!presetReport) {
-            // use dummy report
+            presetReport = window.localStorage.getItem('hrCheckReportBasedOnJob');
+            if(!!presetReport) return JSON.parse(presetReport);
+
+            // both preset and local storage report cannot be found,
+            // use dummy report than
             return ({
                 "job_title": "Test job title",
                 "applicant_name": "Owen",
@@ -71,19 +70,6 @@ export default function BusinessReport({presetReport}) {
         return presetReport
     });
     const [reportAccuracyRating, setReportAccuracyRate] = useState(0);
-    if (loading) {
-        return (
-            <Box p={4} mb={4} borderRadius='24px' width={800} margin='40px auto 16px' style={{}}>
-                <Section>
-                    <LoadingPage
-                        title={t("report.analyzing_title")}
-                        content={t("report.analyzing_text")}
-                        loadingTime={adsLoadingTime}
-                    />
-                </Section>
-            </Box>
-        );
-    }
 
     return (
         <>

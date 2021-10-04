@@ -1,26 +1,26 @@
 // import react hook
-import { useCallback, useEffect, useState } from 'react';
+import {useCallback, useEffect, useState} from 'react';
 /* import libs */
 // import form handle lib
-import { useFormik } from 'formik';
+import {useFormik} from 'formik';
 // import validation libs
 import * as yup from 'yup';
 // import functional lib dropzone
-import { useDropzone } from "react-dropzone";
+import {useDropzone} from "react-dropzone";
 // import react-redux
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 // import mui components
-import { Container, Box, Button, Modal, TextField, Chip, makeStyles, MenuItem } from "@material-ui/core";
+import {Container, Box, Button, Modal, TextField, Chip, makeStyles, MenuItem} from "@material-ui/core";
 
 // import custom style
-import { Section } from "../components/Section";
-import { h, h1, h2 } from '../constant/fontsize';
-import { COLOR_TITLE } from "../constant/color";
+import {Section} from "../components/Section";
+import {h, h1, h2} from '../constant/fontsize';
+import {COLOR_TITLE} from "../constant/color";
 // import axios custom hook
-import { useRequest } from "../hooks/useRequest";
+import {useRequest} from "../hooks/useRequest";
 
 //
-import { hrHistoryAction } from "../slices/hrHistorySlice";
+import {hrHistoryAction} from "../slices/hrHistorySlice";
 
 // import incons
 import DescriptionIcon from "@material-ui/core/SvgIcon/SvgIcon";
@@ -30,7 +30,7 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 
 /* import constants */
 // 
-import { RESUME_ANALYSIS_VIEWED, RESUME_INVITE, RESUME_REJECTED, RESUME_VIEWED } from "../constant/jobstatus";
+import {RESUME_ANALYSIS_VIEWED, RESUME_INVITE, RESUME_REJECTED, RESUME_VIEWED} from "../constant/jobstatus";
 // import API 
 import {
     APP_END_POINT_B_AND_C,
@@ -40,24 +40,25 @@ import {
 
 import getUserId from "../untils/getUserId";
 import checkLink from "../untils/checkLink";
-import { resumeHrStatusArray } from "../constant/jobstatus";
-import { toast } from 'react-toastify';
-import { toastStyle } from "../constant/constant";
+import {resumeHrStatusArray} from "../constant/jobstatus";
+import {toast} from 'react-toastify';
+import {toastStyle} from "../constant/constant";
 
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import BusinessReport from "./businessReport";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
 
 // import reusable components
-import { SubmitAndCancel } from "../components/CommonReusable/SubmitAndCancel";
+import {SubmitAndCancel} from "../components/CommonReusable/SubmitAndCancel";
 
 // import feature components
-import { AddApplicant } from "../features/jobmanagement/AddApplicant";
-import { CardItem } from "../features/jobmanagement/CardItem";
-import { JobDetail } from "../features/jobmanagement/AddOrEditJob";
+import {AddApplicant} from "../features/jobmanagement/AddApplicant";
+import {CardItem} from "../features/jobmanagement/CardItem";
+import {JobDetail} from "../features/jobmanagement/AddOrEditJob";
 
 // import test related
 import mockdata from '../constant/mockReleasedJobs.json';
+import {LoadingPage} from "../features/report/LoadingWhenUpload";
 
 // const useStyles = makeStyles({
 //   rejectReasonContainer: {
@@ -68,7 +69,7 @@ import mockdata from '../constant/mockReleasedJobs.json';
 // })
 
 
-const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
+const Operations = ({applicantId, jobId, onReject, email, refreshPage}) => {
     const [showRejectReason, setShowRejectReason] = useState(false);
     // const rejectReasonOptions = [ "工作技能不匹配", "工作经历不匹配", "项目经验太少", "简历格式混乱", "简历逻辑不清"];
     const rejectReasonOptions = ["Skills do not match", "Work experiences do not match", "Not enough project experience",
@@ -92,15 +93,7 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
      * @param {number} application_status 0: default value 1: resume rejected
      * @returns
      */
-    const getOperationconfig = (data, application_status = 0) => {
-        // const formdata = new FormData
-        // formdata.append('action', 'addrecord')
-        // formdata.append('jobid', jobId ?? 0) //0代替
-        // formdata.append('hrid', hrId ?? 0)
-        // formdata.append('hyid', applicantId ?? 0) //0 代替
-        console.log("jbid=", jobId, 'hrid=', hrId, 'hyid', applicantId);
-        // Object.entries(data).forEach(([k,v]) =>{console.log(k, v); formdata.append(k, v)})
-        console.log("data", data);
+    const getOperationConfig = (data, application_status = 0) => {
         const formData = new FormData();
         formData.append('userid', applicantId ?? 20);
         formData.append('email', email);
@@ -147,7 +140,7 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
                 const rejectReason = rejectReasonToString();
                 console.log("reject reason", rejectReason);
                 // const status = JSON.stringify()
-                const resp = await operationRequest.requestHandler(getOperationconfig({
+                const resp = await operationRequest.requestHandler(getOperationConfig({
                     action: RESUME_REJECTED,
                     info: rejectReason
                 }, 1));
@@ -188,7 +181,7 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
 
             try {
                 // const status = JSON.stringify({status: RESUME_INVITE, info: inviteLink.trim()})
-                await operationRequest.requestHandler(getOperationconfig({
+                await operationRequest.requestHandler(getOperationConfig({
                     action: RESUME_INVITE, info: inviteLink.trim(),
                     description: inviteDescription
                 }));
@@ -219,8 +212,8 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
 
     return (
         <Box>
-            <Button onClick={() => setShowInvite(true)}>Invite <GroupAddIcon color="primary" /></Button>
-            <Button onClick={() => setShowRejectReason(true)}>Reject <CloseIcon color="error" /></Button>
+            <Button onClick={() => setShowInvite(true)}>Invite <GroupAddIcon color="primary"/></Button>
+            <Button onClick={() => setShowRejectReason(true)}>Reject <CloseIcon color="error"/></Button>
             <Modal open={showInvite} onClose={onCloseInviteModal}>
                 <Box mt={10} ml='auto' mr='auto' width="80%">
                     <Section>
@@ -232,12 +225,12 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
                             <a href='https://calendar.google.com/' target='_blank'>Google calendar</a> or
                             other tools and paste your link below
                             <TextField placeholder='Paste your invite link here'
-                                onChange={onChangeLink}
-                                fullWidth value={inviteLink}
-                                onBlur={() => setInviteBlur(true)}
+                                       onChange={onChangeLink}
+                                       fullWidth value={inviteLink}
+                                       onBlur={() => setInviteBlur(true)}
                             />
                             <ErrorText visible={(inviteBlur && !checkLink(inviteLink))}
-                                text='Please enter a valid invite link: http(s)://...' />
+                                       text='Please enter a valid invite link: http(s)://...'/>
                             <TextField
                                 label="Invitation description" variant="outlined"
                                 placeholder='Please enter your description about this invitation'
@@ -249,8 +242,8 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
                                 onBlur={() => setDescBlur(true)}
                             />
                             <ErrorText visible={(descBlur && !checkDescription(inviteDescription))}
-                                text='Description is empty' />
-                            <SubmitAndCancel onSubmit={onSubmitInvite} onCancel={onCancelInvite} />
+                                       text='Description is empty'/>
+                            <SubmitAndCancel onSubmit={onSubmitInvite} onCancel={onCancelInvite}/>
                         </Box>
                     </Section>
                 </Box>
@@ -260,20 +253,20 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
                     <Section>
                         <Box p={4}>
                             <Box fontSize={h2} color={COLOR_TITLE}>Choose the reason</Box>
-                            <Box mt={2} display='flex' flexWrap="wrap" style={{ maxWidth: '100%' }}>
+                            <Box mt={2} display='flex' flexWrap="wrap" style={{maxWidth: '100%'}}>
                                 {rejectReasonOptions.map((v, i) =>
                                     <Chip
                                         clickable
                                         onClick={() => onSelectReason(i)}
                                         key={v}
                                         label={v} style={{
-                                            marginRight: 18,
-                                            color: (rejectReasons >> i & 1) ? '#ffffff' : 'black',
-                                            backgroundColor: (rejectReasons >> i & 1) ? COLOR_TITLE : '#ffffff',
-                                            filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.28))',
-                                            margin: '8px 4px',
-                                            overflowAnchor: "auto",
-                                        }}
+                                        marginRight: 18,
+                                        color: (rejectReasons >> i & 1) ? '#ffffff' : 'black',
+                                        backgroundColor: (rejectReasons >> i & 1) ? COLOR_TITLE : '#ffffff',
+                                        filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.28))',
+                                        margin: '8px 4px',
+                                        overflowAnchor: "auto",
+                                    }}
                                     />
                                 )}
 
@@ -281,16 +274,16 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
                             <Box display='flex' alignItems='center'>
                                 Other:
                                 <TextField fullWidth id='otherreason'
-                                    value={otherReason}
-                                    onChange={onOtherReason}
-                                    onBlur={() => setOherBlur(true)}
+                                           value={otherReason}
+                                           onChange={onOtherReason}
+                                           onBlur={() => setOherBlur(true)}
                                 ></TextField>
                             </Box>
-                            <ErrorText visible={otherBlur && !checkReasons()} text='Please choose or enter a reason' />
+                            <ErrorText visible={otherBlur && !checkReasons()} text='Please choose or enter a reason'/>
                             {/* <Box display='flex' alignItems='center' color="red" mt={2}>
                 {otherBlur && !checkReasons() && 'Please choose or enter a reason'}
               </Box> */}
-                            <SubmitAndCancel onSubmit={onSubmit} onCancel={onCloseModal} />
+                            <SubmitAndCancel onSubmit={onSubmit} onCancel={onCloseModal}/>
                         </Box>
                     </Section>
                 </Box>
@@ -299,13 +292,13 @@ const Operations = ({ applicantId, jobId, onReject, email, refreshPage }) => {
     )
 };
 
-const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refreshPage }) => {
+const ApplicantItem = ({applicant, isTitle, style, index, jobid, onReject, refreshPage}) => {
     const {
         name, application_time: apply_date, matching_level: match, resume, resume_report, user_id, resume_link, report,
         updates, hr_id, job_id, email
     } = applicant;
-    const { action, time } = updates?.length ? updates[0] : {};
-    const { action: actionType, info, description } = action ? JSON.parse(action) : {};
+    const {action, time} = updates?.length ? updates[0] : {};
+    const {action: actionType, info, description} = action ? JSON.parse(action) : {};
     const resumeRequest = useRequest();
 
     const updateResumeStatus = async (status) => {
@@ -316,7 +309,7 @@ const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refr
             formData.append('hrid', hr_id);
             formData.append('jobid', job_id ?? 1);
             formData.append('dcc', X_API_KEY_B_AND_C);
-            formData.append('updates', JSON.stringify({ action: status }));
+            formData.append('updates', JSON.stringify({action: status}));
             const config = {
                 method: 'post',
                 url: APP_END_POINT_B_AND_C + 'update_application',
@@ -334,7 +327,7 @@ const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refr
 
     return (
         <Box key={index} display='flex' flexDirection='row' fontSize={h2} alignItems='center' justifyContent='center'
-            style={style}>
+             style={style}>
             <Box width='10%' overflow='hidden'>{name}</Box>
             <Box width='15%' overflow='hidden'>{apply_date?.split('T')[0]}</Box>
             <Box width='5%' overflow='hidden' textAlign='center'>
@@ -344,19 +337,19 @@ const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refr
             <Box width='10%' overflow='hidden' textAlign='center'>
                 {isTitle && resume}
                 {!isTitle && <Button target='_blank' href={resume_link} onClick={onViewResume}><CloudDownloadIcon
-                    color="primary" /></Button>}
+                    color="primary"/></Button>}
             </Box>
             <Box width='10%' overflow='hidden' textAlign='center'>
                 {isTitle && resume_report}
                 {!isTitle &&
-                    <Button target='_blank'
+                <Button target='_blank'
                         href={`/report?hrid=${hr_id}&jobid=${job_id}&index=${index}&email=${email}`}
-                        onClick={onViewReport}><CloudDownloadIcon color="primary" /></Button>}
+                        onClick={onViewReport}><CloudDownloadIcon color="primary"/></Button>}
             </Box>
             <Box width='25%' overflow='hidden' textAlign='center'>
                 {isTitle && "Operation"}
                 {!isTitle && <Operations applicantId={user_id} jobId={jobid} onReject={onReject} email={email}
-                    refreshPage={refreshPage} />}
+                                         refreshPage={refreshPage}/>}
             </Box>
             <Box width='25%' overflow='hidden' textAlign='center'>
                 {isTitle && "Note"}
@@ -367,7 +360,7 @@ const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refr
 };
 
 
-const ErrorText = ({ visible, text }) => {
+const ErrorText = ({visible, text}) => {
     return (
         <Box display='flex' alignItems='center' color="red" mt={2}>
             {visible && text}
@@ -380,9 +373,11 @@ const checkApplicantSchema = yup.object({
     resume_file: yup.string().required('Applicant resume is required')
 });
 
-const CheckApplicant = ({ onCancel, country_code, job_description }) => {
-    const { t } = useTranslation();
-    const { requestHandler } = useRequest();
+const CheckApplicant = ({onCancel, country_code, job_description}) => {
+    const {t} = useTranslation();
+    const {requestHandler} = useRequest();
+    const [loading, setLoading] = useState(false);
+    const adsLoadingTime = 3;
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -400,34 +395,42 @@ const CheckApplicant = ({ onCancel, country_code, job_description }) => {
             data.append('job_description', job_description);
             data.append('resume_file', formik.values.resume_file);
             data.append('dcc', X_API_KEY_JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK);
+            console.log(data.append);
+            console.log(formik.values.resume_file);
             const config = {
                 method: 'post',
                 url: JOB_TITLE_ON_CLICK_TO_APPLICANT_RESUME_CHECK,
                 data: data,
+                headers: {
+                    'accept-language': 'zh-CN,zh;q=0.9',
+                    'content-type': 'multipart/form-data; boundary=----WebKitFormBoundaryaLZZtFufdeShfMAu',
+                }
             };
 
-            // const result = await requestHandler(config);
-            // console.log("check applicant", result);
-            // if (result.report) {
-            //     console.log(result);
-            //     return (
-            //         <BusinessReport presetReport={result.report} />
-            //     );
-            // } else {
-                // toast.error('Check applicant resume failed ' +
-                //     'with unknown reason, please try again later.', toastStyle);
-            // }
-            // nav and use dummy data
-            router.push('./businessReport').then();
+            const result = await requestHandler(config);
+            console.log("check applicant", result);
+            if (result.report) {
+                console.log(result);
+                window.localStorage.setItem('hrCheckReportBasedOnJob',
+                    JSON.stringify(result.report));
+                setTimeout(() => {
+                    setLoading(false);
+                }, adsLoadingTime * 1000);
+                // nav and use dummy data
+                router.push('./businessReport').then();
+            } else {
+                toast.error('Check applicant resume failed ' +
+                    'with unknown reason, please try again later.', toastStyle);
+            }
         } catch (e) {
-            router.push('./businessReport').then();
+            // router.push('./businessReport').then();
             // nav and use dummy data
-            // toast.error('Check applicant resume failed: ' + e.toString(), toastStyle);
+            toast.error('Check appicant resume failed: ' + e.toString(), toastStyle);
             // alert('User has applied this job, or hasn't uploaded a resume. please check the email')
         }
     };
 
-    const { acceptedFiles, getRootProps, getInputProps, isDragActive } = useDropzone({
+    const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone({
         maxFiles: 1
     });
 
@@ -437,9 +440,22 @@ const CheckApplicant = ({ onCancel, country_code, job_description }) => {
         }
     }, [acceptedFiles]);
 
+    if (loading) {
+        return (
+            <Box p={4} mb={4} borderRadius='24px' width={800} margin='40px auto 16px' style={{}}>
+                <Section>
+                    <LoadingPage
+                        title={t("report.analyzing_title")}
+                        content={t("report.analyzing_text")}
+                        loadingTime={adsLoadingTime}
+                    />
+                </Section>
+            </Box>
+        );
+    }
 
     return (
-        <Box style={{ width: 360, marginLeft: 'auto', marginRight: 'auto' }}>
+        <Box style={{width: 360, marginLeft: 'auto', marginRight: 'auto'}}>
             <Section>
                 <Box p={4} mt={4} fontSize={h2}>
                     <Box fontSize={h1} color={COLOR_TITLE}>
@@ -451,14 +467,14 @@ const CheckApplicant = ({ onCancel, country_code, job_description }) => {
                             <span>
                                 {t('jobmanagement_check_applicant.email')}</span>
                             <TextField id="email" variant="outlined" size='small' name='email'
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.email && Boolean(formik.errors.email)}
-                                helperText={formik.touched.email && formik.errors.email}
-                                style={{ width: 300 }} />
+                                       value={formik.values.email}
+                                       onChange={formik.handleChange}
+                                       onBlur={formik.handleBlur}
+                                       error={formik.touched.email && Boolean(formik.errors.email)}
+                                       helperText={formik.touched.email && formik.errors.email}
+                                       style={{width: 300}}/>
                         </Box>
-                        <Box mt={2}  {...getRootProps({ className: 'dropzone' })}>
+                        <Box mt={2}  {...getRootProps({className: 'dropzone'})}>
                             <span>{t('jobmanagement_check_applicant.resume')}</span>
                             <input {...getInputProps()} />
                             <Box
@@ -466,13 +482,13 @@ const CheckApplicant = ({ onCancel, country_code, job_description }) => {
                                 width={300}
                                 borderRadius='24px'
                                 py={6} style={{
-                                    backgroundColor: isDragActive ? '#F5F6FB' : 'white',
-                                    borderWidth: '2px',
-                                    borderColor: isDragActive ? 'rgba(0, 97, 255, 1)' : '#eeeeee',
-                                    borderStyle: 'dashed',
-                                    margin: '15px auto',
-                                    padding: '20px'
-                                }}
+                                backgroundColor: isDragActive ? '#F5F6FB' : 'white',
+                                borderWidth: '2px',
+                                borderColor: isDragActive ? 'rgba(0, 97, 255, 1)' : '#eeeeee',
+                                borderStyle: 'dashed',
+                                margin: '15px auto',
+                                padding: '20px'
+                            }}
                             >
                                 {
                                     isDragActive
@@ -485,26 +501,26 @@ const CheckApplicant = ({ onCancel, country_code, job_description }) => {
                                         <div></div>
                                 }
 
-                                <p style={{ color: 'rgba(201, 201, 201, 1)' }}>{t("report.drag_text")}</p>
+                                <p style={{color: 'rgba(201, 201, 201, 1)'}}>{t("report.drag_text")}</p>
                                 <Box mt={4}>
-                                    <DescriptionIcon style={{ color: 'rgba(70, 235, 213, 1)', fontSize: 90 }} />
+                                    <DescriptionIcon style={{color: 'rgba(70, 235, 213, 1)', fontSize: 90}}/>
                                 </Box>
                             </Box>
                         </Box>
-                        <SubmitAndCancel onSubmit={submitData} onCancel={onCancel} />
+                        <SubmitAndCancel onSubmit={submitData} onCancel={onCancel}/>
                     </form>
                 </Box>
             </Section>
         </Box>)
 };
 
-const ApplicantsDetail = ({ job }) => {
-    const { job_id, status, post_date, modify_date, applicants, jobtitle } = job;
+const ApplicantsDetail = ({job}) => {
+    const {job_id, status, post_date, modify_date, applicants, jobtitle} = job;
     // let applicantList = applicants
     // if(typeof(applicants) !== "object") applicantList = []
     const [applicantList, setApplicantList] = useState([]);
     const hrid = getUserId();
-    const { requestHandler } = useRequest();
+    const {requestHandler} = useRequest();
     console.log('job', job);
     const onReject = (index) => {
         return setApplicantList([...applicantList.slice(0, index), ...applicantList.slice(index + 1)])
@@ -539,7 +555,7 @@ const ApplicantsDetail = ({ job }) => {
     };
     useEffect(getApplicants, []);
     return (
-        <Box mt={4} style={{ width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
+        <Box mt={4} style={{width: '80%', marginLeft: 'auto', marginRight: 'auto'}}>
             <Section>
                 <Box mt={4} p={4}>
                     <Box fontSize={h1} color={COLOR_TITLE}>
@@ -557,11 +573,11 @@ const ApplicantsDetail = ({ job }) => {
                             resume: "Resume",
                             resume_report: "Resume Analysis"
                         }}
-                        style={{ fontWeight: 600 }} isTitle />
+                        style={{fontWeight: 600}} isTitle/>
                     {(applicantList?.length === 0) && "No applicants Right now"}
                     {applicantList?.map((item, i) =>
                         <ApplicantItem applicant={item} key={i} index={i} jobid={job_id} onReject={() => onReject(i)}
-                            refreshPage={getApplicants} />)}
+                                       refreshPage={getApplicants}/>)}
                 </Box>
             </Section>
         </Box>
@@ -636,7 +652,7 @@ const JobManagement = () => {
                 <Box>
                     <Button onClick={() => {
                         getData().then()
-                    }} color='primary' variant='contained' style={{ borderRadius: 20 }}>Fetch Job</Button>
+                    }} color='primary' variant='contained' style={{borderRadius: 20}}>Fetch Job</Button>
                 </Box>
             );
         } else {
@@ -680,11 +696,11 @@ const JobManagement = () => {
 
     return (
         <Container
-            style={{ marginTop: 18 }}
+            style={{marginTop: 18}}
         >
             {/*test only button*/}
-            {/*<TestOnlyButton></TestOnlyButton>*/}
-            {/* */}
+            <TestOnlyButton></TestOnlyButton>
+
             <Section>
                 <Box p={4}>
                     <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
@@ -696,7 +712,7 @@ const JobManagement = () => {
                         </Box>
                         <Button onClick={() => {
                             onShowJobDetail(-1)
-                        }} color='primary' variant='contained' style={{ borderRadius: 20 }}>Post Job</Button>
+                        }} color='primary' variant='contained' style={{borderRadius: 20}}>Post Job</Button>
                     </Box>
                 </Box>
 
@@ -714,7 +730,7 @@ const JobManagement = () => {
                             note: "Note",
                             currency: "Country"
                         }}
-                        style={{ fontWeight: 600 }} key={-1} isTitle />
+                        style={{fontWeight: 600}} key={-1} isTitle/>
                     {hrHistoryList.length === 0 && "No application history"}
                     {hrHistoryList.map((job, i) =>
                         <CardItem
@@ -725,22 +741,23 @@ const JobManagement = () => {
                             onShowApplicants={showApplicantsCallback}
                             onAddApplicant={() => onAddApplicant(i)}
                             // showDetail={showItem === i}
-                            key={i} />
+                            key={i}/>
                     )}
                 </Box>
             </Section>
-            <Modal open={showJobDetail || showApplicants} onClose={onClose} style={{ overflowY: 'scroll' }}>
+            <Modal open={showJobDetail || showApplicants} onClose={onClose} style={{overflowY: 'scroll'}}>
                 <>
                     {showJobDetail && <JobDetail job={hrHistoryList[showItem]} index={showItem} closeModal={closeModal}
-                        updatePage={getData} hrid={hrId}></JobDetail>}
+                                                 updatePage={getData} hrid={hrId}></JobDetail>}
                     {showApplicants && <ApplicantsDetail job={hrHistoryList[showItem]}></ApplicantsDetail>}
                 </>
             </Modal>
             <Modal open={showAddApplicant} onClose={closeModal}>
-                <AddApplicant job={hrHistoryList[showItem]} onCancel={closeModal} refreshPage={getData} />
+                <AddApplicant job={hrHistoryList[showItem]} onCancel={closeModal} refreshPage={getData}/>
             </Modal>
             <Modal open={showCheckApplicantForm} onClose={closeModal}>
-                <CheckApplicant  country_code={selectedJobCountry} job_description={selectedJobDescription} onCancel={closeModal} refreshPage={getData} />
+                <CheckApplicant country_code={selectedJobCountry} job_description={selectedJobDescription}
+                                onCancel={closeModal} refreshPage={getData}/>
             </Modal>
         </Container>
     )
