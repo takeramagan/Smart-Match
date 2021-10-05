@@ -48,7 +48,7 @@ export default function BusinessReport({presetReport}) {
             // use dummy report than
             return ({
                 "job_title": "Test job title",
-                "applicant_name": "Owen",
+                "applicant_email": "owenljn@gmail.com",
                 "matched_percentage": "96",
                 "resume_evaluation": {
                     "skills": {
@@ -89,7 +89,7 @@ export default function BusinessReport({presetReport}) {
                                     <Trans
                                         i18nKey={"b_careeradvice.evaluation"}
                                         values={{
-                                            applicantName: report.applicant_name,
+                                            applicantEmail: report.applicant_email,
                                             matchPercentage: report.matched_percentage,
                                             jobtitle: report.job_title
                                         }}
