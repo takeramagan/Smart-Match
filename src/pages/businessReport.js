@@ -7,8 +7,8 @@ import {Trans, useTranslation} from 'react-i18next';
 import {
     Box,
     Button,
-    Container,
-    Grid
+    Container, FormControl,
+    Grid, InputLabel, MenuItem, Select
 } from '@material-ui/core';
 // import custom style setting
 import {h, h3} from '../constant/fontsize';
@@ -29,16 +29,19 @@ import {
 } from '../constant/externalURLs';
 // import icons
 import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
+import DescriptionIcon from "@material-ui/icons/Description";
 
 export default function BusinessReport({presetReport}) {
     const {t} = useTranslation();
     const router = useRouter();
+    const [loading, setLoading] = useState(true);
+    const adsLoadingTime = 3;
+    //  todo: remove this after test
     if (presetReport) {
         presetReport.hrCheck = true;
     }
     const [report, setReport] = useState(() => {
         if (!presetReport) {
-
             if (typeof window !== 'undefined') {
                 presetReport = window.localStorage.getItem('hrCheckReportBasedOnJob');
                 if(!!presetReport) return JSON.parse(presetReport);
@@ -72,7 +75,78 @@ export default function BusinessReport({presetReport}) {
         }
         return presetReport
     });
+    useEffect(()=>{
+        setTimeout(() => {
+            setLoading(false);
+        }, adsLoadingTime * 1000);
+    });
+
     const [reportAccuracyRating, setReportAccuracyRate] = useState(0);
+
+    if(loading){
+        return (<Box p={4} mb={4} borderRadius='24px' width={800} margin='40px auto 16px' style={{}}>
+            <Section>
+                {!loading && (
+                    <Box style={{ borderRadius: '24px' }} p={8} {...getRootProps({ className: 'dropzone' })}>
+                        {/**<======Area and position select start */}
+                        <Box pt={2} onClick={e => e.stopPropagation()}>
+                            <FormControl style={{ width: 100, backgroundColor: 'white', marginRight: 20 }}>
+                                <InputLabel id="area">Area</InputLabel>
+                                <Select
+                                    value={area}
+                                    onChange={handleAreaChange}
+                                >
+                                    {/* <MenuItem value='cn'>China</MenuItem> */}
+                                    <MenuItem value='ca'>Canada</MenuItem>
+                                    <MenuItem value='us'>USA</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                        {/**<======Area and position select end */}
+                        <input {...getInputProps()} />
+
+                        {!loading && (
+                            <Box style={{ color: 'rgba(0, 97, 255, 1)', fontSize: '24px', fontWeight: '500' }}>
+                                {t("report.upload_text")}
+                            </Box>
+                        )}
+                        {!loading && (
+                            <Box
+                                height={300}
+                                width={500}
+                                borderRadius='24px'
+                                py={6} style={{
+                                backgroundColor: isDragActive ? '#F5F6FB' : 'white',
+                                borderWidth: '2px',
+                                borderColor: isDragActive ? 'rgba(0, 97, 255, 1)' : '#eeeeee',
+                                borderStyle: 'dashed',
+                                margin: '60px auto 16px',
+                                position: "relative"
+                            }}
+                            >
+                                {
+                                    isDragActive
+                                        ? <p>{t("report.dragable_title")}</p>
+                                        : <p>{t("report.drag_title")}</p>
+                                }
+                                <p style={{ color: 'rgba(201, 201, 201, 1)' }}>{t("report.drag_text")}</p>
+                                <Box mt={4}>
+                                    <DescriptionIcon style={{ color: 'rgba(70, 235, 213, 1)', fontSize: 90 }} />
+                                </Box>
+                                <p style={{ fontSize: "11px", position: "absolute", bottom: "8px", margin: "auto", left: "0", right: "0", textAlign: "center" }}>{t("report.protected_statement")}</p>
+                            </Box>
+                        )}
+                    </Box>
+                )}
+                {loading && <LoadingPage
+                    title={t("report.analyzing_title")}
+                    content={t("report.analyzing_text")}
+                    loadingTime={adsLoadingTime}
+                />}
+            </Section>
+        </Box>);
+    }
+
 
     return (
         <>
