@@ -372,7 +372,8 @@ const checkApplicantSchema = yup.object({
     resume_file: yup.string().required('Applicant resume is required')
 });
 
-const CheckApplicant = ({onCancel, country_code, job_description, hrId, jobId}) => {
+const CheckApplicant = ({onCancel, country_code, job_title,
+                            job_description, hrId, jobId}) => {
     const {t} = useTranslation();
     const {requestHandler} = useRequest();
     const [loading, setLoading] = useState(false);
@@ -403,6 +404,7 @@ const CheckApplicant = ({onCancel, country_code, job_description, hrId, jobId}) 
             const result = await requestHandler(config);
             console.log("check applicant", result);
             if (result) {
+                result.job_title= job_title;
                 console.log(result);
                 window.localStorage.setItem('hrCheckReportBasedOnJob',
                     JSON.stringify(result));
@@ -594,6 +596,7 @@ const JobManagement = () => {
     const [selectedJobCountry, setSelectedJobCountry] = useState('ca');
     const [selectedJobDescription, setSelectedJobDescription] = useState('');
     const [selectedJobId, setSelectedJobId] = useState('');
+    const [selectedJobTitle, setSelectedJobTitle] = useState('');
     const hrHistory = useSelector(store => store.history);
     const currentPage = hrHistory.currentPage;
     const hrHistoryList = hrHistory.historyList;
@@ -611,6 +614,7 @@ const JobManagement = () => {
         console.log('selected job at jobmanagement 605:', job);
         setSelectedJobDescription(job.description);
         setSelectedJobId(job.job_id);
+        setSelectedJobTitle(job.jobtitle);
         if (job.currency === 'usd') {
             setSelectedJobCountry('us');
         } else {
@@ -761,7 +765,9 @@ const JobManagement = () => {
                 <AddApplicant job={hrHistoryList[showItem]} onCancel={closeModal} refreshPage={getData}/>
             </Modal>
             <Modal open={showCheckApplicantForm} onClose={closeModal}>
-                <CheckApplicant country_code={selectedJobCountry} job_description={selectedJobDescription}
+                <CheckApplicant country_code={selectedJobCountry}
+                                job_description={selectedJobDescription}
+                                job_title={selectedJobTitle}
                                 onCancel={closeModal} refreshPage={getData}
                                 hrId={hrId} jobId={selectedJobId}/>
             </Modal>
