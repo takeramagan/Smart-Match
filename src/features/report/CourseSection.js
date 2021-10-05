@@ -139,10 +139,10 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
     const courseLogo = suggestedCourses.logo ?? 'https://static.wixstatic.com/media/d44c9e_b34eb8491f984802b8961715fdf76082~mv2.png/v1/fill/w_96,h_60,al_c,q_85,usm_0.66_1.00_0.01/DK-Logo.webp'
     const courseName = suggestedCourses.coursename
     const courseLink = suggestedCourses.courselink
-    console.log("Suggested Course: ", courseLogo, courseName, courseLink)
+    // console.log("Suggested Course: ", courseLogo, courseName, courseLink)
 
     const suggestedCertificates = report.career_path_info.career_paths.path[selectedPathIndex]?.how_to_improve?.required_certificates[0]
-    console.log("Suggested Certificates:", suggestedCertificates)
+    // console.log("Suggested Certificates:", suggestedCertificates)
     // const certLogo = Object.entries(suggestedCertificates)[0][1]
     // const certName = Object.entries(suggestedCertificates)[1][0]
     // const certLink = Object.entries(suggestedCertificates)[1][1]
@@ -228,6 +228,8 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
 export function CourseSection({report, selectedPathIndex}) {
     const {t} = useTranslation();
     const [rate, setRate] = useState({rate: -1, comments: ''});
+    const [showRateForm, setShowRateForm] = useState(false);
+    const [refuseRate, setRefuseRate] = useState(false);
     const getRatingInfo = async () => {
         console.log('getRatingInfo at CourseSection line 231');
         try {
@@ -247,7 +249,7 @@ export function CourseSection({report, selectedPathIndex}) {
                 };
                 const result = await requestHandler(config);
                 console.log("rating= ", result);
-                if(!!result){
+                if (!!result) {
                     setRate({
                         rate: result.report_accuracy_rating,
                         comments: result.comments
@@ -255,7 +257,7 @@ export function CourseSection({report, selectedPathIndex}) {
                     formik.values.rate = result.report_accuracy_rating;
                     formik.values.comments = result.comments;
                     setRefuseRate(true);
-                    console.log(formik.values);
+                    console.log('refuseRate update to:', refuseRate);
                 }
             }
         } catch (ignore) {
@@ -270,11 +272,10 @@ export function CourseSection({report, selectedPathIndex}) {
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
-    });
+    }, [refuseRate]);
     useEffect(() => {
         getRatingInfo().then();
-    }, [rate]);
-    const [showRateForm, setShowRateForm] = useState(false);
+    }, [refuseRate]);
 
     const defaultValue = report.report_accuracy_rating ?
         report.report_accuracy_rating : 3;
@@ -282,16 +283,15 @@ export function CourseSection({report, selectedPathIndex}) {
     const classes = useStyles();
 
     const handleScroll = () => {
-        if (!refuseRate && (rate.rate<0) &&
+        if (!refuseRate && (rate.rate < 0) &&
             (window.innerHeight + window.pageYOffset)
             >= document.body.offsetHeight) {
             console.log('show rate form triggered!!!!!!!!!!!!!!!!!!!');
+            setRefuseRate(true);
             setTimeout(
                 () => {
-                    if (!refuseRate) {
-                        setShowRateForm(true);
-                    }
-                    setRefuseRate(true);
+                    setShowRateForm(true);
+                    console.log('inner refuseRate Update: ', refuseRate);
                 },
                 10000);
         }
@@ -300,6 +300,7 @@ export function CourseSection({report, selectedPathIndex}) {
     const closeModal = () => {
         setRefuseRate(true);
         setShowRateForm(false);
+        getRatingInfo().then();
     };
 
     const params = useRouter().query;
@@ -310,13 +311,10 @@ export function CourseSection({report, selectedPathIndex}) {
     const formik = useFormik({
         initialValues: {
             comments: rate.comments ? rate.comments : "",
-            rate: (!!rate && rate.rate>0) ? rate.rate : 3
+            rate: (!!rate && rate.rate > 0) ? rate.rate : 3
         }
     });
 
-    const [refuseRate, setRefuseRate] = useState( ()=> {
-        return !!rate && rate.rate>0;
-    });
 
     // rate form request button
     const RateRequestButton = () => {
@@ -386,7 +384,7 @@ export function CourseSection({report, selectedPathIndex}) {
                 {/* =================== Rate Section ================= */}
                 <Modal open={showRateForm}>
                     <RateForm onCancel={closeModal} formik={formik}
-                              rated ={rate.rate>0}
+                              rated={rate.rate > 0}
                               hrid={hrid} jobid={jobid}
                               email={email}
                               requestHandler={requestHandler}

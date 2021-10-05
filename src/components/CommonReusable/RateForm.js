@@ -39,7 +39,6 @@ export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, 
             onCancel();
         }
     };
-
     // create new custom style rating (with transparent stars just like if its disabled)
     // use the disable style rating when its already rated, otherwise use normal rating
     // const CustomRating = () => {
@@ -66,7 +65,7 @@ export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, 
                         <Typography color='primary'>Rate the accuracy of this report</Typography>
                         <Rating
                             name="simple-controlled"
-                            value={rating.value}
+                            value={formik.values.rate}
                             onChange={(event, value) => {
                                 formik.values.rate = value ?? defaultValue;
                                 setRating({rated: true, value: formik.values.rate});
@@ -105,7 +104,10 @@ export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, 
                             style={{
                                 borderRadius: 15, marginLeft: 10, height: 30,
                             }}
-                            onClick={onCancel}
+                            onClick={() => {
+                                console.log('clicked');
+                                onCancel();
+                            }}
                     >
                         {t("rating.cancel_button")}
                     </Button>

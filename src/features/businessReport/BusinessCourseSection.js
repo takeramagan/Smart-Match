@@ -17,6 +17,24 @@ import {RateForm} from "../../components/CommonReusable/RateForm";
 export function BusinessCourseSection({report, hrId, jobId}) {
     const {t} = useTranslation();
     const [rate, setRate] = useState({rate: -1, comments: ''});
+    const [showRateForm, setShowRateForm] = useState(false);
+    const [refuseRate, setRefuseRate] = useState(() => {
+        return !!rate && rate.rate > 0;
+    });
+    useEffect(() => {
+        function watchScroll() {
+            window.addEventListener("scroll", handleScroll);
+        }
+
+        watchScroll();
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [refuseRate]);
+    useEffect(() => {
+        getRatingInfo().then();
+    }, [refuseRate]);
+
     const getRatingInfo = async () => {
         try {
             formik.values.rated = true;
@@ -50,38 +68,21 @@ export function BusinessCourseSection({report, hrId, jobId}) {
         } catch (ignore) {
         }
     };
-    const [showRateForm, setShowRateForm] = useState(false);
-
-    useEffect(() => {
-        function watchScroll() {
-            window.addEventListener("scroll", handleScroll);
-        }
-
-        watchScroll();
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    });
-    useEffect(() => {
-        getRatingInfo().then();
-    }, [rate]);
-
 
     const defaultValue = report.report_accuracy_rating ?
         report.report_accuracy_rating : 3;
 
     const handleScroll = () => {
+        console.log('refuseRate: ', refuseRate);
         if (!refuseRate && (rate.rate < 0) &&
             (window.innerHeight + window.pageYOffset)
             >= document.body.offsetHeight) {
-            console.log(rate.rate > 0);
             console.log('show rate form triggered!!!!!!!!!!!!!!!!!!!');
+            setRefuseRate(true);
             setTimeout(
                 () => {
-                    if (!refuseRate) {
-                        setShowRateForm(true);
-                    }
-                    setRefuseRate(true);
+                    setShowRateForm(true);
+                    console.log('inner refuseRate Update: ', refuseRate);
                 },
                 10000);
         }
@@ -106,9 +107,6 @@ export function BusinessCourseSection({report, hrId, jobId}) {
         }
     });
 
-    const [refuseRate, setRefuseRate] = useState(() => {
-        return !!rate && rate.rate > 0;
-    });
 
     // rate form request button
     const RateRequestButton = () => {
@@ -152,7 +150,9 @@ export function BusinessCourseSection({report, hrId, jobId}) {
 
                     {/* =================== Rate Section ================= */}
                     <Modal open={showRateForm}>
-                        <RateForm onCancel={closeModal} formik={formik}
+                        <RateForm onCancel={() => {
+                            closeModal();
+                        }} formik={formik}
                                   rated={rate.rate > 0}
                                   hrid={hrid} jobid={jobid}
                                   email={email}
