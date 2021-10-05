@@ -34,7 +34,6 @@ import {MarketValueSection} from '../features/report/MarketValueSection';
 import {MatchingJobsSection} from '../features/report/MatchingJobsSection';
 import {CareerPathwaySection} from '../features/report/CareerPathwaySection';
 import {CourseSection} from '../features/report/CourseSection';
-import {CareerAdviceSection} from '../features/report/CareerAdviceSection';
 import {LoadingPage} from "../features/report/LoadingWhenUpload";
 // import other library
 import {useRouter} from 'next/router';
@@ -443,7 +442,7 @@ export default function Home() {
                 console.log("get applicants succcess");
                 console.log(result.applicants_info_list);
                 const applicant = result.applicants_info_list.sort((a, b) => (b.matching_level - a.matching_level))[index];
-                setReport({...applicant.report, id: userId, lang});
+                setReport({...applicant.report, id: userId, lang, email});
             } else {
                 console.log("get applicants error");
             }
