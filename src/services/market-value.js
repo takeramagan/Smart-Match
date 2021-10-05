@@ -40,7 +40,6 @@ export const checkStatus = (response) => {
 }
 
 export const fetchHistory = ({ email, url = APP_END_POINT_HISTORY, report_id }) => {
-  // const url = APP_END_POINT_HISTORY
   const x_api_key = X_API_KEY_HISTORY
 
   const myHeaders = new Headers();

@@ -128,8 +128,8 @@ const CardItem = ({index, showDetail, onClick, item={}, style}) => {
   const styles = useStyles()
 
   const ApplicantStatus = ({text, info}) => {
-    const link = info?.trim()
-    const isValidLink = checkLink(link)
+    const link = info?.trim();
+    const isValidLink = checkLink(link);
     const isCalendly = link?.startsWith('https://calendly.com/')
     return (
     <>
