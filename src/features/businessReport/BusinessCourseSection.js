@@ -36,7 +36,8 @@ export function BusinessCourseSection({report, hrId, jobId}) {
                 };
                 const result = await requestHandler(config);
                 console.log("rating accuracy= ", result);
-                if(!!result){
+                if (!!result) {
+                    console.log('result: ', result);
                     setRate({
                         rate: result.report_accuracy_rating,
                         comments: result.comments
@@ -70,9 +71,10 @@ export function BusinessCourseSection({report, hrId, jobId}) {
         report.report_accuracy_rating : 3;
 
     const handleScroll = () => {
-        if (!refuseRate && (rate.rate<0) &&
+        if (!refuseRate && (rate.rate < 0) &&
             (window.innerHeight + window.pageYOffset)
             >= document.body.offsetHeight) {
+            console.log(rate.rate > 0);
             console.log('show rate form triggered!!!!!!!!!!!!!!!!!!!');
             setTimeout(
                 () => {
@@ -83,11 +85,13 @@ export function BusinessCourseSection({report, hrId, jobId}) {
                 },
                 10000);
         }
+        console.log(formik.values);
     };
 
     const closeModal = () => {
         setRefuseRate(true);
         setShowRateForm(false);
+        getRatingInfo().then();
     };
 
     const params = useRouter().query;
@@ -98,12 +102,12 @@ export function BusinessCourseSection({report, hrId, jobId}) {
     const formik = useFormik({
         initialValues: {
             comments: rate.comments ? rate.comments : "",
-            rate: (!!rate && rate.rate>0) ? rate.rate : 3
+            rate: (!!rate && rate.rate > 0) ? rate.rate : 3
         }
     });
 
-    const [refuseRate, setRefuseRate] = useState( ()=> {
-        return !!rate && rate.rate>0;
+    const [refuseRate, setRefuseRate] = useState(() => {
+        return !!rate && rate.rate > 0;
     });
 
     // rate form request button
@@ -149,7 +153,7 @@ export function BusinessCourseSection({report, hrId, jobId}) {
                     {/* =================== Rate Section ================= */}
                     <Modal open={showRateForm}>
                         <RateForm onCancel={closeModal} formik={formik}
-                                  rated ={rate.rate>0}
+                                  rated={rate.rate > 0}
                                   hrid={hrid} jobid={jobid}
                                   email={email}
                                   requestHandler={requestHandler}

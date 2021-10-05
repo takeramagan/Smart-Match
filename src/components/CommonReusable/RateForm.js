@@ -8,12 +8,11 @@ import {h4} from "../../constant/fontsize";
 import Rating from "@material-ui/lab/Rating";
 import {Box, Button, TextField, Typography} from "@material-ui/core";
 import {Section} from "../Section";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, defaultValue, rated}) => {
     const {t} = useTranslation();
     const [rating, setRating] = useState({rated: false, value: defaultValue});
-
     const submitRating = async () => {
         console.log('submit attempt');
         const endPoint = (hrid && jobid) ? (APP_END_POINT_B_AND_C + 'report_accuracy') : APP_END_POINT_CUSTOMER_REPORT_ACCURACY;
@@ -76,8 +75,8 @@ export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, 
                     </div>
                     { /* Rated Msg Section */}
                     {
-                        (rated > 0) ? "" :
-                            <h4>{t("rating.rated_msg")}</h4>
+                        (!!rated) ?
+                            <h4>{t("rating.rated_msg")}</h4> : ""
                     }
                 </Box>
 
