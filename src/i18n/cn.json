@@ -57,7 +57,7 @@
   },
   "b_careeradvice": {
     "contact": "如需了解更多信息,请关注我们的公众号",
-    "evaluation": "基于SmartMatch系统的分析， <0>{{applicantName}}</0>与<0>{{jobtitle}}</0>的匹配值为<0>{{matchPercentage}}</0>。"
+    "evaluation": "基于SmartMatch系统的分析，邮箱为<0>{{applicantEmail}}</0>的申请人与<0>{{jobtitle}}</0>的匹配值为<0>{{matchPercentage}}</0>。"
   },
   "career_pathway": {
     "title": "学习路径",
