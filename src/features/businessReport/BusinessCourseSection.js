@@ -1,6 +1,5 @@
 import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
-import {useRouter} from "next/router";
 import {useRequest} from "../../hooks/useRequest";
 import {useFormik} from "formik";
 import {Box, Button, Modal, Typography} from "@material-ui/core";
@@ -8,13 +7,12 @@ import {Section} from "../../components/Section";
 import {h2} from "../../constant/fontsize";
 import {
     APP_END_POINT_B_AND_C,
-    APP_END_POINT_BUSINESS_REPORT_ACCURACY,
     DK_CONTACT_US,
     X_API_KEY_B_AND_C
 } from "../../constant/externalURLs";
 import {RateForm} from "../../components/CommonReusable/RateForm";
 
-export function BusinessCourseSection({report, hrId, jobId}) {
+export function BusinessCourseSection({report, hrId, jobId, email}) {
     const {t} = useTranslation();
     const [rate, setRate] = useState({rate: -1, comments: ''});
     const [showRateForm, setShowRateForm] = useState(false);
@@ -73,7 +71,6 @@ export function BusinessCourseSection({report, hrId, jobId}) {
         report.report_accuracy_rating : 3;
 
     const handleScroll = () => {
-        console.log('refuseRate: ', refuseRate);
         if (!refuseRate && (rate.rate < 0) &&
             (window.innerHeight + window.pageYOffset)
             >= document.body.offsetHeight) {
@@ -86,7 +83,9 @@ export function BusinessCourseSection({report, hrId, jobId}) {
                 },
                 10000);
         }
-        console.log(formik.values);
+        console.log('hrId bCourse', hrId);
+        console.log('jobId bCourse', jobId);
+        console.log('email bCourse', email);
     };
 
     const closeModal = () => {
@@ -95,8 +94,6 @@ export function BusinessCourseSection({report, hrId, jobId}) {
         getRatingInfo().then();
     };
 
-    const params = useRouter().query;
-    const {hrid, jobid, email} = params;
     const {requestHandler} = useRequest();
 
     // comment form
@@ -154,7 +151,7 @@ export function BusinessCourseSection({report, hrId, jobId}) {
                             closeModal();
                         }} formik={formik}
                                   rated={rate.rate > 0}
-                                  hrid={hrid} jobid={jobid}
+                                  hrid={hrId} jobid={jobId}
                                   email={email}
                                   requestHandler={requestHandler}
                                   defaultValue={defaultValue}

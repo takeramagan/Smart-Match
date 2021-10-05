@@ -34,8 +34,9 @@ import DescriptionIcon from "@material-ui/icons/Description";
 export default function BusinessReport({presetReport}) {
     const {t} = useTranslation();
     const router = useRouter();
-    const hrId = router.query.hrId;
+    const hrId = (router.query.hrId);
     const jobId = router.query.jobId;
+    const email = router.query.email;
     const [loading, setLoading] = useState(true);
     const adsLoadingTime = 3;
     //  todo: remove this after test
@@ -143,6 +144,7 @@ export default function BusinessReport({presetReport}) {
                                 <BusinessCourseSection report={report}
                                                        hrId={hrId}
                                                        jobId={jobId}
+                                                       email = {email}
                                 />
                             </div>
                         </Grid>
