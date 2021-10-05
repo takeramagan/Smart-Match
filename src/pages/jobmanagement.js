@@ -413,7 +413,11 @@ const CheckApplicant = ({onCancel, country_code, job_description, hrId, jobId}) 
                 router.push(
                     {
                         pathname: './businessReport',
-                        query: {hrId: hrId, jobId: jobId},
+                        query: {
+                            hrId: hrId,
+                            jobId: jobId,
+                            email: formik.values.email
+                        },
                     }).then();
             } else {
                 toast.error('Check applicant resume failed ' +
@@ -736,7 +740,7 @@ const JobManagement = () => {
                             index={i}
                             item={job}
                             onShowJobDetail={showJobDetailCallback}
-                            onCheckApplicants={()=>checkApplicantsCallback(job)}
+                            onCheckApplicants={() => checkApplicantsCallback(job)}
                             onShowApplicants={showApplicantsCallback}
                             onAddApplicant={() => onAddApplicant(i)}
                             // showDetail={showItem === i}

@@ -13,9 +13,15 @@ import {useEffect, useState} from "react";
 export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, defaultValue, rated}) => {
     const {t} = useTranslation();
     const [rating, setRating] = useState({rated: false, value: defaultValue});
+    useEffect(()=>{
+        console.log('hrid', hrid);
+        console.log('jobid', jobid);
+    }, []);
+
     const submitRating = async () => {
         console.log('submit attempt');
-        const endPoint = (hrid && jobid) ? (APP_END_POINT_B_AND_C + 'report_accuracy') : APP_END_POINT_CUSTOMER_REPORT_ACCURACY;
+        const endPoint = (hrid && jobid) ?
+            (APP_END_POINT_B_AND_C + 'report_accuracy') : APP_END_POINT_CUSTOMER_REPORT_ACCURACY;
         const dcc = (hrid && jobid) ? X_API_KEY_B_AND_C : X_API_KEY_HISTORY;
         try {
             const data = new FormData();
