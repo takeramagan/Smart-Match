@@ -44,6 +44,16 @@ export const X_API_KEY_HISTORY =
 
 // export const TEST_USER_ID = process.env.ENV_FLAG === 'production' ? 0 : 1000 //自己测试用 测试环境值是1000
 
+// use id to fetch report rating information
+export const APP_END_POINT_BUSINESS_REPORT_ACCURACY =
+    process.env.ENV_FLAG === 'production' ?
+        'https://staging-business-end.metisign.com/get_accuracy' :
+        'https://production-business-end.metisign.com/get_accuracy';
+export const APP_END_POINT_CLIENT_REPORT_ACCURACY =
+    process.env.ENV_FLAG === 'production' ?
+        'https://staging-history-reports.metisign.com/get_accuracy' :
+        'https://production-history-reports.metisign.com/get_accuracy';
+
 export const APP_END_POINT_GET_HISTORY_IDS =
     process.env.ENV_FLAG === 'production' ?
         'https://production-history-reports.metisign.com/get_history_report_ids' :

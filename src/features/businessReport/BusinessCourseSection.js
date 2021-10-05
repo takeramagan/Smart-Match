@@ -6,14 +6,43 @@ import {useFormik} from "formik";
 import {Box, Button, Modal, Typography} from "@material-ui/core";
 import {Section} from "../../components/Section";
 import {h2} from "../../constant/fontsize";
-import {DK_CONTACT_US} from "../../constant/externalURLs";
+import {APP_END_POINT_BUSINESS_REPORT_ACCURACY, DK_CONTACT_US, X_API_KEY_B_AND_C} from "../../constant/externalURLs";
 import {RateForm} from "../../components/CommonReusable/RateForm";
 
-export function BusinessCourseSection({report}) {
+export function BusinessCourseSection({report, hrId}) {
     const {t} = useTranslation();
-    const defaultValue = report.report_accuracy_rating ?
-        report.report_accuracy_rating : 3;
+    const getRatingInfo = async () => {
+        console.log('getRatingInfo at BusinessCourseSection line 22');
+        try {
+            formik.values.rated = true;
+            const data = new FormData();
+            if(!!report.applicant_email && !!hrId){
+                console.log('25', report);
+                data.append('email', report.applicant_email);
+                data.append('dcc', X_API_KEY_B_AND_C);
+                data.append('hrid', hrId);
+                const config = {
+                    method: 'post',
+                    url: APP_END_POINT_BUSINESS_REPORT_ACCURACY,
+                    data: data
+                };
+                const result = await requestHandler(config);
+                console.log("rating= ", result);
+                if(!!result){
+                    setRate(result);
+                }
+            }
+        } catch (ignore) {
+        }
+    };
+    const [rate, setRate] = useState(
+        {rate: 0, comments: ''}
+    );
     const [showRateForm, setShowRateForm] = useState(false);
+    useEffect(() => {
+        getRatingInfo().then();
+    });
+
     useEffect(() => {
         function watchScroll() {
             window.addEventListener("scroll", handleScroll);
@@ -24,6 +53,10 @@ export function BusinessCourseSection({report}) {
             window.removeEventListener("scroll", handleScroll);
         };
     });
+
+
+    const defaultValue = report.report_accuracy_rating ?
+        report.report_accuracy_rating : 3;
 
     const handleScroll = () => {
         if (!refuseRate && !formik.values.rated &&
@@ -53,8 +86,8 @@ export function BusinessCourseSection({report}) {
     const formik = useFormik({
         initialValues: {
             comments: report.comments ? report.comments : "",
-            rate: report.report_accuracy_rating ? report.report_accuracy_rating : 3,
-            rated: !!report.report_accuracy_rating
+            rate: rate.rate ? rate.rate : 3,
+            rated: !!rate.rate
         }
     });
 

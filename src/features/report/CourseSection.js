@@ -1,15 +1,8 @@
-import {Box, Button, Chip, Link, Grid, Typography, makeStyles, TextField, Modal, Container} from '@material-ui/core'
+import {Box, Button, Chip, Link, makeStyles, Modal, Typography} from '@material-ui/core'
 import {Section} from '../../components/Section'
 import {useTranslation} from 'react-i18next'
 import {h1, h2, h3} from '../../constant/fontsize'
-import {
-    DK_LINK,
-    DK_IMPROVE,
-    APP_END_POINT_B_AND_C,
-    APP_END_POINT_CUSTOMER_REPORT_ACCURACY,
-    X_API_KEY_B_AND_C,
-    X_API_KEY_HISTORY, DK_CONTACT_US
-} from '../../constant/externalURLs'
+import {APP_END_POINT_CLIENT_REPORT_ACCURACY, DK_IMPROVE, X_API_KEY_HISTORY} from '../../constant/externalURLs'
 import {linkTrack} from '../../untils/linkTrack'
 import {CareerAdviceSection} from './CareerAdviceSection'
 import {useEffect, useState} from 'react';
@@ -234,10 +227,42 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
 
 export function CourseSection({report, selectedPathIndex}) {
     const {t} = useTranslation();
+    const getRatingInfo = async () => {
+        console.log('getRatingInfo at CourseSection line 231');
+        try {
+            formik.values.rated = true;
+            const data = new FormData();
+            console.log('236', report.email);
+            console.log('236', report.report_id);
+            if(!!report.email && !!report.report_id){
+                console.log('236', report);
+                data.append('email', report.applicant_email);
+                data.append('dcc', X_API_KEY_HISTORY);
+                data.append('report_id', report.report_id);
+                const config = {
+                    method: 'post',
+                    url: APP_END_POINT_CLIENT_REPORT_ACCURACY,
+                    data: data
+                };
+                const result = await requestHandler(config);
+                console.log("rating= ", result);
+                if(!!result){
+                    setRate(result);
+                }
+            }
+        } catch (ignore) {
+        }
+    };
+    const [rate, setRate] = useState(
+        {rate: 0, comments: ''}
+    );
     const defaultValue = report.report_accuracy_rating ?
         report.report_accuracy_rating : 3;
     const classes = useStyles();
     const [showRateForm, setShowRateForm] = useState(false);
+    useEffect(() => {
+        getRatingInfo().then();
+    });
     useEffect(() => {
         function watchScroll() {
             window.addEventListener("scroll", handleScroll);

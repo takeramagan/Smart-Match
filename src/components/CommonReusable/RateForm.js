@@ -82,7 +82,7 @@ export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, 
                             formik.values.rate = value ?? defaultValue;
                             setRating({rated: true, value: formik.values.rate});
                         }}
-                    />;
+                    />
                     </div>
                     { /* Rated Msg Section */}
                     <CheckIfMarked></CheckIfMarked>

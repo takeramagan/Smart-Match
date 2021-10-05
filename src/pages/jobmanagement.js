@@ -372,7 +372,7 @@ const checkApplicantSchema = yup.object({
     resume_file: yup.string().required('Applicant resume is required')
 });
 
-const CheckApplicant = ({onCancel, country_code, job_description}) => {
+const CheckApplicant = ({onCancel, country_code, job_description, hrId}) => {
     const {t} = useTranslation();
     const {requestHandler} = useRequest();
     const [loading, setLoading] = useState(false);
@@ -410,7 +410,11 @@ const CheckApplicant = ({onCancel, country_code, job_description}) => {
                     setLoading(false);
                 }, adsLoadingTime * 1000);
                 // nav and use dummy data
-                router.push('./businessReport').then();
+                router.push(
+                    {
+                        pathname: './businessReport',
+                        query: {hrId: hrId},
+                    }).then();
             } else {
                 toast.error('Check applicant resume failed ' +
                     'with unknown reason, please try again later.', toastStyle);
@@ -587,8 +591,8 @@ const JobManagement = () => {
     const currentPage = hrHistory.currentPage;
     const hrHistoryList = hrHistory.historyList;
     const params = useRouter().query;
-    const hrId = params.id;
-    console.log('Initial hrid1 = ', params.id);
+    const hrId = params.id ?? 1;
+    console.log('Initial hrid1 = ', hrId);
     const onShowJobDetail = (id) => {
         setShowItem(id);
         setShowJobDetail(true);
@@ -683,7 +687,7 @@ const JobManagement = () => {
     useEffect(() => {
         console.log("reached: ", hrId);
         if (hrId) {
-            getData();
+            getData().then();
         }
     }, [hrId]);
 
@@ -750,7 +754,8 @@ const JobManagement = () => {
             </Modal>
             <Modal open={showCheckApplicantForm} onClose={closeModal}>
                 <CheckApplicant country_code={selectedJobCountry} job_description={selectedJobDescription}
-                                onCancel={closeModal} refreshPage={getData}/>
+                                onCancel={closeModal} refreshPage={getData}
+                                hrId={hrId}/>
             </Modal>
         </Container>
     )
