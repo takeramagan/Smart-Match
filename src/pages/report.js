@@ -415,6 +415,8 @@ export default function Home() {
     const jobid = params.jobid;
     const index = params.index;
     const email = params.email;
+    // add loading ads time in second
+    const adsLoadingTime = 3;
     const [loading, setLoading] = useState(!!jobid);
     const [report, setReport] = useState(null);
 
@@ -429,7 +431,6 @@ export default function Home() {
             data.append('hrid', userId); //mock data
             data.append('jobid', jobid);
             data.append('dcc', X_API_KEY_B_AND_C);
-
             const config = {
                 method: 'post',
                 url: APP_END_POINT_B_AND_C + ('get_all_applications'),
@@ -441,15 +442,19 @@ export default function Home() {
                 // if(result.status === 'success') {
                 console.log("get applicants succcess");
                 console.log(result.applicants_info_list);
-                const applicant = result.applicants_info_list.sort((a, b) => (b.matching_level - a.matching_level))[index];
-                setReport({...applicant.report, id: userId, lang, email});
+                setTimeout(() => {
+                    setLoading(false);
+                    const applicant = result.applicants_info_list.sort((a, b) => (b.matching_level - a.matching_level))[index];
+                    setReport({...applicant.report, id: userId, lang, email});
+                }, adsLoadingTime * 1000);
             } else {
-                console.log("get applicants error");
+                alert('Sorry, applicant report cannot be load: ' + e.toString());
+                setLoading(false);
             }
         } catch (e) {
-            console.log("error get applicants");
+            alert('Sorry, applicant report cannot be load: ' + e.toString());
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     useEffect(() => {
@@ -473,16 +478,25 @@ export default function Home() {
     };
 
     if (loading) {
-        return (
-            <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' height='80vh'>
-                <Box fontSize='64px' fontWeight='600' color='#49648A'>
-                    {t('report.loading')}
-                </Box>
-                <Box width='600px' m={8}>
-                    <LinearProgress/>
-                </Box>
-            </Box>
-        )
+        // loading section without ads
+        // return (
+        //     <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' height='80vh'>
+        //         <Box fontSize='64px' fontWeight='600' color='#49648A'>
+        //             {t('report.loading')}
+        //         </Box>
+        //         <Box width='600px' m={8}>
+        //             <LinearProgress/>
+        //         </Box>
+        //     </Box>
+        // )
+        return (<Box p={4} mb={4} borderRadius='24px' width={800} margin='40px auto 16px' style={{}}>
+            <Section><LoadingPage
+                title={t("report.analyzing_title")}
+                content={t("report.analyzing_text")}
+                loadingTime={adsLoadingTime}
+            />
+            </Section>
+        </Box>);
     }
 
     if (!report) {

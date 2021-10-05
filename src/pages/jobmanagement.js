@@ -547,6 +547,7 @@ const ApplicantsDetail = ({job}) => {
                 console.log("get applicants success");
                 setApplicantList(result.applicants_info_list.sort((a, b) =>
                     (b.matching_level - a.matching_level)));
+                console.log('applicantList', applicantList);
             } else {
                 console.log("get applicants error")
             }
