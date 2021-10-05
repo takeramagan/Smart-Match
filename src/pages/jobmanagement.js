@@ -372,7 +372,7 @@ const checkApplicantSchema = yup.object({
     resume_file: yup.string().required('Applicant resume is required')
 });
 
-const CheckApplicant = ({onCancel, country_code, job_description, hrId}) => {
+const CheckApplicant = ({onCancel, country_code, job_description, hrId, jobId}) => {
     const {t} = useTranslation();
     const {requestHandler} = useRequest();
     const [loading, setLoading] = useState(false);
@@ -413,7 +413,7 @@ const CheckApplicant = ({onCancel, country_code, job_description, hrId}) => {
                 router.push(
                     {
                         pathname: './businessReport',
-                        query: {hrId: hrId},
+                        query: {hrId: hrId, jobId: jobId},
                     }).then();
             } else {
                 toast.error('Check applicant resume failed ' +
@@ -587,6 +587,7 @@ const JobManagement = () => {
     const [showApplicants, setShowApplicants] = useState(false);
     const [selectedJobCountry, setSelectedJobCountry] = useState('ca');
     const [selectedJobDescription, setSelectedJobDescription] = useState('');
+    const [selectedJobId, setSelectedJobId] = useState('');
     const hrHistory = useSelector(store => store.history);
     const currentPage = hrHistory.currentPage;
     const hrHistoryList = hrHistory.historyList;
@@ -600,10 +601,11 @@ const JobManagement = () => {
 
     const [showCheckApplicantForm, setShowCheckApplicantForm] = useState(false);
     // open the form window, so the hr will upload applicant resume and enter applicant email
-    const onCheckApplicants = (currency, description) => {
-        console.log(`description ${description}`);
-        setSelectedJobDescription(description);
-        if (currency === 'usd') {
+    const onCheckApplicants = (job) => {
+        console.log('selected job at jobmanagement 605:', job);
+        setSelectedJobDescription(job.description);
+        setSelectedJobId(job.job_id);
+        if (job.currency === 'usd') {
             setSelectedJobCountry('us');
         } else {
             setSelectedJobCountry('ca');
@@ -619,8 +621,8 @@ const JobManagement = () => {
 
     const showJobDetailCallback = useCallback((id) => onShowJobDetail(id), []);
     const showApplicantsCallback = useCallback((id) => onShowApplicants(id), []);
-    const checkApplicantsCallback = useCallback((currency, description) =>
-        onCheckApplicants(currency, description), []);
+    const checkApplicantsCallback = useCallback((job) =>
+        onCheckApplicants(job), []);
 
     const onShowApplicants = (id) => {
         setShowItem(id);
@@ -643,19 +645,19 @@ const JobManagement = () => {
         }
     };
 
-    const TestOnlyButton = () => {
-        if (process.env.ENV_FLAG !== 'production') {
-            return (
-                <Box>
-                    <Button onClick={() => {
-                        getData().then()
-                    }} color='primary' variant='contained' style={{borderRadius: 20}}>Fetch Job</Button>
-                </Box>
-            );
-        } else {
-            return "";
-        }
-    };
+    // const TestOnlyButton = () => {
+    //     if (process.env.ENV_FLAG !== 'production') {
+    //         return (
+    //             <Box>
+    //                 <Button onClick={() => {
+    //                     getData().then()
+    //                 }} color='primary' variant='contained' style={{borderRadius: 20}}>Fetch Job</Button>
+    //             </Box>
+    //         );
+    //     } else {
+    //         return "";
+    //     }
+    // };
 
     //fetch data
     const dispatch = useDispatch();
@@ -696,7 +698,7 @@ const JobManagement = () => {
             style={{marginTop: 18}}
         >
             {/*test only button*/}
-            <TestOnlyButton></TestOnlyButton>
+            {/*<TestOnlyButton></TestOnlyButton>*/}
 
             <Section>
                 <Box p={4}>
@@ -734,7 +736,7 @@ const JobManagement = () => {
                             index={i}
                             item={job}
                             onShowJobDetail={showJobDetailCallback}
-                            onCheckApplicants={checkApplicantsCallback}
+                            onCheckApplicants={()=>checkApplicantsCallback(job)}
                             onShowApplicants={showApplicantsCallback}
                             onAddApplicant={() => onAddApplicant(i)}
                             // showDetail={showItem === i}
@@ -755,7 +757,7 @@ const JobManagement = () => {
             <Modal open={showCheckApplicantForm} onClose={closeModal}>
                 <CheckApplicant country_code={selectedJobCountry} job_description={selectedJobDescription}
                                 onCancel={closeModal} refreshPage={getData}
-                                hrId={hrId}/>
+                                hrId={hrId} jobId={selectedJobId}/>
             </Modal>
         </Container>
     )

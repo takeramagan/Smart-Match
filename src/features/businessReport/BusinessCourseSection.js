@@ -6,42 +6,50 @@ import {useFormik} from "formik";
 import {Box, Button, Modal, Typography} from "@material-ui/core";
 import {Section} from "../../components/Section";
 import {h2} from "../../constant/fontsize";
-import {APP_END_POINT_BUSINESS_REPORT_ACCURACY, DK_CONTACT_US, X_API_KEY_B_AND_C} from "../../constant/externalURLs";
+import {
+    APP_END_POINT_B_AND_C,
+    APP_END_POINT_BUSINESS_REPORT_ACCURACY,
+    DK_CONTACT_US,
+    X_API_KEY_B_AND_C
+} from "../../constant/externalURLs";
 import {RateForm} from "../../components/CommonReusable/RateForm";
 
-export function BusinessCourseSection({report, hrId}) {
+export function BusinessCourseSection({report, hrId, jobId}) {
     const {t} = useTranslation();
+    const [rate, setRate] = useState({rate: -1, comments: ''});
     const getRatingInfo = async () => {
-        console.log('getRatingInfo at BusinessCourseSection line 22');
         try {
             formik.values.rated = true;
             const data = new FormData();
-            if(!!report.applicant_email && !!hrId){
+            console.log('18 hrId', hrId);
+            console.log('19 report.applicant_email', report.applicant_email);
+            if (!!report.applicant_email && !!hrId) {
                 console.log('25', report);
                 data.append('email', report.applicant_email);
                 data.append('dcc', X_API_KEY_B_AND_C);
                 data.append('hrid', hrId);
+                data.append('jobid', jobId);
                 const config = {
                     method: 'post',
-                    url: APP_END_POINT_BUSINESS_REPORT_ACCURACY,
+                    url: APP_END_POINT_B_AND_C + ('get_accuracy'),
                     data: data
                 };
                 const result = await requestHandler(config);
-                console.log("rating= ", result);
+                console.log("rating accuracy= ", result);
                 if(!!result){
-                    setRate(result);
+                    setRate({
+                        rate: result.report_accuracy_rating,
+                        comments: result.comments
+                    });
+                    formik.values.rate = result.report_accuracy_rating;
+                    formik.values.comments = result.comments;
+                    setRefuseRate(true);
                 }
             }
         } catch (ignore) {
         }
     };
-    const [rate, setRate] = useState(
-        {rate: 0, comments: ''}
-    );
     const [showRateForm, setShowRateForm] = useState(false);
-    useEffect(() => {
-        getRatingInfo().then();
-    });
 
     useEffect(() => {
         function watchScroll() {
@@ -53,27 +61,31 @@ export function BusinessCourseSection({report, hrId}) {
             window.removeEventListener("scroll", handleScroll);
         };
     });
+    useEffect(() => {
+        getRatingInfo().then();
+    }, [rate]);
 
 
     const defaultValue = report.report_accuracy_rating ?
         report.report_accuracy_rating : 3;
 
     const handleScroll = () => {
-        if (!refuseRate && !formik.values.rated &&
-            (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
-            setRefuseRate(true);
+        if (!refuseRate && (rate.rate<0) &&
+            (window.innerHeight + window.pageYOffset)
+            >= document.body.offsetHeight) {
+            console.log('show rate form triggered!!!!!!!!!!!!!!!!!!!');
             setTimeout(
                 () => {
                     if (!refuseRate) {
                         setShowRateForm(true);
                     }
+                    setRefuseRate(true);
                 },
                 10000);
         }
     };
 
     const closeModal = () => {
-        console.log(formik.errors.required);
         setRefuseRate(true);
         setShowRateForm(false);
     };
@@ -85,30 +97,27 @@ export function BusinessCourseSection({report, hrId}) {
     // comment form
     const formik = useFormik({
         initialValues: {
-            comments: report.comments ? report.comments : "",
-            rate: rate.rate ? rate.rate : 3,
-            rated: !!rate.rate
+            comments: rate.comments ? rate.comments : "",
+            rate: (!!rate && rate.rate>0) ? rate.rate : 3
         }
     });
 
-    const [refuseRate, setRefuseRate] = useState(!!formik.values && !!formik.values.rated);
+    const [refuseRate, setRefuseRate] = useState( ()=> {
+        return !!rate && rate.rate>0;
+    });
 
     // rate form request button
     const RateRequestButton = () => {
-        if (!refuseRate) {
-            return "";
-        } else {
-            return <Button variant='contained'
-                           color='primary'
-                           target="_blank"
-                           style={{
-                               borderRadius: 15, marginLeft: 10, height: 30,
-                           }}
-                           onClick={() => (setShowRateForm(true))}
-            >
-                {t("rating.request_rate_button")}
-            </Button>;
-        }
+        return <Button variant='contained'
+                       color='primary'
+                       target="_blank"
+                       style={{
+                           borderRadius: 15, marginLeft: 10, height: 30,
+                       }}
+                       onClick={() => (setShowRateForm(true))}
+        >
+            {t("rating.request_rate_button")}
+        </Button>;
     };
 
     return (
@@ -140,6 +149,7 @@ export function BusinessCourseSection({report, hrId}) {
                     {/* =================== Rate Section ================= */}
                     <Modal open={showRateForm}>
                         <RateForm onCancel={closeModal} formik={formik}
+                                  rated ={rate.rate>0}
                                   hrid={hrid} jobid={jobid}
                                   email={email}
                                   requestHandler={requestHandler}
