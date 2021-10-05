@@ -547,6 +547,7 @@ const ApplicantsDetail = ({job}) => {
         }
     };
     useEffect(getApplicants, []);
+    
     return (
         <Box mt={4} style={{width: '80%', marginLeft: 'auto', marginRight: 'auto'}}>
             <Section>
@@ -587,8 +588,8 @@ const JobManagement = () => {
     const currentPage = hrHistory.currentPage;
     const hrHistoryList = hrHistory.historyList;
     const params = useRouter().query;
-    const hrId = params.id;
-    console.log('Initial hrid1 = ', params.id);
+    const hrId = params.id ?? 1;
+    console.log('Initial hrid1 = ', hrId);
     const onShowJobDetail = (id) => {
         setShowItem(id);
         setShowJobDetail(true);
