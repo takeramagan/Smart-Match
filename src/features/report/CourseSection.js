@@ -1,15 +1,8 @@
-import {Box, Button, Chip, Link, Grid, Typography, makeStyles, TextField, Modal, Container} from '@material-ui/core'
+import {Box, Button, Chip, Link, makeStyles, Modal, Typography} from '@material-ui/core'
 import {Section} from '../../components/Section'
 import {useTranslation} from 'react-i18next'
 import {h1, h2, h3} from '../../constant/fontsize'
-import {
-    DK_LINK,
-    DK_IMPROVE,
-    APP_END_POINT_B_AND_C,
-    APP_END_POINT_CUSTOMER_REPORT_ACCURACY,
-    X_API_KEY_B_AND_C,
-    X_API_KEY_HISTORY, DK_CONTACT_US
-} from '../../constant/externalURLs'
+import {APP_END_POINT_CLIENT_REPORT_ACCURACY, DK_IMPROVE, X_API_KEY_HISTORY} from '../../constant/externalURLs'
 import {linkTrack} from '../../untils/linkTrack'
 import {CareerAdviceSection} from './CareerAdviceSection'
 import {useEffect, useState} from 'react';
@@ -234,10 +227,40 @@ const SuggestedCourse = ({report, selectedPathIndex}) => {
 
 export function CourseSection({report, selectedPathIndex}) {
     const {t} = useTranslation();
-    const defaultValue = report.report_accuracy_rating ?
-        report.report_accuracy_rating : 3;
-    const classes = useStyles();
-    const [showRateForm, setShowRateForm] = useState(false);
+    const [rate, setRate] = useState({rate: -1, comments: ''});
+    const getRatingInfo = async () => {
+        console.log('getRatingInfo at CourseSection line 231');
+        try {
+            formik.values.rated = true;
+            const data = new FormData();
+            console.log('235 report.email', report.email);
+            console.log('236 report.report_id', report.report_id);
+            if (!!report.email && !!report.report_id) {
+                console.log('236', report);
+                data.append('email', report.applicant_email);
+                data.append('dcc', X_API_KEY_HISTORY);
+                data.append('report_id', report.report_id);
+                const config = {
+                    method: 'post',
+                    url: APP_END_POINT_CLIENT_REPORT_ACCURACY,
+                    data: data
+                };
+                const result = await requestHandler(config);
+                console.log("rating= ", result);
+                if(!!result){
+                    setRate({
+                        rate: result.report_accuracy_rating,
+                        comments: result.comments
+                    });
+                    formik.values.rate = result.report_accuracy_rating;
+                    formik.values.comments = result.comments;
+                    setRefuseRate(true);
+                    console.log(formik.values);
+                }
+            }
+        } catch (ignore) {
+        }
+    };
     useEffect(() => {
         function watchScroll() {
             window.addEventListener("scroll", handleScroll);
@@ -248,23 +271,33 @@ export function CourseSection({report, selectedPathIndex}) {
             window.removeEventListener("scroll", handleScroll);
         };
     });
+    useEffect(() => {
+        getRatingInfo().then();
+    }, [rate]);
+    const [showRateForm, setShowRateForm] = useState(false);
+
+    const defaultValue = report.report_accuracy_rating ?
+        report.report_accuracy_rating : 3;
+
+    const classes = useStyles();
 
     const handleScroll = () => {
-        if (!formik.values.rated &&
-            (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
-            setRefuseRate(true);
+        if (!refuseRate && (rate.rate<0) &&
+            (window.innerHeight + window.pageYOffset)
+            >= document.body.offsetHeight) {
+            console.log('show rate form triggered!!!!!!!!!!!!!!!!!!!');
             setTimeout(
                 () => {
                     if (!refuseRate) {
                         setShowRateForm(true);
                     }
+                    setRefuseRate(true);
                 },
                 10000);
         }
     };
 
     const closeModal = () => {
-        console.log(formik.errors.required);
         setRefuseRate(true);
         setShowRateForm(false);
     };
@@ -276,30 +309,27 @@ export function CourseSection({report, selectedPathIndex}) {
     // comment form
     const formik = useFormik({
         initialValues: {
-            comments: report.comments ? report.comments : "",
-            rate: report.report_accuracy_rating ? report.report_accuracy_rating : 3,
-            rated: !!report.report_accuracy_rating
+            comments: rate.comments ? rate.comments : "",
+            rate: (!!rate && rate.rate>0) ? rate.rate : 3
         }
     });
 
-    const [refuseRate, setRefuseRate] = useState(formik.values && formik.values.rated);
+    const [refuseRate, setRefuseRate] = useState( ()=> {
+        return !!rate && rate.rate>0;
+    });
 
     // rate form request button
     const RateRequestButton = () => {
-        if (!refuseRate) {
-            return "";
-        } else {
-            return <Button variant='contained'
-                           color='primary'
-                           target="_blank"
-                           style={{
-                               borderRadius: 15, marginLeft: 10, height: 30,
-                           }}
-                           onClick={() => (setShowRateForm(true))}
-            >
-                {t("rating.request_rate_button")}
-            </Button>;
-        }
+        return <Button variant='contained'
+                       color='primary'
+                       target="_blank"
+                       style={{
+                           borderRadius: 15, marginLeft: 10, height: 30,
+                       }}
+                       onClick={() => (setShowRateForm(true))}
+        >
+            {t("rating.request_rate_button")}
+        </Button>;
     };
 
     return (
@@ -356,6 +386,7 @@ export function CourseSection({report, selectedPathIndex}) {
                 {/* =================== Rate Section ================= */}
                 <Modal open={showRateForm}>
                     <RateForm onCancel={closeModal} formik={formik}
+                              rated ={rate.rate>0}
                               hrid={hrid} jobid={jobid}
                               email={email}
                               requestHandler={requestHandler}

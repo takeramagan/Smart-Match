@@ -5,20 +5,19 @@ import {
     X_API_KEY_B_AND_C, X_API_KEY_HISTORY
 } from "../../constant/externalURLs";
 import {h4} from "../../constant/fontsize";
-import {withStyles} from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
-import {useState} from "react";
 import {Box, Button, TextField, Typography} from "@material-ui/core";
 import {Section} from "../Section";
+import {useEffect, useState} from "react";
 
-export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, defaultValue}) => {
+export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, defaultValue, rated}) => {
     const {t} = useTranslation();
+    const [rating, setRating] = useState({rated: false, value: defaultValue});
     const submitRating = async () => {
         console.log('submit attempt');
         const endPoint = (hrid && jobid) ? (APP_END_POINT_B_AND_C + 'report_accuracy') : APP_END_POINT_CUSTOMER_REPORT_ACCURACY;
         const dcc = (hrid && jobid) ? X_API_KEY_B_AND_C : X_API_KEY_HISTORY;
         try {
-            formik.values.rated = true;
             const data = new FormData();
             data.append('email', email);
             data.append('dcc', dcc);
@@ -40,16 +39,6 @@ export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, 
             onCancel();
         }
     };
-    const CheckIfMarked = () => {
-        // check if it's rated, if it rated, display msg
-        if (formik.values && formik.values.rated) {
-            return <h4>{t("rating.rated_msg")}</h4>;
-        } else {
-            return "";
-        }
-    };
-
-    const [rating, setRating] = useState({rated: false, value: defaultValue});
 
     // create new custom style rating (with transparent stars just like if its disabled)
     // use the disable style rating when its already rated, otherwise use normal rating
@@ -76,16 +65,19 @@ export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, 
                     <div>
                         <Typography color='primary'>Rate the accuracy of this report</Typography>
                         <Rating
-                        name="simple-controlled"
-                        value={rating.value}
-                        onChange={(event, value) => {
-                            formik.values.rate = value ?? defaultValue;
-                            setRating({rated: true, value: formik.values.rate});
-                        }}
-                    />;
+                            name="simple-controlled"
+                            value={rating.value}
+                            onChange={(event, value) => {
+                                formik.values.rate = value ?? defaultValue;
+                                setRating({rated: true, value: formik.values.rate});
+                            }}
+                        />
                     </div>
                     { /* Rated Msg Section */}
-                    <CheckIfMarked></CheckIfMarked>
+                    {
+                        (!!rated) ?
+                            <h4>{t("rating.rated_msg")}</h4> : ""
+                    }
                 </Box>
 
                 {/* comment section */}
@@ -96,8 +88,7 @@ export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, 
                                fullWidth variant="outlined" rowsMax={15} rows={5}
                                multiline
                                style={{
-                                   opacity: (formik.values && formik.values.rated ?
-                                       0.5 : 1)
+                                   opacity: (rated ? 0.5 : 1)
                                }}
                                value={formik.values.comments}
                                onChange={formik.handleChange}
