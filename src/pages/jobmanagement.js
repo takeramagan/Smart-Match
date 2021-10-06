@@ -601,8 +601,8 @@ const JobManagement = () => {
     const currentPage = hrHistory.currentPage;
     const hrHistoryList = hrHistory.historyList;
     const params = useRouter().query;
-    const hrId = params.id ?? 1;
-    console.log('Initial hrid1 = ', hrId);
+    const hrId = params.id;
+    // console.log('Initial hrid1 = ', hrId);
     const onShowJobDetail = (id) => {
         setShowItem(id);
         setShowJobDetail(true);
