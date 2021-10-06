@@ -602,8 +602,8 @@ const JobManagement = () => {
     const currentPage = hrHistory.currentPage;
     const hrHistoryList = hrHistory.historyList;
     const params = useRouter().query;
-    const hrId = params.id ?? 1;
-    console.log('Initial hrid1 = ', hrId);
+    const hrId = params.id;
+    // console.log('Initial hrid1 = ', hrId);
     const onShowJobDetail = (id) => {
         setShowItem(id);
         setShowJobDetail(true);
@@ -656,19 +656,19 @@ const JobManagement = () => {
         }
     };
 
-    // const TestOnlyButton = () => {
-    //     if (process.env.ENV_FLAG !== 'production') {
-    //         return (
-    //             <Box>
-    //                 <Button onClick={() => {
-    //                     getData().then()
-    //                 }} color='primary' variant='contained' style={{borderRadius: 20}}>Fetch Job</Button>
-    //             </Box>
-    //         );
-    //     } else {
-    //         return "";
-    //     }
-    // };
+    const TestOnlyButton = () => {
+        if (hrId===undefined && process.env.ENV_FLAG !== 'production') {
+            return (
+                <Box>
+                    <Button onClick={() => {
+                        getData().then()
+                    }} color='primary' variant='contained' style={{borderRadius: 20}}>Fetch Job</Button>
+                </Box>
+            );
+        } else {
+            return "";
+        }
+    };
 
     //fetch data
     const dispatch = useDispatch();
@@ -709,7 +709,7 @@ const JobManagement = () => {
             style={{ marginTop: 18 }}
         >
             {/*test only button*/}
-            {/*<TestOnlyButton></TestOnlyButton>*/}
+            <TestOnlyButton></TestOnlyButton>
 
             <Section>
                 <Box p={4}>
