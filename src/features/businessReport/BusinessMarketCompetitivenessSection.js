@@ -108,8 +108,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                     <Box display='flex' flexDirection="row">
                         <Box width={100}>
                             <PercentageLabel name={t('b_radarchart.workExperience')}
-                                             value={work_experience.marking}
-                                             text={experience_improve} mt={6}/></Box>
+                                             value={work_experience.marking} mt={6}/></Box>
                         <Box style={{
                             color: '#373b6c',
                             maxWidth: 450,
@@ -121,7 +120,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                     <Box display='flex' flexDirection="row">
                         <Box width={100}>
                             <PercentageLabel name={t('b_radarchart.skills')} value={skills.marking}
-                                             text={skills_improve} mt={6}/></Box>
+                                             mt={6}/></Box>
                         <Box style={{
                             color: '#373b6c',
                             maxWidth: 450,
@@ -134,7 +133,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                         <Box width={100}>
                             <PercentageLabel name={t('b_radarchart.education')}
                                              value={education_experience.marking} mt={6} width={100}
-                                             text={education_improve}/></Box>
+                                             /></Box>
                         <Box style={{
                             color: '#373b6c',
                             maxWidth: 450,
@@ -147,7 +146,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                         <Box width={100}>
                             <PercentageLabel name={t('b_radarchart.industry')}
                                              value={industry.marking}
-                                             text={industry_improve} mt={6} width={100}/></Box>
+                                             mt={6} width={100}/></Box>
                         <Box style={{
                             color: '#373b6c',
                             maxWidth: 450,
