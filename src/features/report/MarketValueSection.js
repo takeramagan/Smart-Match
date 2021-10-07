@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
-import { Box, Button  } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles'
+import { Box} from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
+import ReactECharts from 'echarts-for-react';
 
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next';
 
-import { Section } from '../../components/Section'
-import { formatter } from '../../untils/currency'
-import { h, h1, h2, h3, h4, h5 } from '../../constant/fontsize'
-
-import ReactECharts from 'echarts-for-react'
-import { POPUP_BG_COLOR } from '../../constant/color'
+import { Section } from '../../components/Section';
 import { MenuButton } from '../../components/CommonReusable/MenuButton';
+
+import { h, h1, h2, h3, h4, h5 } from '../../constant/fontsize';
+
+import { formatter } from '../../untils/currency';
 
 
 const Chart = ({ income }) => {
-  const { t } = useTranslation()
-  const theme = useTheme()
+  const { t } = useTranslation();
+  const theme = useTheme();
   // const numbers = Object.values(income)
   //   .filter(Number.isInteger)
   //   .concat(Object.values(income.predicted_market_value))
@@ -28,25 +28,25 @@ const Chart = ({ income }) => {
     const result = []
     const NumOfColumns = 4
     try {
-      let n = parseInt(income.market_low) //莫名出现数字解析成字符串...
-      const high = parseInt(income.market_high)
-      const low = parseInt(income.market_low)
-      const increment = Math.round((high - low) / NumOfColumns)
+      let n = parseInt(income.market_low); //莫名出现数字解析成字符串...
+      const high = parseInt(income.market_high);
+      const low = parseInt(income.market_low);
+      const increment = Math.round((high - low) / NumOfColumns);
 
       for (let i = 0; i <= NumOfColumns; i++) {
-        result.push(n)
-        n = n + increment
+        result.push(n);
+        n = n + increment;
       }
-      return result
+      return result;
     } catch (e) {
-      console.log('Unexpected error, ', e)
-      return []
+      console.log('Unexpected error, ', e);
+      return [];
     }
   }
 
-  const numbers = getNumbers()
-  const mostLikelyOffers = numbers.filter(n => income.predicted_market_value.high >= n && income.predicted_market_value.low <= n)
-  let mostLikelyOffer
+  const numbers = getNumbers();
+  const mostLikelyOffers = numbers.filter(n => income.predicted_market_value.high >= n && income.predicted_market_value.low <= n);
+  let mostLikelyOffer;
   if (mostLikelyOffers.length) { //找到多个
     mostLikelyOffer = mostLikelyOffers[0]
   } else if (income.predicted_market_value.low > numbers[numbers.length - 1]) {
