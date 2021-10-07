@@ -57,7 +57,7 @@
   },
   "b_careeradvice": {
     "contact": "To obtain more information, please follow us on social media",
-    "evaluation": "According to SmartMatch AI, applicant with email as <0>{{applicantEmail}}</0> is a <0>{{matchPercentage}}</0>% for <0>{{jobtitle}}</0>."
+    "evaluation": "According to SmartMatch AI, the applicant with email <0>{{applicantEmail}}</0> is a <0>{{matchPercentage}}</0>% match for the position <0>{{jobtitle}}</0>"
   },
   "career_pathway": {
     "title": "Your Personalized Career Path",
