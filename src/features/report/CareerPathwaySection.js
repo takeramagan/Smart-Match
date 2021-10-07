@@ -31,13 +31,12 @@ const useStyles = makeStyles({
             // }
             // border: '2px solid #49648A'
         }
-
     }
+});
 
-})
-
-const CareerBlock = ({countryCode, name, salary, top, left, selected, noBackgroundColor, onClick, style, background}) => {
-    const classes = useStyles({noBackgroundColor, selected, background})
+const CareerBlock = ({countryCode, name, salary, top, left, selected, noBackgroundColor,
+                         onClick, style, background, pos}) => {
+    const classes = useStyles({noBackgroundColor, selected, background});
     return (
         <Box
             className={classes.root}
@@ -46,30 +45,30 @@ const CareerBlock = ({countryCode, name, salary, top, left, selected, noBackgrou
             left={left}
             onClick={onClick}
             style={{
-                background: noBackgroundColor ? 'white' : (selected ? background : '#E0E0E0'),
+                background: noBackgroundColor ? 'white' : (selected ?
+                    background :
+                    (pos>0)?'#020024':'#c4c4cb'),
                 borderRadius: noBackgroundColor ? '0' : '20px',
                 width: noBackgroundColor ? '100px' : '180px'
-
                 // ...style
             }}
-
         >
             <Box>
                 {/* <Box className='title' fontSize={h4} color={noBackgroundColor ? (selected ? '#024CC3' : '#6A707E') : 'inherit'}> */}
-                <Box className='title' fontSize={h4} color={selected ? 'white' : 'black'}>
+                <Box className='title' fontSize={h4} color={(pos>0) ? 'white' : 'black'}>
                     {name}
                 </Box>
-                <Box className='salary' fontSize={h5} color={selected ? 'white' : 'black'}>
+                <Box className='salary' fontSize={h5} color={(pos>0) ? 'white' : 'black'}>
                     Approx. {formatter(countryCode).format(salary)}
                 </Box>
             </Box>
 
         </Box>
     )
-}
+};
 
 const CareerOriginBlock = ({countryCode, name, salary, top, left, selected, noBackgroundColor, onClick, low, high}) => {
-    const classes = useStyles({noBackgroundColor, selected})
+    const classes = useStyles({noBackgroundColor, selected});
     return (
         <Box
             className={classes.root}
@@ -81,7 +80,7 @@ const CareerOriginBlock = ({countryCode, name, salary, top, left, selected, noBa
                 backgroundColor: 'white',
                 filter: 'drop-shadow(10px 3px 20px rgba(16, 156, 241, 0.44))',
                 width: '180px',
-                borderRadius: '20px'
+                borderRadius: '20px',
             }}
         >
             <Box>
@@ -99,7 +98,7 @@ const CareerOriginBlock = ({countryCode, name, salary, top, left, selected, noBa
 }
 
 const Aaaaa = ({selected, left: v}) => {
-    const left = v > 600 ? v : 600
+    const left = v > 600 ? v : 600;
     const path = `M0.55886 189.392L50.003 180.469C87.7589 166.581 126.729 155.665 138.138 117.088V117.088C154.025 83.3643 183.164 36.34 249.186 45.8839L${left} 45.8839`
     // const path = `M8.55886 219.392L60.003 200.469L800 23`
     return (
@@ -111,21 +110,17 @@ const Aaaaa = ({selected, left: v}) => {
                 {/* <linearGradient id='paint0_linear' x1='7.77943' y1='123.665' x2='500' y2='118.727' gradientUnits='userSpaceOnUse'> */}
                 <linearGradient id='paint0_linear' x1='7.77943' y1='123.665' x2={left} y2='118.727'
                                 gradientUnits='userSpaceOnUse'>
-                    {/* <stop offset='0.114583' stopColor='#F2F1F1' />
-          <stop offset='0.401042' stopColor='#46EBD5' />
-          <stop offset='0.635417' stopColor='#60EFFF' />
-          <stop offset='1' stopColor='#0061FF' /> */}
                     <stop offset='0.114583' stopColor='rgba(96,239,255, 0.4)'/>
                     <stop offset='0.401042' stopColor='#66FFCC'/>
                     <stop offset='0.635417' stopColor='#60EFFF'/>
                     <stop offset='1' stopColor='#0099cc'/>
                 </linearGradient>
-                <linearGradient id='paint0_linear1' x1='7.77943' y1='123.665' x2={left} y2='118.727'
-                                gradientUnits='userSpaceOnUse'>
-                    <stop offset='0.114583' stopColor='#f2f2f2'/>
-                    <stop offset='0.401042' stopColor='#f2f2f2'/>
-                    <stop offset='0.635417' stopColor='#f2f2f2'/>
-                    <stop offset='1' stopColor='#f2f2f2'/>
+                <linearGradient id="paint0_linear1" x1="7.77943" y1="123.665" x2="600" y2="118.727"
+                                gradientUnits="userSpaceOnUse">
+                    <stop offset="0.114583" stopColor="#f2f2f2"/>
+                    <stop offset="0.401042" stopColor="#7f7e90"/>
+                    <stop offset="0.635417" stopColor="#7f7e90"/>
+                    <stop offset="1" stopColor="#020024"/>
                 </linearGradient>
             </defs>
         </svg>
@@ -134,7 +129,7 @@ const Aaaaa = ({selected, left: v}) => {
 }
 
 const Aaaab = ({selected, left: v}) => {
-    const left = v > 500 ? v : 500
+    const left = v > 500 ? v : 500;
     const path = `M19.9999 50.9863C8.95427 50.9644 0.0178244 41.9922 0.0398119 30.9466L0.0616022 20C0.0835897 8.95429 9.0557 0.0178369 20.1014 0.0398244L362.868 0.722135L705.635 1.40445C716.681 1.42643 725.617 10.3985 725.595 21.4442L725.573 32.3908C725.551 43.4365 716.579 52.373 705.534 52.351L19.9999 50.9863Z`
     return (
         // <svg width={left} height='43' viewBox='0 0 726 53' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -157,10 +152,10 @@ const Aaaab = ({selected, left: v}) => {
 
                 <linearGradient id='paint0_linear1' x1='0.77943' y1='123.665' x2='500' y2='118.727'
                                 gradientUnits='userSpaceOnUse'>
-                    <stop offset='0.114583' stopColor='#f2f2f2'/>
-                    <stop offset='0.141042' stopColor='#f2f2f2'/>
-                    <stop offset='0.635417' stopColor='#f2f2f2'/>
-                    <stop offset='1' stopColor='#f2f2f2'/>
+                    <stop offset="0.114583" stopColor="#f2f2f2"/>
+                    <stop offset="0.401042" stopColor="#7f7e90"/>
+                    <stop offset="0.635417" stopColor="#7f7e90"/>
+                    <stop offset="1" stopColor="#020024"/>
                 </linearGradient>
             </defs>
         </svg>
@@ -169,13 +164,14 @@ const Aaaab = ({selected, left: v}) => {
 }
 
 const CareerSinglePath = ({countryCode, tops, lefts, careerPath, position, selected, onClick}) => {
-    const [type, nextLevel, furtherLevel] = careerPath
+    const [type, nextLevel, furtherLevel] = careerPath;
 
     return (
         <>
             {/* career path 1 */}
             {nextLevel.title && furtherLevel.title && (
                 <CareerBlock
+                    pos={0}
                     countryCode={countryCode}
                     name={nextLevel.title}
                     salary={nextLevel.salary}
@@ -189,6 +185,7 @@ const CareerSinglePath = ({countryCode, tops, lefts, careerPath, position, selec
             )}
             {(nextLevel.title || furtherLevel.title) && (
                 <CareerBlock
+                    pos={1}
                     countryCode={countryCode}
                     name={furtherLevel.title ?? nextLevel.title}
                     salary={furtherLevel.title ? furtherLevel.salary : nextLevel.salary}
@@ -214,8 +211,8 @@ const CareerSinglePath = ({countryCode, tops, lefts, careerPath, position, selec
 }
 
 const selectCareerPath = (career) => {
-    const next0 = career.projected_career_path[0] || {}
-    const next1 = career.projected_career_path[1] || {market_avg_salary: {}}
+    const next0 = career.projected_career_path[0] || {};
+    const next1 = career.projected_career_path[1] || {market_avg_salary: {}};
     if (!career.projected_career_path[1]) {
         return [next0.type, {}, {
             title: next0.title,
@@ -230,75 +227,75 @@ const selectCareerPath = (career) => {
             salary: next1.market_avg_salary.fulltime
         }]
     }
-}
+};
 
 export function CareerPathwaySection({report, selectedPathIndex, setSelectedPathIndex}) {
     // const tops = [10, 146, 290]
     // const lefts = [30, 230, 480, 765]
-    const tops = [25, 146, 275]
-    let width = document.getElementById('career_pathway')?.getBoundingClientRect().width
-    const [lefts, setLefts] = useState([30, 230, 480, 765])
+    const tops = [25, 146, 275];
+    let width = document.getElementById('career_pathway')?.getBoundingClientRect().width;
+    const [lefts, setLefts] = useState([30, 230, 480, 765]);
 
     const resize = () => {
         width = document.getElementById('career_pathway')?.getBoundingClientRect().width ?? width;
-        setLefts([25 + 0.1 * width, 0.3 * width, 0.7 * width, 0.7 * width])
-    }
+        setLefts([25 + 0.1 * width, 0.3 * width, 0.7 * width, 0.7 * width]);
+    };
     useEffect(() => {
-        window.addEventListener('resize', resize)
+        window.addEventListener('resize', resize);
         return () => {
             window.removeEventListener('resize', resize);
         }
-    }, [])
+    }, []);
     useLayoutEffect(() => {
         resize()
     }, []);
 
-    const careerPath = report.career_path_info.career_paths
+    const careerPath = report.career_path_info.career_paths;
     // const curJobTitle = report.market_value_info.matched_job_title
-    const curJobTitle = careerPath.name
-    const curFulltimeSalary = report.market_value_info.full_time_market_info
-    const paths = careerPath.path
-    const {low, high} = report.market_value_info.predicted_full_time_salary
+    const curJobTitle = careerPath.name;
+    const curFulltimeSalary = report.market_value_info.full_time_market_info;
+    const paths = careerPath.path;
+    const {low, high} = report.market_value_info.predicted_full_time_salary;
     const market_value_result = paths.map(path => {
-        const curLevel = {title: path.name, market_avg_salary: {fulltime: path.salary.market_avg_salary_fulltime}}
-        const level2 = path.next_level //第2个job Block存在
+        const curLevel = {title: path.name, market_avg_salary: {fulltime: path.salary.market_avg_salary_fulltime}};
+        const level2 = path.next_level; //第2个job Block存在
         const nextLevel = level2 ? {
             title: level2.name,
             market_avg_salary: {fulltime: level2.salary.market_avg_salary_fulltime}
         } : null
-        const projected_career_path = level2 ? [curLevel, nextLevel] : [curLevel]
+        const projected_career_path = level2 ? [curLevel, nextLevel] : [curLevel];
         return {projected_career_path}
     })
 // const market_value_result = [
 //   {projected_career_path:[{type:'1', title:'hello1', market_avg_salary:{fulltime:100}}, {type:'1', title:'hello4', market_avg_salary:{fulltime:100}}]},
 //   {projected_career_path:[{type:'1', title:'hello2', market_avg_salary:{fulltime:100}}, {type:'1', title:'hello5', market_avg_salary:{fulltime:100}}]},
-//   {projected_career_path:[{type:'1', title:'hello3', market_avg_salary:{fulltime:100}}, {type:'1', title:'hello6', market_avg_salary:{fulltime:100}}]},
+//   {projected_career_path:[{type:'1', title:'hello3', market_avg_salary:{fulltim020024e:100}}, {type:'1', title:'hello6', market_avg_salary:{fulltime:100}}]},
 //   {projected_career_path:[{type:'1', title:'hello2', market_avg_salary:{fulltime:100}}]},
 //   {projected_career_path:[{type:'1', title:'hello3', market_avg_salary:{fulltime:100}}]},
 // ]
-    const numOfPaths = market_value_result.length
-    const [pathPosition, setPathPosition] = useState(numOfPaths === 1 ? 1 : 0) //0: 高亮第一条path  1: 高亮中间path  2:高亮最下面path
-    let listOfPathIndex //指定从每条path对应的数据的Index, -1 代表该path不显示
+    const numOfPaths = market_value_result.length;
+    const [pathPosition, setPathPosition] = useState(numOfPaths === 1 ? 1 : 0); //0: 高亮第一条path  1: 高亮中间path  2:高亮最下面path
+    let listOfPathIndex; //指定从每条path对应的数据的Index, -1 代表该path不显示
     switch (numOfPaths) {
         case 0: //没有数据
-            listOfPathIndex = [-1, -1, -1] //只有一条数据, 放中间
+            listOfPathIndex = [-1, -1, -1]; //只有一条数据, 放中间
             break;
         case 1:
-            listOfPathIndex = [-1, 0, -1] //只有一条数据, 第一条数据放中间
+            listOfPathIndex = [-1, 0, -1]; //只有一条数据, 第一条数据放中间
             break;
         case 2:
-            listOfPathIndex = [0, -1, 1] //2条数据, 放第一个和最后一个
+            listOfPathIndex = [0, -1, 1]; //2条数据, 放第一个和最后一个
             break;
         case 3: //3条或者3条以上
         default:
-            listOfPathIndex = [0, 1, 2]   //3条数据 都放
+            listOfPathIndex = [0, 1, 2];   //3条数据 都放
             break;
 
     }
-    const {t} = useTranslation()
+    const {t} = useTranslation();
     const scrollToSection = () => {
         // document.getElementById("course_section").scrollIntoView();
-    }
+    };
     return (
         <Section>
             <Box p={4} style={{minWidth: 790, width: '100vw'}} mr={-8} id='pathwaybox'>
