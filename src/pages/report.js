@@ -9,7 +9,6 @@ import {
     Button,
     Container,
     Grid,
-    LinearProgress,
     Select,
     FormControl,
     InputLabel,
@@ -225,7 +224,7 @@ function FileDropzone(props) {
                         )}
                     </Box>
                 )}
-                {loading && (error===null) && <LoadingPage
+                {loading && (error === null) && <LoadingPage
                     title={t("report.analyzing_title")}
                     content={t("report.analyzing_text")}
                     loadingTime={adsLoadingTime}
