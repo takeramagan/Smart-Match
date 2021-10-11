@@ -37,10 +37,7 @@ export function BusinessCourseSection({report, hrId, jobId, email}) {
         try {
             formik.values.rated = true;
             const data = new FormData();
-            console.log('18 hrId', hrId);
-            console.log('19 report.applicant_email', report.applicant_email);
             if (!!report.applicant_email && !!hrId) {
-                console.log('25', report);
                 data.append('email', report.applicant_email);
                 data.append('dcc', X_API_KEY_B_AND_C);
                 data.append('hrid', hrId);
@@ -79,13 +76,9 @@ export function BusinessCourseSection({report, hrId, jobId, email}) {
             setTimeout(
                 () => {
                     setShowRateForm(true);
-                    console.log('inner refuseRate Update: ', refuseRate);
                 },
                 10000);
         }
-        console.log('hrId bCourse', hrId);
-        console.log('jobId bCourse', jobId);
-        console.log('email bCourse', email);
     };
 
     const closeModal = () => {

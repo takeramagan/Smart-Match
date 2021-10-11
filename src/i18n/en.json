@@ -148,5 +148,8 @@
   },
   "contact": {
     "click me": "Click Me"
+  },
+  "export": {
+    "exportFile": "Export Report to PDF"
   }
 }

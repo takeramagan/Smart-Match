@@ -148,5 +148,8 @@
   },
   "contact": {
     "click me": "点我"
+  },
+  "export": {
+    "exportFile": "提取报告PDF"
   }
 }
