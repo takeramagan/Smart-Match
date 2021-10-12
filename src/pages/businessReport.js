@@ -43,12 +43,12 @@ const generatePdf = () => {
         const input = document.getElementById('divToPrint');
         html2canvas(input)
             .then((canvas) => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF();
-                const imgProps= pdf.getImageProperties(imgData);
+                const imgData = canvas.toDataURL('image/png', 0.3);
+                const pdf = new jsPDF('p', 'mm', 'a4', true);
+                const imgProps = pdf.getImageProperties(imgData);
                 const width = pdf.internal.pageSize.getWidth();
                 const height = (imgProps.height * width) / imgProps.width;
-                pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+                pdf.addImage(imgData, 'PNG', 0, 0, width, height, undefined, 'FAST');
                 pdf.save("report.pdf");
             })
         ;
