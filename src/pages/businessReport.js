@@ -31,6 +31,7 @@ import {
 import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 import DescriptionIcon from "@material-ui/icons/Description";
 
+
 export default function BusinessReport({presetReport}) {
     const {t} = useTranslation();
     const router = useRouter();
@@ -144,12 +145,20 @@ export default function BusinessReport({presetReport}) {
                                 <BusinessCourseSection report={report}
                                                        hrId={hrId}
                                                        jobId={jobId}
-                                                       email = {email}
+                                                       email={email}
                                 />
                             </div>
                         </Grid>
                     </Grid>
+                    <div style={{textAlign: 'right', marginTop: 20, marginBottom: 20}}>
+                        <Button
+                            variant='contained'
+                            color='primary'>
+                            {t('export.exportFile')}
+                        </Button>
+                    </div>
                 </Container>
+
             </Box>
         </>
     )
