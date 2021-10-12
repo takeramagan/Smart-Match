@@ -12,7 +12,7 @@ import {
 } from "../../constant/externalURLs";
 import {RateForm} from "../../components/CommonReusable/RateForm";
 
-export function BusinessCourseSection({report, hrId, jobId, email}) {
+export function BusinessRateSection({report, hrId, jobId, email}) {
     const {t} = useTranslation();
     const [rate, setRate] = useState({rate: -1, comments: ''});
     const [showRateForm, setShowRateForm] = useState(false);

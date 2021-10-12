@@ -16,7 +16,7 @@ import {h, h3} from '../constant/fontsize';
 import {Section} from '../components/Section';
 // import custom feature components
 import {BusinessMarketCompetitiveness} from "../features/businessReport/BusinessMarketCompetitivenessSection";
-import {BusinessCourseSection} from '../features/businessReport/BusinessCourseSection';
+import {BusinessRateSection} from '../features/businessReport/BusinessRateSection';
 import {LoadingPage} from "../features/report/LoadingWhenUpload";
 // import other library
 import {useRouter} from 'next/router';
@@ -30,7 +30,32 @@ import {
 // import icons
 import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 import DescriptionIcon from "@material-ui/icons/Description";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
+
+const generatePdf = () => {
+    if (typeof window !== "undefined") {
+        // import("jspdf").then(module => {
+        //     jsPDF = module.default;
+        // });
+        window.scrollTo(0, 0);
+        const input = document.getElementById('divToPrint');
+        html2canvas(input)
+            .then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF();
+                const imgProps= pdf.getImageProperties(imgData);
+                const width = pdf.internal.pageSize.getWidth();
+                const height = (imgProps.height * width) / imgProps.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+                pdf.save("report.pdf");
+            })
+        ;
+    } else {
+        alert('Sorry, export function does not support for your current environment, we are upgrading the function!');
+    }
+};
 
 export default function BusinessReport({presetReport}) {
     const {t} = useTranslation();
@@ -99,8 +124,8 @@ export default function BusinessReport({presetReport}) {
 
     return (
         <>
-            <Box display='flex' flexDirection='row'>
-                <Container style={{marginTop: 18, position: "relative"}}>
+            <Box display='flex' flexDirection='column'>
+                <Container style={{marginTop: 18, position: "relative"}} id='divToPrint'>
                     <Section>
                         <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' p={4}
                              mb={5}>
@@ -127,38 +152,39 @@ export default function BusinessReport({presetReport}) {
                                 startIcon={<ArrowBackOutlinedIcon/>}
                                 onClick={() => router.push('/jobmanagement')}
                                 style={{minWidth: 140, height: 40}}
+                                data-html2canvas-ignore
                             >
                                 {t('sidebar.back2')}
                             </Button>
                         </Box>
                     </Section>
 
-                    <Grid container spacing={4}>
-                        <Grid item md={12} xs={12}>
-                            <div id='market_competitiveness'>
-                                <BusinessMarketCompetitiveness report={report}/>
-                            </div>
-                        </Grid>
-
-                        <Grid item md={12} lg={12}>
-                            <div id='course_section'>
-                                <BusinessCourseSection report={report}
-                                                       hrId={hrId}
-                                                       jobId={jobId}
-                                                       email={email}
-                                />
-                            </div>
-                        </Grid>
+                    <Grid item md={12} xs={12}>
+                        <div id='market_competitiveness'>
+                            <BusinessMarketCompetitiveness report={report}/>
+                        </div>
                     </Grid>
-                    <div style={{textAlign: 'right', marginTop: 20, marginBottom: 20}}>
-                        <Button
-                            variant='contained'
-                            color='primary'>
-                            {t('export.exportFile')}
-                        </Button>
-                    </div>
+                </Container>
+                <Container style={{marginTop: 18, position: "relative"}}>
+                    <Grid item md={12} lg={12}>
+                        <div id='course_section'>
+                            <BusinessRateSection report={report}
+                                                 hrId={hrId}
+                                                 jobId={jobId}
+                                                 email={email}
+                            />
+                        </div>
+                    </Grid>
                 </Container>
 
+                <div style={{textAlign: 'right', marginTop: 20, marginBottom: 20, marginRight: 96}}>
+                    <Button
+                        variant='contained'
+                        onClick={generatePdf}
+                        color='primary'>
+                        {t('export.exportFile')}
+                    </Button>
+                </div>
             </Box>
         </>
     )
