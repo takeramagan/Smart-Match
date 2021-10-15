@@ -144,18 +144,25 @@ export default function BusinessReport({presetReport}) {
                                         components={[<b>defaults</b>]}
                                     />
                                 </Box>
-
                             </Box>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                startIcon={<ArrowBackOutlinedIcon/>}
-                                onClick={() => router.push('/jobmanagement')}
-                                style={{minWidth: 140, height: 40}}
-                                data-html2canvas-ignore
-                            >
-                                {t('sidebar.back2')}
-                            </Button>
+                            <div style={{display: 'block'}}>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    startIcon={<ArrowBackOutlinedIcon/>}
+                                    onClick={() => router.push('/jobmanagement')}
+                                    style={{minWidth: 140, height: 40}}
+                                    data-html2canvas-ignore
+                                >
+                                    {t('sidebar.back2')}
+                                </Button>
+                                <a href="https://www.producthunt.com/posts/smartmatch-2?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-smartmatch-2"
+                                   target="_blank"><img
+                                    src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=312027&theme=light"
+                                    alt="SmartMatch - AI, Resume, Recrutement, Staffing | Product Hunt"
+                                    width="250" height="54" style={{marginTop: 10}}/></a>
+                            </div>
+
                         </Box>
                     </Section>
 
