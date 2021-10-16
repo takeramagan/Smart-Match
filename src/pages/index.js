@@ -1,8 +1,9 @@
-import { Box, Button } from '@material-ui/core'
+import { Box, Button } from '@material-ui/core';
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next';
+import { ProductHuntBadge } from "../components/ProductHunt";
 
 export default function Home () {
   const { t } = useTranslation()
@@ -28,6 +29,7 @@ export default function Home () {
 
       <footer className={styles.footer}>
         {t("index.footer")}
+        <ProductHuntBadge></ProductHuntBadge>
       </footer>
     </div>
   )
