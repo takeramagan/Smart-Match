@@ -361,7 +361,6 @@ const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refr
     )
 };
 
-
 const ErrorText = ({ visible, text }) => {
     return (
         <Box display='flex' alignItems='center' color="red" mt={2}>

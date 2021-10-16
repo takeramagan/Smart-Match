@@ -27,7 +27,8 @@ const theme = createMuiTheme({
       main: red.A400
     },
     background: {
-      default: '#F5F6FB'
+      default: '#F5F6FB',
+      primary: "#00d6d6"
     }
   },
   breakpoints: {
