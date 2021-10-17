@@ -137,9 +137,7 @@ function FileDropzone(props) {
 
     if (error) {
         return (
-            <Box
-                p={4} mb={4} borderRadius='24px' width={800} margin='40px auto 16px' style={{}}
-            >
+            <Box p={4} mb={4} borderRadius='24px' width={800} margin='10px auto 16px'>
                 <Section>
                     <Box style={{ borderRadius: '24px' }} p={8} {...getRootProps({ className: 'dropzone' })}>
                         <Box pt={4} style={{ color: 'rgba(0, 97, 255, 1)', fontSize: '48px', fontWeight: '500' }}>
@@ -502,25 +500,24 @@ export default function Home() {
     if (!report) {
         return (
             <Box textAlign='center'>
+                {/* <Button variant='contained' color='primary' disableElevation onClick={() => setReport(mock)}>
+                    {t('report.demo')}
+                </Button> */}
+                {/* <Button variant='contained' color='primary' disableElevation
+                    href='/history'
+                    style={{ marginLeft: 20 }}>
+                    View applied jobs
+                </Button> */}
+                <Button variant='contained' color='primary' 
+                    onClick={() => {
+                        setViewHistory(!viewHistory);
+                        getHistory()
+                    }}
+                    style={{ marginTop: "24px" }}>
+                    {viewHistory ? t('report.hideHistory') : t('report.history')}
+                </Button>
                 <FileDropzone onSuccess={data => setReport(data)} />
                 <Box mb={8}>
-                    {/* <Button variant='contained' color='primary' disableElevation onClick={() => setReport(mock)}>
-            {t('report.demo')}
-          </Button> */}
-
-                    <Button variant='contained' color='primary' disableElevation
-                        onClick={() => {
-                            setViewHistory(!viewHistory);
-                            getHistory()
-                        }}
-                        style={{ marginLeft: 20 }}>
-                        {viewHistory ? t('report.hideHistory') : t('report.history')}
-                    </Button>
-                    {/* <Button variant='contained' color='primary' disableElevation
-            href='/history'
-            style={{marginLeft:20}}>
-            View applied jobs
-          </Button> */}
                 </Box>
                 <SwipeableDrawer anchor="right" open={viewHistory} onClose={() => {
                     setViewHistory(false)
