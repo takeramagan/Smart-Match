@@ -1,12 +1,18 @@
 import React from "react";
-import {FacebookShareButton, FacebookIcon, TwitterIcon, TwitterShareButton} from "react-share";
+import {FacebookShareButton, FacebookIcon, LinkedinIcon, TwitterIcon, LinkedinShareButton} from "react-share";
+
 
 export default function SocialMediaButtons({title, reportPicture, url}) {
     let quote = title ?? "SmartMatch - A Better World For AI Career Match";
     let link = url ?? "https://ai.smartmatch.app/member/login.php";
     const hashtag = '#SmartMatch';
-    const twitterUrl = `https://twitter.com/share?url=${link}&text=${quote}&hashtags=${hashtag}`;
+    const linkedInTitle = 'My SmartMatch Report';
+    const twitterUrl = `https://twitter.com/share?url=
+    ${link}&text=${quote}&hashtags=${hashtag}`;
     // console.log('from social buttons: ', quote);
+    const linkedInUrl =
+        `https://www.linkedin.com/shareArticle?url=
+        ${link}&title=${quote}&summary=${linkedInTitle}`;
     console.log('link', link);
     return (
         <div
@@ -44,6 +50,16 @@ export default function SocialMediaButtons({title, reportPicture, url}) {
             <a href={twitterUrl}>
                 <TwitterIcon size={36}/>
             </a>
+
+            {/*<LinkedinShareButton*/}
+            <a href={linkedInUrl}>
+                <LinkedinIcon size={36}/>
+            </a>
+            {/*    title={linkedInTitle}*/}
+            {/*    summary={quote}*/}
+            {/*    source={link}>*/}
+            {/*    <LinkedinIcon size={36}/>*/}
+            {/*</LinkedinShareButton>*/}
         </div>
 
     );
