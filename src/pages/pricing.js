@@ -1,59 +1,19 @@
-
+import { Container } from '@material-ui/core';
 
 import PricingSection from "../features/pricingPage/pricingSection";
+import { PromoSection } from "../features/pricingPage/promoSection";
+import { PromoDialog } from "../features/pricingPage/promoDialog";
 
-export default function PricingPage () {
 
-    const tiers = [
-        {
-            title: 'Sourcer',
-            titleSubHeader: "Get targeted applicants with detailed profiles for all your open roles.",
-            price: '0',
-            description: [
-                '**********************************************testtest',
-                '**********************************************testestestsetset',
-                '**********************************************setsetsetset',
-                '**********************************************setsetsete',
-            ],
-            buttonText: 'Sign up for free',
-            buttonVariant: 'outlined',
-        },
-        {
-            title: 'Recruiter',
-            titleSubHeader: "Turbocharge your sourcing, screen talent, track hiring & power collaboration.",
-            subheader: 'Most popular',
-            price: '400',
-            description: [
-                '**********************************************testtest',
-                '**********************************************testestestsetset',
-                '**********************************************setsetsetset',
-                '**********************************************setsetsete',
-            ],
-            buttonText: 'Get started',
-            buttonVariant: 'contained',
-        },
-        {
-            title: 'Teams',
-            titleSubHeader: "For integrated solutions across your talent acquisition team.",
-            description: [
-                '**********************************************testtest',
-                '**********************************************testestestsetset',
-                '**********************************************setsetsetset',
-                '**********************************************setsetsete',
-                '**********************************************testtest',
-                '**********************************************testestestsetset',
-                '**********************************************setsetsetset',
-                '**********************************************setsetsete',
-            ],
-            buttonText: 'Contact us',
-            buttonVariant: 'outlined',
-        },
-    ];
+import { tiers } from "../constant/constant";
+export default function PricingPage() {
 
     return (
-        <div>
-            <PricingSection tiers={tiers}/>
-        </div>
-        
+        <Container maxWidth="lg" component="main">
+            <PromoDialog status = "test"/>
+            {/* <PricingSection tiers={tiers} />
+            <PromoSection /> */}
+        </Container >
+
     )
 }
