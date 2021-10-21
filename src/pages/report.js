@@ -450,7 +450,7 @@ export default function Home() {
 
     // check if hrid ever changes, if hrid exist, set app mode to business, default is client
     useEffect(() => {
-        if (HYLevel===3) {
+        if (HYLevel==="3") {
             console.log("Hr level detected, change to business mode: ", HYLevel);
             setAppMode("Business");
         }
@@ -546,7 +546,9 @@ export default function Home() {
                     style={{ marginLeft: 20 }}>
                     View applied jobs
                 </Button> */}
-                <PromoDialog />
+                {/*show prompt after obtain member level */}
+                {HYLevel !==undefined && <PromoDialog />}
+                
 
                 <Button variant='contained' color='primary'
                     onClick={() => {
