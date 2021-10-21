@@ -151,5 +151,13 @@
   },
   "export": {
     "exportFile": "Export Report to PDF"
+  },
+  "pricing": {
+    "Sourcer": "Sourcer",
+    "Sourcer_SubHeader": "Get targeted applicants with detailed profiles for all your open roles.",
+    "Recruiter": "Recruiter",
+    "Recruiter_SubHeader": "Turbocharge your sourcing, screen talent, track hiring & power collaboration.",
+    "Teams": "Teams",
+    "Teams_SubHeader": "For integrated solutions across your talent acquisition team."
   }
 }
