@@ -438,6 +438,7 @@ export default function Home() {
 
     const params = useRouter().query;
     const HRuserId = params.hrid;
+    const HYLevel = params.hylevel;
     const lang = params.lang?.toLowerCase(); //get language
     const jobid = params.jobid;
     const index = params.index;
@@ -449,16 +450,15 @@ export default function Home() {
 
     // check if hrid ever changes, if hrid exist, set app mode to business, default is client
     useEffect(() => {
-        if (HRuserId) {
-            console.log("Hr id detected, change to business mode: ", HRuserId);
+        if (HYLevel===3) {
+            console.log("Hr level detected, change to business mode: ", HYLevel);
             setAppMode("Business");
         }
-
-    }, [HRuserId]);
+    }, [HYLevel]);
 
     // const countryCode = params.countrycode ?? 'ca'
     // console.log('reportid', report_id)
-    console.log("HRID, Jobid, idx: ", params.hrid, params.jobid, index);
+    console.log("HRID, Jobid, idx, member level: ", params.hrid, params.jobid, index, params.hylevel);
     const { requestHandler } = useRequest();
     const getReportFromParams = async () => {
         setLoading(true);
