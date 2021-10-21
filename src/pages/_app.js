@@ -8,9 +8,12 @@ import "../i18n/config"
 import { Provider } from 'react-redux'
 import { store } from '../store/store'
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify';
 
-export default function MyApp (props) {
+// import global variable wrapper using context API
+import { ContextWrapper } from "../globalContext";
+
+export default function MyApp(props) {
   const { Component, pageProps } = props
 
   React.useEffect(() => {
@@ -31,10 +34,12 @@ export default function MyApp (props) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <Provider store={store}>
-         <Component {...pageProps} />
+          <ContextWrapper>
+            <Component {...pageProps} />
+          </ContextWrapper>
         </Provider>
       </ThemeProvider>
-      <ToastContainer/>
+      <ToastContainer />
     </>
   )
 }

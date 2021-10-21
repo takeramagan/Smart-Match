@@ -7,9 +7,10 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 // import material ui icons
 import CloseIcon from '@material-ui/icons/Close';
-
 // import react related
-import { useState } from "react";
+import { useState, useContext } from "react";
+// import global variable from context api
+import AppGlobalContext from "../../globalContext";
 
 
 import PricingSection from "./pricingSection";
@@ -59,6 +60,9 @@ const DialogActions = withStyles((theme) => ({
 
 export const PromoDialog = (props) => {
     const [open, setOpen] = useState(true);
+    const { AppMode } = useContext(AppGlobalContext);
+
+    console.log("Data from context api: ", AppMode);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -69,19 +73,19 @@ export const PromoDialog = (props) => {
 
     return (
         <div>
-            {props.status === "test" &&
+            {AppMode === "test" &&
                 < Button variant="outlined" color="primary" onClick={handleClickOpen}>
                     Open dialog
                 </Button>
             }
             <Dialog onClose={handleClose} open={open} fullWidth maxWidth="lg">
                 <DialogTitle onClose={handleClose} />
-                {props.status === "business" &&
+                {AppMode === "business" &&
                     <DialogContent >
                         <PricingSection tiers={tiers} />
                     </DialogContent>
                 }
-                <DialogActions>
+                <DialogActions style={{ overflow: "hidden" }}>
                     <PromoSection />
                 </DialogActions>
             </Dialog>
