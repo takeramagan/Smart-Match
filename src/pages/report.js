@@ -1,5 +1,5 @@
 // import reack hook
-import { useCallback, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 // import language related
 import i18n from '../i18n/config';
 import { Trans, useTranslation } from 'react-i18next';
@@ -58,6 +58,10 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
+// import custom context API
+import AppGlobalContext from "../globalContext";
+// import global variable wrapper using context API
+import { ContextWrapper } from "../globalContext";
 
 import html2canvas from "html2canvas";
 import { FacebookShareOnBt } from '../components/FacebookShareOnBt';
@@ -400,7 +404,6 @@ const mock = {
     education_levels_needed_to_improve: []
 }
 
-
 const generateReportImg = () => {
     let img = null;
     if (typeof window !== "undefined") {
@@ -430,9 +433,11 @@ export default function Home() {
     // const naviMinWindth = report?.lang === 'cn' ? 90: 185
 
     const classes = useStyles();
+    // set AppMode to business or client
+    const { setAppMode } = useContext(AppGlobalContext);
 
     const params = useRouter().query;
-    const userId = params.hrid;
+    const HRuserId = params.hrid;
     const lang = params.lang?.toLowerCase(); //get language
     const jobid = params.jobid;
     const index = params.index;
@@ -442,6 +447,15 @@ export default function Home() {
     const [loading, setLoading] = useState(!!jobid);
     const [report, setReport] = useState(null);
 
+    // check if hrid ever changes, if hrid exist, set app mode to business, default is client
+    useEffect(() => {
+        if (HRuserId) {
+            console.log("Hr id detected, change to business mode: ", HRuserId);
+            setAppMode("Business");
+        }
+
+    }, [HRuserId]);
+
     // const countryCode = params.countrycode ?? 'ca'
     // console.log('reportid', report_id)
     console.log("HRID, Jobid, idx: ", params.hrid, params.jobid, index);
@@ -450,7 +464,7 @@ export default function Home() {
         setLoading(true);
         try {
             const data = new FormData();
-            data.append('hrid', userId); //mock data
+            data.append('hrid', HRuserId); //mock data
             data.append('jobid', jobid);
             data.append('dcc', X_API_KEY_B_AND_C);
             const config = {
@@ -467,7 +481,7 @@ export default function Home() {
                 setTimeout(() => {
                     setLoading(false);
                     const applicant = result.applicants_info_list.sort((a, b) => (b.matching_level - a.matching_level))[index];
-                    setReport({ ...applicant.report, id: userId, lang, email });
+                    setReport({ ...applicant.report, id: HRuserId, lang, email });
                 }, adsLoadingTime * 1000);
             } else {
                 alert('Sorry, applicant report cannot be load: ' + e.toString());
@@ -482,6 +496,7 @@ export default function Home() {
     useEffect(() => {
         if (jobid) getReportFromParams().then();
     }, [jobid]);
+
     const onTrackLink = (url) => {
         report ? linkTrack(report.id, url) : null
     };
@@ -489,7 +504,6 @@ export default function Home() {
     const getHistory = () => {
         setLoadingHistory(true);
         setErrorHistory(false);
-        // fetchHistory({id: userId}).then(
         fetchHistory({ email: email, url: APP_END_POINT_GET_HISTORY_IDS }).then(
             histories => {
                 setHistoryList(histories);
@@ -532,6 +546,8 @@ export default function Home() {
                     style={{ marginLeft: 20 }}>
                     View applied jobs
                 </Button> */}
+                <PromoDialog />
+
                 <Button variant='contained' color='primary'
                     onClick={() => {
                         setViewHistory(!viewHistory);
