@@ -1,11 +1,14 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import getUserId from "../../untils/getUserId";
-import {useRequest} from "../../hooks/useRequest";
-import {APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C} from "../../constant/externalURLs";
-import {Box} from "@material-ui/core";
-import {Section} from "../../components/Section";
-import {h1} from "../../constant/fontsize";
-import {COLOR_TITLE} from "../../constant/color";
+import { useRequest } from "../../hooks/useRequest";
+import { APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C } from "../../constant/externalURLs";
+import { Box } from "@material-ui/core";
+import { Section } from "../../components/Section";
+import { h1 } from "../../constant/fontsize";
+import { COLOR_TITLE } from "../../constant/color";
+
+// import Appilcant Item functional component
+import { ApplicantItem } from "./ApplicantItem";
 
 export const ApplicantsDetail = ({ job }) => {
     const { job_id, status, post_date, modify_date, applicants, jobtitle } = job;
@@ -72,7 +75,7 @@ export const ApplicantsDetail = ({ job }) => {
                     {(applicantList?.length === 0) && "No applicants Right now"}
                     {applicantList?.map((item, i) =>
                         <ApplicantItem applicant={item} key={i} index={i} jobid={job_id} onReject={() => onReject(i)}
-                                       refreshPage={getApplicants} />)}
+                            refreshPage={getApplicants} />)}
                 </Box>
             </Section>
         </Box>

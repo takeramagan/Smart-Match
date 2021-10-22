@@ -11,11 +11,10 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useState, useContext } from "react";
 // import global variable from context api
 import AppGlobalContext from "../../globalContext";
-
-
+// import pricing and promo section
 import PricingSection from "./pricingSection";
 import { PromoSection } from "./promoSection";
-
+// import const tiers
 import { tiers } from "../../constant/constant";
 
 const styles = (theme) => ({

@@ -29,7 +29,6 @@ import {
 } from '../constant/externalURLs';
 // import icons
 import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
-import DescriptionIcon from "@material-ui/icons/Description";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
