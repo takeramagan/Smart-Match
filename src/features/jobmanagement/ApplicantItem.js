@@ -4,6 +4,8 @@ import { Box, Button } from "@material-ui/core";
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 // import API 
 import { APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C } from "../../constant/externalURLs";
+// import axios custom hook
+import { useRequest } from "../../hooks/useRequest";
 
 export const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refreshPage }) => {
     const {
