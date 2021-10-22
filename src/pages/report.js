@@ -452,7 +452,7 @@ export default function Home() {
     useEffect(() => {
         if (HYLevel==="3") {
             console.log("Hr level detected, change to business mode: ", HYLevel);
-            setAppMode("Business");
+            setAppMode("business");
         }
     }, [HYLevel]);
 
@@ -549,7 +549,6 @@ export default function Home() {
                 {/*show prompt after obtain member level */}
                 {HYLevel !==undefined && <PromoDialog />}
                 
-
                 <Button variant='contained' color='primary'
                     onClick={() => {
                         setViewHistory(!viewHistory);
