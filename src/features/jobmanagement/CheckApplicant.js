@@ -92,6 +92,7 @@ export const CheckApplicant = ({
             // nav and use dummy data
             toast.error('Check appicant resume failed: ' + e.toString(), toastStyle);
             // alert('User has applied this job, or hasn't uploaded a resume. please check the email')
+            setSubmitLoading(false);
         }
     };
     useEffect(() => {
