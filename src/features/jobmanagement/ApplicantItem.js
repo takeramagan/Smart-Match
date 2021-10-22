@@ -6,6 +6,14 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import { APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C } from "../../constant/externalURLs";
 // import axios custom hook
 import { useRequest } from "../../hooks/useRequest";
+// import custom style
+import { h2 } from '../../constant/fontsize';
+/* import constants */
+// import Hr status array
+import { resumeHrStatusArray } from "../../constant/jobstatus";
+// import Operations functional component
+import { Operations } from "./Operations";
+
 
 export const ApplicantItem = ({ applicant, isTitle, style, index, jobid, onReject, refreshPage }) => {
     const {
