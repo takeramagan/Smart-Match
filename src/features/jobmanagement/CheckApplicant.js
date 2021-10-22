@@ -24,13 +24,20 @@ const checkApplicantSchema = yup.object({
     resume_file: yup.string().required('Applicant resume is required')
 });
 
+
+// pre-assessment form
 export const CheckApplicant = ({
-                            onCancel, country_code, job_title,
-                            job_description, hrId, jobId
-                        }) => {
+                                   onCancel, country_code, job_title,
+                                   job_description, hrId, jobId
+                               }) => {
     const {t} = useTranslation();
     const {requestHandler} = useRequest();
     const [loading, setLoading] = useState(false);
+    const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone({
+        maxFiles: 1
+    });
+    const [submitLoading, setSubmitLoading] = useState(false);
+
     const adsLoadingTime = 3;
     const formik = useFormik({
         initialValues: {
@@ -43,6 +50,7 @@ export const CheckApplicant = ({
 
     const submitData = async () => {
         try {
+            setSubmitLoading(true);
             const data = new FormData();
             data.append('email', formik.values.email);
             data.append('country_code', country_code);
@@ -86,11 +94,6 @@ export const CheckApplicant = ({
             // alert('User has applied this job, or hasn't uploaded a resume. please check the email')
         }
     };
-
-    const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone({
-        maxFiles: 1
-    });
-
     useEffect(() => {
         if (acceptedFiles.length) {
             formik.values.resume_file = acceptedFiles[0];
@@ -111,8 +114,11 @@ export const CheckApplicant = ({
         );
     }
 
-    return (
-        <Box style={{width: 360, marginLeft: 'auto', marginRight: 'auto'}}>
+    if (submitLoading) {
+        return (<Box style={{width: 360, marginLeft: 'auto', marginRight: 'auto'}}>
+            <h3>Submitting Form...</h3></Box>);
+    }
+    return (<Box style={{width: 360, marginLeft: 'auto', marginRight: 'auto'}}>
             <Section>
                 <Box p={4} mt={4} fontSize={h2}>
                     <Box fontSize={h1} color={COLOR_TITLE}>
@@ -167,6 +173,6 @@ export const CheckApplicant = ({
                         <SubmitAndCancel onSubmit={submitData} onCancel={onCancel}/>
                     </form>
                 </Box>
-            </Section>
-        </Box>)
+            </Section></Box>
+    )
 };

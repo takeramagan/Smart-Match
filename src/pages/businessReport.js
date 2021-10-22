@@ -91,6 +91,7 @@ export default function BusinessReport({ presetReport }) {
         return presetReport
     });
     useEffect(() => {
+
         setTimeout(() => {
             setLoading(false);
         }, adsLoadingTime * 1000);
