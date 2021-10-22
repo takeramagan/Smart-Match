@@ -1,32 +1,19 @@
 // import react hook
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 // import language related
-import i18n from '../i18n/config';
-import {Trans, useTranslation} from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 // import material-ui related
-import {
-    Box,
-    Button,
-    Container, FormControl,
-    Grid, InputLabel, MenuItem, Select
-} from '@material-ui/core';
+import { Box, Button, Container, Grid } from '@material-ui/core';
 // import custom style setting
-import {h, h3} from '../constant/fontsize';
+import { h, h3 } from '../constant/fontsize';
 // import layout components
-import {Section} from '../components/Section';
+import { Section } from '../components/Section';
 // import custom feature components
-import {BusinessMarketCompetitiveness} from "../features/businessReport/BusinessMarketCompetitivenessSection";
-import {BusinessRateSection} from '../features/businessReport/BusinessRateSection';
-import {LoadingPage} from "../features/report/LoadingWhenUpload";
+import { BusinessMarketCompetitiveness } from "../features/businessReport/BusinessMarketCompetitivenessSection";
+import { BusinessRateSection } from '../features/businessReport/BusinessRateSection';
+import { LoadingPage } from "../features/report/LoadingWhenUpload";
 // import other library
-import {useRouter} from 'next/router';
-// import API related
-import {useRequest} from '../hooks/useRequest';
-import {
-    APP_END_POINT_B_AND_C,
-    APP_END_POINT_GET_HISTORY_IDS,
-    X_API_KEY_B_AND_C
-} from '../constant/externalURLs';
+import { useRouter } from 'next/router';
 // import icons
 import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 import jsPDF from "jspdf";
@@ -50,14 +37,14 @@ const generatePdf = () => {
                 pdf.addImage(imgData, 'PNG', 0, 0, width, height, undefined, 'FAST');
                 pdf.save("report.pdf");
             })
-        ;
+            ;
     } else {
         alert('Sorry, export function does not support for your current environment, we are upgrading the function!');
     }
 };
 
-export default function BusinessReport({presetReport}) {
-    const {t} = useTranslation();
+export default function BusinessReport({ presetReport }) {
+    const { t } = useTranslation();
     const router = useRouter();
     const hrId = (router.query.hrId);
     const jobId = router.query.jobId;
@@ -124,10 +111,10 @@ export default function BusinessReport({presetReport}) {
     return (
         <>
             <Box display='flex' flexDirection='column'>
-                <Container style={{marginTop: 18, position: "relative"}} id='divToPrint'>
+                <Container style={{ marginTop: 18, position: "relative" }} id='divToPrint'>
                     <Section>
                         <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' p={4}
-                             mb={5}>
+                            mb={5}>
                             <Box>
                                 <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
                                     {t("b_report.report_title")}
@@ -144,46 +131,28 @@ export default function BusinessReport({presetReport}) {
                                     />
                                 </Box>
                             </Box>
-                            <div style={{display: 'block'}}>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    startIcon={<ArrowBackOutlinedIcon/>}
-                                    onClick={() => router.push('/jobmanagement')}
-                                    style={{minWidth: 140, height: 40}}
-                                    data-html2canvas-ignore
-                                >
-                                    {t('sidebar.back2')}
-                                </Button>
-                                {/*<a href="https://www.producthunt.com/posts/smartmatch-2?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-smartmatch-2"*/}
-                                {/*   target="_blank"><img*/}
-                                {/*    src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=312027&theme=light"*/}
-                                {/*    alt="SmartMatch - AI, Resume, Recrutement, Staffing | Product Hunt"*/}
-                                {/*    width="250" height="54" style={{marginTop: 10}}/></a>*/}
-                            </div>
-
                         </Box>
                     </Section>
 
                     <Grid item md={12} xs={12}>
                         <div id='market_competitiveness'>
-                            <BusinessMarketCompetitiveness report={report}/>
+                            <BusinessMarketCompetitiveness report={report} />
                         </div>
                     </Grid>
                 </Container>
-                <Container style={{marginTop: 18, position: "relative"}}>
+                <Container style={{ marginTop: 18, position: "relative" }}>
                     <Grid item md={12} lg={12}>
                         <div id='course_section'>
                             <BusinessRateSection report={report}
-                                                 hrId={hrId}
-                                                 jobId={jobId}
-                                                 email={email}
+                                hrId={hrId}
+                                jobId={jobId}
+                                email={email}
                             />
                         </div>
                     </Grid>
                 </Container>
 
-                <div style={{textAlign: 'right', marginTop: 20, marginBottom: 20, marginRight: 96}}>
+                <div style={{ textAlign: 'right', marginTop: 20, marginBottom: 20, marginRight: 96 }}>
                     <Button
                         variant='contained'
                         onClick={generatePdf}
