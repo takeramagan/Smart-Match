@@ -87,37 +87,37 @@ export function MatchJob({ job, onClick, metisign}) {
   const [expiredLinkList, setexpiredLinkList] = useState([]);
 
   // // fetch data from local storage when loading the component
-  // useEffect(() => {
-  //   // console.log("data from local storage", window.localStorage.getItem('expired_links'));
-  //   if (window.localStorage.getItem('expired_links')){
-  //     setexpiredLinkList(JSON.parse(window.localStorage.getItem('expired_links')));
-  //   }
-  // }, []);
-  // //  disable button if current link in expiredLinkList
-  // useEffect(() => {
-  //   if (expiredLinkList?.indexOf(link)!==-1){
-  //     setreportButtonText(t('matching jobs.reported'));
-  //     setdisableReportBtn(true);
-  //   }
-  // }, [expiredLinkList]);
+  useEffect(() => {
+    // console.log("data from local storage", window.localStorage.getItem('expired_links'));
+    if (window.localStorage.getItem('expired_links')){
+      setexpiredLinkList(JSON.parse(window.localStorage.getItem('expired_links')));
+    }
+  }, []);
+  //  disable button if current link in expiredLinkList
+  useEffect(() => {
+    if (expiredLinkList?.indexOf(link)!==-1){
+      setreportButtonText(t('matching jobs.reported'));
+      setdisableReportBtn(true);
+    }
+  }, [expiredLinkList]);
   
-  // // persist state of reported link in local storage
-  // const persistReportStateInLocalStorage = () =>{
-  //   // console.log("Initial: ", expiredLinkList);
-  //   if (expiredLinkList){
-  //     expiredLinkList.push(link);
-  //     setexpiredLinkList(expiredLinkList);
-  //   }
-  //   else{
-  //     setexpiredLinkList([].push(link));
-  //   }
-  //   // console.log("After: ", expiredLinkList);
+  // persist state of reported link in local storage
+  const persistReportStateInLocalStorage = () =>{
+    // console.log("Initial: ", expiredLinkList);
+    if (expiredLinkList){
+      expiredLinkList.push(link);
+      setexpiredLinkList(expiredLinkList);
+    }
+    else{
+      setexpiredLinkList([].push(link));
+    }
+    // console.log("After: ", expiredLinkList);
 
-  //   // write changes to local storage
-  //   // console.log("write to local storage: ", JSON.stringify(expiredLinkList));
-  //   window.localStorage.setItem('expired_links', JSON.stringify(expiredLinkList));
-  //   console.log("data from local storage", window.localStorage.getItem('expired_links'));
-  // }
+    // write changes to local storage
+    // console.log("write to local storage: ", JSON.stringify(expiredLinkList));
+    window.localStorage.setItem('expired_links', JSON.stringify(expiredLinkList));
+    console.log("List of reported link: ", window.localStorage.getItem('expired_links'));
+  }
 
   const submitExpiredLink = async (link) => {
     const endPoint = APP_END_POINT_CUSTOMER_REPORT_LINK;
@@ -135,7 +135,7 @@ export function MatchJob({ job, onClick, metisign}) {
       console.log(result);
       setreportButtonText(t('matching jobs.reported'));
       setdisableReportBtn(true);
-      // persistReportStateInLocalStorage();
+      persistReportStateInLocalStorage();
 
     } catch (e) {
       console.log("Error with report error link", e);
