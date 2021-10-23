@@ -10,7 +10,7 @@ import {
 import {toast} from "react-toastify";
 import {toastStyle} from "../../constant/constant";
 import {useDropzone} from "react-dropzone";
-import {Box, TextField} from "@material-ui/core";
+import {Box, CircularProgress, TextField} from "@material-ui/core";
 import {Section} from "../../components/Section";
 import {LoadingPage} from "../report/LoadingWhenUpload";
 import {h1, h2} from "../../constant/fontsize";
@@ -36,8 +36,7 @@ export const CheckApplicant = ({
     const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone({
         maxFiles: 1
     });
-    const [submitLoading, setSubmitLoading] = useState(false);
-
+    const [submitLoading, setSubmitLoading] = useState(true);
     const adsLoadingTime = 3;
     const formik = useFormik({
         initialValues: {
@@ -116,8 +115,21 @@ export const CheckApplicant = ({
     }
 
     if (submitLoading) {
-        return (<Box style={{width: 360, marginLeft: 'auto', marginRight: 'auto'}}>
-            <h3>Submitting Form...</h3></Box>);
+        return (
+            <Box style={{width: 360, margin: 'auto', marginTop: '200px'}}>
+                <Section>
+                    <Box p={4} mt={4} fontSize={h2}>
+                        <Box fontSize={h1} color={COLOR_TITLE}>
+                            <h3 style={{textAlign: 'center'}}>
+                                Submitting Form...
+                                <CircularProgress
+                                    style={{marginLeft: '20px',
+                                    marginBottom:'-3px'}}
+                                    size={20}
+                                /></h3>
+                        </Box></Box></Section>
+            </Box>
+        );
     }
     return (<Box style={{width: 360, marginLeft: 'auto', marginRight: 'auto'}}>
             <Section>
