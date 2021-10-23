@@ -33,6 +33,10 @@ export function MatchingJobsSection({ report }) {
     websitePages.push(websiteJobs.slice(i * websiteJobsPerPage, (i + 1) * websiteJobsPerPage))
   }
 
+  // Array to store expired Link
+  const [expiredLinkList, setexpiredLinkList] = useState([]);
+
+
   const onApply = (url) => {
     linkTrack(report.id, url)
   }
@@ -56,7 +60,7 @@ export function MatchingJobsSection({ report }) {
           >
             {websitePages.map((jobList, index) =>
               <div key={index}>{
-                jobList.map((job, i) => <MatchJob key={i} job={job} onClick={onApply} />)
+                jobList.map((job, i) => <MatchJob key={i} job={job} onClick={onApply} expiredLinkList={expiredLinkList} setexpiredLinkList={setexpiredLinkList} />)
               }
               </div>)}
           </Carousel>
@@ -76,7 +80,7 @@ export function MatchingJobsSection({ report }) {
         <Divider style={{ backgroundColor: 'white' }} />
         <Box fontSize={h3} mt={2} mb={2}>
           {t('matching jobs.recruiter')}
-          <Carousel
+          {/* <Carousel
             animation='slide'
             interval={10000}
             navButtonsAlwaysInvisible
@@ -86,7 +90,7 @@ export function MatchingJobsSection({ report }) {
                 jobList.map((job, i) => <MatchJob key={i} job={job} onClick={onApply} metisign />)
               }
               </div>)}
-          </Carousel>
+          </Carousel> */}
           {/* {!seeRecruiterMore && (
             <Box textAlign='center'>
               <Button fullWidth style={{ color: 'white' }} onClick={() => setSeeRecruiterMore(true)}>

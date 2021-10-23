@@ -57,7 +57,7 @@ export function LinearProgressWithLabel(props) {
   )
 }
 
-export function MatchJob({ job, onClick, metisign}) {
+export function MatchJob({ job, onClick, metisign, expiredLinkList, setexpiredLinkList}) {
   const { t } = useTranslation()
   const { job_title, job_company, job_link, job_location, job_logo, job_rating, job_summary, job_type, matched_percentage, job_salary,
     /** 以下几个metisign only */
@@ -84,11 +84,10 @@ export function MatchJob({ job, onClick, metisign}) {
   const { requestHandler } = useRequest()
   const [reportButtonText, setreportButtonText] = useState(t('matching jobs.Report This Link'));
   const [disableReportBtn, setdisableReportBtn] = useState(false);
-  const [expiredLinkList, setexpiredLinkList] = useState([]);
 
-  // // fetch data from local storage when loading the component
+  // fetch data from local storage when loading the component
   useEffect(() => {
-    // console.log("data from local storage", window.localStorage.getItem('expired_links'));
+    // everytime render this component, we fetch data from local storage to disable button
     if (window.localStorage.getItem('expired_links')){
       setexpiredLinkList(JSON.parse(window.localStorage.getItem('expired_links')));
     }
@@ -100,7 +99,6 @@ export function MatchJob({ job, onClick, metisign}) {
       setdisableReportBtn(true);
     }
   }, [expiredLinkList]);
-  
   // persist state of reported link in local storage
   const persistReportStateInLocalStorage = () =>{
     // console.log("Initial: ", expiredLinkList);
@@ -109,7 +107,7 @@ export function MatchJob({ job, onClick, metisign}) {
       setexpiredLinkList(expiredLinkList);
     }
     else{
-      setexpiredLinkList([].push(link));
+      console.log("Error occur while report for error link");
     }
     // console.log("After: ", expiredLinkList);
 
@@ -131,8 +129,8 @@ export function MatchJob({ job, onClick, metisign}) {
         url: endPoint,
         data: data
       }
-      const result = await requestHandler(config)
-      console.log(result);
+      //const result = await requestHandler(config)
+      //console.log(result);
       setreportButtonText(t('matching jobs.reported'));
       setdisableReportBtn(true);
       persistReportStateInLocalStorage();
