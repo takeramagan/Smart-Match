@@ -33,8 +33,13 @@ export const CheckApplicant = ({
     const {t} = useTranslation();
     const {requestHandler} = useRequest();
     const [loading, setLoading] = useState(false);
-    const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone({
-        maxFiles: 1
+    const {
+        acceptedFiles, getRootProps, getInputProps, isDragActive,
+        fileRejections
+    } = useDropzone({
+        maxFiles: 1,
+        accept: ['.odt', '.pdf', '.docx', '.doc'],
+        maxSize: 10485760
     });
     const [submitLoading, setSubmitLoading] = useState(false);
     const adsLoadingTime = 3;
@@ -100,6 +105,13 @@ export const CheckApplicant = ({
         }
     }, [acceptedFiles]);
 
+    useEffect(() => {
+        console.log(fileRejections);
+        if (fileRejections.length) {
+            toast('File should be docx, doc, odt or pdf. Max 10MB');
+        }
+    }, [fileRejections]);
+
     if (loading) {
         return (
             <Box p={4} mb={4} borderRadius='24px' width={800} margin='40px auto 16px' style={{}}>
@@ -123,8 +135,10 @@ export const CheckApplicant = ({
                             <h3 style={{textAlign: 'center'}}>
                                 Submitting Form...
                                 <CircularProgress
-                                    style={{marginLeft: '20px',
-                                    marginBottom:'-3px'}}
+                                    style={{
+                                        marginLeft: '20px',
+                                        marginBottom: '-3px'
+                                    }}
                                     size={20}
                                 /></h3>
                         </Box></Box></Section>
