@@ -36,7 +36,7 @@ export const CheckApplicant = ({
     const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone({
         maxFiles: 1
     });
-    const [submitLoading, setSubmitLoading] = useState(true);
+    const [submitLoading, setSubmitLoading] = useState(false);
     const adsLoadingTime = 3;
     const formik = useFormik({
         initialValues: {
