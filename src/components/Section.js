@@ -1,7 +1,7 @@
-import { Paper } from '@material-ui/core'
-import { SECTION_BLUE } from '../constant/color'
+import { Paper } from '@material-ui/core';
+import { SECTION_BLUE } from '../constant/color';
 
-export const Section =  ({ children, highlighted, style }) => {
+export const Section = ({ children, highlighted, style }) => {
   return (
     <Paper
       elevation={0} style={{

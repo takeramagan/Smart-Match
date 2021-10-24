@@ -1,8 +1,8 @@
 import React from "react";
-import {FacebookShareButton, FacebookIcon, LinkedinIcon, TwitterIcon, LinkedinShareButton} from "react-share";
+import { FacebookShareButton, FacebookIcon, LinkedinIcon, TwitterIcon, LinkedinShareButton } from "react-share";
 
 
-export default function SocialMediaButtons({title, reportPicture, url}) {
+export default function SocialMediaButtons({ title, reportPicture, url }) {
     let quote = title ?? "SmartMatch - A Better World For AI Career Match";
     let link = url ?? "https://ai.smartmatch.app/member/login.php";
     const hashtag = '#SmartMatch';
@@ -31,7 +31,7 @@ export default function SocialMediaButtons({title, reportPicture, url}) {
                 url={link}
                 quote={quote}
                 hashtag="#SmartMatch">
-                <FacebookIcon size={36}/>
+                <FacebookIcon size={36} />
             </FacebookShareButton>
 
             {/* facebook share button */}
@@ -48,12 +48,12 @@ export default function SocialMediaButtons({title, reportPicture, url}) {
             {/*   href="https://twitter.com/intent/tweet"><TwitterIcon size={36}/>*/}
             {/*</a>*/}
             <a href={twitterUrl}>
-                <TwitterIcon size={36}/>
+                <TwitterIcon size={36} />
             </a>
 
             {/*<LinkedinShareButton*/}
             <a href={linkedInUrl}>
-                <LinkedinIcon size={36}/>
+                <LinkedinIcon size={36} />
             </a>
             {/*    title={linkedInTitle}*/}
             {/*    summary={quote}*/}

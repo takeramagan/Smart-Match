@@ -1,4 +1,4 @@
-export const FacebookShareOnBt = ({reportPicture, title}) => {
+export const FacebookShareOnBt = ({ reportPicture, title }) => {
     return (
         <>
             {/*<div id="fb-root"/>*/}

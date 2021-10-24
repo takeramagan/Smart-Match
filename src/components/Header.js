@@ -1,4 +1,4 @@
-import { Box, Container } from '@material-ui/core'
+import { Box, Container } from '@material-ui/core';
 
 const Logo = () => {
   return (
@@ -15,7 +15,7 @@ const Logo = () => {
   )
 }
 
-export function Header () {
+export function Header() {
   return (
     <Box
       height={66} style={{
@@ -24,7 +24,7 @@ export function Header () {
     >
       <Container>
         <Box display='flex' justifyContent='space-between'>
-          <img src='logo.svg' width={209} height={57} style={{marginTop:5}}/>
+          <img src='logo.svg' width={209} height={57} style={{ marginTop: 5 }} />
         </Box>
       </Container>
     </Box>

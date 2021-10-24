@@ -1,19 +1,19 @@
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import {
     APP_END_POINT_B_AND_C,
     APP_END_POINT_CUSTOMER_REPORT_ACCURACY,
     X_API_KEY_B_AND_C, X_API_KEY_HISTORY
 } from "../../constant/externalURLs";
-import {h4} from "../../constant/fontsize";
+import { h4 } from "../../constant/fontsize";
 import Rating from "@material-ui/lab/Rating";
-import {Box, Button, TextField, Typography} from "@material-ui/core";
-import {Section} from "../Section";
-import {useEffect, useState} from "react";
+import { Box, Button, TextField, Typography } from "@material-ui/core";
+import { Section } from "../Section";
+import { useEffect, useState } from "react";
 
-export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, defaultValue, rated}) => {
-    const {t} = useTranslation();
-    const [rating, setRating] = useState({rated: false, value: defaultValue});
-    useEffect(()=>{
+export const RateForm = ({ onCancel, formik, hrid, jobid, email, requestHandler, defaultValue, rated }) => {
+    const { t } = useTranslation();
+    const [rating, setRating] = useState({ rated: false, value: defaultValue });
+    useEffect(() => {
         console.log('hrid', hrid);
         console.log('jobid', jobid);
     }, []);
@@ -64,7 +64,7 @@ export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, 
             width: 650, marginLeft: 'auto', marginRight: 'auto',
             marginTop: 200
         }}>
-            <Section style={{padding: 20}}>
+            <Section style={{ padding: 20 }}>
                 {/* mark in stars */}
                 <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
                     <div>
@@ -74,7 +74,7 @@ export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, 
                             value={formik.values.rate}
                             onChange={(event, value) => {
                                 formik.values.rate = value ?? defaultValue;
-                                setRating({rated: true, value: formik.values.rate});
+                                setRating({ rated: true, value: formik.values.rate });
                             }}
                         />
                     </div>
@@ -86,45 +86,45 @@ export const RateForm = ({onCancel, formik, hrid, jobid, email, requestHandler, 
                 </Box>
 
                 {/* comment section */}
-                <Box style={{marginTop: 10, marginBottom: 10}}>
+                <Box style={{ marginTop: 10, marginBottom: 10 }}>
                     <Typography color='primary'>
                         Help us improve by leaving your comments and suggestions below: </Typography>
                     <TextField id="comments" size='small' name='comments'
-                               fullWidth variant="outlined" rowsMax={15} rows={5}
-                               multiline
-                               style={{
-                                   opacity: (rated ? 0.5 : 1)
-                               }}
-                               value={formik.values.comments}
-                               onChange={formik.handleChange}
-                               helperText={formik.touched.comments && formik.errors.comments}
-                               onBlur={formik.handleBlur}
-                               placeholder="Your comments."/>
+                        fullWidth variant="outlined" rowsMax={15} rows={5}
+                        multiline
+                        style={{
+                            opacity: (rated ? 0.5 : 1)
+                        }}
+                        value={formik.values.comments}
+                        onChange={formik.handleChange}
+                        helperText={formik.touched.comments && formik.errors.comments}
+                        onBlur={formik.handleBlur}
+                        placeholder="Your comments." />
                 </Box>
 
                 {/* submit and cancel button */}
-                <Box style={{marginTop: 10, marginBottom: 10, textAlign: 'right'}}>
+                <Box style={{ marginTop: 10, marginBottom: 10, textAlign: 'right' }}>
                     <Button variant='contained'
-                            color='primary'
-                            target="_blank"
-                            style={{
-                                borderRadius: 15, marginLeft: 10, height: 30,
-                            }}
-                            onClick={() => {
-                                console.log('clicked');
-                                onCancel();
-                            }}
+                        color='primary'
+                        target="_blank"
+                        style={{
+                            borderRadius: 15, marginLeft: 10, height: 30,
+                        }}
+                        onClick={() => {
+                            console.log('clicked');
+                            onCancel();
+                        }}
                     >
                         {t("rating.cancel_button")}
                     </Button>
                     <Button variant='contained'
-                            color='primary'
-                            disabled={formik.errors.required}
-                            target="_blank"
-                            style={{
-                                borderRadius: 15, marginLeft: 10, height: 30,
-                            }}
-                            onClick={() => submitRating(formik)}
+                        color='primary'
+                        disabled={formik.errors.required}
+                        target="_blank"
+                        style={{
+                            borderRadius: 15, marginLeft: 10, height: 30,
+                        }}
+                        onClick={() => submitRating(formik)}
                     >
                         {t("rating.submit_button")}
                     </Button>

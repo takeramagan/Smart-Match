@@ -1,13 +1,12 @@
-import { Box, Button, Divider } from '@material-ui/core'
-import { Section } from '../../components/Section'
-import { MatchJob } from '../../components/MatchJob'
-import { useState, useEffect } from 'react'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import { useTranslation } from 'react-i18next'
-import { h, h1, h2, h3, h4, h5 } from '../../constant/fontsize'
-import Carousel from 'react-material-ui-carousel'
-import { linkTrack } from '../../untils/linkTrack'
-
+import { Box, Button, Divider } from '@material-ui/core';
+import { Section } from '../../components/Section';
+import { MatchJob } from '../../components/MatchJob';
+import { useState, useEffect } from 'react';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { useTranslation } from 'react-i18next';
+import { h, h1, h2, h3, h4, h5 } from '../../constant/fontsize';
+import Carousel from 'react-material-ui-carousel';
+import { linkTrack } from '../../untils/linkTrack';
 
 export function MatchingJobsSection({ report }) {
   const { t } = useTranslation()

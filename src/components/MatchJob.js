@@ -1,10 +1,10 @@
-import { Box, Link, LinearProgress, Typography, Button, Popover } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import { useTranslation } from 'react-i18next'
-import { h, h1, h2, h3, h4, h5 } from '../constant/fontsize'
-import { useState, useEffect } from 'react'
-import { METISIGN_WEBSITE } from '../constant/externalURLs'
-import { POPUP_BG_COLOR } from '../constant/color'
+import { Box, Link, LinearProgress, Typography, Button, Popover } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next';
+import { h, h1, h2, h3, h4, h5 } from '../constant/fontsize';
+import { useState, useEffect } from 'react';
+import { METISIGN_WEBSITE } from '../constant/externalURLs';
+import { POPUP_BG_COLOR } from '../constant/color';
 
 import { APP_END_POINT_CUSTOMER_REPORT_LINK, X_API_KEY_REPORT_LINK } from '../constant/externalURLs';
 import { useRequest } from '../hooks/useRequest';
@@ -57,7 +57,7 @@ export function LinearProgressWithLabel(props) {
   )
 }
 
-export function MatchJob({ job, onClick, metisign, expiredLinkList, setexpiredLinkList}) {
+export function MatchJob({ job, onClick, metisign, expiredLinkList, setexpiredLinkList }) {
   const { t } = useTranslation()
   const { job_title, job_company, job_link, job_location, job_logo, job_rating, job_summary, job_type, matched_percentage, job_salary,
     /** 以下几个metisign only */
@@ -88,25 +88,25 @@ export function MatchJob({ job, onClick, metisign, expiredLinkList, setexpiredLi
   // fetch data from local storage when loading the component
   useEffect(() => {
     // everytime render this component, we fetch data from local storage to disable button
-    if (expiredLinkList && window.localStorage.getItem('expired_links')){
+    if (expiredLinkList && window.localStorage.getItem('expired_links')) {
       setexpiredLinkList(JSON.parse(window.localStorage.getItem('expired_links')));
     }
   }, []);
   //  disable button if current link in expiredLinkList
   useEffect(() => {
-    if (expiredLinkList?.indexOf(link)!==-1){
+    if (expiredLinkList?.indexOf(link) !== -1) {
       setreportButtonText(t('matching jobs.reported'));
       setdisableReportBtn(true);
     }
   }, [expiredLinkList]);
   // persist state of reported link in local storage
-  const persistReportStateInLocalStorage = () =>{
+  const persistReportStateInLocalStorage = () => {
     // console.log("Initial: ", expiredLinkList);
-    if (expiredLinkList){
+    if (expiredLinkList) {
       expiredLinkList.push(link);
       setexpiredLinkList(expiredLinkList);
     }
-    else{
+    else {
       console.log("Error occur while report for error link");
     }
     // console.log("After: ", expiredLinkList);
@@ -204,15 +204,15 @@ export function MatchJob({ job, onClick, metisign, expiredLinkList, setexpiredLi
           {/* button for report Expired link
               If job_id exist, means metisign jobs no need for report*/}
           {!job_id && <Button
-              target="_blank"
-              onClick={handleReportErrorLink}
-              style={{
-                fontWeight: '500', border: '1px solid white', borderRadius: 15, height: 30, width: 130
-              }}
-              disabled={disableReportBtn}
-            >
-              {reportButtonText}
-            </Button>
+            target="_blank"
+            onClick={handleReportErrorLink}
+            style={{
+              fontWeight: '500', border: '1px solid white', borderRadius: 15, height: 30, width: 130
+            }}
+            disabled={disableReportBtn}
+          >
+            {reportButtonText}
+          </Button>
           }
           {/* {showReportLinkDialog ?
             <DialogWithSelections

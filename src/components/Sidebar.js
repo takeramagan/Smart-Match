@@ -1,17 +1,17 @@
-import { Box, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
-import DashboardOutlinedIcon from '@material-ui/icons/DashboardOutlined'
-import MailOutlineIcon from '@material-ui/icons/MailOutline'
-import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined'
-import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined'
-import ViewColumnOutlinedIcon from '@material-ui/icons/ViewColumnOutlined'
-import ViewAgendaOutlinedIcon from '@material-ui/icons/ViewAgendaOutlined'
-import MoreHorizOutlinedIcon from '@material-ui/icons/MoreHorizOutlined'
-import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined'
-import { Section } from './Section'
-import { useRouter } from 'next/router'
-import { useTranslation } from 'react-i18next'
+import { Box, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import DashboardOutlinedIcon from '@material-ui/icons/DashboardOutlined';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
+import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
+import ViewColumnOutlinedIcon from '@material-ui/icons/ViewColumnOutlined';
+import ViewAgendaOutlinedIcon from '@material-ui/icons/ViewAgendaOutlined';
+import MoreHorizOutlinedIcon from '@material-ui/icons/MoreHorizOutlined';
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
+import { Section } from './Section';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 
-export function Sidebar ({ onReset }) {
+export function Sidebar({ onReset }) {
   const router = useRouter()
   const { t } = useTranslation()
   return (

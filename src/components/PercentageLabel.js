@@ -1,8 +1,8 @@
-import {Box, CircularProgress, Typography, Popover, makeStyles} from '@material-ui/core'
-import {h4} from '../constant/fontsize'
-import {useState} from 'react'
-import {POPUP_BG_COLOR} from '../constant/color'
-import {useTranslation} from "react-i18next";
+import { Box, CircularProgress, Typography, Popover, makeStyles } from '@material-ui/core';
+import { h4 } from '../constant/fontsize';
+import { useState } from 'react';
+import { POPUP_BG_COLOR } from '../constant/color';
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles({
     popover: {
@@ -15,9 +15,9 @@ export function CircularProgressWithLabel(props) {
         <Box position='relative' display='inline-flex'>
             <Box position='absolute' top={2} left={2}>
                 <CircularProgress variant='determinate' size='46px' value={100} thickness={2}
-                                  style={{color: '#C4C4C4'}}/>
+                    style={{ color: '#C4C4C4' }} />
             </Box>
-            <CircularProgress variant='determinate' {...props} thickness={5} style={{color: '#0061FF'}}/>
+            <CircularProgress variant='determinate' {...props} thickness={5} style={{ color: '#0061FF' }} />
             <Box
                 top={0}
                 left={0}
@@ -28,7 +28,7 @@ export function CircularProgressWithLabel(props) {
                 alignItems='center'
                 justifyContent='center'
             >
-                <Typography component='div' style={{color: '#0061FF', fontSize: h4}}>
+                <Typography component='div' style={{ color: '#0061FF', fontSize: h4 }}>
                     {`${Math.round(props.value)}%`}
                 </Typography>
             </Box>
@@ -36,7 +36,7 @@ export function CircularProgressWithLabel(props) {
     )
 }
 
-export const PercentageLabel = ({name, value, text}) => {
+export const PercentageLabel = ({ name, value, text }) => {
     //add popover
     const [anchorEl, setAnchorEl] = useState(null);
     const handlePopoverOpen = (event) => {
@@ -45,14 +45,14 @@ export const PercentageLabel = ({name, value, text}) => {
     const handlePopoverClose = () => {
         setAnchorEl(null);
     };
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const openPopOver = Boolean(anchorEl);
     const classes = useStyles();
     return (
         <Box p={1}
-             textAlign='center'
-             onMouseLeave={handlePopoverClose}
-             onMouseEnter={handlePopoverOpen}
+            textAlign='center'
+            onMouseLeave={handlePopoverClose}
+            onMouseEnter={handlePopoverOpen}
         >
             <Popover
                 id="popover"
@@ -70,7 +70,7 @@ export const PercentageLabel = ({name, value, text}) => {
                 style={{
                     pointerEvents: 'none',
                 }}
-                classes={{paper: classes.popover}}
+                classes={{ paper: classes.popover }}
                 disableRestoreFocus
                 disableScrollLock
             >
@@ -79,7 +79,7 @@ export const PercentageLabel = ({name, value, text}) => {
                     {text && <Typography>{name}: {text}</Typography>}
                 </Box>
             </Popover>
-            <CircularProgressWithLabel size='50px' value={Number(value)}/>
+            <CircularProgressWithLabel size='50px' value={Number(value)} />
             <Box m={0} color='#0061FF'>
                 {name}
             </Box>
