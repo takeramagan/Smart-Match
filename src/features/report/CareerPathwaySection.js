@@ -34,12 +34,15 @@ const useStyles = makeStyles({
     }
 });
 
-const CareerBlock = ({countryCode, name, salary, top, left, selected, noBackgroundColor,
-                         onClick, style, background, pos}) => {
+const CareerBlock = ({
+                         countryCode, name, salary, top, left, selected, noBackgroundColor,
+                         onClick, style, background, pos
+                     }) => {
     const classes = useStyles({noBackgroundColor, selected, background});
     return (
         <Box
             className={classes.root}
+            id={'CareerBlock'}
             p={2}
             top={top}
             left={left}
@@ -47,7 +50,7 @@ const CareerBlock = ({countryCode, name, salary, top, left, selected, noBackgrou
             style={{
                 background: noBackgroundColor ? 'white' : (selected ?
                     background :
-                    (pos>0)?'#020024':'#c4c4cb'),
+                    (pos > 0) ? '#020024' : '#c4c4cb'),
                 borderRadius: noBackgroundColor ? '0' : '20px',
                 width: noBackgroundColor ? '100px' : '180px'
                 // ...style
@@ -55,10 +58,10 @@ const CareerBlock = ({countryCode, name, salary, top, left, selected, noBackgrou
         >
             <Box>
                 {/* <Box className='title' fontSize={h4} color={noBackgroundColor ? (selected ? '#024CC3' : '#6A707E') : 'inherit'}> */}
-                <Box className='title' fontSize={h4} color={(pos>0) ? 'white' : 'black'}>
+                <Box className='title' fontSize={h4} color={(pos > 0) ? 'white' : 'black'}>
                     {name}
                 </Box>
-                <Box className='salary' fontSize={h5} color={(pos>0) ? 'white' : 'black'}>
+                <Box className='salary' fontSize={h5} color={(pos > 0) ? 'white' : 'black'}>
                     Approx. {formatter(countryCode).format(salary)}
                 </Box>
             </Box>
@@ -229,7 +232,7 @@ const selectCareerPath = (career) => {
     }
 };
 
-export function CareerPathwaySection({report, selectedPathIndex, setSelectedPathIndex}) {
+export function CareerPathwaySection({report, setSelectedPathIndex}) {
     // const tops = [10, 146, 290]
     // const lefts = [30, 230, 480, 765]
     const tops = [25, 146, 275];
@@ -293,9 +296,6 @@ export function CareerPathwaySection({report, selectedPathIndex, setSelectedPath
 
     }
     const {t} = useTranslation();
-    const scrollToSection = () => {
-        // document.getElementById("course_section").scrollIntoView();
-    };
     return (
         <Section>
             <Box p={4} style={{minWidth: 790, width: '100vw'}} mr={-8} id='pathwaybox'>
@@ -315,7 +315,7 @@ export function CareerPathwaySection({report, selectedPathIndex, setSelectedPath
                         left={width > 800 ? (width - 800) * 0.3 : 0}/>
 
                     {/* career path 1 */}
-                    {listOfPathIndex[0] != -1 &&
+                    {listOfPathIndex[0] !== -1 &&
                     <CareerSinglePath
                         countryCode={report.countryCode}
                         tops={tops}
@@ -326,10 +326,9 @@ export function CareerPathwaySection({report, selectedPathIndex, setSelectedPath
                         onClick={() => {
                             setSelectedPathIndex(listOfPathIndex[0]);
                             setPathPosition(0);
-                            scrollToSection()
                         }}
                     />}
-                    {listOfPathIndex[1] != -1 && (
+                    {listOfPathIndex[1] !== -1 && (
                         <CareerSinglePath
                             countryCode={report.countryCode}
                             tops={tops}
@@ -340,11 +339,10 @@ export function CareerPathwaySection({report, selectedPathIndex, setSelectedPath
                             onClick={() => {
                                 setSelectedPathIndex(listOfPathIndex[1]);
                                 setPathPosition(1);
-                                scrollToSection()
                             }}
                         />
                     )}
-                    {listOfPathIndex[2] != -1 && <CareerSinglePath
+                    {listOfPathIndex[2] !== -1 && <CareerSinglePath
                         countryCode={report.countryCode}
                         tops={tops}
                         lefts={lefts}
@@ -354,21 +352,20 @@ export function CareerPathwaySection({report, selectedPathIndex, setSelectedPath
                         onClick={() => {
                             setSelectedPathIndex(listOfPathIndex[2]);
                             setPathPosition(2);
-                            scrollToSection()
                         }}
                     />}
-                    {listOfPathIndex[0] != -1 &&
+                    {listOfPathIndex[0] !== -1 &&
                     // <Box top='-10px' left='50px' position='absolute' zIndex={2}>
                     // <Box top='20px' left={width < 500 ? 50 : width> 800? 0 : 40} position='absolute' zIndex={2}>
                     <Box top='20px' left={50} position='absolute' zIndex={2}>
                         <Aaaaa selected={pathPosition === 0} left={lefts[2]}/>
                     </Box>}
-                    {listOfPathIndex[1] != -1 && (
+                    {listOfPathIndex[1] !== -1 && (
                         <Box top='173px' left='100px' position='absolute' zIndex={3}>
                             <Aaaab selected={pathPosition === 1} left={lefts[2]}/>
                         </Box>
                     )}
-                    {listOfPathIndex[2] != -1 &&
+                    {listOfPathIndex[2] !== -1 &&
                     // <Box top='145px' left='50px' position='absolute' zIndex={2} style={{ transform: 'rotateX(180deg)' }}>
                     // <Box top='130px' left={width < 500 ? 50 : width> 800? 0 : 40} position='absolute' zIndex={2} style={{ transform: 'rotateX(180deg)' }}>
                     <Box top='120px' left='50px' position='absolute' zIndex={2} style={{transform: 'rotateX(180deg)'}}>
