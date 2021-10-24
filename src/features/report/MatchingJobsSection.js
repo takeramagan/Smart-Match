@@ -80,7 +80,7 @@ export function MatchingJobsSection({ report }) {
         <Divider style={{ backgroundColor: 'white' }} />
         <Box fontSize={h3} mt={2} mb={2}>
           {t('matching jobs.recruiter')}
-          {/* <Carousel
+          <Carousel
             animation='slide'
             interval={10000}
             navButtonsAlwaysInvisible
@@ -90,7 +90,7 @@ export function MatchingJobsSection({ report }) {
                 jobList.map((job, i) => <MatchJob key={i} job={job} onClick={onApply} metisign />)
               }
               </div>)}
-          </Carousel> */}
+          </Carousel>
           {/* {!seeRecruiterMore && (
             <Box textAlign='center'>
               <Button fullWidth style={{ color: 'white' }} onClick={() => setSeeRecruiterMore(true)}>
