@@ -88,7 +88,7 @@ export function MatchJob({ job, onClick, metisign, expiredLinkList, setexpiredLi
   // fetch data from local storage when loading the component
   useEffect(() => {
     // everytime render this component, we fetch data from local storage to disable button
-    if (window.localStorage.getItem('expired_links')){
+    if (expiredLinkList && window.localStorage.getItem('expired_links')){
       setexpiredLinkList(JSON.parse(window.localStorage.getItem('expired_links')));
     }
   }, []);
