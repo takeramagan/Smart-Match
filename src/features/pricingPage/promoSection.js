@@ -3,13 +3,15 @@ import { TextField, Grid, Typography, Button, InputAdornment } from '@material-u
 import { useState } from "react";
 
 export const PromoSection = (props) => {
-    const [promoCode, setPromoCode] = useState("");
+    const [inPromoCode, setInPromoCode] = useState("");
 
     const handleChange = (event) => {
-        setPromoCode(event.target.value);
+        setInPromoCode(event.target.value);
     }
     const handleSubmitPromo=(event)=>{
-        console.log(promoCode);
+        console.log(inPromoCode);
+
+        
     }
 
     return (
@@ -22,7 +24,7 @@ export const PromoSection = (props) => {
             </Grid>
             <Grid item xs={12}>
                 <TextField
-                    value={promoCode}
+                    value={inPromoCode}
                     variant={"outlined"}
                     type={'text'}
                     onChange={handleChange}

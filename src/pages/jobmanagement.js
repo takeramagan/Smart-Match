@@ -53,6 +53,14 @@ const JobManagement = () => {
     const params = useRouter().query;
     const hrId = params.id;
     // console.log('Initial hrid1 = ', hrId);
+
+    useEffect(() => {
+        if (hrId) {
+            getExistJobList().then();
+            console.log("HRid changed");
+        }
+    }, [hrId]);
+
     const onShowJobDetail = (id) => {
         setShowItem(id);
         setShowJobDetail(true);
@@ -99,7 +107,7 @@ const JobManagement = () => {
 
     const onClose = () => {
         if (showJobDetail) { //在jobmodal 里面自己控制关闭
-            console.log(showJobDetail);
+            console.log("C: Jobmanagement ", showJobDetail);
         } else {
             closeModal();
         }
@@ -110,7 +118,7 @@ const JobManagement = () => {
             return (
                 <Box>
                     <Button onClick={() => {
-                        getData().then()
+                        getExistJobList().then()
                     }} color='primary' variant='contained' style={{ borderRadius: 20 }}>Fetch Job</Button>
                 </Box>
             );
@@ -121,9 +129,9 @@ const JobManagement = () => {
 
     //fetch data
     const dispatch = useDispatch();
-    const getHrHistory = useRequest();
+    const HttpClient = useRequest();
 
-    const getData = async () => {
+    const getExistJobList = async () => {
         const data = new FormData();
         data.append('dcc', X_API_KEY_B_AND_C);
         data.append('hrid', hrId);
@@ -134,8 +142,8 @@ const JobManagement = () => {
             data: data
         };
         try {
-            const data = await getHrHistory.requestHandler(config);
-            console.log("get data", data.job_postings);
+            const data = await HttpClient.requestHandler(config);
+            console.log("Fetch job posting data from API", data.job_postings);
             if (data.job_postings) {
                 dispatch(hrHistoryAction.setHistoryList(data.job_postings));
             }
@@ -144,14 +152,28 @@ const JobManagement = () => {
         }
     };
 
-    console.log("hr posted list: ", hrHistoryList);
-
-    useEffect(() => {
-        console.log("reached: ", hrId);
-        if (hrId) {
-            getData().then();
+    const deleteJob = async (props) => {
+        const data = new FormData();
+        data.append('dcc', X_API_KEY_B_AND_C);
+        data.append('hrid', hrId);
+        data.append('jobid',props);
+        console.log('hrid when delete job posting = ', hrId);
+        const config = {
+            method: 'post',
+            url: APP_END_POINT_B_AND_C + 'delete_job_posting',
+            data: data
+        };
+        try {
+            const response = await HttpClient.requestHandler(config);
+            console.log(response);
+            // refetch data to refresh page
+            getExistJobList();
+        } catch (e) {
+            console.error("error happen while fetching posted jobs", e)
         }
-    }, [hrId]);
+    }
+
+    console.log("HR posted list: ", hrHistoryList);
 
     return (
         <Container
@@ -181,15 +203,19 @@ const JobManagement = () => {
                 <Box p={4} mt={4}>
                     <CardItem
                         item={{
-                            jobid: "Id",
-                            jobtitle: "Job Title",
-                            status: 'Job Status',
-                            postdate: "Post Date",
-                            edit: "Edit Job",
+                            header_jobid: "Id",
+                            header_currency: "Country",
+                            header_jobtitle: "Job Title",
+                            header_Applicants: "Applicants",
+                            header_job_status: 'Job Status',
+                            header_postdate: "Post Date",
+                            header_edit: "Edit Job",
                             note: "Note",
-                            currency: "Country"
+                            header_delete: "Delete Job"
                         }}
-                        style={{ fontWeight: 600 }} key={-1} isTitle />
+                        style={{ fontWeight: 600 }}
+                        key={-1}
+                        isTitle />
                     {hrHistoryList.length === 0 && "No application history"}
                     {hrHistoryList.map((job, i) =>
                         <CardItem
@@ -199,27 +225,29 @@ const JobManagement = () => {
                             onCheckApplicants={() => checkApplicantsCallback(job)}
                             onShowApplicants={showApplicantsCallback}
                             onAddApplicant={() => onAddApplicant(i)}
+                            onDeleteJob={(props) => { deleteJob(props) }}
                             // showDetail={showItem === i}
                             key={i} />
                     )}
                 </Box>
             </Section>
+
             <Modal open={showJobDetail || showApplicants} onClose={onClose} style={{ overflowY: 'scroll' }}>
                 <>
                     {showJobDetail && <JobDetail job={hrHistoryList[showItem]} index={showItem} closeModal={closeModal}
-                        updatePage={getData} hrid={hrId}></JobDetail>}
+                        updatePage={getExistJobList} hrid={hrId}></JobDetail>}
                     {showApplicants && <ApplicantsDetail job={hrHistoryList[showItem]}></ApplicantsDetail>}
                 </>
             </Modal>
-            <Modal open={showAddApplicant} onClose={closeModal}>
-                <AddApplicant job={hrHistoryList[showItem]} onCancel={closeModal} refreshPage={getData} />
-            </Modal>
+            {/* <Modal open={showAddApplicant} onClose={closeModal}>
+                <AddApplicant job={hrHistoryList[showItem]} onCancel={closeModal} refreshPage={getExistJobList} />
+            </Modal> */}
             <Modal open={showCheckApplicantForm} onClose={closeModal}>
                 <CheckApplicant country_code={selectedJobCountry}
                     job_description={selectedJobDescription}
                     job_title={selectedJobTitle}
                     onCancel={closeModal}
-                    refreshPage={getData}
+                    refreshPage={getExistJobList}
                     hrId={hrId}
                     jobId={selectedJobId} />
             </Modal>
