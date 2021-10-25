@@ -191,9 +191,17 @@ function FileDropzone(props) {
                         <input {...getInputProps()} />
 
                         {!loading && (
-                            <Box style={{ color: 'rgba(0, 97, 255, 1)', fontSize: '24px', fontWeight: '500' }}>
-                                {t("report.upload_text")}
-                            </Box>
+                            <div>
+                                <Box style={{ color: 'rgba(0, 97, 255, 1)', fontSize: '24px', fontWeight: '500' }}>
+                                    {t("report.upload_text")}
+                                </Box>
+                                <p style={{
+                                    fontSize: "18px",
+                                    margin: "auto",
+                                    textAlign: "center",
+                                    color: "#C80A0A"
+                                }}>{t("report.protected_statement")}</p>
+                            </div>
                         )}
                         {!loading && (
                             <Box
@@ -218,15 +226,16 @@ function FileDropzone(props) {
                                 <Box mt={4}>
                                     <DescriptionIcon style={{ color: 'rgba(70, 235, 213, 1)', fontSize: 90 }} />
                                 </Box>
-                                <p style={{
-                                    fontSize: "11px",
+                                {/* <p style={{
+                                    fontSize: "18px",
                                     position: "absolute",
                                     bottom: "8px",
                                     margin: "auto",
                                     left: "0",
                                     right: "0",
-                                    textAlign: "center"
-                                }}>{t("report.protected_statement")}</p>
+                                    textAlign: "center",
+                                    color: "#C80A0A"
+                                }}>{t("report.protected_statement")}</p> */}
                             </Box>
                         )}
                     </Box>
