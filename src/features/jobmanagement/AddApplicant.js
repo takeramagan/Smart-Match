@@ -1,37 +1,36 @@
 // import other libs
-import {Box, TextField} from "@material-ui/core";
+import { Box, TextField } from "@material-ui/core";
 import * as yup from 'yup';
-import {useFormik} from 'formik';
+import { useFormik } from 'formik';
 
 // axios
-import {useRequest} from "../../hooks/useRequest";
+import { useRequest } from "../../hooks/useRequest";
 
 // import reusable components
-import {SubmitAndCancel} from "../../components/CommonReusable/SubmitAndCancel";
-import {Section} from "../../components/Section";
+import { SubmitAndCancel } from "../../components/CommonReusable/SubmitAndCancel";
+import { Section } from "../../components/Section";
 
 // import constants
-import {COLOR_TITLE} from "../../constant/color";
-import {h1, h2} from '../../constant/fontsize';
-import {APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C} from "../../constant/externalURLs";
+import { COLOR_TITLE } from "../../constant/color";
+import { h1, h2 } from '../../constant/fontsize';
+import { APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C } from "../../constant/externalURLs";
 
 // toast notification
-import {toast} from 'react-toastify';
-import {toastStyle} from "../../constant/constant";
+import { toast } from 'react-toastify';
+import { toastStyle } from "../../constant/constant";
 
 //
 import checkLink from "../../untils/checkLink";
-import {useEffect} from "react";
+import { useEffect } from "react";
 
-export const AddApplicant = ({job, onCancel, refreshPage}) => {
+export const AddApplicant = ({ job, onCancel, refreshPage }) => {
 
     useEffect(() => {
         console.log("Job: ", job);
-        console.log("OnCancel: ", onCancel);
         console.log("RefreshPage: ", refreshPage);
     }, []);
 
-    const {requestHandler} = useRequest();
+    const { requestHandler } = useRequest();
 
     // todo: remove this function later, ssl/tls check needs to be done
     //  by the load-balancer
@@ -68,7 +67,7 @@ export const AddApplicant = ({job, onCancel, refreshPage}) => {
     });
 
     // console.log(job);
-    const submitData = async ({email, name, joblink, company}) => {
+    const submitData = async ({ email, name, joblink, company }) => {
         console.log('email', email, name, joblink, company);
         console.log('job', job);
         try {
@@ -122,7 +121,7 @@ export const AddApplicant = ({job, onCancel, refreshPage}) => {
         },
     });
     return (
-        <Box style={{width: 360, marginLeft: 'auto', marginRight: 'auto'}}>
+        <Box style={{ width: 360, marginLeft: 'auto', marginRight: 'auto' }}>
             <Section>
                 <Box p={4} mt={4} fontSize={h2}>
                     <Box fontSize={h1} color={COLOR_TITLE}>
@@ -131,41 +130,41 @@ export const AddApplicant = ({job, onCancel, refreshPage}) => {
                     <form onSubmit={formik.handleSubmit}>
                         <Box mt={2}>
                             <TextField id="name" label="Name" variant="outlined" size='small' name='name'
-                                       value={formik.values.name}
-                                       onChange={formik.handleChange}
-                                       onBlur={formik.handleBlur}
-                                       error={formik.touched.name && Boolean(formik.errors.name)}
-                                       helperText={formik.touched.name && formik.errors.name}
-                                       style={{width: 300}}/>
+                                value={formik.values.name}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.name && Boolean(formik.errors.name)}
+                                helperText={formik.touched.name && formik.errors.name}
+                                style={{ width: 300 }} />
                         </Box>
                         <Box mt={2}>
                             <TextField id="email" label="Email" variant="outlined" size='small' name='email'
-                                       value={formik.values.email}
-                                       onChange={formik.handleChange}
-                                       onBlur={formik.handleBlur}
-                                       error={formik.touched.email && Boolean(formik.errors.email)}
-                                       helperText={formik.touched.email && formik.errors.email}
-                                       style={{width: 300}}/>
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.email && Boolean(formik.errors.email)}
+                                helperText={formik.touched.email && formik.errors.email}
+                                style={{ width: 300 }} />
                         </Box>
                         <Box mt={2}>
                             <TextField id="company" label="Company name" variant="outlined" size='small' name='company'
-                                       value={formik.values.company}
-                                       onChange={formik.handleChange}
-                                       onBlur={formik.handleBlur}
-                                       error={formik.touched.company && Boolean(formik.errors.company)}
-                                       helperText={formik.touched.company && formik.errors.company}
-                                       style={{width: 300}}/>
+                                value={formik.values.company}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.company && Boolean(formik.errors.company)}
+                                helperText={formik.touched.company && formik.errors.company}
+                                style={{ width: 300 }} />
                         </Box>
                         <Box mt={2}>
                             <TextField id="joblink" label="Job link" variant="outlined" size='small' name='joblink'
-                                       value={formik.values.joblink}
-                                       onChange={formik.handleChange}
-                                       onBlur={formik.handleBlur}
-                                       error={formik.touched.joblink && Boolean(formik.errors.joblink)}
-                                       helperText={formik.touched.joblink && formik.errors.joblink}
-                                       style={{width: 300}}/>
+                                value={formik.values.joblink}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.joblink && Boolean(formik.errors.joblink)}
+                                helperText={formik.touched.joblink && formik.errors.joblink}
+                                style={{ width: 300 }} />
                         </Box>
-                        <SubmitAndCancel onCancel={onCancel}/>
+                        <SubmitAndCancel onCancel={onCancel} />
                     </form>
                 </Box>
             </Section>
