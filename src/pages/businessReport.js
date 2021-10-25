@@ -66,7 +66,7 @@ export default function BusinessReport({ presetReport }) {
             // use dummy report than
             return ({
                 "job_title": "Test job title",
-                "applicant_email": "owenljn@gmail.com",
+                "applicant_email": "bob@example.com",
                 "matched_percentage": "96",
                 "resume_evaluation": {
                     "skills": {

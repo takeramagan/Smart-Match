@@ -144,10 +144,7 @@ const JobManagement = () => {
         }
     };
 
-    console.log("hr posted list: ", hrHistoryList);
-
     useEffect(() => {
-        console.log("reached: ", hrId);
         if (hrId) {
             getData().then();
         }
@@ -158,7 +155,7 @@ const JobManagement = () => {
             style={{ marginTop: 18 }}
         >
             {/*test only button*/}
-            <TestOnlyButton></TestOnlyButton>
+            <TestOnlyButton />
 
             <Section>
                 <Box p={4}>
@@ -207,8 +204,8 @@ const JobManagement = () => {
             <Modal open={showJobDetail || showApplicants} onClose={onClose} style={{ overflowY: 'scroll' }}>
                 <>
                     {showJobDetail && <JobDetail job={hrHistoryList[showItem]} index={showItem} closeModal={closeModal}
-                        updatePage={getData} hrid={hrId}></JobDetail>}
-                    {showApplicants && <ApplicantsDetail job={hrHistoryList[showItem]}></ApplicantsDetail>}
+    updatePage={getData} hrid={hrId}/>}
+                    {showApplicants && <ApplicantsDetail job={hrHistoryList[showItem]}/>}
                 </>
             </Modal>
             <Modal open={showAddApplicant} onClose={closeModal}>

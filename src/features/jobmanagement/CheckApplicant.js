@@ -33,6 +33,7 @@ export const CheckApplicant = ({
     const {t} = useTranslation();
     const {requestHandler} = useRequest();
     const [loading, setLoading] = useState(false);
+    const [resumeFileTitle, setResumeFileTitle] = useState('Loading...');
     const {
         acceptedFiles, getRootProps, getInputProps, isDragActive,
         fileRejections
@@ -102,11 +103,12 @@ export const CheckApplicant = ({
     useEffect(() => {
         if (acceptedFiles.length) {
             formik.values.resume_file = acceptedFiles[0];
+            setResumeFileTitle(acceptedFiles[0].name);
         }
     }, [acceptedFiles]);
 
     useEffect(() => {
-        console.log(fileRejections);
+        // console.log(fileRejections);
         if (fileRejections.length) {
             toast('File should be docx, doc, odt or pdf. Max 10MB');
         }
@@ -186,8 +188,8 @@ export const CheckApplicant = ({
                                         : <p>{t("report.drag_title")}</p>
                                 }
                                 {
-                                    (formik.values.resume_file) ?
-                                        <div><strong>{formik.values.resume_file.name}</strong></div> :
+                                    (acceptedFiles[0] && acceptedFiles[0].name) ?
+                                        <div><strong>{resumeFileTitle}</strong></div> :
                                         ""
                                 }
 
