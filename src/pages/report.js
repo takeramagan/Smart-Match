@@ -567,7 +567,7 @@ export default function Home() {
                     View applied jobs
                 </Button> */}
                 {/*show prompt after obtain member level */}
-                {HYLevel !== undefined && <PromoDialog />}
+                {/* {HYLevel !== undefined && <PromoDialog />} */}
 
                 <Button variant='contained' color='primary'
                     onClick={() => {
