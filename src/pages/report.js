@@ -54,18 +54,18 @@ import { fetchHistory, fetchMarketValue } from '../services/market-value';
 // import icons
 import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 import DescriptionIcon from '@material-ui/icons/Description'
-import FacebookIcon from '@material-ui/icons/Facebook';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
+// import FacebookIcon from '@material-ui/icons/Facebook';
+// import InstagramIcon from '@material-ui/icons/Instagram';
+// import TwitterIcon from '@material-ui/icons/Twitter';
+// import LinkedInIcon from '@material-ui/icons/LinkedIn';
 // import custom context API
 import AppGlobalContext from "../globalContext";
 // import global variable wrapper using context API
 import { ContextWrapper } from "../globalContext";
 
 import html2canvas from "html2canvas";
-import { FacebookShareOnBt } from '../components/FacebookShareOnBt';
-import SocialMediaButtons, { TwitterShareBt } from "../components/SocialMediaButtons";
+// import { FacebookShareOnBt } from '../components/FacebookShareOnBt';
+// import SocialMediaButtons, { TwitterShareBt } from "../components/SocialMediaButtons";
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -711,13 +711,13 @@ export default function Home() {
                 </Container>
             </Box>
 
-            <Box>
-                {/*<FacebookShareOnBt title={'Check My Job Matching Report'}*/}
-                {/*                   reportPicture={shareReportImg}/>*/}
-                <SocialMediaButtons title={shareReportTitle}
-                    reportPicture={shareReportImg}
-                    url={shareReportUrl} />
-            </Box>
+            {/*<Box>*/}
+            {/*    <FacebookShareOnBt title={'Check My Job Matching Report'}*/}
+            {/*                       reportPicture={shareReportImg}/>*/}
+            {/*    <SocialMediaButtons title={shareReportTitle}*/}
+            {/*        reportPicture={shareReportImg}*/}
+            {/*        url={shareReportUrl} />*/}
+            {/*</Box>*/}
         </>
     )
 }
