@@ -35,10 +35,10 @@ export const BusinessRadarChart = ({report}) => {
                 }
             },
             indicator: [
-                {name: t('b_radarchart.skills'), max: 100},
+                {name: t('b_radarchart.education'), max: 100},
                 {name: t('b_radarchart.industry'), max: 100},
                 {name: t('b_radarchart.workExperience'), max: 100},
-                {name: t('b_radarchart.education'), max: 100}
+                {name: t('b_radarchart.skills'), max: 100}
             ]
         },
         series: [{
@@ -49,9 +49,8 @@ export const BusinessRadarChart = ({report}) => {
             data: [
                 {
                     value: [
-                        skills.marking, industry.marking,
-                        work_experience.marking,
-                        education_experience.marking],
+                        education_experience.marking, industry.marking,
+                        work_experience.marking, skills.marking],
                     tooltip: {
                         show: true,
                         trigger: 'item',
@@ -65,8 +64,7 @@ export const BusinessRadarChart = ({report}) => {
     }
 
     return (
-        <Box height={400}
-        >
+        <Box height={400}>
             <ReactECharts
                 option={option} style={{height: '400px', width: '100%'}}
             />
@@ -101,62 +99,61 @@ export const BusinessMarketCompetitiveness = ({report}) => {
         );
     };
 
+    const BarElement = ({percentage, text}) => {
+        const widthInPercentage = (0.85 * percentage) + '%';
+        return (<Box height={30}
+                     display={'flex'} justifyContent={'space-between'}
+                     style={{
+                         width: widthInPercentage,
+                         backgroundColor: '#194fbc', color: '#ffffff',
+                         boxShadow: '1px 3px 5px 2px rgba(89,121,181,0.8)'
+                     }}>
+            <Box style={{margin: 5}}>{text}</Box>
+            <Box style={{margin: 5}}>{percentage}%</Box>
+        </Box>);
+    }
+
     const PercentageLabels = () => {
         return (
-            <Grid item xs={6}>
-                <Box display='flex' flexDirection="column">
-                    <Box display='flex' flexDirection="row">
-                        <Box width={100}>
-                            <PercentageLabel name={t('b_radarchart.workExperience')}
-                                             value={work_experience.marking} mt={6}/></Box>
-                        <Box style={{
-                            color: '#373b6c',
-                            maxWidth: 450,
-                            marginTop: 10,
-                            display: 'flex',
-                            alignItems: 'center'
-                        }}>{experience_improve}</Box>
-                    </Box>
-                    <Box display='flex' flexDirection="row">
-                        <Box width={100}>
-                            <PercentageLabel name={t('b_radarchart.skills')} value={skills.marking}
-                                             mt={6}/></Box>
-                        <Box style={{
-                            color: '#373b6c',
-                            maxWidth: 450,
-                            marginTop: 10,
-                            display: 'flex',
-                            alignItems: 'center'
-                        }}>{skills_improve}</Box>
-                    </Box>
-                    <Box display='flex' flexDirection="row">
-                        <Box width={100}>
-                            <PercentageLabel name={t('b_radarchart.education')}
-                                             value={education_experience.marking} mt={6} width={100}
-                                             /></Box>
-                        <Box style={{
-                            color: '#373b6c',
-                            maxWidth: 450,
-                            marginTop: 10,
-                            display: 'flex',
-                            alignItems: 'center'
-                        }}>{education_improve}</Box>
-                    </Box>
-                    <Box display='flex' flexDirection="row">
-                        <Box width={100}>
-                            <PercentageLabel name={t('b_radarchart.industry')}
-                                             value={industry.marking}
-                                             mt={6} width={100}/></Box>
-                        <Box style={{
-                            color: '#373b6c',
-                            maxWidth: 450,
-                            marginTop: 10,
-                            display: 'flex',
-                            alignItems: 'center'
-                        }}>{industry_improve}</Box>
-                    </Box>
-                </Box>
-            </Grid>);
+            <Box style={{width: '70%'}}>
+                <br/>
+                <br/>
+                <BarElement percentage={work_experience.marking} text={t('b_radarchart.workExperience')}/>
+                <Box style={{
+                    color: '#373b6c',
+                    maxWidth: 450,
+                    marginTop: 10,
+                    display: 'flex'
+                }}>{experience_improve}</Box>
+
+                <br/>
+                <BarElement percentage={education_experience.marking} text={t('b_radarchart.education')}/>
+                <Box style={{
+                    color: '#373b6c',
+                    maxWidth: 450,
+                    marginTop: 10,
+                    display: 'flex'
+                }}>{education_improve}</Box>
+                <br/>
+
+                <BarElement percentage={skills.marking} text={t('b_radarchart.skills')}/>
+                <Box style={{
+                    color: '#373b6c',
+                    maxWidth: 450,
+                    marginTop: 10,
+                    display: 'flex'
+                }}>{skills_improve}</Box>
+
+
+                <br/>
+                <BarElement percentage={industry.marking} text={t('b_radarchart.industry')}/>
+                <Box style={{
+                    color: '#373b6c',
+                    maxWidth: 450,
+                    marginTop: 10,
+                    display: 'flex'
+                }}>{industry_improve}</Box>
+            </Box>);
     };
 
     return (
@@ -166,12 +163,12 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                     {t('b_radarchart.title')}
                 </Box>
                 <FitJobSection></FitJobSection>
-                <Grid container>
-                    <Grid item xs={6}>
-                        <BusinessRadarChart report={report}/>
-                    </Grid>
+                <Box container style={{display: 'flex'}}>
                     <PercentageLabels></PercentageLabels>
-                </Grid>
+                    <Box style={{width: '30%'}}>
+                        <BusinessRadarChart report={report}/>
+                    </Box>
+                </Box>
             </Box>
         </Section>
     )
