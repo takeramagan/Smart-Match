@@ -35,10 +35,10 @@ export const BusinessRadarChart = ({report}) => {
                 }
             },
             indicator: [
-                {name: t('b_radarchart.skills'), max: 100},
+                {name: t('b_radarchart.education'), max: 100},
                 {name: t('b_radarchart.industry'), max: 100},
                 {name: t('b_radarchart.workExperience'), max: 100},
-                {name: t('b_radarchart.education'), max: 100}
+                {name: t('b_radarchart.skills'), max: 100}
             ]
         },
         series: [{
@@ -49,9 +49,8 @@ export const BusinessRadarChart = ({report}) => {
             data: [
                 {
                     value: [
-                        skills.marking, industry.marking,
-                        work_experience.marking,
-                        education_experience.marking],
+                        education_experience.marking, industry.marking,
+                        work_experience.marking, skills.marking],
                     tooltip: {
                         show: true,
                         trigger: 'item',
@@ -65,8 +64,7 @@ export const BusinessRadarChart = ({report}) => {
     }
 
     return (
-        <Box height={400}
-        >
+        <Box height={400}>
             <ReactECharts
                 option={option} style={{height: '400px', width: '100%'}}
             />
@@ -102,13 +100,16 @@ export const BusinessMarketCompetitiveness = ({report}) => {
     };
 
     const BarElement = ({percentage, text}) => {
-        return (<Box width={587 * percentage / 100} height={30}
+        const widthInPercentage = (0.85 * percentage) + '%';
+        return (<Box height={30}
                      display={'flex'} justifyContent={'space-between'}
                      style={{
-                         backgroundColor: '#194fbc', color: '#ffffff'
+                         width: widthInPercentage,
+                         backgroundColor: '#194fbc', color: '#ffffff',
+                         boxShadow: '1px 3px 5px 2px rgba(89,121,181,0.8)'
                      }}>
-            <div style={{margin: 5}}>{text}</div>
-            <div style={{margin: 5}}>{percentage}%</div>
+            <Box style={{margin: 5}}>{text}</Box>
+            <Box style={{margin: 5}}>{percentage}%</Box>
         </Box>);
     }
 
@@ -126,6 +127,15 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                 }}>{experience_improve}</Box>
 
                 <br/>
+                <BarElement percentage={education_experience.marking} text={t('b_radarchart.education')}/>
+                <Box style={{
+                    color: '#373b6c',
+                    maxWidth: 450,
+                    marginTop: 10,
+                    display: 'flex'
+                }}>{education_improve}</Box>
+                <br/>
+
                 <BarElement percentage={skills.marking} text={t('b_radarchart.skills')}/>
                 <Box style={{
                     color: '#373b6c',
@@ -134,14 +144,6 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                     display: 'flex'
                 }}>{skills_improve}</Box>
 
-                <br/>
-                <BarElement percentage={education_experience.marking} text={t('b_radarchart.education')}/>
-                <Box style={{
-                    color: '#373b6c',
-                    maxWidth: 450,
-                    marginTop: 10,
-                    display: 'flex'
-                }}>{education_improve}</Box>
 
                 <br/>
                 <BarElement percentage={industry.marking} text={t('b_radarchart.industry')}/>
