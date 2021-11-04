@@ -106,7 +106,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                      style={{
                          width: widthInPercentage,
                          backgroundColor: '#194fbc', color: '#ffffff',
-                         boxShadow: '1px 3px 5px 2px rgba(89,121,181,0.8)'
+                         boxShadow: '0px 4px 4px rgba(0,0,0,0.25)'
                      }}>
             <Box style={{margin: 5}}>{text}</Box>
             <Box style={{margin: 5}}>{percentage}%</Box>
@@ -115,13 +115,13 @@ export const BusinessMarketCompetitiveness = ({report}) => {
 
     const PercentageLabels = () => {
         return (
-            <Box style={{width: '70%'}}>
+            <Box style={{width: '70%', fontSize: 15}}>
                 <br/>
                 <br/>
                 <BarElement percentage={work_experience.marking} text={t('b_radarchart.workExperience')}/>
                 <Box style={{
                     color: '#373b6c',
-                    maxWidth: 450,
+                    maxWidth: 588,
                     marginTop: 10,
                     display: 'flex'
                 }}>{experience_improve}</Box>
@@ -130,7 +130,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                 <BarElement percentage={education_experience.marking} text={t('b_radarchart.education')}/>
                 <Box style={{
                     color: '#373b6c',
-                    maxWidth: 450,
+                    maxWidth: 588,
                     marginTop: 10,
                     display: 'flex'
                 }}>{education_improve}</Box>
@@ -139,7 +139,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                 <BarElement percentage={skills.marking} text={t('b_radarchart.skills')}/>
                 <Box style={{
                     color: '#373b6c',
-                    maxWidth: 450,
+                    maxWidth: 588,
                     marginTop: 10,
                     display: 'flex'
                 }}>{skills_improve}</Box>
@@ -149,7 +149,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                 <BarElement percentage={industry.marking} text={t('b_radarchart.industry')}/>
                 <Box style={{
                     color: '#373b6c',
-                    maxWidth: 450,
+                    maxWidth: 588,
                     marginTop: 10,
                     display: 'flex'
                 }}>{industry_improve}</Box>
