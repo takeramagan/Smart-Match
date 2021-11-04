@@ -101,62 +101,57 @@ export const BusinessMarketCompetitiveness = ({report}) => {
         );
     };
 
+    const BarElement = ({percentage, text}) => {
+        return (<Box width={587 * percentage / 100} height={30}
+                     display={'flex'} justifyContent={'space-between'}
+                     style={{
+                         backgroundColor: '#194fbc', color: '#ffffff'
+                     }}>
+            <div style={{margin: 5}}>{text}</div>
+            <div style={{margin: 5}}>{percentage}%</div>
+        </Box>);
+    }
+
     const PercentageLabels = () => {
         return (
-            <Grid item xs={6}>
-                <Box display='flex' flexDirection="column">
-                    <Box display='flex' flexDirection="row">
-                        <Box width={100}>
-                            <PercentageLabel name={t('b_radarchart.workExperience')}
-                                             value={work_experience.marking} mt={6}/></Box>
-                        <Box style={{
-                            color: '#373b6c',
-                            maxWidth: 450,
-                            marginTop: 10,
-                            display: 'flex',
-                            alignItems: 'center'
-                        }}>{experience_improve}</Box>
-                    </Box>
-                    <Box display='flex' flexDirection="row">
-                        <Box width={100}>
-                            <PercentageLabel name={t('b_radarchart.skills')} value={skills.marking}
-                                             mt={6}/></Box>
-                        <Box style={{
-                            color: '#373b6c',
-                            maxWidth: 450,
-                            marginTop: 10,
-                            display: 'flex',
-                            alignItems: 'center'
-                        }}>{skills_improve}</Box>
-                    </Box>
-                    <Box display='flex' flexDirection="row">
-                        <Box width={100}>
-                            <PercentageLabel name={t('b_radarchart.education')}
-                                             value={education_experience.marking} mt={6} width={100}
-                                             /></Box>
-                        <Box style={{
-                            color: '#373b6c',
-                            maxWidth: 450,
-                            marginTop: 10,
-                            display: 'flex',
-                            alignItems: 'center'
-                        }}>{education_improve}</Box>
-                    </Box>
-                    <Box display='flex' flexDirection="row">
-                        <Box width={100}>
-                            <PercentageLabel name={t('b_radarchart.industry')}
-                                             value={industry.marking}
-                                             mt={6} width={100}/></Box>
-                        <Box style={{
-                            color: '#373b6c',
-                            maxWidth: 450,
-                            marginTop: 10,
-                            display: 'flex',
-                            alignItems: 'center'
-                        }}>{industry_improve}</Box>
-                    </Box>
-                </Box>
-            </Grid>);
+            <Box style={{width: '70%'}}>
+                <br/>
+                <br/>
+                <BarElement percentage={work_experience.marking} text={t('b_radarchart.workExperience')}/>
+                <Box style={{
+                    color: '#373b6c',
+                    maxWidth: 450,
+                    marginTop: 10,
+                    display: 'flex'
+                }}>{experience_improve}</Box>
+
+                <br/>
+                <BarElement percentage={skills.marking} text={t('b_radarchart.skills')}/>
+                <Box style={{
+                    color: '#373b6c',
+                    maxWidth: 450,
+                    marginTop: 10,
+                    display: 'flex'
+                }}>{skills_improve}</Box>
+
+                <br/>
+                <BarElement percentage={education_experience.marking} text={t('b_radarchart.education')}/>
+                <Box style={{
+                    color: '#373b6c',
+                    maxWidth: 450,
+                    marginTop: 10,
+                    display: 'flex'
+                }}>{education_improve}</Box>
+
+                <br/>
+                <BarElement percentage={industry.marking} text={t('b_radarchart.industry')}/>
+                <Box style={{
+                    color: '#373b6c',
+                    maxWidth: 450,
+                    marginTop: 10,
+                    display: 'flex'
+                }}>{industry_improve}</Box>
+            </Box>);
     };
 
     return (
@@ -166,12 +161,12 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                     {t('b_radarchart.title')}
                 </Box>
                 <FitJobSection></FitJobSection>
-                <Grid container>
-                    <Grid item xs={6}>
-                        <BusinessRadarChart report={report}/>
-                    </Grid>
+                <Box container style={{display: 'flex'}}>
                     <PercentageLabels></PercentageLabels>
-                </Grid>
+                    <Box style={{width: '30%'}}>
+                        <BusinessRadarChart report={report}/>
+                    </Box>
+                </Box>
             </Box>
         </Section>
     )

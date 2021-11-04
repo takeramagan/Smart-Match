@@ -189,13 +189,8 @@ export const RadarChart = ({report}) => {
 }
 
 export const MarketCompetitiveness = ({report}) => {
-    const theme = useTheme();
     const {t} = useTranslation();
-    const jobtitle = report.market_value_info.matched_job_title
-
-    const jobLevel = 'Senior';
-    const competitiveness = 9;
-
+    const jobtitle = report.market_value_info.matched_job_title;
     const {
         format, language, matching: matchLevel, logic,
         format_to_improve, language_to_improve, logic_to_improve, profession_match_to_improve

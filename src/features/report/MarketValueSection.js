@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Box} from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import ReactECharts from 'echarts-for-react';
 
@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { Section } from '../../components/Section';
 import { MenuButton } from '../../components/CommonReusable/MenuButton';
 
-import { h, h1, h2, h3, h4, h5 } from '../../constant/fontsize';
+import { h, h1, h2, h3, h5 } from '../../constant/fontsize';
 
 import { formatter } from '../../untils/currency';
 
@@ -17,13 +17,6 @@ import { formatter } from '../../untils/currency';
 const Chart = ({ income }) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  // const numbers = Object.values(income)
-  //   .filter(Number.isInteger)
-  //   .concat(Object.values(income.predicted_market_value))
-  //   .sort(function (a, b) {
-  //     return a - b
-  //   })
-
   const getNumbers = () => {
     const result = []
     const NumOfColumns = 4
@@ -122,27 +115,7 @@ const Chart = ({ income }) => {
           return (params.name + '  ' + '<b>' + params.data.toLocaleString() + '</b>' + '<br/>' + "Your are here"
           );
         },
-      },
-      // label: {
-      //   show: true,
-      //   position: "top",
-      //   // rotate: 90,
-      //   // align: "middle",
-      //   // verticalAlign: "middle",
-      //   fontSize: 12,
-      //   //formatter: '{@pop2035} millions', //pop value as strin
-      //   // formatter: 'You are here<br />Beaten 50%',
-      //   backgroundColor: 'blue',
-      //   padding: [4, 10],
-      //   borderRadius: 3,
-      //   borderWidth: 1,
-      //   // borderColor: 'rgba(0,0,0,0.5)',
-      //   color:'white',
-      //   margin: 50,
-      //   formatter: function (params) {
-      //      return ("Your are here");
-      //   }
-      // }
+      }
     }]
   }
   return (
@@ -174,7 +147,7 @@ export function MarketValueSection({ report }) {
   const area = report.lang === 'cn' ? (report.countryCode === 'us' ? '美国' : '加拿大') : (report.countryCode === 'us' ? 'USA' : 'Canada')
   const { t } = useTranslation()
 
-  // function retrived response from child component "MenuButton" and set full-time /part-time status
+  // function retrieved response from child component "MenuButton" and set full-time /part-time status
   const [employeeSelectedType, setEmployeeSelectedType] = useState(0);
 
   useEffect(()=>{
@@ -221,7 +194,6 @@ export function MarketValueSection({ report }) {
           </Button> */}
         </Box>
         <Box display='flex' justifyContent='space-between'>
-
           <Box color='#373A70' fontWeight='500' width='195px' textAlign='right'>
             <Box fontSize={h2}>
               {t('marketvalue.predicted salary')}
