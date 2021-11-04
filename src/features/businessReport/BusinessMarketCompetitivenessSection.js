@@ -115,7 +115,10 @@ export const BusinessMarketCompetitiveness = ({report}) => {
 
     const PercentageLabels = () => {
         return (
-            <Box style={{width: '70%', fontSize: 15}}>
+            <Box style={{
+                width: '70%', fontSize: 15,
+                fontWeight: 'bold'
+            }}>
                 <br/>
                 <br/>
                 <BarElement percentage={work_experience.marking} text={t('b_radarchart.workExperience')}/>
@@ -123,7 +126,8 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                     color: '#373b6c',
                     maxWidth: 588,
                     marginTop: 10,
-                    display: 'flex'
+                    display: 'flex',
+                    fontWeight: 'normal'
                 }}>{experience_improve}</Box>
 
                 <br/>
@@ -132,7 +136,8 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                     color: '#373b6c',
                     maxWidth: 588,
                     marginTop: 10,
-                    display: 'flex'
+                    display: 'flex',
+                    fontWeight: 'normal'
                 }}>{education_improve}</Box>
                 <br/>
 
@@ -141,7 +146,8 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                     color: '#373b6c',
                     maxWidth: 588,
                     marginTop: 10,
-                    display: 'flex'
+                    display: 'flex',
+                    fontWeight: 'normal'
                 }}>{skills_improve}</Box>
 
 
@@ -151,7 +157,8 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                     color: '#373b6c',
                     maxWidth: 588,
                     marginTop: 10,
-                    display: 'flex'
+                    display: 'flex',
+                    fontWeight: 'normal'
                 }}>{industry_improve}</Box>
             </Box>);
     };
