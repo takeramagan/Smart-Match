@@ -105,6 +105,7 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                      display={'flex'} justifyContent={'space-between'}
                      style={{
                          width: widthInPercentage,
+                         borderRadius: 3,
                          backgroundColor: '#194fbc', color: '#ffffff',
                          boxShadow: '0px 4px 4px rgba(0,0,0,0.25)'
                      }}>
