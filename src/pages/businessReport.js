@@ -15,7 +15,7 @@ import {LoadingPage} from "../features/report/LoadingWhenUpload";
 // import other library
 import {useRouter} from 'next/router';
 // import icons
-import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
+// import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -24,7 +24,7 @@ const generatePdf = () => {
     if (typeof window !== "undefined") {
         window.scrollTo(0, 0);
         // force to enter full screen for generating picture
-        // const input = document.getElementById('divToPrint');
+        const input = document.getElementById('divToPrint');
         // let rfs = // for newer Webkit and Firefox
         //     input.requestFullscreen
         //     || input.webkitRequestFullScreen
