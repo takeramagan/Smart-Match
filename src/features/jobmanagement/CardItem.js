@@ -1,5 +1,5 @@
 // import material ui component
-import { Box, Button } from "@material-ui/core";
+import { Box, Button, Typography } from "@material-ui/core";
 // import icons
 import EditIcon from '@material-ui/icons/Edit';
 // import constant 
@@ -21,11 +21,11 @@ export const CardItem = ({ item, isTitle, index, onShowJobDetail, onShowApplican
                 justifyContent='center' style={style}>
                 <Box width='8%' overflow='hidden'>{isTitle ? item.header_jobid : job_reference_id}</Box>
                 <Box width='8%' overflow='hidden'>{isTitle ? item.header_currency : getCountryName}</Box>
-                <Box width='15%' overflow='hidden'>
+                <Box width='20%' overflow='hidden' textAlign='center'>
                     {isTitle ? item.header_jobtitle :
                         <Button
                             onClick={() => onCheckApplicants(currency, description)} variant='contained' color='primary'
-                            style={{ height: 30, marginTop: 10, marginBottom: 10 }}
+                            style={{ height: "100%", width: "100%", maxHeight: "80px", padding: "5px"}}
                         >
                             {jobtitle}
                         </Button>}
@@ -46,8 +46,8 @@ export const CardItem = ({ item, isTitle, index, onShowJobDetail, onShowApplican
                                 onClick={onAddApplicant}>Add</Button>
                         </Box>}
                 </Box>
-                <Box width='12%' overflow='hidden' textAlign='center'>{isTitle ? item.header_job_status : job_status}</Box>
-                <Box width='8%'>
+                <Box width='10%' overflow='hidden' textAlign='center'>{isTitle ? item.header_job_status : job_status}</Box>
+                <Box width='8%' textAlign='center'>
                     {isTitle ? item.header_edit :
                         <Button onClick={() => onShowJobDetail(index)}>
                             {/* {showDetail && <ExpandLessIcon />}
@@ -56,8 +56,10 @@ export const CardItem = ({ item, isTitle, index, onShowJobDetail, onShowApplican
                         </Button>}
                 </Box>
                 <Box width='10%' overflow='hidden'>{isTitle ? item.header_postdate : (job_posting_time.split("T")[0])}</Box>
-                <Box width='15%' overflow='hidden' textAlign='center'>
-                    {note}
+                <Box width='10%' overflow='hidden' textAlign='center'>
+                    <Typography noWrap >
+                        {note}
+                    </Typography>
                 </Box>
                 <Box width='10%' overflow='hidden' textAlign='center'>
                     {isTitle && item.header_delete}

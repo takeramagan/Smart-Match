@@ -213,7 +213,7 @@ const JobManagement = () => {
                             note: "Note",
                             header_delete: "Delete Job"
                         }}
-                        style={{ fontWeight: 600 }}
+                        style={{ fontWeight: 600}}
                         key={-1}
                         isTitle />
                     {hrHistoryList.length === 0 && "No application history"}
@@ -221,6 +221,7 @@ const JobManagement = () => {
                         <CardItem
                             index={i}
                             item={job}
+                            style={{ height: "80px"}}
                             onShowJobDetail={showJobDetailCallback}
                             onCheckApplicants={() => checkApplicantsCallback(job)}
                             onShowApplicants={showApplicantsCallback}

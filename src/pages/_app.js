@@ -1,10 +1,18 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Head from 'next/head'
-import { ThemeProvider } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import theme from '../theme'
-import "../i18n/config"
+// import react
+import React from 'react';
+// import react typechecking
+import PropTypes from 'prop-types';
+// import config file that initialize i18next
+import "../i18n/config";
+// inject element to head tag of page
+import Head from 'next/head';
+/* use custom theme (based on default theme)  */
+// import custom theme
+import theme from '../theme';
+// wrapper to wrap content with themeprovider
+import { ThemeProvider } from '@material-ui/core/styles';
+// import CssBaseline to provides better cross-browser consistency in the default styling of HTML elements. (Same as normalize.css)
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { Provider } from 'react-redux'
 import { store } from '../store/store'
 import 'react-toastify/dist/ReactToastify.css';
