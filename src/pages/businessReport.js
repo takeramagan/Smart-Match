@@ -19,42 +19,6 @@ import {useRouter} from 'next/router';
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-
-const generatePdf = () => {
-    if (typeof window !== "undefined") {
-        window.scrollTo(0, 0);
-        // force to enter full screen for generating picture
-        const input = document.getElementById('divToPrint');
-        // let rfs = // for newer Webkit and Firefox
-        //     input.requestFullscreen
-        //     || input.webkitRequestFullScreen
-        //     || input.mozRequestFullScreen
-        //     || input.msRequestFullscreen;
-        // if (typeof rfs != "undefined" && rfs) {
-        //     rfs.call(input);
-        // } else if (typeof window.ActiveXObject != "undefined") {
-        //     // for Internet Explorer
-        //     let wscript = new ActiveXObject("WScript.Shell");
-        //     if (wscript != null) {
-        //         wscript.SendKeys("{F11}");
-        //     }
-        // }
-
-        html2canvas(input)
-            .then((canvas) => {
-                const imgData = canvas.toDataURL('image/png', 0.3);
-                const pdf = new jsPDF('l', 'mm', 'a4', true);
-                const imgProps = pdf.getImageProperties(imgData);
-                const width = pdf.internal.pageSize.getWidth();
-                const height = (imgProps.height * width) / imgProps.width;
-                pdf.addImage(imgData, 'PNG', 0, 0, width, height, undefined, 'FAST');
-                pdf.save("report.pdf");
-            });
-    } else {
-        alert('Sorry, export function does not support for your current environment, we are upgrading the function!');
-    }
-};
-
 export default function BusinessReport({presetReport}) {
     const {t} = useTranslation();
     const router = useRouter();
@@ -165,14 +129,6 @@ export default function BusinessReport({presetReport}) {
                     </Grid>
                 </Container>
 
-                <div style={{textAlign: 'right', marginTop: 20, marginBottom: 20, marginRight: 96}}>
-                    <Button
-                        variant='contained'
-                        onClick={generatePdf}
-                        color='primary'>
-                        {t('export.exportFile')}
-                    </Button>
-                </div>
             </Box>
         </>
     )

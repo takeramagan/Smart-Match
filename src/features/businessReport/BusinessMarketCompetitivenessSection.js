@@ -1,9 +1,9 @@
 import {Trans, useTranslation} from "react-i18next";
-import {Box, Grid} from "@material-ui/core";
+import {Box} from "@material-ui/core";
 import {h, h2} from "../../constant/fontsize";
-import {PercentageLabel} from "../../components/PercentageLabel";
 import {Section} from "../../components/Section";
 import ReactECharts from "echarts-for-react";
+import styles from '../../styles/Home.module.css'
 
 export const BusinessRadarChart = ({report}) => {
     const {t} = useTranslation();
@@ -64,7 +64,7 @@ export const BusinessRadarChart = ({report}) => {
     }
 
     return (
-        <Box height={400}>
+        <Box height={400} className={styles.businessReportRadarChart}>
             <ReactECharts
                 option={option} style={{height: '400px', width: '100%'}}
             />
@@ -115,9 +115,8 @@ export const BusinessMarketCompetitiveness = ({report}) => {
     }
 
     const PercentageLabels = () => {
-        return (
-            <Box style={{
-                width: '70%', fontSize: 15,
+        return (<Box className={styles.businessReportBarChart} style={{
+                fontSize: 15,
                 fontWeight: 'bold'
             }}>
                 <br/>
@@ -170,12 +169,10 @@ export const BusinessMarketCompetitiveness = ({report}) => {
                 <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
                     {t('b_radarchart.title')}
                 </Box>
-                <FitJobSection></FitJobSection>
-                <Box container style={{display: 'flex'}}>
-                    <PercentageLabels></PercentageLabels>
-                    <Box style={{width: '30%'}}>
-                        <BusinessRadarChart report={report}/>
-                    </Box>
+                <FitJobSection/>
+                <Box container className={styles.businessReportChartContainer}>
+                    <PercentageLabels/>
+                    <BusinessRadarChart report={report}/>
                 </Box>
             </Box>
         </Section>

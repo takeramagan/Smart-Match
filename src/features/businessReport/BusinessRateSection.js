@@ -11,6 +11,44 @@ import {
     X_API_KEY_B_AND_C
 } from "../../constant/externalURLs";
 import {RateForm} from "../../components/CommonReusable/RateForm";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+
+
+const generatePdf = () => {
+    if (typeof window !== "undefined") {
+        window.scrollTo(0, 0);
+        // force to enter full screen for generating picture
+        const input = document.getElementById('divToPrint');
+        // let rfs = // for newer Webkit and Firefox
+        //     input.requestFullscreen
+        //     || input.webkitRequestFullScreen
+        //     || input.mozRequestFullScreen
+        //     || input.msRequestFullscreen;
+        // if (typeof rfs != "undefined" && rfs) {
+        //     rfs.call(input);
+        // } else if (typeof window.ActiveXObject != "undefined") {
+        //     // for Internet Explorer
+        //     let wscript = new ActiveXObject("WScript.Shell");
+        //     if (wscript != null) {
+        //         wscript.SendKeys("{F11}");
+        //     }
+        // }
+
+        html2canvas(input)
+            .then((canvas) => {
+                const imgData = canvas.toDataURL('image/png', 0.3);
+                const pdf = new jsPDF('l', 'mm', 'a4', true);
+                const imgProps = pdf.getImageProperties(imgData);
+                const width = pdf.internal.pageSize.getWidth();
+                const height = (imgProps.height * width) / imgProps.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, width, height, undefined, 'FAST');
+                pdf.save("report.pdf");
+            });
+    } else {
+        alert('Sorry, export function does not support for your current environment, we are upgrading the function!');
+    }
+};
 
 export function BusinessRateSection({report, hrId, jobId, email}) {
     const {t} = useTranslation();
@@ -102,10 +140,6 @@ export function BusinessRateSection({report, hrId, jobId, email}) {
     const RateRequestButton = () => {
         return <Button variant='contained'
                        color='primary'
-                       target="_blank"
-                       style={{
-                           borderRadius: 15, marginLeft: 10, height: 30,
-                       }}
                        onClick={() => (setShowRateForm(true))}
         >
             {t("rating.request_rate_button")}
@@ -113,52 +147,63 @@ export function BusinessRateSection({report, hrId, jobId, email}) {
     };
 
     return (
-        <Section
-            style={{marginTop: 18}}>
-            <Box display={'flex'} flexDirection={'row'}>
-                <Box p={4} mb={4}>
-                    <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
-                        <Typography color='primary' style={{fontSize: h2, fontWeight: '500', marginRight: 20}}>
-                            <Button
-                                variant='contained'
-                                color='primary'
-                                target="_blank"
-                                style={{
-                                    borderRadius: 15, marginLeft: 10,
-                                    marginRight: 20, marginBottom: 10,
-                                    height: 30
-                                }}
-                                onClick={() => {
-                                    window.open('mailto:' + DK_CONTACT_US);
-                                }}
-                            >
-                                {t("b_radarchart.contact")}
-                            </Button>
-                            <span color={'#004AAD'}>{t("b_radarchart.contact_description")}</span>
-                        </Typography>
-                    </Box>
+        <>
+            <Section
+                style={{marginTop: 18}}>
+                <Box display={'flex'} flexDirection={'row'}>
+                    <Box p={4} mb={4}>
+                        <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
+                            <Typography color='primary' style={{fontSize: h2, fontWeight: '500', marginRight: 20}}>
+                                <Button
+                                    variant='contained'
+                                    color='primary'
+                                    target="_blank"
+                                    style={{
+                                        borderRadius: 15, marginLeft: 10,
+                                        marginRight: 20, marginBottom: 10,
+                                        height: 30
+                                    }}
+                                    onClick={() => {
+                                        window.open('mailto:' + DK_CONTACT_US);
+                                    }}
+                                >
+                                    {t("b_radarchart.contact")}
+                                </Button>
+                                <span color={'#004AAD'}>{t("b_radarchart.contact_description")}</span>
+                            </Typography>
+                        </Box>
 
-                    {/* =================== Rate Section ================= */}
-                    <Modal open={showRateForm}>
-                        <RateForm onCancel={() => {
-                            closeModal();
-                        }} formik={formik}
-                                  rated={rate.rate > 0}
-                                  hrid={hrId} jobid={jobId}
-                                  email={email}
-                                  requestHandler={requestHandler}
-                                  defaultValue={defaultValue}
-                        />
-                    </Modal>
-                    <Box display={'flex'} style={{justifyContent: 'center', marginTop: 10}}>
-                        <RateRequestButton></RateRequestButton>
+                        {/* =================== Rate Section ================= */}
+                        <Modal open={showRateForm}>
+                            <RateForm onCancel={() => {
+                                closeModal();
+                            }} formik={formik}
+                                      rated={rate.rate > 0}
+                                      hrid={hrId} jobid={jobId}
+                                      email={email}
+                                      requestHandler={requestHandler}
+                                      defaultValue={defaultValue}
+                            />
+                        </Modal>
                     </Box>
+                    <img src='ai.svg' width={80} height={100} style={{
+                        marginTop: 35,
+                        marginRight: 35
+                    }}/>
                 </Box>
-                <img src='ai.svg' width={80} height={100} style={{
-                    marginTop: 35,
-                    marginRight: 35
-                }}/>
-            </Box>
-        </Section>
+            </Section>
+            <div style={{display: 'flex', justifyContent:'space-between', marginTop: 20, marginBottom: 20,
+                marginRight: 96,  marginLeft: 96}}>
+                <RateRequestButton/>
+                <Button
+                    variant='contained'
+                    onClick={generatePdf}
+                    color='primary'>
+                    {t('export.exportFile')}
+                </Button>
+            </div>
+        </>
     );
 }
+
+
