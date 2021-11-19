@@ -40,6 +40,10 @@ const CareerBlock = ({
                      }) => {
     const classes = useStyles({noBackgroundColor, selected, background});
     return (
+        // black gradient colour
+        // background: noBackgroundColor ? 'white' : (selected ?
+        // background :
+        // (pos > 0) ? '#020024' : '#c4c4cb'),
         <Box
             className={classes.root}
             id={'CareerBlock'}
@@ -48,20 +52,17 @@ const CareerBlock = ({
             left={left}
             onClick={onClick}
             style={{
-                background: noBackgroundColor ? 'white' : (selected ?
-                    background :
-                    (pos > 0) ? '#020024' : '#c4c4cb'),
+                background: noBackgroundColor ? 'white' : (selected ? background : '#E0E0E0'),
                 borderRadius: noBackgroundColor ? '0' : '20px',
                 width: noBackgroundColor ? '100px' : '180px'
-                // ...style
             }}
         >
             <Box>
                 {/* <Box className='title' fontSize={h4} color={noBackgroundColor ? (selected ? '#024CC3' : '#6A707E') : 'inherit'}> */}
-                <Box className='title' fontSize={h4} color={(pos > 0) ? 'white' : 'black'}>
+                <Box className='title' fontSize={h4} color={(pos > 0) && selected ? 'white' : 'black'}>
                     {name}
                 </Box>
-                <Box className='salary' fontSize={h5} color={(pos > 0) ? 'white' : 'black'}>
+                <Box className='salary' fontSize={h5} color={(pos > 0) && selected ? 'white' : 'black'}>
                     Approx. {formatter(countryCode).format(salary)}
                 </Box>
             </Box>
@@ -118,12 +119,20 @@ const Aaaaa = ({selected, left: v}) => {
                     <stop offset='0.635417' stopColor='#60EFFF'/>
                     <stop offset='1' stopColor='#0099cc'/>
                 </linearGradient>
-                <linearGradient id="paint0_linear1" x1="7.77943" y1="123.665" x2="600" y2="118.727"
-                                gradientUnits="userSpaceOnUse">
-                    <stop offset="0.114583" stopColor="#f2f2f2"/>
-                    <stop offset="0.401042" stopColor="#7f7e90"/>
-                    <stop offset="0.635417" stopColor="#7f7e90"/>
-                    <stop offset="1" stopColor="#020024"/>
+                {/*<linearGradient id="paint0_linear1" x1="7.77943" y1="123.665" x2="600" y2="118.727"*/}
+                {/*                gradientUnits="userSpaceOnUse">*/}
+                {/*    <stop offset="0.114583" stopColor="#f2f2f2"/>*/}
+                {/*    <stop offset="0.401042" stopColor="#7f7e90"/>*/}
+                {/*    <stop offset="0.635417" stopColor="#7f7e90"/>*/}
+                {/*    <stop offset="1" stopColor="#020024"/>*/}
+                {/*</linearGradient>*/}
+
+                <linearGradient id='paint0_linear1' x1='7.77943' y1='123.665' x2={left} y2='118.727'
+                                gradientUnits='userSpaceOnUse'>
+                    <stop offset='0.114583' stopColor='#f2f2f2'/>
+                    <stop offset='0.401042' stopColor='#f2f2f2'/>
+                    <stop offset='0.635417' stopColor='#f2f2f2'/>
+                    <stop offset='1' stopColor='#f2f2f2'/>
                 </linearGradient>
             </defs>
         </svg>
@@ -158,7 +167,8 @@ const Aaaab = ({selected, left: v}) => {
                     <stop offset="0.114583" stopColor="#f2f2f2"/>
                     <stop offset="0.401042" stopColor="#7f7e90"/>
                     <stop offset="0.635417" stopColor="#7f7e90"/>
-                    <stop offset="1" stopColor="#020024"/>
+                    {/*<stop offset="1" stopColor="#020024"/>*/}
+                    <stop offset='1' stopColor='#f2f2f2'/>
                 </linearGradient>
             </defs>
         </svg>
