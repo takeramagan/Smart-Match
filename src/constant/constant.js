@@ -12,41 +12,41 @@ export const toastStyle = {
 
 export const tiers = [
   {
-      title: 'Sourcer',
-      titleSubHeader: "Get targeted applicants with detailed profiles for all your open roles.",
-      price: '0',
-      description: [
-        '**********************************testtest',
-        '************************************testestestsetset',
-        '******************************************setsetsete'
-      ]
+    title: 'Sourcer',
+    titleSubHeader: "Get targeted applicants with detailed profiles for all your open roles.",
+    price: '0',
+    description: [
+      '**********************************testtest',
+      '************************************testestestsetset',
+      '******************************************setsetsete'
+    ]
   },
   {
-      title: 'Recruiter Monthly Unlimited Usage',
-      titleSubHeader: "Turbocharge your sourcing, screen talent, track hiring & power collaboration.",
-      subheader: 'Most popular',
-      price: '400',
-      description: [
-          '***********************************testtest',
-          '*******************************testestestsetset',
-          '***************************************setsetsetset',
-          '**********************setsetsete',
-      ],
-      buttonText: 'Buy',
-      buttonVariant: 'contained',
-      buyButton: <div id='product-component-1640830179469'/>
+    title: 'Recruiter Monthly Unlimited Usage',
+    titleSubHeader: "Turbocharge your sourcing, screen talent, track hiring & power collaboration.",
+    subheader: 'Most popular',
+    price: '400',
+    description: [
+      '***********************************testtest',
+      '*******************************testestestsetset',
+      '***************************************setsetsetset',
+      '**********************setsetsete',
+    ],
+    buttonText: 'Buy',
+    buttonVariant: 'contained',
+    buyButton: <div id='product-component-1640830179469' />
   },
   {
-      title: 'Recruiter Yearly Unlimited Usage',
-      titleSubHeader: "Turbocharge your sourcing, screen talent, track hiring & power collaboration.",
-      price: '1400',
-      description: [
-          '***********************************testtest',
-          '*******************************testestestsetset',
-          '***************************************setsetsetset',
-          '**********************setsetsete',
-      ],
-      buyButton: <div id='product-component-1640830557448'/>
+    title: 'Recruiter Yearly Unlimited Usage',
+    titleSubHeader: "Turbocharge your sourcing, screen talent, track hiring & power collaboration.",
+    price: '1400',
+    description: [
+      '***********************************testtest',
+      '*******************************testestestsetset',
+      '***************************************setsetsetset',
+      '**********************setsetsete',
+    ],
+    buyButton: <div id='product-component-1640830557448' />
   },
   // {
   //     title: 'Teams',
