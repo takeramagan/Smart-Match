@@ -11,16 +11,16 @@ export const toastStyle = {
 }//toast 式样
 
 export const tiers = [
-  {
-    title: 'Sourcer',
-    titleSubHeader: "Get targeted applicants with detailed profiles for all your open roles.",
-    price: '0',
-    description: [
-      '**********************************testtest',
-      '************************************testestestsetset',
-      '******************************************setsetsete'
-    ]
-  },
+  // {
+  //   title: 'Sourcer',
+  //   titleSubHeader: "Get targeted applicants with detailed profiles for all your open roles.",
+  //   price: '0',
+  //   description: [
+  //     '**********************************testtest',
+  //     '************************************testestestsetset',
+  //     '******************************************setsetsete'
+  //   ]
+  // },
   {
     title: 'Recruiter Monthly Unlimited Usage',
     titleSubHeader: "Turbocharge your sourcing, screen talent, track hiring & power collaboration.",
