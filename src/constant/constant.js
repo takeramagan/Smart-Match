@@ -25,12 +25,10 @@ export const tiers = [
     title: 'Recruiter Monthly Unlimited Usage',
     titleSubHeader: "Turbocharge your sourcing, screen talent, track hiring & power collaboration.",
     subheader: 'Most popular',
-    price: '400',
+    price: '40',
+    period: 'month',
     description: [
-      '***********************************testtest',
-      '*******************************testestestsetset',
-      '***************************************setsetsetset',
-      '**********************setsetsete',
+      'Unlimited number of Resume Analysis and Job Posting services for a month.'
     ],
     buttonText: 'Buy',
     buttonVariant: 'contained',
@@ -39,12 +37,11 @@ export const tiers = [
   {
     title: 'Recruiter Yearly Unlimited Usage',
     titleSubHeader: "Turbocharge your sourcing, screen talent, track hiring & power collaboration.",
-    price: '1400',
+    price: '360',
+    period: 'year',
     description: [
-      '***********************************testtest',
-      '*******************************testestestsetset',
-      '***************************************setsetsetset',
-      '**********************setsetsete',
+      'Unlimited number of Resume Analysis and Job Posting services for a year.',
+      'Enjoy the deal of 25% off',
     ],
     buyButton: <div id='product-component-1640830557448' />
   },

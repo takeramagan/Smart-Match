@@ -147,6 +147,7 @@ export default function PricingSection(props) {
     return (
         // Grid section shows available options
         <div style={{margin: 'auto'}}>
+            <br/><br/><br/>
             <Grid container spacing={0} alignItems="stretch">
                 {props.tiers.map((tier) => (
                     // Enterprise card is full width at sm breakpoint
@@ -159,7 +160,6 @@ export default function PricingSection(props) {
                     >
                         <Card variant="outlined" style={{height: "100%", position: "relative"}}>
                             {/* Card header section */}
-
                             <CardHeader
                                 title={tier.title}
                                 titleTypographyProps={{align: "left"}}
@@ -224,14 +224,14 @@ export default function PricingSection(props) {
                                         >
                                             <Typography component="body1" variant="body1" color="textPrimary"
                                                         display="inline" style={{marginInline: "20px"}}>
-                                                USD
+                                                CAD
                                             </Typography>
                                             <Typography component="h4" variant="h4" color="textPrimary"
                                                         display="inline">
                                                 ${tier.price}
                                             </Typography>
                                             <Typography variant="body1" color="textSecondary" display="inline">
-                                                /month
+                                                /${tier.period}
                                             </Typography>
                                             {tier.subheader === undefined ? null :
                                                 <Box component="span" p={1} m={1}
@@ -240,15 +240,15 @@ export default function PricingSection(props) {
                                                 </Box>
                                             }
                                         </Box>
-                                        <Typography component="paragraph" variant="body1"
-                                                    style={{color: "grey", marginInline: "20px"}}>
-                                            billed as USD 1,200 quarterly
-                                        </Typography>
+                                        {/*<Typography component="paragraph" variant="body1"*/}
+                                        {/*            style={{color: "grey", marginInline: "20px"}}>*/}
+                                        {/*    /!*billed as CAD 1,200 quarterly*!/*/}
+                                        {/*</Typography>*/}
                                     </Box>
                                 }
 
                                 {/* Card content section 2*/}
-                                <List>
+                                <List style={{height: 160}}>
                                     {tier.description.map((line) => (
                                         <ListItem key={line} variant="subtitle1">
                                             <ListItemIcon>
