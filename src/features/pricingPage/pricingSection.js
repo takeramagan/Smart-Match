@@ -1,14 +1,14 @@
-import { Grid, Card, CardHeader, CardContent, Box, Typography, CardActions, Button } from '@material-ui/core';
+import {Grid, Card, CardHeader, CardContent, Box, Typography, CardActions, Button} from '@material-ui/core';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { BorderStyle } from '@material-ui/icons';
+import {BorderStyle} from '@material-ui/icons';
 
 import CheckIcon from '@material-ui/icons/Check';
 import StarIcon from '@material-ui/icons/Star';
-import { useEffect } from "react";
+import {useEffect} from "react";
 
 export default function PricingSection(props) {
     let scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
@@ -48,16 +48,8 @@ export default function PricingSection(props) {
                 moneyFormat: '%24%7B%7Bamount%7D%7D',
                 options: {
                     "product": {
+                        "buttonDestination": "checkout",
                         "styles": {
-                            "product": {
-                                "@media (min-width: 601px)": {
-                                    "margin-left": "20px",
-                                    "margin-bottom": "50px"
-                                }
-                            },
-                            "title": {
-                                "color": "#ffffff"
-                            },
                             "button": {
                                 "font-family": "Lora, serif",
                                 "font-size": "16px",
@@ -84,110 +76,7 @@ export default function PricingSection(props) {
                             "price": false
                         },
                         "text": {
-                            "button": "Add to cart"
-                        },
-                        "googleFonts": [
-                            "Lora"
-                        ]
-                    },
-                    "productSet": {
-                        "styles": {
-                            "products": {
-                                "@media (min-width: 601px)": {
-                                    "margin-left": "-20px"
-                                }
-                            }
-                        }
-                    },
-                    "modalProduct": {
-                        "contents": {
-                            "img": false,
-                            "imgWithCarousel": true,
-                            "button": false,
-                            "buttonWithQuantity": true
-                        },
-                        "styles": {
-                            "product": {
-                                "@media (min-width: 601px)": {
-                                    "max-width": "100%",
-                                    "margin-left": "0px",
-                                    "margin-bottom": "0px"
-                                }
-                            },
-                            "button": {
-                                "font-family": "Lora, serif",
-                                "font-size": "16px",
-                                "padding-top": "16px",
-                                "padding-bottom": "16px",
-                                ":hover": {
-                                    "background-color": "#406170"
-                                },
-                                "background-color": "#476c7c",
-                                ":focus": {
-                                    "background-color": "#406170"
-                                },
-                                "border-radius": "6px"
-                            },
-                            "quantityInput": {
-                                "font-size": "16px",
-                                "padding-top": "16px",
-                                "padding-bottom": "16px"
-                            },
-                            "title": {
-                                "font-family": "Helvetica Neue, sans-serif",
-                                "font-weight": "bold",
-                                "font-size": "26px",
-                                "color": "#4c4c4c"
-                            }
-                        },
-                        "googleFonts": [
-                            "Lora"
-                        ],
-                        "text": {
-                            "button": "Add to cart"
-                        }
-                    },
-                    "option": {},
-                    "cart": {
-                        "styles": {
-                            "button": {
-                                "font-family": "Lora, serif",
-                                "font-size": "16px",
-                                "padding-top": "16px",
-                                "padding-bottom": "16px",
-                                ":hover": {
-                                    "background-color": "#406170"
-                                },
-                                "background-color": "#476c7c",
-                                ":focus": {
-                                    "background-color": "#406170"
-                                },
-                                "border-radius": "6px"
-                            }
-                        },
-                        "text": {
-                            "total": "Subtotal",
-                            "button": "Checkout"
-                        },
-                        "googleFonts": [
-                            "Lora"
-                        ]
-                    },
-                    "toggle": {
-                        "styles": {
-                            "toggle": {
-                                "font-family": "Lora, serif",
-                                "background-color": "#476c7c",
-                                ":hover": {
-                                    "background-color": "#406170"
-                                },
-                                ":focus": {
-                                    "background-color": "#406170"
-                                }
-                            },
-                            "count": {
-                                "font-size": "16px"
-                            }
+                            "button": "Buy"
                         },
                         "googleFonts": [
                             "Lora"
@@ -218,19 +107,10 @@ export default function PricingSection(props) {
                 moneyFormat: '%24%7B%7Bamount%7D%7D',
                 options: {
                     "product": {
+                        "buttonDestination": "checkout",
                         "styles": {
-                            "product": {
-                                "@media (min-width: 601px)": {
-                                    "max-width": "100%",
-                                    "margin-left": "20px",
-                                    "margin-bottom": "50px"
-                                }
-                            },
                             "options": {
                                 "max-width": "100% !important"
-                            },
-                            "title": {
-                                "color": "#ffffff"
                             },
                             "button": {
                                 "font-family": "Lora, serif",
@@ -245,11 +125,6 @@ export default function PricingSection(props) {
                                     "background-color": "#282f32"
                                 },
                                 "border-radius": "6px"
-                            },
-                            "quantityInput": {
-                                "font-size": "16px",
-                                "padding-top": "16px",
-                                "padding-bottom": "16px"
                             }
                         },
                         "contents": {
@@ -258,110 +133,7 @@ export default function PricingSection(props) {
                             "price": false
                         },
                         "text": {
-                            "button": "Add to cart"
-                        },
-                        "googleFonts": [
-                            "Lora"
-                        ]
-                    },
-                    "productSet": {
-                        "styles": {
-                            "products": {
-                                "@media (min-width: 601px)": {
-                                    "margin-left": "-20px"
-                                }
-                            }
-                        }
-                    },
-                    "modalProduct": {
-                        "contents": {
-                            "img": false,
-                            "imgWithCarousel": true,
-                            "button": false,
-                            "buttonWithQuantity": true
-                        },
-                        "styles": {
-                            "product": {
-                                "@media (min-width: 601px)": {
-                                    "max-width": "100%",
-                                    "margin-left": "0px",
-                                    "margin-bottom": "0px"
-                                }
-                            },
-                            "button": {
-                                "font-family": "Lora, serif",
-                                "font-size": "16px",
-                                "padding-top": "16px",
-                                "padding-bottom": "16px",
-                                ":hover": {
-                                    "background-color": "#282f32"
-                                },
-                                "background-color": "#2c3438",
-                                ":focus": {
-                                    "background-color": "#282f32"
-                                },
-                                "border-radius": "6px"
-                            },
-                            "quantityInput": {
-                                "font-size": "16px",
-                                "padding-top": "16px",
-                                "padding-bottom": "16px"
-                            },
-                            "title": {
-                                "font-family": "Helvetica Neue, sans-serif",
-                                "font-weight": "bold",
-                                "font-size": "26px",
-                                "color": "#4c4c4c"
-                            }
-                        },
-                        "googleFonts": [
-                            "Lora"
-                        ],
-                        "text": {
-                            "button": "Add to cart"
-                        }
-                    },
-                    "option": {},
-                    "cart": {
-                        "styles": {
-                            "button": {
-                                "font-family": "Lora, serif",
-                                "font-size": "16px",
-                                "padding-top": "16px",
-                                "padding-bottom": "16px",
-                                ":hover": {
-                                    "background-color": "#282f32"
-                                },
-                                "background-color": "#2c3438",
-                                ":focus": {
-                                    "background-color": "#282f32"
-                                },
-                                "border-radius": "6px"
-                            }
-                        },
-                        "text": {
-                            "total": "Subtotal",
-                            "button": "Checkout"
-                        },
-                        "googleFonts": [
-                            "Lora"
-                        ]
-                    },
-                    "toggle": {
-                        "styles": {
-                            "toggle": {
-                                "font-family": "Lora, serif",
-                                "background-color": "#2c3438",
-                                ":hover": {
-                                    "background-color": "#282f32"
-                                },
-                                ":focus": {
-                                    "background-color": "#282f32"
-                                }
-                            },
-                            "count": {
-                                "font-size": "16px"
-                            }
+                            "button": "Buy"
                         },
                         "googleFonts": [
                             "Lora"
@@ -384,22 +156,22 @@ export default function PricingSection(props) {
                     sm={tier.title === 'Enterprise' ? 12 : 6}
                     md={4}
                 >
-                    <Card variant="outlined" style={{ height: "100%", position: "relative" }}>
+                    <Card variant="outlined" style={{height: "100%", position: "relative"}}>
                         {/* Card header section */}
 
                         <CardHeader
                             title={tier.title}
-                            titleTypographyProps={{ align: "left" }}
-                            action={tier.title === 'Pro' ? <StarIcon /> : null}
+                            titleTypographyProps={{align: "left"}}
+                            action={tier.title === 'Pro' ? <StarIcon/> : null}
                             subheader={tier.titleSubHeader}
                             subheaderTypographyProps={{
                                 align: 'left',
                                 variant: "body2",
                                 color: "inherit"
                             }}
-                            style={{ backgroundColor: "#00d6d6", padding: "32px", color: "#ffffff" }}
+                            style={{backgroundColor: "#00d6d6", padding: "32px", color: "#ffffff"}}
                         />
-                        <CardContent >
+                        <CardContent>
                             {/* Card content section 1*/}
                             {/* Card content section 1: Free account */
                                 (tier.price === "0" &&
@@ -430,7 +202,7 @@ export default function PricingSection(props) {
                                             Request a demo
                                         </Button>
                                         <br></br>
-                                        <Typography component="paragraph" variant="body1" style={{ color: "grey" }}>
+                                        <Typography component="paragraph" variant="body1" style={{color: "grey"}}>
                                             Ideal for multiple recruiters
                                         </Typography>
                                     </Box>
@@ -440,8 +212,8 @@ export default function PricingSection(props) {
                                 < Box style={{
                                     height: "100px",
                                 }}
-                                    borderColor={"grey.500"}
-                                    borderBottom={1}
+                                      borderColor={"grey.500"}
+                                      borderBottom={1}
                                 >
                                     < Box
                                         style={{
@@ -450,7 +222,7 @@ export default function PricingSection(props) {
                                         }}
                                     >
                                         <Typography component="body1" variant="body1" color="textPrimary"
-                                            display="inline" style={{ marginInline: "20px" }}>
+                                                    display="inline" style={{marginInline: "20px"}}>
                                             USD
                                         </Typography>
                                         <Typography component="h4" variant="h4" color="textPrimary" display="inline">
@@ -461,13 +233,13 @@ export default function PricingSection(props) {
                                         </Typography>
                                         {tier.subheader === undefined ? null :
                                             <Box component="span" p={1} m={1}
-                                                style={{ backgroundColor: "#00FF00", borderRadius: "5px" }}>
+                                                 style={{backgroundColor: "#00FF00", borderRadius: "5px"}}>
                                                 <Typography variant="body2">{tier.subheader}</Typography>
                                             </Box>
                                         }
                                     </Box>
                                     <Typography component="paragraph" variant="body1"
-                                        style={{ color: "grey", marginInline: "20px" }}>
+                                                style={{color: "grey", marginInline: "20px"}}>
                                         billed as USD 1,200 quarterly
                                     </Typography>
                                 </Box>
@@ -478,7 +250,7 @@ export default function PricingSection(props) {
                                 {tier.description.map((line) => (
                                     <ListItem key={line} variant="subtitle1">
                                         <ListItemIcon>
-                                            <CheckIcon />
+                                            <CheckIcon/>
                                         </ListItemIcon>
                                         <ListItemText
                                             primary={line}
@@ -486,14 +258,14 @@ export default function PricingSection(props) {
                                                 style: {
                                                     wordWrap: "break-word"
                                                 }
-                                            }} />
+                                            }}/>
                                     </ListItem>
                                 ))}
                             </List>
                         </CardContent>
-                        <div style={{ margin: "auto", paddingLeft: "100px", paddingRight: "100px" }}>
+                        <div style={{margin: "auto", paddingLeft: "100px", paddingRight: "100px", marginBottom: "40px"}}>
                             {tier.buyButton !== undefined &&
-                                tier.buyButton
+                            tier.buyButton
                                 // <CardActions style={{ position: "absolute", bottom: "8px", width: "100%" }}>
                                 //     <Button fullWidth color={"primary"} variant={tier.buttonVariant}>
                                 //         {tier.buttonText}
