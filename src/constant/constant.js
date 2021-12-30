@@ -19,10 +19,10 @@ export const tiers = [
         '**********************************testtest',
         '************************************testestestsetset',
         '******************************************setsetsete'
-      ],
+      ]
   },
   {
-      title: 'Recruiter',
+      title: 'Recruiter Monthly Unlimited Usage',
       titleSubHeader: "Turbocharge your sourcing, screen talent, track hiring & power collaboration.",
       subheader: 'Most popular',
       price: '400',
@@ -34,17 +34,30 @@ export const tiers = [
       ],
       buttonText: 'Buy',
       buttonVariant: 'contained',
+      buyButton: <div id='product-component-1640830179469'/>
   },
   {
-      title: 'Teams',
-      titleSubHeader: "For integrated solutions across your talent acquisition team.",
+      title: 'Recruiter Yearly Unlimited Usage',
+      titleSubHeader: "Turbocharge your sourcing, screen talent, track hiring & power collaboration.",
+      price: '1400',
       description: [
-          '************************ddddd*****setsetsete',
-          '************************ddddddsasfasdd*****setsetsete',
-          '************************ddddd*fadsfasdf****setsetsete',
-          '************************ddddd**asdfsda***setsetsete',
+          '***********************************testtest',
+          '*******************************testestestsetset',
+          '***************************************setsetsetset',
+          '**********************setsetsete',
       ],
-      buttonText: 'Buy',
-      buttonVariant: 'contained',
+      buyButton: <div id='product-component-1640830557448'/>
   },
+  // {
+  //     title: 'Teams',
+  //     titleSubHeader: "For integrated solutions across your talent acquisition team.",
+  //     description: [
+  //         '************************ddddd*****setsetsete',
+  //         '************************ddddddsasfasdd*****setsetsete',
+  //         '************************ddddd*fadsfasdf****setsetsete',
+  //         '************************ddddd**asdfsda***setsetsete',
+  //     ],
+  //     buttonText: 'Buy',
+  //     buttonVariant: 'contained',
+  // },
 ];
