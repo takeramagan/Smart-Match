@@ -1,4 +1,4 @@
-import {Grid, Card, CardHeader, CardContent, Box, Typography, CardActions, Button, Link} from '@material-ui/core';
+import { Grid, Card, CardHeader, CardContent, Box, Typography, CardActions, Button, Link } from '@material-ui/core';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -222,7 +222,7 @@ export default function PricingSection(props) {
                                             <Button color="primary" variant="contained">
                                                 Request a demo
                                             </Button>
-                                            <br/>
+                                            <br />
                                             <Typography component="paragraph" variant="body1" style={{ color: "grey" }}>
                                                 Ideal for multiple recruiters
                                             </Typography>
@@ -306,7 +306,11 @@ export default function PricingSection(props) {
             </Grid>
             {/* <b>** Please make sure to enter your username as the contact information so we can process your order
                 correctly! **</b> */}
-            <Link href="/jobmanagement">
+            <Link href="/jobmanagement" onClick={() => {
+                if (typeof window !== "undefined") {
+                    localStorage.setItem("isVIPTempValue", true);
+                }
+            }}>
                 <a>** Redirecting --------------------------- if the redirection fails, please click this to continue</a>
             </Link>
         </div>

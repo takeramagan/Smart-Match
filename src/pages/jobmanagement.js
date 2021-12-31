@@ -155,7 +155,10 @@ const JobManagement = () => {
         };
         try {
             // const data = await HttpClient.requestHandler(config);
-            data.VIP = true;
+            // replace with API call in future
+            if (typeof window !== "undefined") {
+                data.VIP = localStorage.getItem("isVIPTempValue") ? localStorage.getItem("isVIPTempValue") : false;
+            }
             console.log("Fetch vip state data from API", data.VIP);
             if (data.VIP) {
                 dispatch(hrVIPStateAction.setVIPState(data.VIP));
