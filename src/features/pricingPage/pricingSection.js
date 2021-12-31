@@ -244,7 +244,7 @@ export default function PricingSection(props) {
                                         >
                                             <Typography component="div" variant="body1" color="textPrimary"
                                                 display="inline" style={{ marginInline: "20px" }}>
-                                                SMC (SmartMatch Coin)
+                                                SMT (SmartMatch Token)
                                             </Typography>
                                             <Typography component="h4" variant="h4" color="textPrimary"
                                                 display="inline">
