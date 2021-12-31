@@ -155,7 +155,7 @@ const JobManagement = () => {
         };
         try {
             // const data = await HttpClient.requestHandler(config);
-            data.VIP = true;
+            data.VIP = false;
             console.log("Fetch vip state data from API", data.VIP);
             if (data.VIP) {
                 dispatch(hrVIPStateAction.setVIPState(data.VIP));
@@ -211,7 +211,8 @@ const JobManagement = () => {
     console.log("VIP status", isVIP);
     console.log("Is first render", isFirstRender)
 
-    if (typeof window !== "undefined" && !isVIP && !isFirstRender.current) {
+    if (!isVIP && !isFirstRender.current) {
+        console.log("Redirecting: ");
         router.push("./pricing");
     }
 

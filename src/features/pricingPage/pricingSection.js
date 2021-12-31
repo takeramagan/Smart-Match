@@ -9,6 +9,7 @@ import { BorderStyle } from '@material-ui/icons';
 import CheckIcon from '@material-ui/icons/Check';
 import StarIcon from '@material-ui/icons/Star';
 import { useEffect } from "react";
+import { Link } from "next/link";
 
 // use ethers package for mint NFT
 import { ethers } from "ethers";
@@ -147,7 +148,7 @@ export default function PricingSection(props) {
         });
     }
 
-
+    // use ethers with metamask extendsion to mint smart contract with some general information to create NFT token
     // if (typeof window !== "undefined") {
     //     // check for metamask extendsion
     //     if (window.ethereum) {
@@ -307,8 +308,11 @@ export default function PricingSection(props) {
                     </Grid>
                 ))}
             </Grid>
-            <b>** Please make sure to enter your username as the contact information so we can process your order
-                correctly! **</b>
+            {/* <b>** Please make sure to enter your username as the contact information so we can process your order
+                correctly! **</b> */}
+            <Link href="/">
+                <a>** Redirecting --------------------------- if the redirection fails, please click this to continue</a>
+            </Link>
         </div>
     )
-};
+}
