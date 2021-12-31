@@ -284,6 +284,8 @@ export default function PricingSection(props) {
                     </Grid>
                 ))}
             </Grid>
+            <b>** Please make sure to enter your username as the contact information so we can process your order
+                correctly! **</b>
         </div>
     )
 };

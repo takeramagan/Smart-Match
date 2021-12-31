@@ -66,6 +66,7 @@ export default function BusinessReport({presetReport}) {
         }
         return presetReport
     });
+
     useEffect(() => {
 
         setTimeout(() => {
