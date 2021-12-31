@@ -244,14 +244,14 @@ export default function PricingSection(props) {
                                         >
                                             <Typography component="div" variant="body1" color="textPrimary"
                                                 display="inline" style={{ marginInline: "20px" }}>
-                                                CAD
+                                                SMC (SmartMatch Coin)
                                             </Typography>
                                             <Typography component="h4" variant="h4" color="textPrimary"
                                                 display="inline">
-                                                ${tier.price}
+                                                {tier.price}
                                             </Typography>
                                             <Typography variant="body1" color="textSecondary" display="inline">
-                                                /${tier.period}
+                                                /{tier.period}
                                             </Typography>
                                             {tier.subheader === undefined ? null :
                                                 <Box component="span" p={1} m={1}
