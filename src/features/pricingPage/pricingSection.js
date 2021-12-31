@@ -1,18 +1,16 @@
-import { Grid, Card, CardHeader, CardContent, Box, Typography, CardActions, Button } from '@material-ui/core';
+import {Grid, Card, CardHeader, CardContent, Box, Typography, CardActions, Button, Link} from '@material-ui/core';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { BorderStyle } from '@material-ui/icons';
 
 import CheckIcon from '@material-ui/icons/Check';
 import StarIcon from '@material-ui/icons/Star';
 import { useEffect } from "react";
-import { Link } from "next/link";
 
 // use ethers package for mint NFT
-import { ethers } from "ethers";
+// import { ethers } from "ethers";
 
 export default function PricingSection(props) {
     let scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
@@ -166,8 +164,6 @@ export default function PricingSection(props) {
     //     }
     // }
 
-
-
     return (
         // Grid section shows available options
         <div style={{ margin: 'auto' }}>
@@ -226,7 +222,7 @@ export default function PricingSection(props) {
                                             <Button color="primary" variant="contained">
                                                 Request a demo
                                             </Button>
-                                            <br></br>
+                                            <br/>
                                             <Typography component="paragraph" variant="body1" style={{ color: "grey" }}>
                                                 Ideal for multiple recruiters
                                             </Typography>
@@ -310,9 +306,9 @@ export default function PricingSection(props) {
             </Grid>
             {/* <b>** Please make sure to enter your username as the contact information so we can process your order
                 correctly! **</b> */}
-            <Link href="/">
+            <Link href="/jobmanagement">
                 <a>** Redirecting --------------------------- if the redirection fails, please click this to continue</a>
             </Link>
         </div>
-    )
+    );
 }

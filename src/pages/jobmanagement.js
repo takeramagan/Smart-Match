@@ -18,7 +18,7 @@ import { hrHistoryAction } from "../slices/hrHistorySlice";
 import { hrVIPStateAction } from "../slices/hrVIPStateSlice";
 
 /* import constants */
-// import API 
+// import API
 import { APP_END_POINT_B_AND_C, X_API_KEY_B_AND_C } from "../constant/externalURLs";
 
 // import feature components
@@ -55,7 +55,7 @@ const JobManagement = () => {
     const router = useRouter();
     const params = router.query;
     const hrId = params.id;
-    // fetch VIP state from 
+    // fetch VIP state from
     const { isVIP } = useSelector(store => store.VIP);
     const dispatch = useDispatch();
     const HttpClient = useRequest();
@@ -150,12 +150,12 @@ const JobManagement = () => {
         data.append('hrid', hrId);
         const config = {
             method: 'post',
-            url: APP_END_POINT_B_AND_C + '', // 
+            url: APP_END_POINT_B_AND_C + '', //
             data: data
         };
         try {
             // const data = await HttpClient.requestHandler(config);
-            data.VIP = false;
+            data.VIP = true;
             console.log("Fetch vip state data from API", data.VIP);
             if (data.VIP) {
                 dispatch(hrVIPStateAction.setVIPState(data.VIP));
