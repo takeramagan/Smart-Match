@@ -1,5 +1,5 @@
 // import react hook
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 /* import libs */
 // import react-redux
 import { useDispatch, useSelector } from "react-redux";
@@ -13,8 +13,9 @@ import { Section } from "../components/Section";
 import { h, h1 } from '../constant/fontsize';
 // import axios custom hook
 import { useRequest } from "../hooks/useRequest";
-//
+// import redux action
 import { hrHistoryAction } from "../slices/hrHistorySlice";
+import { hrVIPStateAction } from "../slices/hrVIPStateSlice";
 
 /* import constants */
 // import API 
@@ -40,6 +41,7 @@ import { LoadingPage } from "../features/report/LoadingWhenUpload";
 // })
 
 const JobManagement = () => {
+    const isFirstRender = useRef(true);
     const [showItem, setShowItem] = useState(-1); //index in Job list, -1表示没有
     const [showJobDetail, setShowJobDetail] = useState(false);
     const [showApplicants, setShowApplicants] = useState(false);
@@ -50,12 +52,26 @@ const JobManagement = () => {
     const hrHistory = useSelector(store => store.history);
     const currentPage = hrHistory.currentPage;
     const hrHistoryList = hrHistory.historyList;
-    const params = useRouter().query;
+    const router = useRouter();
+    const params = router.query;
     const hrId = params.id;
+    // fetch VIP state from 
+    const { isVIP } = useSelector(store => store.VIP);
+    const dispatch = useDispatch();
+    const HttpClient = useRequest();
     // console.log('Initial hrid1 = ', hrId);
 
     useEffect(() => {
+        if (isFirstRender.current) {
+            // check if user is VIP then update the vip state in redux
+            isFirstRender.current = false;
+            validateHrVIPState().then();
+        }
+    }, [])
+
+    useEffect(() => {
         if (hrId) {
+            //
             getExistJobList().then();
             console.log("HRid changed");
         }
@@ -128,8 +144,26 @@ const JobManagement = () => {
     };
 
     //fetch data
-    const dispatch = useDispatch();
-    const HttpClient = useRequest();
+    const validateHrVIPState = async () => {
+        const data = new FormData();
+        data.append('dcc', X_API_KEY_B_AND_C);
+        data.append('hrid', hrId);
+        const config = {
+            method: 'post',
+            url: APP_END_POINT_B_AND_C + '', // 
+            data: data
+        };
+        try {
+            // const data = await HttpClient.requestHandler(config);
+            data.VIP = true;
+            console.log("Fetch vip state data from API", data.VIP);
+            if (data.VIP) {
+                dispatch(hrVIPStateAction.setVIPState(data.VIP));
+            }
+        } catch (e) {
+            console.error("error happen while fetching VIP state", e)
+        }
+    };
 
     const getExistJobList = async () => {
         const data = new FormData();
@@ -156,7 +190,7 @@ const JobManagement = () => {
         const data = new FormData();
         data.append('dcc', X_API_KEY_B_AND_C);
         data.append('hrid', hrId);
-        data.append('jobid',props);
+        data.append('jobid', props);
         console.log('hrid when delete job posting = ', hrId);
         const config = {
             method: 'post',
@@ -174,6 +208,12 @@ const JobManagement = () => {
     }
 
     console.log("HR posted list: ", hrHistoryList);
+    console.log("VIP status", isVIP);
+    console.log("Is first render", isFirstRender)
+
+    if (typeof window !== "undefined" && !isVIP && !isFirstRender.current) {
+        router.push("./pricing");
+    }
 
     return (
         <Container
@@ -213,7 +253,7 @@ const JobManagement = () => {
                             note: "Note",
                             header_delete: "Delete Job"
                         }}
-                        style={{ fontWeight: 600}}
+                        style={{ fontWeight: 600 }}
                         key={-1}
                         isTitle />
                     {hrHistoryList.length === 0 && "No application history"}
@@ -221,7 +261,7 @@ const JobManagement = () => {
                         <CardItem
                             index={i}
                             item={job}
-                            style={{ height: "80px"}}
+                            style={{ height: "80px" }}
                             onShowJobDetail={showJobDetailCallback}
                             onCheckApplicants={() => checkApplicantsCallback(job)}
                             onShowApplicants={showApplicantsCallback}

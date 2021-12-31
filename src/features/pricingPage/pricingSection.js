@@ -1,14 +1,17 @@
-import {Grid, Card, CardHeader, CardContent, Box, Typography, CardActions, Button} from '@material-ui/core';
+import { Grid, Card, CardHeader, CardContent, Box, Typography, CardActions, Button } from '@material-ui/core';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import {BorderStyle} from '@material-ui/icons';
+import { BorderStyle } from '@material-ui/icons';
 
 import CheckIcon from '@material-ui/icons/Check';
 import StarIcon from '@material-ui/icons/Star';
-import {useEffect} from "react";
+import { useEffect } from "react";
+
+// use ethers package for mint NFT
+import { ethers } from "ethers";
 
 export default function PricingSection(props) {
     let scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
@@ -144,10 +147,30 @@ export default function PricingSection(props) {
         });
     }
 
+
+    // if (typeof window !== "undefined") {
+    //     // check for metamask extendsion
+    //     if (window.ethereum) {
+    //         const provider = new ethers.providers.Web3Provider(window.ethereum)
+    //         const signer = provider.getSigner()
+    //         ethers.Contract(address, abi, signer).send("safeMint", [owner_address, tokenURL]);
+    //     }
+    //     else {
+    //         if (window.confirm('If you click "ok" you would be redirected to install matamask extendsion. Cancel will load this website ')) {
+    //             window.open(
+    //                 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn',
+    //                 '_blank'
+    //             );
+    //         }
+    //     }
+    // }
+
+
+
     return (
         // Grid section shows available options
-        <div style={{margin: 'auto'}}>
-            <br/><br/><br/>
+        <div style={{ margin: 'auto' }}>
+            <br /><br /><br />
             <Grid container spacing={0} alignItems="stretch">
                 {props.tiers.map((tier) => (
                     // Enterprise card is full width at sm breakpoint
@@ -158,19 +181,19 @@ export default function PricingSection(props) {
                         sm={tier.title === 'Enterprise' ? 12 : 6}
                         md={6}
                     >
-                        <Card variant="outlined" style={{height: "100%", position: "relative"}}>
+                        <Card variant="outlined" style={{ height: "100%", position: "relative" }}>
                             {/* Card header section */}
                             <CardHeader
                                 title={tier.title}
-                                titleTypographyProps={{align: "left"}}
-                                action={tier.title === 'Pro' ? <StarIcon/> : null}
+                                titleTypographyProps={{ align: "left" }}
+                                action={tier.title === 'Pro' ? <StarIcon /> : null}
                                 subheader={tier.titleSubHeader}
                                 subheaderTypographyProps={{
                                     align: 'left',
                                     variant: "body2",
                                     color: "inherit"
                                 }}
-                                style={{backgroundColor: "#00d6d6", padding: "32px", color: "#ffffff"}}
+                                style={{ backgroundColor: "#00d6d6", padding: "32px", color: "#ffffff" }}
                             />
                             <CardContent>
                                 {/* Card content section 1*/}
@@ -203,7 +226,7 @@ export default function PricingSection(props) {
                                                 Request a demo
                                             </Button>
                                             <br></br>
-                                            <Typography component="paragraph" variant="body1" style={{color: "grey"}}>
+                                            <Typography component="paragraph" variant="body1" style={{ color: "grey" }}>
                                                 Ideal for multiple recruiters
                                             </Typography>
                                         </Box>
@@ -213,8 +236,8 @@ export default function PricingSection(props) {
                                     < Box style={{
                                         height: "100px",
                                     }}
-                                          borderColor={"grey.500"}
-                                          borderBottom={1}
+                                        borderColor={"grey.500"}
+                                        borderBottom={1}
                                     >
                                         < Box
                                             style={{
@@ -222,12 +245,12 @@ export default function PricingSection(props) {
                                                 alignItems: 'baseline'
                                             }}
                                         >
-                                            <Typography component="body1" variant="body1" color="textPrimary"
-                                                        display="inline" style={{marginInline: "20px"}}>
+                                            <Typography component="div" variant="body1" color="textPrimary"
+                                                display="inline" style={{ marginInline: "20px" }}>
                                                 CAD
                                             </Typography>
                                             <Typography component="h4" variant="h4" color="textPrimary"
-                                                        display="inline">
+                                                display="inline">
                                                 ${tier.price}
                                             </Typography>
                                             <Typography variant="body1" color="textSecondary" display="inline">
@@ -235,7 +258,7 @@ export default function PricingSection(props) {
                                             </Typography>
                                             {tier.subheader === undefined ? null :
                                                 <Box component="span" p={1} m={1}
-                                                     style={{backgroundColor: "#00FF00", borderRadius: "5px"}}>
+                                                    style={{ backgroundColor: "#00FF00", borderRadius: "5px" }}>
                                                     <Typography variant="body2">{tier.subheader}</Typography>
                                                 </Box>
                                             }
@@ -248,11 +271,11 @@ export default function PricingSection(props) {
                                 }
 
                                 {/* Card content section 2*/}
-                                <List style={{height: 160}}>
+                                <List style={{ height: 160 }}>
                                     {tier.description.map((line) => (
                                         <ListItem key={line} variant="subtitle1">
                                             <ListItemIcon>
-                                                <CheckIcon/>
+                                                <CheckIcon />
                                             </ListItemIcon>
                                             <ListItemText
                                                 primary={line}
@@ -260,7 +283,7 @@ export default function PricingSection(props) {
                                                     style: {
                                                         wordWrap: "break-word"
                                                     }
-                                                }}/>
+                                                }} />
                                         </ListItem>
                                     ))}
                                 </List>
@@ -272,7 +295,7 @@ export default function PricingSection(props) {
                                 marginBottom: "40px"
                             }}>
                                 {tier.buyButton !== undefined &&
-                                tier.buyButton
+                                    tier.buyButton
                                     // <CardActions style={{ position: "absolute", bottom: "8px", width: "100%" }}>
                                     //     <Button fullWidth color={"primary"} variant={tier.buttonVariant}>
                                     //         {tier.buttonText}

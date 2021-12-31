@@ -3,11 +3,10 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next';
-import { ProductHuntBadge } from "../components/ProductHunt";
 
-export default function Home () {
+export default function Home() {
   const { t } = useTranslation()
-   return (
+  return (
     <div className={styles.container}>
       <Head>
         <title>{t("index.title")}</title>
@@ -16,7 +15,7 @@ export default function Home () {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-        {t("index.welcome")}<a href='#'>Smart Match!</a>
+          {t("index.welcome")}<a href='#'>Smart Match!</a>
         </h1>
         <Box mt={8}>
           <Link href='/report'>
@@ -29,7 +28,6 @@ export default function Home () {
 
       <footer className={styles.footer}>
         {t("index.footer")}
-        <ProductHuntBadge></ProductHuntBadge>
       </footer>
     </div>
   )

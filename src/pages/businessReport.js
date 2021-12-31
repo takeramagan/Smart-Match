@@ -1,26 +1,26 @@
 // import react hook
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 // import language related
-import {Trans, useTranslation} from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 // import material-ui related
-import {Box, Button, Container, Grid} from '@material-ui/core';
+import { Box, Button, Container, Grid } from '@material-ui/core';
 // import custom style setting
-import {h, h3} from '../constant/fontsize';
+import { h, h3 } from '../constant/fontsize';
 // import layout components
-import {Section} from '../components/Section';
+import { Section } from '../components/Section';
 // import custom feature components
-import {BusinessMarketCompetitiveness} from "../features/businessReport/BusinessMarketCompetitivenessSection";
-import {BusinessRateSection} from '../features/businessReport/BusinessRateSection';
-import {LoadingPage} from "../features/report/LoadingWhenUpload";
+import { BusinessMarketCompetitiveness } from "../features/businessReport/BusinessMarketCompetitivenessSection";
+import { BusinessRateSection } from '../features/businessReport/BusinessRateSection';
+import { LoadingPage } from "../features/report/LoadingWhenUpload";
 // import other library
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 // import icons
 // import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-export default function BusinessReport({presetReport}) {
-    const {t} = useTranslation();
+export default function BusinessReport({ presetReport }) {
+    const { t } = useTranslation();
     const router = useRouter();
     const hrId = (router.query.hrId);
     const jobId = router.query.jobId;
@@ -89,10 +89,10 @@ export default function BusinessReport({presetReport}) {
     return (
         <>
             <Box display='flex' flexDirection='column'>
-                <Container style={{marginTop: 18, position: "relative"}} id='divToPrint'>
+                <Container style={{ marginTop: 18, position: "relative" }} id='divToPrint'>
                     <Section>
                         <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' p={4}
-                             mb={5}>
+                            mb={5}>
                             <Box>
                                 <Box fontSize={h} fontWeight='500' lineHeight='42px' color='rgba(2, 76, 195, 1)'>
                                     {t("b_report.report_title")}
@@ -114,17 +114,17 @@ export default function BusinessReport({presetReport}) {
 
                     <Grid item md={12} xs={12}>
                         <div id='market_competitiveness'>
-                            <BusinessMarketCompetitiveness report={report}/>
+                            <BusinessMarketCompetitiveness report={report} />
                         </div>
                     </Grid>
                 </Container>
-                <Container style={{marginTop: 18, position: "relative"}}>
+                <Container style={{ marginTop: 18, position: "relative" }}>
                     <Grid item md={12} lg={12}>
                         <div id='course_section'>
                             <BusinessRateSection report={report}
-                                                 hrId={hrId}
-                                                 jobId={jobId}
-                                                 email={email}
+                                hrId={hrId}
+                                jobId={jobId}
+                                email={email}
                             />
                         </div>
                     </Grid>
